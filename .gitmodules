@@ -1,0 +1,3 @@
+[submodule "extlibs/selene"]
+	path = extlibs/selene
+	url = https://github.com/jeremyong/Selene.git
