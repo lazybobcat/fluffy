@@ -31,6 +31,7 @@ Entity::Ref EntityManager::createEntity()
     }
 
     Entity::Ptr ent = std::make_shared<Entity>(ref, this);
+    mEntities.insert(std::make_pair(ref, ent));
 
     return ref;
 }
@@ -65,6 +66,11 @@ void EntityManager::clear()
     mEntities.clear();
     while(!mFreeRefs.empty()) mFreeRefs.pop();
     mNextRef = FLUFFY_ECS_FIRST_ID;
+}
+
+std::size_t EntityManager::size() const
+{
+    return mEntities.size();
 }
 
 

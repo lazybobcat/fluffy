@@ -30,6 +30,7 @@ public:
 
     void            removeAllEntities();
     void            clear();
+    std::size_t     size() const;
 
     virtual void    bind(sel::State& state);
 
