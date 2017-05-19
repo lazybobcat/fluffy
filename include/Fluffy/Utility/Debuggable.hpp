@@ -27,7 +27,7 @@ public:
     virtual std::string debug();
 
     template <typename T>
-    void addToJson(const std::string& key, const T& value)
+    void serializeAttribute(const std::string& key, const T& value)
     {
         mSerialized[key] = value;
     }
