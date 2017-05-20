@@ -11,8 +11,9 @@
 
 #include <Fluffy/ECS/Entity.hpp>
 #include <Fluffy/Lua/Bindable.hpp>
-#include <stack>
 #include <map>
+#include <stack>
+#include <typeindex>
 
 namespace Fluffy
 {

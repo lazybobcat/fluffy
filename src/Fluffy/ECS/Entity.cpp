@@ -9,6 +9,7 @@
 #include <Fluffy/ECS/Entity.hpp>
 
 using namespace Fluffy::ECS;
+using namespace Fluffy::Utility;
 
 Entity::Entity(Ref ref, EntityManager* em)
 :   mRef(ref),

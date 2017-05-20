@@ -9,11 +9,15 @@
 #ifndef FLUFFY_ENTITY_HPP
 #define FLUFFY_ENTITY_HPP
 
+#include <Fluffy/ECS/Component.hpp>
+#include <Fluffy/ECS/ComponentHandle.hpp>
 #include <Fluffy/Utility/NonCopyable.hpp>
 #include <Fluffy/Utility/Debuggable.hpp>
 #include <cstdint>
-#include <string>
 #include <memory>
+#include <string>
+#include <typeindex>
+#include <unordered_map>
 
 namespace Fluffy
 {
@@ -35,14 +39,24 @@ public:
 
     Ref             getRef() const;
 
+    template <typename T, typename... Args>
+    ComponentHandle<T> assign(Args&&... args);
+
+    template <typename T>
+    ComponentHandle<T> get();
+
+
     virtual void    serialize();
 
 private:
     Ref             mRef;
     EntityManager*  mManager;
+    std::unordered_map<std::type_index, Component*> mComponents;
 };
 
 }
 }
+
+#include <Fluffy/ECS/Entity.inl>
 
 #endif //FLUFFY_ENTITY_HPP
