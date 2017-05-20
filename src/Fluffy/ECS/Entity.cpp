@@ -17,6 +17,14 @@ Entity::Entity(Ref ref, EntityManager* em)
 {
 }
 
+Entity::~Entity()
+{
+    for (auto pair : mComponents)
+    {
+        delete pair.second;
+    }
+}
+
 Entity::Ref Entity::getRef() const
 {
     return mRef;

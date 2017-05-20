@@ -36,6 +36,7 @@ public:
 
 public:
     Entity(Ref ref, EntityManager* em);
+    ~Entity();
 
     Ref             getRef() const;
 
