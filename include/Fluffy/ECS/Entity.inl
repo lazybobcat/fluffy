@@ -39,7 +39,7 @@ ComponentHandle<T> Entity::get()
         return ComponentHandle<T>(dynamic_cast<T*>(found->second));
     }
 
-    throw ComponentNotFoundException(printString("Trying to get unassigned component '%1' in entity #%2", {
+    throw ComponentNotFoundException(printString("Trying to get unassigned component '%1' from entity #%2", {
             toString(typeid(T).name()),
             toString(getRef())
     }));
