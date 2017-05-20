@@ -7,18 +7,8 @@
 //
 
 #include <bandit/bandit.h>
-#include <bandit/assertion_frameworks/snowhouse/snowhouse/snowhouse.h>
 
 using namespace bandit;
-using namespace snowhouse;
-
-go_bandit([](){
-    describe("Our first test", [](){
-        it("should fail", [&](){
-            AssertThat(5, Equals(6));
-        });
-    });
-});
 
 int main(int argc, char* argv[])
 {
