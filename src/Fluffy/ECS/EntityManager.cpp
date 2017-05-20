@@ -6,11 +6,14 @@
 // File created by lo-x on 27/12/15.
 //
 
-#include <Fluffy/ECS/EntityManager.hpp>
+#include <algorithm>
 #include <Fluffy/definitions.hpp>
-#include <cassert>
+#include <Fluffy/ECS/EntityManager.hpp>
+#include <Fluffy/Utility/String.hpp>
+#include <Fluffy/ECS/Exception/EntityNotFoundException.hpp>
 
 using namespace Fluffy::ECS;
+using namespace Fluffy::Utility;
 
 EntityManager::EntityManager()
 : mNextRef(FLUFFY_ECS_FIRST_ID),
@@ -19,7 +22,7 @@ EntityManager::EntityManager()
 {
 }
 
-Entity::Ref EntityManager::createEntity()
+Entity::WeakPtr EntityManager::createEntity()
 {
     Entity::Ref ref;
     if(!mFreeRefs.empty()) {
@@ -30,39 +33,53 @@ Entity::Ref EntityManager::createEntity()
     }
 
     Entity::Ptr ent = std::make_shared<Entity>(ref, this);
-    mEntities.insert(std::make_pair(ref, ent));
+    mEntities.push_back(ent);
+    mEntitiesByRef.insert({ref, ent});
 
-    return ref;
+    return ent;
 }
 
-void EntityManager::removeEntity(Entity::Ref ref)
+void EntityManager::removeEntity(Entity::WeakPtr entity)
 {
-    assert(mEntities.find(ref) != mEntities.end());
+    auto shared = entity.lock();
+    if (shared)
+    {
+        mEntities.erase(std::remove(mEntities.begin(), mEntities.end(), shared), mEntities.end());
+        mEntitiesByRef.erase(shared->getRef());
+        mFreeRefs.push(shared->getRef());
+    }
+}
 
-    mEntities.erase(ref);
-    mFreeRefs.push(ref);
+Entity::WeakPtr EntityManager::entityByIndex(std::size_t index) const
+{
+    try {
+        return mEntities.at(index);
+    } catch(std::out_of_range) {
+        throw EntityNotFoundException(printString("No entity found in entity manager at index '%1'", {toString(index)}));
+    }
 }
 
 Entity::WeakPtr EntityManager::entity(Entity::Ref ref) const
 {
     try {
-        return mEntities.at(ref);
+        return mEntitiesByRef.at(ref);
     } catch(std::out_of_range) {
-        return Entity::WeakPtr();
+        throw EntityNotFoundException(printString("No entity found in entity manager with reference #%1", {toString(ref)}));
     }
 }
 
-
 void EntityManager::removeAllEntities()
 {
-    while(mEntities.size() > 0) {
-        removeEntity(mEntities.begin()->first);
+    for (auto it = mEntities.begin(); it != mEntities.end(); ++it)
+    {
+        removeEntity(*it);
     }
 }
 
 void EntityManager::clear()
 {
     mEntities.clear();
+    mEntitiesByRef.clear();
     while(!mFreeRefs.empty()) mFreeRefs.pop();
     mNextRef = FLUFFY_ECS_FIRST_ID;
 }

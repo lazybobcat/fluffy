@@ -8,7 +8,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_D
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -fPIC")
 
-set(SOURCE_FILES extlibs/jsoncpp/jsoncpp.cpp src/Fluffy/Utility/String.cpp src/Fluffy/ECS/Entity.cpp src/Fluffy/Utility/Debuggable.cpp src/Fluffy/Utility/Logger.cpp src/Fluffy/ECS/EntityManager.cpp include/Fluffy/ECS/Entity.inl include/Fluffy/ECS/ComponentHandle.inl src/Fluffy/ECS/Exception/ComponentNotFoundException.cpp)
+set(SOURCE_FILES extlibs/jsoncpp/jsoncpp.cpp src/Fluffy/Utility/String.cpp src/Fluffy/ECS/Entity.cpp src/Fluffy/Utility/Debuggable.cpp src/Fluffy/Utility/Logger.cpp src/Fluffy/ECS/EntityManager.cpp include/Fluffy/ECS/Entity.inl include/Fluffy/ECS/ComponentHandle.inl src/Fluffy/ECS/Exception/ComponentNotFoundException.cpp include/Fluffy/ECS/Exception/EntityNotFoundException.hpp include/Fluffy/ECS/View/EntityComponentView.hpp src/Fluffy/ECS/Exception/EntityNotFoundException.cpp include/Fluffy/ECS/EntityManager.inl include/Fluffy/ECS/View/EntityComponentView.inl)
 set(TEST_SOURCE_FILES src/Fluffy/Test/tests.cpp src/Fluffy/Test/Utility/StringTest.cpp)
 
 # Building libfluffy

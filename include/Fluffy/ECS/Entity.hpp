@@ -46,6 +46,15 @@ public:
     template <typename T>
     ComponentHandle<T> get();
 
+    template <typename T>
+    bool has() const;
+
+    template <typename T, typename V, typename... Types>
+    bool has() const;
+    
+    template <typename T>
+    void remove();
+
 
     virtual void    serialize();
 

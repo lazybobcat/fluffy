@@ -39,7 +39,39 @@ ComponentHandle<T> Entity::get()
         return ComponentHandle<T>(dynamic_cast<T*>(found->second));
     }
 
-    throw ComponentNotFoundException(printString("Trying to get unassigned component '%1' from entity #%2", {
+    throw ComponentNotFoundException(printString("Trying to get unassigned component '%1' from entityByIndex #%2", {
+            toString(typeid(T).name()),
+            toString(getRef())
+    }));
+}
+
+template <typename T>
+bool Entity::has() const
+{
+    auto index = std::type_index(typeid(T));
+
+    return mComponents.find(index) != mComponents.end();
+}
+
+template <typename T, typename V, typename... Types>
+bool Entity::has() const
+{
+    return has<T>() && has<V, Types...>();
+};
+
+template <typename T>
+void Entity::remove()
+{
+    auto found = mComponents.find(std::type_index(typeid(T)));
+    if (found != mComponents.end())
+    {
+        delete found->second;
+        mComponents.erase(found);
+
+        return;
+    }
+
+    throw ComponentNotFoundException(printString("Trying to remove unassigned component '%1' from entityByIndex #%2", {
             toString(typeid(T).name()),
             toString(getRef())
     }));
