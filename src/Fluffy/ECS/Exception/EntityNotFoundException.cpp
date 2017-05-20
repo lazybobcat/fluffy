@@ -10,6 +10,7 @@
 
 using namespace Fluffy::ECS;
 
-EntityNotFoundException::EntityNotFoundException(const std::string &what) : std::logic_error(what)
+EntityNotFoundException::EntityNotFoundException(const std::string& what)
+  : std::logic_error(what)
 {
 }

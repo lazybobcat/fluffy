@@ -12,15 +12,14 @@ using namespace Fluffy::ECS;
 using namespace Fluffy::Utility;
 
 Entity::Entity(Ref ref, EntityManager* em)
-:   mRef(ref),
-    mManager(em)
+  : mRef(ref)
+  , mManager(em)
 {
 }
 
 Entity::~Entity()
 {
-    for (auto pair : mComponents)
-    {
+    for (auto pair : mComponents) {
         delete pair.second;
     }
 }

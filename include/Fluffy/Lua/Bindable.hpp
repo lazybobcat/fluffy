@@ -11,20 +11,17 @@
 
 #include <selene.h>
 
-namespace Fluffy
-{
-namespace Lua
-{
+namespace Fluffy {
+namespace Lua {
 
 class Bindable
 {
 public:
-    Bindable() = default;
+    Bindable()          = default;
     virtual ~Bindable() = default;
 
     virtual void bind(sel::State&) = 0;
 };
-
 }
 }
 

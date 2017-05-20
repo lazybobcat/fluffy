@@ -9,10 +9,8 @@
 #ifndef FLUFFY_COMPONENTHANDLE_HPP
 #define FLUFFY_COMPONENTHANDLE_HPP
 
-namespace Fluffy
-{
-namespace ECS
-{
+namespace Fluffy {
+namespace ECS {
 
 template <typename T>
 class ComponentHandle
@@ -23,13 +21,12 @@ public:
 
     T* operator->() const;
     operator bool() const;
-    T& get();
+    T&   get();
     bool isValid() const;
 
 private:
-    T*  mComponent;
+    T* mComponent;
 };
-
 }
 }
 

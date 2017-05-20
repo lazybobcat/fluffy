@@ -11,18 +11,15 @@
 
 #include <memory>
 
-namespace Fluffy
-{
-namespace ECS
-{
+namespace Fluffy {
+namespace ECS {
 
-class Component {
+class Component
+{
 public:
-    virtual ~Component() {};
+    virtual ~Component(){};
 };
-
 }
 }
-
 
 #endif //FLUFFY_COMPONENT_HPP

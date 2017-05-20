@@ -11,12 +11,14 @@
 using namespace Fluffy::ECS;
 
 template <typename T>
-ComponentHandle<T>::ComponentHandle() : mComponent(nullptr)
+ComponentHandle<T>::ComponentHandle()
+  : mComponent(nullptr)
 {
 }
 
 template <typename T>
-ComponentHandle<T>::ComponentHandle(T *component) : mComponent(component)
+ComponentHandle<T>::ComponentHandle(T* component)
+  : mComponent(component)
 {
 }
 
@@ -33,13 +35,13 @@ bool ComponentHandle<T>::isValid() const
 }
 
 template <typename T>
-T *ComponentHandle<T>::operator->() const
+T* ComponentHandle<T>::operator->() const
 {
     return mComponent;
 }
 
 template <typename T>
-T &ComponentHandle<T>::get()
+T& ComponentHandle<T>::get()
 {
     return *mComponent;
 }

@@ -13,10 +13,8 @@
 #include <fstream>
 #include <iostream>
 
-namespace Fluffy
-{
-namespace Utility
-{
+namespace Fluffy {
+namespace Utility {
 
 class Logger : NonCopyable
 {
@@ -40,31 +38,30 @@ public:
 public:
     ~Logger();
 
-    static Logger*  getInstance(unsigned int output = File | StdOut);
-    static void     deleteInstance();
-    void            setOutput(unsigned int output);
+    static Logger* getInstance(unsigned int output = File | StdOut);
+    static void deleteInstance();
+    void setOutput(unsigned int output);
 
-    static void     log(LogType type, const std::string& message);
+    static void log(LogType type, const std::string& message);
 
 private:
     Logger(unsigned int output = File | StdOut);
 
     std::string formatAsHtml(LogType type, const std::string& message);
     std::string formatAsText(LogType type, const std::string& message);
-    void        logToFile(const std::string& message, const std::string& datetime = "");
-    void        logToStdOut(const std::string& message, const std::string& datetime = "");
-    void        logToConsole(const std::string& message, const std::string& datetime = "");
+    void logToFile(const std::string& message, const std::string& datetime = "");
+    void logToStdOut(const std::string& message, const std::string& datetime = "");
+    void logToConsole(const std::string& message, const std::string& datetime = "");
 
 private:
-    static Logger*      mInstance;
+    static Logger* mInstance;
 
-    unsigned int        mOutput;
-    std::ofstream       mFile;
+    unsigned int  mOutput;
+    std::ofstream mFile;
 
-    unsigned int        mWarnings;
-    unsigned int        mErrors;
+    unsigned int mWarnings;
+    unsigned int mErrors;
 };
-
 }
 }
 

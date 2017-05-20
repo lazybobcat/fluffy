@@ -9,18 +9,16 @@
 #ifndef FLUFFY_DEBUGGABLE_HPP
 #define FLUFFY_DEBUGGABLE_HPP
 
-#include <string>
 #include <json/json.h>
+#include <string>
 
-namespace Fluffy
-{
-namespace Utility
-{
+namespace Fluffy {
+namespace Utility {
 
 class Debuggable
 {
 public:
-    Debuggable() = default;
+    Debuggable()          = default;
     virtual ~Debuggable() = default;
 
     virtual void        serialize() = 0;
@@ -33,9 +31,8 @@ public:
     }
 
 private:
-    Json::Value     mSerialized;
+    Json::Value mSerialized;
 };
-
 }
 }
 

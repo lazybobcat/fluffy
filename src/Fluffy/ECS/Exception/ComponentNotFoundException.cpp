@@ -10,6 +10,7 @@
 
 using namespace Fluffy::ECS;
 
-ComponentNotFoundException::ComponentNotFoundException(const std::string &what) : std::logic_error(what)
+ComponentNotFoundException::ComponentNotFoundException(const std::string& what)
+  : std::logic_error(what)
 {
 }

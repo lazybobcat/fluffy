@@ -47,7 +47,6 @@ private:
 
 #include <Fluffy/ECS/EntityManager.inl>
 #include <Fluffy/ECS/View/EntityComponentView.inl>
-
 }
 }
 

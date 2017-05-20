@@ -11,17 +11,14 @@
 
 #include <stdexcept>
 
-namespace Fluffy
-{
-namespace ECS
-{
+namespace Fluffy {
+namespace ECS {
 
 class ComponentNotFoundException : public std::logic_error
 {
 public:
     ComponentNotFoundException(const std::string& what);
 };
-
 }
 }
 

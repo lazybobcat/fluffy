@@ -11,18 +11,16 @@
 
 #include <Fluffy/ECS/Component.hpp>
 #include <Fluffy/ECS/ComponentHandle.hpp>
-#include <Fluffy/Utility/NonCopyable.hpp>
 #include <Fluffy/Utility/Debuggable.hpp>
+#include <Fluffy/Utility/NonCopyable.hpp>
 #include <cstdint>
 #include <memory>
 #include <string>
 #include <typeindex>
 #include <unordered_map>
 
-namespace Fluffy
-{
-namespace ECS
-{
+namespace Fluffy {
+namespace ECS {
 
 class EntityManager;
 
@@ -38,7 +36,7 @@ public:
     Entity(Ref ref, EntityManager* em);
     ~Entity();
 
-    Ref             getRef() const;
+    Ref getRef() const;
 
     template <typename T, typename... Args>
     ComponentHandle<T> assign(Args&&... args);
@@ -51,19 +49,17 @@ public:
 
     template <typename T, typename V, typename... Types>
     bool has() const;
-    
+
     template <typename T>
     void remove();
 
-
-    virtual void    serialize();
+    virtual void serialize();
 
 private:
-    Ref             mRef;
-    EntityManager*  mManager;
+    Ref            mRef;
+    EntityManager* mManager;
     std::unordered_map<std::type_index, Component*> mComponents;
 };
-
 }
 }
 

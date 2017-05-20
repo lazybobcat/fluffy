@@ -9,10 +9,8 @@
 #ifndef FLUFFY_NONCOPYABLE_HPP
 #define FLUFFY_NONCOPYABLE_HPP
 
-namespace Fluffy
-{
-namespace Utility
-{
+namespace Fluffy {
+namespace Utility {
 
 class NonCopyable
 {
@@ -23,7 +21,6 @@ private:
     NonCopyable(const NonCopyable&) = delete;
     NonCopyable& operator=(const NonCopyable&) = delete;
 };
-
 }
 }
 

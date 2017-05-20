@@ -12,37 +12,32 @@
 using namespace Fluffy::ECS;
 using namespace Fluffy::Utility;
 
-template<typename T, typename... Args>
-ComponentHandle<T> Entity::assign(Args &&... args)
+template <typename T, typename... Args>
+ComponentHandle<T> Entity::assign(Args&&... args)
 {
     auto found = mComponents.find(std::type_index(typeid(T)));
-    if (found != mComponents.end())
-    {
+    if (found != mComponents.end()) {
         delete found->second;
         mComponents.erase(found);
     }
 
     T* component = new T(args...);
-    mComponents.insert({ std::type_index(typeid(T)) , component });
+    mComponents.insert({ std::type_index(typeid(T)), component });
 
     // @todo emit event
 
     return ComponentHandle<T>(component);
 }
 
-template<typename T>
+template <typename T>
 ComponentHandle<T> Entity::get()
 {
     auto found = mComponents.find(std::type_index(typeid(T)));
-    if (found != mComponents.end())
-    {
+    if (found != mComponents.end()) {
         return ComponentHandle<T>(dynamic_cast<T*>(found->second));
     }
 
-    throw ComponentNotFoundException(printString("Trying to get unassigned component '%1' from entityByIndex #%2", {
-            toString(typeid(T).name()),
-            toString(getRef())
-    }));
+    throw ComponentNotFoundException(printString("Trying to get unassigned component '%1' from entityByIndex #%2", { toString(typeid(T).name()), toString(getRef()) }));
 }
 
 template <typename T>
@@ -63,16 +58,12 @@ template <typename T>
 void Entity::remove()
 {
     auto found = mComponents.find(std::type_index(typeid(T)));
-    if (found != mComponents.end())
-    {
+    if (found != mComponents.end()) {
         delete found->second;
         mComponents.erase(found);
 
         return;
     }
 
-    throw ComponentNotFoundException(printString("Trying to remove unassigned component '%1' from entityByIndex #%2", {
-            toString(typeid(T).name()),
-            toString(getRef())
-    }));
+    throw ComponentNotFoundException(printString("Trying to remove unassigned component '%1' from entityByIndex #%2", { toString(typeid(T).name()), toString(getRef()) }));
 }

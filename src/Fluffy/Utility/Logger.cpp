@@ -14,9 +14,9 @@ using namespace Fluffy::Utility;
 
 const std::string currentDateTime()
 {
-    time_t     now = time(0);
-    struct tm  tstruct;
-    char       buf[80];
+    time_t    now = time(0);
+    struct tm tstruct;
+    char      buf[80];
     tstruct = *localtime(&now);
     // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
     // for more information about date/time format
@@ -31,7 +31,7 @@ Logger* Logger::mInstance = nullptr;
 
 Logger* Logger::getInstance(unsigned int output)
 {
-    if(nullptr == Logger::mInstance) {
+    if (nullptr == Logger::mInstance) {
         Logger::mInstance = new Logger(output);
     } else {
         Logger::mInstance->setOutput(output);
@@ -48,12 +48,12 @@ void Logger::deleteInstance()
 /*****************************************************/
 
 Logger::Logger(unsigned int output)
-:   mOutput(output),
-    mWarnings(0),
-    mErrors(0)
+  : mOutput(output)
+  , mWarnings(0)
+  , mErrors(0)
 {
     mFile.open(FLUFFY_LOG_FILE, std::ios::trunc);
-    if(!mFile.is_open()) {
+    if (!mFile.is_open()) {
         // throw exception
     }
 
@@ -75,35 +75,31 @@ Logger::~Logger()
     logToFile("</html>");
 }
 
-
 void Logger::setOutput(unsigned int output)
 {
     mOutput = output;
 }
 
-
-void Logger::log(LogType type, const std::string &message)
+void Logger::log(LogType type, const std::string& message)
 {
-    if(nullptr == mInstance) {
+    if (nullptr == mInstance) {
         getInstance();
     }
 
     const std::string time = currentDateTime();
 
-    if(mInstance->mOutput & File) {
+    if (mInstance->mOutput & File) {
         mInstance->logToFile(std::move(mInstance->formatAsHtml(type, message)), time);
     }
 
-    if(mInstance->mOutput & StdOut) {
+    if (mInstance->mOutput & StdOut) {
         mInstance->logToStdOut(std::move(mInstance->formatAsText(type, message)), time);
     }
 }
 
-
-std::string Logger::formatAsHtml(LogType type, const std::string &message)
+std::string Logger::formatAsHtml(LogType type, const std::string& message)
 {
-    switch(type)
-    {
+    switch (type) {
         case LogType::Text:
             return "<text>" + message + "</text>";
 
@@ -118,10 +114,9 @@ std::string Logger::formatAsHtml(LogType type, const std::string &message)
     }
 }
 
-std::string Logger::formatAsText(LogType type, const std::string &message)
+std::string Logger::formatAsText(LogType type, const std::string& message)
 {
-    switch(type)
-    {
+    switch (type) {
         case LogType::Text:
             return message;
 
@@ -136,12 +131,12 @@ std::string Logger::formatAsText(LogType type, const std::string &message)
     }
 }
 
-void Logger::logToFile(const std::string &message, const std::string& datetime)
+void Logger::logToFile(const std::string& message, const std::string& datetime)
 {
     mFile.open(FLUFFY_LOG_FILE, std::ios::app);
 
-    if(mFile.is_open()) {
-        if(!datetime.empty()) {
+    if (mFile.is_open()) {
+        if (!datetime.empty()) {
             mFile << "<!-- " << datetime << " -->" << std::endl;
         }
         mFile << message << std::endl;
@@ -150,16 +145,14 @@ void Logger::logToFile(const std::string &message, const std::string& datetime)
     mFile.close();
 }
 
-void Logger::logToStdOut(const std::string &message, const std::string& datetime)
+void Logger::logToStdOut(const std::string& message, const std::string& datetime)
 {
-    if(!datetime.empty()) {
+    if (!datetime.empty()) {
         std::cout << "[" << datetime << "] ";
     }
     std::cout << message << std::endl;
 }
 
-void Logger::logToConsole(const std::string &message, const std::string& datetime)
+void Logger::logToConsole(const std::string& message, const std::string& datetime)
 {
-
 }
-

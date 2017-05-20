@@ -15,9 +15,9 @@ template <typename... Types>
 EntityComponentView<Types...>::Iterator::Iterator(EntityManager* manager,
                                                   std::size_t    index,
                                                   bool           isEnd)
-        : mEntityManager(manager)
-        , mIndex(index)
-        , mIsEnd(isEnd)
+  : mEntityManager(manager)
+  , mIndex(index)
+  , mIsEnd(isEnd)
 {
     if (mIndex >= manager->size()) {
         mIsEnd = true;
@@ -97,17 +97,16 @@ typename EntityComponentView<Types...>::Iterator& EntityComponentView<Types...>:
 
 template <typename... Types>
 EntityComponentView<Types...>::EntityComponentView(const Iterator& first, const Iterator& last)
-        : mFirst(first)
-        , mLast(last)
+  : mFirst(first)
+  , mLast(last)
 {
     if (mFirst.get().expired()) {
         ++mFirst;
     } else {
         auto weakEntity = mFirst.get();
-        auto entity = weakEntity.lock();
+        auto entity     = weakEntity.lock();
         if (!entity->template has<Types...>()) {
             ++mFirst;
         }
     }
 }
-

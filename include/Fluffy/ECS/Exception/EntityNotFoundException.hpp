@@ -11,17 +11,14 @@
 
 #include <stdexcept>
 
-namespace Fluffy
-{
-namespace ECS
-{
+namespace Fluffy {
+namespace ECS {
 
 class EntityNotFoundException : public std::logic_error
 {
 public:
     EntityNotFoundException(const std::string& what);
 };
-
 }
 }
 
