@@ -18,4 +18,4 @@ target_link_libraries(fluffy sfml-system sfml-window sfml-graphics sfml-audio sf
 
 # Building unittests
 add_executable(unittests ${SOURCE_FILES} ${TEST_SOURCE_FILES})
-target_link_libraries(unittests sfml-system sfml-window sfml-graphics sfml-audio sfml-network ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/lua/liblua.a dl)
+target_link_libraries(unittests ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/lua/liblua.a dl)
