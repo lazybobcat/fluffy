@@ -25,5 +25,6 @@
 
 // ECS configurations
 #define FLUFFY_ECS_FIRST_ID 1
+#define FLUFFY_ECS_MAX_COMPONENTS 64;
 
 #endif //FLUFFY_DEFINITIONS_HPP

@@ -11,11 +11,11 @@
 using namespace Fluffy::ECS;
 using namespace Fluffy::Utility;
 
-template <typename... Types>
-EntityComponentView<Types...> EntityManager::each()
-{
-    typename EntityComponentView<Types...>::Iterator first(this, 0, false);
-    typename EntityComponentView<Types...>::Iterator last(this, size(), false);
-
-    return EntityComponentView<Types...>(first, last);
-}
+//template <typename... Types>
+//EntityComponentView<Types...> EntityManager::each()
+//{
+//    typename EntityComponentView<Types...>::Iterator first(this, 0, false);
+//    typename EntityComponentView<Types...>::Iterator last(this, size(), false);
+//
+//    return EntityComponentView<Types...>(first, last);
+//}

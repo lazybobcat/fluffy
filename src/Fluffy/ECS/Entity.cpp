@@ -7,29 +7,85 @@
 //
 
 #include <Fluffy/ECS/Entity.hpp>
+#include <Fluffy/ECS/EntityManager.hpp>
 
 using namespace Fluffy::ECS;
 using namespace Fluffy::Utility;
 
-Entity::Entity(Ref ref, EntityManager* em)
-  : mRef(ref)
-  , mManager(em)
+Entity::Id::Id(std::uint64_t id)
+  : mId(id)
 {
 }
 
-Entity::~Entity()
+Entity::Id::Id(std::uint32_t index, std::uint32_t version)
+  : mId(std::uint64_t(index) | std::uint64_t(version) << 32UL)
 {
-    for (auto pair : mComponents) {
-        delete pair.second;
-    }
+
 }
 
-Entity::Ref Entity::getRef() const
+std::uint64_t Entity::Id::getId() const
 {
-    return mRef;
+    return mId;
 }
 
-void Entity::serialize()
+bool Entity::Id::operator==(const Id& other) const
 {
-    serializeAttribute("ref", mRef);
+    return mId == other.mId;
+}
+
+bool Entity::Id::operator!=(const Id& other) const
+{
+    return mId != other.mId;
+}
+
+bool Entity::Id::operator<(const Id& other) const
+{
+    return mId < other.mId;
+}
+
+std::uint32_t Entity::Id::getIndex() const
+{
+    return mId & 0xffffffffUL;
+}
+
+std::uint32_t Entity::Id::getVersion() const
+{
+    return mId >> 32;
+}
+
+/**********************************************************************************************************************/
+
+Entity::Entity(EntityManager* em, Entity::Id id)
+  : mManager(em)
+  , mId(id)
+{
+}
+
+Entity::Id Entity::getId() const
+{
+    return mId;
+}
+
+bool Entity::isValid() const
+{
+}
+
+Entity::operator bool() const
+{
+    return isValid();
+}
+
+bool Entity::operator==(const Entity& other) const
+{
+    return mManager == other.mManager && mId == other.mId;
+}
+
+bool Entity::operator!=(const Entity& other) const
+{
+    return !(*this == other);
+}
+
+bool Entity::operator<(const Entity& other) const
+{
+    return mId < other.mId;
 }

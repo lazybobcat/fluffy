@@ -9,23 +9,47 @@
 #ifndef FLUFFY_COMPONENTHANDLE_HPP
 #define FLUFFY_COMPONENTHANDLE_HPP
 
+#include <Fluffy/ECS/Entity.hpp>
+
 namespace Fluffy {
 namespace ECS {
 
-template <typename T>
+class EntityManager;
+
+template <typename C>
 class ComponentHandle
 {
 public:
     ComponentHandle();
-    ComponentHandle(T* component);
 
-    T* operator->() const;
-    operator bool() const;
-    T&   get();
     bool isValid() const;
+    operator bool() const;
+
+    C* operator->();
+    const C* operator->() const;
+
+    C*       get();
+    const C* get() const;
+
+    /**
+     * Remove the component from the entity and destroy it
+     */
+    void remove();
+
+    Entity getEntity();
+
+    bool operator==(const ComponentHandle<C>& other) const;
+
+    bool operator!=(const ComponentHandle<C>& other) const;
 
 private:
-    T* mComponent;
+    friend class EntityManager;
+
+    ComponentHandle(EntityManager* manager, Entity::Id id);
+
+private:
+    EntityManager* mManager;
+    Entity::Id     mId;
 };
 }
 }

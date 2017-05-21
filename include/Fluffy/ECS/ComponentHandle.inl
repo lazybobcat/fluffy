@@ -10,38 +10,53 @@
 
 using namespace Fluffy::ECS;
 
-template <typename T>
-ComponentHandle<T>::ComponentHandle()
-  : mComponent(nullptr)
+template <typename C>
+ComponentHandle<C>::ComponentHandle()
+  : mManager(nullptr)
+  , mId(Entity::INVALID)
 {
 }
 
-template <typename T>
-ComponentHandle<T>::ComponentHandle(T* component)
-  : mComponent(component)
+template <typename C>
+ComponentHandle<C>::ComponentHandle(EntityManager* manager, Entity::Id id)
+  : mManager(manager)
+  , mId(id)
 {
 }
 
-template <typename T>
-ComponentHandle<T>::operator bool() const
+template <typename C>
+bool ComponentHandle<C>::operator==(const ComponentHandle<C>& other) const
 {
-    return isValid();
+    return mManager == other.mManager && mId == other.mId;
 }
 
-template <typename T>
-bool ComponentHandle<T>::isValid() const
+template <typename C>
+bool ComponentHandle<C>::operator!=(const ComponentHandle<C>& other) const
 {
-    return mComponent != nullptr;
+    return !(*this == other);
 }
 
-template <typename T>
-T* ComponentHandle<T>::operator->() const
-{
-    return mComponent;
-}
-
-template <typename T>
-T& ComponentHandle<T>::get()
-{
-    return *mComponent;
-}
+//
+//template <typename T>
+//ComponentHandle<T>::operator bool() const
+//{
+//    return isValid();
+//}
+//
+//template <typename T>
+//bool ComponentHandle<T>::isValid() const
+//{
+//    return mComponent != nullptr;
+//}
+//
+//template <typename T>
+//T* ComponentHandle<T>::operator->() const
+//{
+//    return mComponent;
+//}
+//
+//template <typename T>
+//T& ComponentHandle<T>::get()
+//{
+//    return *mComponent;
+//}
