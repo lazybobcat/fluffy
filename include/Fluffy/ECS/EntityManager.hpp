@@ -45,73 +45,35 @@ public:
     Entity::Id createEntityId(std::uint32_t index) const;
 
     template <typename C>
-    static std::size_t componentFamily()
-    {
-        return Component<typename std::remove_const<C>::type>::getFamily();
-    }
+    static std::size_t componentFamily();
 
     template <typename C, typename... Args>
-    ComponentHandle<C> assign(std::uint32_t entity, Args&&... args)
-    {
-        const std::size_t family = componentFamily<C>();
-        Pool<C>*          pool   = getComponentPool<C>();
-        ::new (pool->get(entity)) C(std::forward<Args>(args)...);
-
-        ComponentHandle<C> component(this, entity);
-
-        mEntityComponentMask[entity].set(family);
-
-        return component;
-    };
+    ComponentHandle<C> assign(Entity::Id id, Args&&... args);
 
     template <typename C>
-    ComponentHandle<C> component(std::uint32_t entity)
-    {
-        std::size_t family = componentFamily<C>();
+    void remove(Entity::Id id);
 
-        if (family > mComponentPools.size()) {
-            return ComponentHandle<C>();
-        }
+    template <typename C>
+    bool hasComponent(Entity::Id id) const;
 
-        BasePool* pool = mComponentPools[family];
-        if (!pool || !mEntityComponentMask[entity][family]) {
-            return ComponentHandle<C>();
-        }
+    template <typename C>
+    ComponentHandle<C> component(Entity::Id id);
 
-        ComponentHandle<C> component(this, entity);
-        return component;
-    }
+    template <typename... Components>
+    std::tuple<ComponentHandle<Components>...> components(Entity::Id id);
+
+    template <typename... Components>
+    EntityComponentView<Components...> each();
 
 private:
     void prepareForEntity(std::uint32_t index);
-    void assertValid(Entity::Id id);
+    void assertValid(Entity::Id id) const;
 
     template <typename C>
-    C* getComponentPointer(std::uint32_t entity)
-    {
-        BasePool* pool = mComponentPools[componentFamily<C>()];
-        assert(pool);
-
-        return static_cast<C*>(pool->get(entity));
-    }
+    C* getComponentPointer(std::uint32_t entity);
 
     template <typename C>
-    Pool<C>* getComponentPool()
-    {
-        std::size_t family = componentFamily<C>();
-        if (mComponentPools.size() <= family) {
-            mComponentPools.resize(family + 1, nullptr);
-        }
-        if (!mComponentPools[family]) {
-            Pool<C>* pool = new Pool<C>;
-            pool->expand(mIndexCounter);
-            mComponentPools[family] = pool;
-
-            return pool;
-        }
-
-        return static_cast<Pool<C>*>(mComponentPools[family]);
-    }
+    Pool<C>* getComponentPool();
 
 private:
     friend class Entity;

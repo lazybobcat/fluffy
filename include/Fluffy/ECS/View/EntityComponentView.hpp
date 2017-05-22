@@ -21,9 +21,9 @@ template <typename... Types>
 class EntityComponentView
 {
 public:
-//    class Iterator
-//    {
-//    public:
+    class Iterator
+    {
+    public:
 //        Iterator(EntityManager* manager, std::size_t index, bool isEnd = false);
 //
 //        std::size_t     getIndex() const;
@@ -34,13 +34,13 @@ public:
 //        bool operator==(const Iterator& rhs) const;
 //        bool operator!=(const Iterator& rhs) const;
 //        Iterator& operator++();
-//
-//    private:
+
+    private:
 //        bool           mIsEnd;
 //        std::size_t    mIndex;
 //        EntityManager* mEntityManager;
-//    };
-//
+    };
+
 //public:
 //    EntityComponentView(const Iterator& first, const Iterator& last);
 //

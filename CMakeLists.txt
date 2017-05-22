@@ -14,7 +14,7 @@ set(TEST_SOURCE_FILES src/Fluffy/Test/tests.cpp src/Fluffy/Test/Utility/StringTe
 # Building libfluffy
 add_library(fluffy SHARED ${SOURCE_FILES})
 install(TARGETS fluffy DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/build)
-target_link_libraries(fluffy sfml-system sfml-window sfml-graphics sfml-audio sfml-network ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/lua/liblua.a dl)
+target_link_libraries(fluffy ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/lua/liblua.a dl)
 
 # Building unittests
 add_executable(unittests ${SOURCE_FILES} ${TEST_SOURCE_FILES})
