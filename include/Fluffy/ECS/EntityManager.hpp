@@ -70,15 +70,23 @@ private:
     void assertValid(Entity::Id id) const;
 
     template <typename C>
-    C* getComponentPointer(std::uint32_t entity);
+    C* getComponentPointer(Entity::Id id);
 
     template <typename C>
     Pool<C>* getComponentPool();
+
+    ComponentMask getComponentMask(Entity::Id id);
+    template <typename C>
+    ComponentMask getComponentMask();
+    template <typename C, typename... Components>
+    ComponentMask getComponentMask();
 
 private:
     friend class Entity;
     template <typename C>
     friend class ComponentHandle;
+    template <typename... Types>
+    friend class EntityComponentView;
 
     std::uint32_t                     mIndexCounter = 0;
     std::stack<std::uint32_t>         mFreeIndexes;
@@ -86,28 +94,9 @@ private:
     std::vector<BasePool*>            mComponentPools; // indexed by Component::family()
     std::vector<ComponentMask>        mEntityComponentMask;
     std::vector<BaseComponentHelper*> mComponentHelpers;
-
-    //    Entity::WeakPtr createEntity();
-    //    void removeEntity(Entity::WeakPtr entity);
-    //    Entity::WeakPtr entityByIndex(std::size_t index) const;
-    //    Entity::WeakPtr entity(Entity::Ref ref) const;
-    //    template <typename... Types>
-    //    EntityComponentView<Types...> each();
-    //
-    //    void        removeAllEntities();
-    //    void        clear();
-    //    std::size_t size() const;
-    //
-    //    virtual void bind(sel::State& state);
-    //
-    //private:
-    //    Entity::Ref             mNextRef;
-    //    std::stack<Entity::Ref> mFreeRefs;
-    //
-    //    std::vector<Entity::Ptr> mEntities;
-    //    std::map<Entity::Ref, Entity::Ptr> mEntitiesByRef;
 };
 
+#include <Fluffy/ECS/ComponentHandle.inl>
 #include <Fluffy/ECS/EntityManager.inl>
 #include <Fluffy/ECS/View/EntityComponentView.inl>
 }

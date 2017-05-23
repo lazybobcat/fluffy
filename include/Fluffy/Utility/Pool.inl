@@ -3,7 +3,7 @@
 // @author Lo-X
 // @website http://www.loicboutter.fr
 // @copyright 2016 All rights reserved
-// File created by loic on 22/05/17.
+// File created by loic on 23/05/17.
 //
 
 #include <Fluffy/Utility/Pool.hpp>
@@ -20,14 +20,22 @@ template <typename T>
 void* Pool<T>::get(std::uint32_t n)
 {
     assert(n < size());
+    T object = mBlocks[n];
 
     return &mBlocks[n];
 }
 
 template <typename T>
+void Pool<T>::set(std::uint32_t n, T&& object)
+{
+    assert(n < size());
+    mBlocks[n] = std::move(object);
+}
+
+template <typename T>
 void Pool<T>::expand(std::uint32_t n)
 {
-    mBlocks.reserve(n);
+    mBlocks.resize(n);
 }
 
 template <typename T>

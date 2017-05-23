@@ -7,6 +7,8 @@
 //
 
 #include <Fluffy/ECS/ComponentHandle.hpp>
+#include <Fluffy/ECS/EntityManager.hpp>
+#include <cassert>
 
 using namespace Fluffy::ECS;
 
@@ -36,6 +38,14 @@ bool ComponentHandle<C>::operator!=(const ComponentHandle<C>& other) const
     return !(*this == other);
 }
 
+template <typename C>
+C* ComponentHandle<C>::get()
+{
+    assert(mManager);
+
+    return mManager->template getComponentPointer<C>(mId);
+}
+
 //
 //template <typename T>
 //ComponentHandle<T>::operator bool() const
@@ -48,13 +58,13 @@ bool ComponentHandle<C>::operator!=(const ComponentHandle<C>& other) const
 //{
 //    return mComponent != nullptr;
 //}
-//
-//template <typename T>
-//T* ComponentHandle<T>::operator->() const
-//{
-//    return mComponent;
-//}
-//
+
+template <typename T>
+T* ComponentHandle<T>::operator->()
+{
+    return get();
+}
+
 //template <typename T>
 //T& ComponentHandle<T>::get()
 //{

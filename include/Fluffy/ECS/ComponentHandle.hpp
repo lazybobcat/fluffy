@@ -22,21 +22,21 @@ class ComponentHandle
 public:
     ComponentHandle();
 
-    bool isValid() const;
-    operator bool() const;
-
+//    bool isValid() const;
+//    operator bool() const;
+//
     C* operator->();
-    const C* operator->() const;
+//    const C* operator->() const;
 
     C*       get();
-    const C* get() const;
+//    const C* get() const;
 
     /**
      * Remove the component from the entity and destroy it
      */
-    void remove();
+//    void remove();
 
-    Entity getEntity();
+//    Entity getEntity();
 
     bool operator==(const ComponentHandle<C>& other) const;
 
@@ -53,7 +53,5 @@ private:
 };
 }
 }
-
-#include <Fluffy/ECS/ComponentHandle.inl>
 
 #endif //FLUFFY_COMPONENTHANDLE_HPP

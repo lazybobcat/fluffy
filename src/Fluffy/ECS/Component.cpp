@@ -11,7 +11,7 @@
 
 using namespace Fluffy::ECS;
 
-BaseComponent::Family mFamilyCounter = 0;
+BaseComponent::Family BaseComponent::mFamilyCounter = 0;
 
 void BaseComponent::fail()
 {

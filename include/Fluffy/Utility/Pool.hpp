@@ -33,6 +33,7 @@ public:
     std::size_t size() const;
 
     void* get(std::uint32_t n);
+    void set(std::uint32_t n, T&& object);
 
     void expand(std::uint32_t n);
     void destroy(std::uint32_t n);
@@ -40,6 +41,8 @@ public:
 private:
     std::vector<T> mBlocks;
 };
+
+#include <Fluffy/Utility/Pool.inl>
 }
 }
 

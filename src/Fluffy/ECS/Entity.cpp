@@ -12,6 +12,8 @@
 using namespace Fluffy::ECS;
 using namespace Fluffy::Utility;
 
+const Entity::Id Entity::INVALID = Entity::Id();
+
 Entity::Id::Id(std::uint64_t id)
   : mId(id)
 {
@@ -68,6 +70,7 @@ Entity::Id Entity::getId() const
 
 bool Entity::isValid() const
 {
+    return mManager && mManager->isValid(mId);
 }
 
 Entity::operator bool() const

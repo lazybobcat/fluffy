@@ -115,3 +115,10 @@ Entity::Id EntityManager::createEntityId(std::uint32_t index) const
 {
     return Entity::Id(index, mEntityVersion[index]);
 }
+
+EntityManager::ComponentMask EntityManager::getComponentMask(Entity::Id id)
+{
+    assertValid(id);
+
+    return mEntityComponentMask[id.getIndex()];
+}

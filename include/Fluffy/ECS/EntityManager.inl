@@ -24,8 +24,9 @@ ComponentHandle<C> EntityManager::assign(Entity::Id id, Args&&... args)
     const BaseComponent::Family family = componentFamily<C>();
     assert(!mEntityComponentMask[id.getIndex()].test(family));
 
-    Pool<C>*          pool   = getComponentPool<C>();
-    ::new (pool->get(id.getIndex())) C(std::forward<Args>(args)...);
+    Pool<C>* pool = getComponentPool<C>();
+    C        comp = C(std::forward<Args>(args)...);
+    pool->set(id.getIndex(), std::move(comp));
 
     ComponentHandle<C> component(this, id);
     mEntityComponentMask[id.getIndex()].set(family);
@@ -91,17 +92,26 @@ std::tuple<ComponentHandle<Components>...> EntityManager::components(Entity::Id 
     return std::make_tuple(component<Components>(id)...);
 }
 
+template <typename... Components>
+EntityComponentView<Components...> EntityManager::each()
+{
+    ComponentMask mask = getComponentMask<Components...>();
 
+    typename EntityComponentView<Components...>::Iterator first(this, 0, mask);
+    typename EntityComponentView<Components...>::Iterator last(this, size(), mask);
+
+    return EntityComponentView<Components...>(first, last);
+}
 
 // Private
 
 template <typename C>
-C* EntityManager::getComponentPointer(std::uint32_t entity)
+C* EntityManager::getComponentPointer(Entity::Id id)
 {
     BasePool* pool = mComponentPools[componentFamily<C>()];
     assert(pool);
 
-    return static_cast<C*>(pool->get(entity));
+    return static_cast<C*>(pool->get(id.getIndex()));
 }
 
 template <typename C>
@@ -120,4 +130,19 @@ Pool<C>* EntityManager::getComponentPool()
     }
 
     return static_cast<Pool<C>*>(mComponentPools[family]);
+}
+
+template <typename C>
+EntityManager::ComponentMask EntityManager::getComponentMask()
+{
+    ComponentMask mask;
+    mask.set(componentFamily<C>());
+
+    return mask;
+}
+
+template <typename C, typename... Components>
+EntityManager::ComponentMask EntityManager::getComponentMask()
+{
+    return getComponentMask<C>() | getComponentMask<Components...>();
 }
