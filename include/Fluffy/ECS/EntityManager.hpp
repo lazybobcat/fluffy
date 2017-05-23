@@ -73,7 +73,7 @@ private:
     C* getComponentPointer(Entity::Id id);
 
     template <typename C>
-    Pool<C>* getComponentPool();
+    Utility::Pool<C>* getComponentPool();
 
     ComponentMask getComponentMask(Entity::Id id);
     template <typename C>
@@ -91,15 +91,16 @@ private:
     std::uint32_t                     mIndexCounter = 0;
     std::stack<std::uint32_t>         mFreeIndexes;
     std::vector<std::uint32_t>        mEntityVersion;
-    std::vector<BasePool*>            mComponentPools; // indexed by Component::family()
+    std::vector<Utility::BasePool*>            mComponentPools; // indexed by Component::family()
     std::vector<ComponentMask>        mEntityComponentMask;
     std::vector<BaseComponentHelper*> mComponentHelpers;
 };
+}
+}
 
 #include <Fluffy/ECS/ComponentHandle.inl>
 #include <Fluffy/ECS/EntityManager.inl>
 #include <Fluffy/ECS/View/EntityComponentView.inl>
-}
-}
+#include <Fluffy/ECS/Entity.inl>
 
 #endif //FLUFFY_ENTITYMANAGER_HPP

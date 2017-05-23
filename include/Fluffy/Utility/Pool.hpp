@@ -19,7 +19,7 @@ namespace Utility {
 class BasePool
 {
 public:
-    virtual ~BasePool() {}
+    virtual ~BasePool();
     virtual std::size_t size() const      = 0;
     virtual void* get(std::uint32_t n)    = 0;
     virtual void expand(std::uint32_t n)  = 0;

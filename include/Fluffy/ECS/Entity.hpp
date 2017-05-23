@@ -12,10 +12,7 @@
 #include <Fluffy/definitions.hpp>
 #include <bitset>
 #include <cstdint>
-#include <memory>
-#include <string>
 #include <typeindex>
-#include <unordered_map>
 
 namespace Fluffy {
 namespace ECS {
@@ -78,10 +75,10 @@ public:
 //    void destroy();
 //
 //    std::bitset<ECS::MAX_COMPONENTS> getComponentMask() const;
-//
-//    template <typename C, typename... Args>
-//    ComponentHandle<C> assign(Args&&... args);
-//
+
+    template <typename C, typename... Args>
+    ComponentHandle<C> assign(Args&&... args);
+
 //    template <typename C, typename... Args>
 //    ComponentHandle<C> replace(Args&&... args);
 
@@ -93,9 +90,9 @@ public:
 //
 //    template <typename... Components>
 //    std::tuple<ComponentHandle<Components>...> getComponents();
-//
-//    template <typename C>
-//    bool hasComponent() const;
+
+    template <typename C>
+    bool hasComponent() const;
 
 private:
     EntityManager* mManager;
@@ -103,7 +100,5 @@ private:
 };
 }
 }
-
-#include <Fluffy/ECS/Entity.inl>
 
 #endif //FLUFFY_ENTITY_HPP

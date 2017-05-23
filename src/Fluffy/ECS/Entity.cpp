@@ -10,7 +10,6 @@
 #include <Fluffy/ECS/EntityManager.hpp>
 
 using namespace Fluffy::ECS;
-using namespace Fluffy::Utility;
 
 const Entity::Id Entity::INVALID = Entity::Id();
 
@@ -92,3 +91,4 @@ bool Entity::operator<(const Entity& other) const
 {
     return mId < other.mId;
 }
+
