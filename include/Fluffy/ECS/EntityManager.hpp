@@ -78,7 +78,7 @@ private:
     ComponentMask getComponentMask(Entity::Id id);
     template <typename C>
     ComponentMask getComponentMask();
-    template <typename C, typename... Components>
+    template <typename C1, typename C2, typename... Components>
     ComponentMask getComponentMask();
 
 private:

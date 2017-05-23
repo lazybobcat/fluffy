@@ -141,8 +141,8 @@ EntityManager::ComponentMask EntityManager::getComponentMask()
     return mask;
 }
 
-template <typename C, typename... Components>
+template <typename C1, typename C2, typename... Components>
 EntityManager::ComponentMask EntityManager::getComponentMask()
 {
-    return getComponentMask<C>() | getComponentMask<Components...>();
+    return getComponentMask<C1>() | getComponentMask<C2, Components...>();
 }

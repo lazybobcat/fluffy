@@ -21,42 +21,37 @@ template <typename... Types>
 class EntityComponentView
 {
 public:
+    typedef std::bitset<ECS::MAX_COMPONENTS> ComponentMask;
+
     class Iterator
     {
     public:
-//        Iterator(EntityManager* manager, std::size_t index, bool isEnd = false);
-//
-//        std::size_t     getIndex() const;
-//        bool            isEnd() const;
-//        EntityManager*  getEntityManager() const;
-//        Entity::WeakPtr get() const;
-//        Entity::WeakPtr operator*() const;
-//        bool operator==(const Iterator& rhs) const;
-//        bool operator!=(const Iterator& rhs) const;
-//        Iterator& operator++();
+        Iterator(EntityManager* manager, std::size_t index, ComponentMask mask);
+
+        std::size_t    getIndex() const;
+        bool           isEnd() const;
+        EntityManager* getEntityManager() const;
+        Entity         get() const;
+        Entity operator*() const;
+        bool operator==(const Iterator& rhs) const;
+        bool operator!=(const Iterator& rhs) const;
+        Iterator& operator++();
 
     private:
-//        bool           mIsEnd;
-//        std::size_t    mIndex;
-//        EntityManager* mEntityManager;
+        EntityManager* mEntityManager;
+        std::size_t    mIndex;
+        ComponentMask  mMask;
     };
 
-//public:
-//    EntityComponentView(const Iterator& first, const Iterator& last);
-//
-//    Iterator begin()
-//    {
-//        return mFirst;
-//    }
-//
-//    Iterator end()
-//    {
-//        return mLast;
-//    }
-//
-//private:
-//    Iterator mFirst;
-//    Iterator mLast;
+public:
+    EntityComponentView(const Iterator& first, const Iterator& last);
+
+    Iterator begin();
+    Iterator end();
+
+private:
+    Iterator mFirst;
+    Iterator mLast;
 };
 }
 }
