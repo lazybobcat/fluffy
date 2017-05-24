@@ -21,9 +21,7 @@ EntityManager::EntityManager()
 
 EntityManager::~EntityManager()
 {
-    for (auto pool : mComponentPools) {
-        delete pool;
-    }
+    reset();
 }
 
 std::size_t EntityManager::size() const
@@ -34,6 +32,23 @@ std::size_t EntityManager::size() const
 std::size_t EntityManager::capacity() const
 {
     return mEntityComponentMask.size();
+}
+
+void EntityManager::reset()
+{
+    while (mFreeIndexes.size() > 0) {
+        mFreeIndexes.pop();
+    }
+    mEntityVersion.clear();
+    mEntityComponentMask.clear();
+    for (auto pool : mComponentPools) {
+        delete pool;
+    }
+    for (auto helper : mComponentHelpers) {
+        delete helper;
+    }
+
+    mIndexCounter = 0;
 }
 
 bool EntityManager::isValid(Entity::Id id) const

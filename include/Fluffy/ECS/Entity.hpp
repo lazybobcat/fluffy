@@ -67,27 +67,30 @@ public:
      * Invalidate an entity but does not destroy it or its component.
      * To destroy an entity use destroy()
      */
-//    void invalidate();
+    void invalidate();
 
     /**
      * Invalidate and destroy this entity and its component
      */
-//    void destroy();
+    void destroy();
 //
 //    std::bitset<ECS::MAX_COMPONENTS> getComponentMask() const;
 
     template <typename C, typename... Args>
     ComponentHandle<C> assign(Args&&... args);
 
-//    template <typename C, typename... Args>
-//    ComponentHandle<C> replace(Args&&... args);
+    /**
+     * @return ComponentHandle<C> The new component handle
+     */
+    template <typename C, typename... Args>
+    ComponentHandle<C> replace(Args&&... args);
 
     template <typename C>
     void remove();
 
-//    template <typename C>
-//    ComponentHandle<C> getComponent();
-//
+    template <typename C>
+    ComponentHandle<C> getComponent();
+
 //    template <typename... Components>
 //    std::tuple<ComponentHandle<Components>...> getComponents();
 

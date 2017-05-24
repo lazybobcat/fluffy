@@ -41,32 +41,56 @@ bool ComponentHandle<C>::operator!=(const ComponentHandle<C>& other) const
 template <typename C>
 C* ComponentHandle<C>::get()
 {
-    assert(mManager);
+    assert(isValid());
 
     return mManager->template getComponentPointer<C>(mId);
 }
 
-//
-//template <typename T>
-//ComponentHandle<T>::operator bool() const
-//{
-//    return isValid();
-//}
-//
-//template <typename T>
-//bool ComponentHandle<T>::isValid() const
-//{
-//    return mComponent != nullptr;
-//}
+template <typename C>
+void ComponentHandle<C>::remove()
+{
+    assert(isValid());
 
-template <typename T>
-T* ComponentHandle<T>::operator->()
+    mManager->template remove<C>(mId);
+}
+
+template <typename C>
+Entity ComponentHandle<C>::getEntity()
+{
+    assert(isValid());
+
+    mManager->getEntity(mId);
+}
+
+
+template <typename C>
+ComponentHandle<C>::operator bool() const
+{
+    return isValid();
+}
+
+template <typename C>
+bool ComponentHandle<C>::isValid() const
+{
+    return mManager && mManager->isValid(mId) && mManager->template hasComponent<C>(mId);
+}
+
+template <typename C>
+C* ComponentHandle<C>::operator->()
 {
     return get();
 }
 
-//template <typename T>
-//T& ComponentHandle<T>::get()
-//{
-//    return *mComponent;
-//}
+template <typename C>
+const C* ComponentHandle<C>::get() const
+{
+    assert(isValid());
+
+    return mManager->template getComponentPointer<C>(mId);
+}
+
+template <typename C>
+const C* ComponentHandle<C>::operator->() const
+{
+    return get();
+}

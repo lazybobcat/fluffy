@@ -23,17 +23,21 @@ ComponentHandle<C> Entity::assign(Args&&... args)
     return mManager->assign<C>(mId, std::forward<Args>(args)...);
 }
 
-//template <typename C>
-//ComponentHandle<C> Entity::get()
-//{
-//    auto found = mComponents.find(std::type_index(typeid(T)));
-//    if (found != mComponents.end()) {
-//        return ComponentHandle<C>(dynamic_cast<T*>(found->second));
-//    }
-//
-//    throw ComponentNotFoundException(printString("Trying to get unassigned component '%1' from entityByIndex #%2", { toString(typeid(T).name()), toString(getRef()) }));
-//}
-//
+template <typename C, typename... Args>
+ComponentHandle<C> Entity::replace(Args&&... args)
+{
+    assert(isValid());
+
+    auto handle = getComponent<C>();
+    if (handle) {
+        *(handle.get()) = C(std::forward<Args>(args)...);
+    } else {
+        handle = mManager->assign<C>(mId, std::forward<Args>(args)...);
+    }
+
+    return handle;
+}
+
 template <typename C>
 bool Entity::hasComponent() const
 {
@@ -42,11 +46,13 @@ bool Entity::hasComponent() const
     return mManager->hasComponent<C>(mId);
 }
 
-//template <typename C, typename V, typename... Types>
-//bool Entity::has() const
-//{
-//    return has<C>() && has<V, Types...>();
-//};
+template <typename C>
+ComponentHandle<C> Entity::getComponent()
+{
+    assert(isValid());
+
+    return mManager->component<C>(mId);
+}
 
 template <typename C>
 void Entity::remove()

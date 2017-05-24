@@ -36,6 +36,7 @@ public:
      */
     std::size_t size() const;
     std::size_t capacity() const;
+    void reset();
 
     bool isValid(Entity::Id id) const;
 
@@ -91,7 +92,7 @@ private:
     std::uint32_t                     mIndexCounter = 0;
     std::stack<std::uint32_t>         mFreeIndexes;
     std::vector<std::uint32_t>        mEntityVersion;
-    std::vector<Utility::BasePool*>            mComponentPools; // indexed by Component::family()
+    std::vector<Utility::BasePool*>   mComponentPools; // indexed by Component::family()
     std::vector<ComponentMask>        mEntityComponentMask;
     std::vector<BaseComponentHelper*> mComponentHelpers;
 };

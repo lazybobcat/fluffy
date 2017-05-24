@@ -72,6 +72,19 @@ bool Entity::isValid() const
     return mManager && mManager->isValid(mId);
 }
 
+void Entity::invalidate()
+{
+    mId = Entity::INVALID;
+}
+
+void Entity::destroy()
+{
+    assert(isValid());
+
+    mManager->destroyEntity(mId);
+    invalidate();
+}
+
 Entity::operator bool() const
 {
     return isValid();
