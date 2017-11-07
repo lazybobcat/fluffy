@@ -54,6 +54,14 @@ ComponentHandle<C> Entity::getComponent()
     return mManager->component<C>(mId);
 }
 
+template <typename... Components>
+std::tuple<ComponentHandle<Components>...> Entity::getComponents()
+{
+    assert(isValid());
+
+    return mManager->components<Components...>(mId);
+}
+
 template <typename C>
 void Entity::remove()
 {

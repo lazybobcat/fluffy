@@ -73,8 +73,8 @@ public:
      * Invalidate and destroy this entity and its component
      */
     void destroy();
-//
-//    std::bitset<ECS::MAX_COMPONENTS> getComponentMask() const;
+
+    std::bitset<ECS::MAX_COMPONENTS> getComponentMask() const;
 
     template <typename C, typename... Args>
     ComponentHandle<C> assign(Args&&... args);
@@ -91,8 +91,8 @@ public:
     template <typename C>
     ComponentHandle<C> getComponent();
 
-//    template <typename... Components>
-//    std::tuple<ComponentHandle<Components>...> getComponents();
+    template <typename... Components>
+    std::tuple<ComponentHandle<Components>...> getComponents();
 
     template <typename C>
     bool hasComponent() const;

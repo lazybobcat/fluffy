@@ -85,6 +85,13 @@ void Entity::destroy()
     invalidate();
 }
 
+std::bitset<MAX_COMPONENTS> Entity::getComponentMask() const
+{
+    assert(isValid());
+
+    return mManager->getComponentMask(mId);
+}
+
 Entity::operator bool() const
 {
     return isValid();
