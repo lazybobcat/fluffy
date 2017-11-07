@@ -62,7 +62,6 @@ Entity ComponentHandle<C>::getEntity()
     mManager->getEntity(mId);
 }
 
-
 template <typename C>
 ComponentHandle<C>::operator bool() const
 {

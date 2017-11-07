@@ -22,14 +22,14 @@ ComponentHandle<C> EntityManager::assign(Entity::Id id, Args&&... args)
 {
     assertValid(id);
     const BaseComponent::Family family = componentFamily<C>();
-    assert(!mEntityComponentMask[id.getIndex()].test(family));
+    assert(!mEntityComponentMask[id.index()].test(family));
 
     Pool<C>* pool = getComponentPool<C>();
     C        comp = C(std::forward<Args>(args)...);
-    pool->set(id.getIndex(), std::move(comp));
+    pool->set(id.index(), std::move(comp));
 
     ComponentHandle<C> component(this, id);
-    mEntityComponentMask[id.getIndex()].set(family);
+    mEntityComponentMask[id.index()].set(family);
 
     // @todo emit event
 
@@ -41,15 +41,15 @@ void EntityManager::remove(Entity::Id id)
 {
     assertValid(id);
     const BaseComponent::Family family = componentFamily<C>();
-    assert(mEntityComponentMask[id.getIndex()].test(family));
+    assert(mEntityComponentMask[id.index()].test(family));
 
     BasePool* pool = mComponentPools[family];
 
     ComponentHandle<C> component(this, id);
     // @todo emit event component about to be deleted including the ComponentHandle
 
-    mEntityComponentMask[id.getIndex()].reset(family);
-    pool->destroy(id.getIndex());
+    mEntityComponentMask[id.index()].reset(family);
+    pool->destroy(id.index());
 };
 
 template <typename C>
@@ -64,7 +64,7 @@ bool EntityManager::hasComponent(Entity::Id id) const
 
     BasePool* pool = mComponentPools[family];
 
-    return (pool && mEntityComponentMask[id.getIndex()][family]);
+    return (pool && mEntityComponentMask[id.index()][family]);
 }
 
 template <typename C>
@@ -78,7 +78,7 @@ ComponentHandle<C> EntityManager::component(Entity::Id id)
     }
 
     BasePool* pool = mComponentPools[family];
-    if (!pool || !mEntityComponentMask[id.getIndex()][family]) {
+    if (!pool || !mEntityComponentMask[id.index()][family]) {
         return ComponentHandle<C>();
     }
 
@@ -111,7 +111,7 @@ C* EntityManager::getComponentPointer(Entity::Id id)
     BasePool* pool = mComponentPools[componentFamily<C>()];
     assert(pool);
 
-    return static_cast<C*>(pool->get(id.getIndex()));
+    return static_cast<C*>(pool->get(id.index()));
 }
 
 template <typename C>
@@ -134,7 +134,7 @@ Pool<C>* EntityManager::getComponentPool()
     }
     if (!mComponentHelpers[family]) {
         ComponentHelper<C>* helper = new ComponentHelper<C>();
-        mComponentHelpers[family] = helper;
+        mComponentHelpers[family]  = helper;
     }
 
     return static_cast<Pool<C>*>(mComponentPools[family]);

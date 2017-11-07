@@ -53,7 +53,7 @@ void EntityManager::reset()
 
 bool EntityManager::isValid(Entity::Id id) const
 {
-    return id.getIndex() < mEntityVersion.size() && mEntityVersion[id.getIndex()] == id.getVersion();
+    return id.index() < mEntityVersion.size() && mEntityVersion[id.index()] == id.version();
 }
 
 Entity EntityManager::createEntity()
@@ -82,8 +82,8 @@ void EntityManager::destroyEntity(Entity::Id id)
 {
     assertValid(id);
 
-    std::uint32_t index = id.getIndex();
-    auto mask = mEntityComponentMask[index];
+    std::uint32_t index = id.index();
+    auto          mask  = mEntityComponentMask[index];
 
     for (std::size_t i = 0; i < mComponentHelpers.size(); ++i) {
         BaseComponentHelper* helper = mComponentHelpers[i];
@@ -122,8 +122,8 @@ void EntityManager::prepareForEntity(std::uint32_t index)
 
 void EntityManager::assertValid(Entity::Id id) const
 {
-    assert(id.getIndex() < mEntityComponentMask.size());
-    assert(id.getVersion() == mEntityVersion[id.getIndex()]);
+    assert(id.index() < mEntityComponentMask.size());
+    assert(id.version() == mEntityVersion[id.index()]);
 }
 
 Entity::Id EntityManager::createEntityId(std::uint32_t index) const
@@ -135,5 +135,5 @@ EntityManager::ComponentMask EntityManager::getComponentMask(Entity::Id id)
 {
     assertValid(id);
 
-    return mEntityComponentMask[id.getIndex()];
+    return mEntityComponentMask[id.index()];
 }

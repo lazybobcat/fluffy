@@ -28,7 +28,7 @@ ComponentHandle<C> Entity::replace(Args&&... args)
 {
     assert(isValid());
 
-    auto handle = getComponent<C>();
+    auto handle = component<C>();
     if (handle) {
         *(handle.get()) = C(std::forward<Args>(args)...);
     } else {
@@ -47,7 +47,7 @@ bool Entity::hasComponent() const
 }
 
 template <typename C>
-ComponentHandle<C> Entity::getComponent()
+ComponentHandle<C> Entity::component()
 {
     assert(isValid());
 
@@ -55,7 +55,7 @@ ComponentHandle<C> Entity::getComponent()
 }
 
 template <typename... Components>
-std::tuple<ComponentHandle<Components>...> Entity::getComponents()
+std::tuple<ComponentHandle<Components>...> Entity::components()
 {
     assert(isValid());
 
@@ -68,7 +68,8 @@ void Entity::remove()
     assert(isValid());
 
     if (!hasComponent<C>()) {
-        throw ComponentNotFoundException(printString("Trying to remove unassigned component '%1' from entity #%2", { toString(typeid(C).name()), toString(mId.getIndex()) }));
+        throw ComponentNotFoundException(printString("Trying to remove unassigned component '%1' from entity #%2", { toString(typeid(C).name()), toString(
+                mId.index()) }));
     }
 
     mManager->remove<C>(mId);

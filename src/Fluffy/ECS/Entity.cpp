@@ -21,10 +21,9 @@ Entity::Id::Id(std::uint64_t id)
 Entity::Id::Id(std::uint32_t index, std::uint32_t version)
   : mId(std::uint64_t(index) | std::uint64_t(version) << 32UL)
 {
-
 }
 
-std::uint64_t Entity::Id::getId() const
+std::uint64_t Entity::Id::id() const
 {
     return mId;
 }
@@ -44,12 +43,12 @@ bool Entity::Id::operator<(const Id& other) const
     return mId < other.mId;
 }
 
-std::uint32_t Entity::Id::getIndex() const
+std::uint32_t Entity::Id::index() const
 {
     return mId & 0xffffffffUL;
 }
 
-std::uint32_t Entity::Id::getVersion() const
+std::uint32_t Entity::Id::version() const
 {
     return mId >> 32;
 }
@@ -62,7 +61,7 @@ Entity::Entity(EntityManager* em, Entity::Id id)
 {
 }
 
-Entity::Id Entity::getId() const
+Entity::Id Entity::id() const
 {
     return mId;
 }
@@ -111,4 +110,3 @@ bool Entity::operator<(const Entity& other) const
 {
     return mId < other.mId;
 }
-

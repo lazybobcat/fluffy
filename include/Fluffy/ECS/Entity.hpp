@@ -32,9 +32,9 @@ public:
         Id(std::uint64_t id);
         Id(std::uint32_t index, std::uint32_t version);
 
-        std::uint64_t getId() const;
-        std::uint32_t getIndex() const;
-        std::uint32_t getVersion() const;
+        std::uint64_t id() const;
+        std::uint32_t index() const;
+        std::uint32_t version() const;
 
         bool operator==(const Id& other) const;
         bool operator!=(const Id& other) const;
@@ -55,7 +55,7 @@ public:
     Entity(const Entity& other) = default;
     Entity& operator=(const Entity& other) = default;
 
-    Id getId() const;
+    Id id() const;
 
     bool isValid() const;
     operator bool() const;
@@ -89,10 +89,10 @@ public:
     void remove();
 
     template <typename C>
-    ComponentHandle<C> getComponent();
+    ComponentHandle<C> component();
 
     template <typename... Components>
-    std::tuple<ComponentHandle<Components>...> getComponents();
+    std::tuple<ComponentHandle<Components>...> components();
 
     template <typename C>
     bool hasComponent() const;

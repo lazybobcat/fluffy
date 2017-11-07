@@ -28,9 +28,9 @@ public:
     public:
         Iterator(EntityManager* manager, std::size_t index, ComponentMask mask);
 
-        std::size_t    getIndex() const;
+        std::size_t    index() const;
         bool           isEnd() const;
-        EntityManager* getEntityManager() const;
+        EntityManager* entityManager() const;
         Entity         get() const;
         Entity operator*() const;
         bool operator==(const Iterator& rhs) const;

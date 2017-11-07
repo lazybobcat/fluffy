@@ -36,7 +36,7 @@ public:
      */
     std::size_t size() const;
     std::size_t capacity() const;
-    void reset();
+    void        reset();
 
     bool isValid(Entity::Id id) const;
 
@@ -100,8 +100,8 @@ private:
 }
 
 #include <Fluffy/ECS/ComponentHandle.inl>
+#include <Fluffy/ECS/Entity.inl>
 #include <Fluffy/ECS/EntityManager.inl>
 #include <Fluffy/ECS/View/EntityComponentView.inl>
-#include <Fluffy/ECS/Entity.inl>
 
 #endif //FLUFFY_ENTITYMANAGER_HPP

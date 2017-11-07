@@ -22,7 +22,7 @@ EntityComponentView<Types...>::Iterator::Iterator(EntityManager* manager,
 }
 
 template <typename... Types>
-std::size_t EntityComponentView<Types...>::Iterator::getIndex() const
+std::size_t EntityComponentView<Types...>::Iterator::index() const
 {
     return mIndex;
 }
@@ -34,7 +34,7 @@ bool EntityComponentView<Types...>::Iterator::isEnd() const
 }
 
 template <typename... Types>
-EntityManager* EntityComponentView<Types...>::Iterator::getEntityManager() const
+EntityManager* EntityComponentView<Types...>::Iterator::entityManager() const
 {
     return mEntityManager;
 }
