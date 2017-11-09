@@ -14,7 +14,7 @@ using namespace Fluffy::Utility;
 template <typename C>
 std::size_t EntityManager::componentFamily()
 {
-    return Component<typename std::remove_const<C>::type>::getFamily();
+    return Component<typename std::remove_const<C>::type>::family();
 }
 
 template <typename C, typename... Args>

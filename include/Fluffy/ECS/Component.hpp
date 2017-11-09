@@ -9,7 +9,7 @@
 #ifndef FLUFFY_COMPONENT_HPP
 #define FLUFFY_COMPONENT_HPP
 
-#include "ComponentHandle.hpp"
+#include <Fluffy/ECS/ComponentHandle.hpp>
 #include <cassert>
 #include <memory>
 
@@ -25,6 +25,8 @@ public:
     typedef std::size_t Family;
 
 public:
+    virtual ~BaseComponent() = default;
+
     void operator delete(void* p) { fail(); }
     void operator delete[](void* p) { fail(); }
 
@@ -54,9 +56,9 @@ public:
 private:
     friend class EntityManager;
 
-    static std::size_t getFamily()
+    static Family family()
     {
-        static std::size_t family = mFamilyCounter++;
+        static Family family = mFamilyCounter++;
         assert(family < ECS::MAX_COMPONENTS);
 
         return family;
