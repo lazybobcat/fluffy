@@ -129,7 +129,7 @@ Pool<C>* EntityManager::getComponentPool()
         return pool;
     }
 
-    if (mComponentHelpers.size() < family) {
+    if (mComponentHelpers.size() <= family) {
         mComponentHelpers.resize(family + 1, nullptr);
     }
     if (!mComponentHelpers[family]) {
