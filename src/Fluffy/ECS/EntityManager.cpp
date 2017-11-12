@@ -7,17 +7,10 @@
 //
 
 #include <Fluffy/ECS/EntityManager.hpp>
-#include <Fluffy/ECS/Exception/EntityNotFoundException.hpp>
-#include <Fluffy/Utility/String.hpp>
-#include <Fluffy/definitions.hpp>
 #include <algorithm>
 
 using namespace Fluffy::ECS;
 using namespace Fluffy::Utility;
-
-EntityManager::EntityManager()
-{
-}
 
 EntityManager::~EntityManager()
 {

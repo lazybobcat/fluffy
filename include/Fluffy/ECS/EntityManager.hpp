@@ -28,7 +28,7 @@ public:
     typedef std::bitset<ECS::MAX_COMPONENTS> ComponentMask;
 
 public:
-    EntityManager();
+    EntityManager() = default;
     virtual ~EntityManager();
 
     /**
