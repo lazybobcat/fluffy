@@ -10,11 +10,14 @@
 #define FLUFFY_SYSTEM_HPP
 
 #include <Fluffy/ECS/EntityManager.hpp>
+#include <Fluffy/Event/EventManager.hpp>
 #include <Fluffy/Utility/NonCopyable.hpp>
 #include <cstddef>
 
 namespace Fluffy {
 namespace ECS {
+
+class SystemManager;
 
 /**
  *  Base System - do not use this, inherit from System instead
@@ -27,13 +30,22 @@ public:
 public:
     virtual ~BaseSystem() = default;
 
-    virtual void configure(/**EventManager &eventManager**/);
-    virtual void update(EntityManager& entityManager, /**EventManager &eventManager, **/ float dt) = 0;
+    virtual void configure(EntityManager& entityManager, EventManager& eventManager);
+    virtual void update(EntityManager& entityManager, float dt) = 0;
 
 protected:
     static Family mFamilyCounter;
 };
 
+/**
+ * You should inherit from this class to create your own Systems
+ *
+ * struct RenderingSystem : public BaseSystem<RenderingSystem> {
+ *     void update(EntityManager& entityManager, float dt) {
+ *         // Do stuff
+ *     }
+ * }
+ */
 template <typename Derived>
 class System : public BaseSystem
 {
@@ -41,11 +53,10 @@ public:
     virtual ~System() = default;
 
 private:
-    //    friend class SystemManager;
+    friend class SystemManager;
     static Family family()
     {
         static Family family = mFamilyCounter++;
-        assert(family < ECS::MAX_COMPONENTS);
 
         return family;
     }
