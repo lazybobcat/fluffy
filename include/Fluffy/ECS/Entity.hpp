@@ -9,6 +9,7 @@
 #ifndef FLUFFY_ENTITY_HPP
 #define FLUFFY_ENTITY_HPP
 
+#include <Fluffy/Event/Event.hpp>
 #include <Fluffy/definitions.hpp>
 #include <bitset>
 #include <cstdint>
@@ -100,6 +101,34 @@ public:
 private:
     EntityManager* mManager;
     Entity::Id     mId = INVALID;
+};
+
+/**
+ * Raised after the entity has been added to an EntityManager
+ */
+struct EntityCreatedEvent : public Event::Event<EntityCreatedEvent>
+{
+    explicit EntityCreatedEvent(Entity entity)
+      : entity(entity)
+    {
+    }
+    ~EntityCreatedEvent() = default;
+
+    Entity entity;
+};
+
+/**
+ * Raised before the entity is being destroyed
+ */
+struct EntityDestroyedEvent : public Event::Event<EntityDestroyedEvent>
+{
+    explicit EntityDestroyedEvent(Entity entity)
+      : entity(entity)
+    {
+    }
+    ~EntityDestroyedEvent() = default;
+
+    Entity entity;
 };
 }
 }

@@ -12,6 +12,7 @@
 #include <Fluffy/ECS/Component.hpp>
 #include <Fluffy/ECS/Entity.hpp>
 #include <Fluffy/ECS/View/EntityComponentView.hpp>
+#include <Fluffy/Event/EventManager.hpp>
 #include <Fluffy/Lua/Bindable.hpp>
 #include <Fluffy/Utility/NonCopyable.hpp>
 #include <Fluffy/Utility/Pool.hpp>
@@ -28,7 +29,7 @@ public:
     typedef std::bitset<ECS::MAX_COMPONENTS> ComponentMask;
 
 public:
-    EntityManager() = default;
+    EntityManager(EventManager& eventManager);
     virtual ~EntityManager();
 
     /**
@@ -89,6 +90,7 @@ private:
     template <typename... Types>
     friend class EntityComponentView;
 
+    EventManager&                     mEventManager;
     std::uint32_t                     mIndexCounter = 0;
     std::stack<std::uint32_t>         mFreeIndexes;
     std::vector<std::uint32_t>        mEntityVersion;

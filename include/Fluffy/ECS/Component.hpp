@@ -81,6 +81,40 @@ public:
         entity.remove<C>();
     }
 };
+
+/**
+ * Raised after the component has been added to an entity
+ */
+template <typename C>
+struct ComponentAddedEvent : public Event::Event<ComponentAddedEvent<C>>
+{
+    ComponentAddedEvent(Entity entity, ComponentHandle<C> component)
+      : entity(entity)
+      , component(component)
+    {
+    }
+    ~ComponentAddedEvent() = default;
+
+    Entity             entity;
+    ComponentHandle<C> component;
+};
+
+/**
+ * Raised before the component is removed from an entity
+ */
+template <typename C>
+struct ComponentRemovedEvent : public Event::Event<ComponentRemovedEvent<C>>
+{
+    ComponentRemovedEvent(Entity entity, ComponentHandle<C> component)
+      : entity(entity)
+      , component(component)
+    {
+    }
+    ~ComponentRemovedEvent() = default;
+
+    Entity             entity;
+    ComponentHandle<C> component;
+};
 }
 }
 

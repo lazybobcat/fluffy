@@ -12,6 +12,11 @@
 using namespace Fluffy::ECS;
 using namespace Fluffy::Utility;
 
+EntityManager::EntityManager(EventManager& eventManager)
+  : mEventManager(eventManager)
+{
+}
+
 EntityManager::~EntityManager()
 {
     reset();
@@ -66,7 +71,7 @@ Entity EntityManager::createEntity()
 
     Entity entity(this, Entity::Id(index, version));
 
-    // @todo event
+    mEventManager.emit<EntityCreatedEvent>(EntityCreatedEvent(entity));
 
     return entity;
 }
@@ -85,7 +90,7 @@ void EntityManager::destroyEntity(Entity::Id id)
         }
     }
 
-    // @todo event
+    mEventManager.emit<EntityDestroyedEvent>(EntityDestroyedEvent(Entity(this, id)));
 
     mEntityComponentMask[index].reset();
     mEntityVersion[index]++;

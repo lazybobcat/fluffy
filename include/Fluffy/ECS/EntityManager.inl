@@ -31,7 +31,7 @@ ComponentHandle<C> EntityManager::assign(Entity::Id id, Args&&... args)
     ComponentHandle<C> component(this, id);
     mEntityComponentMask[id.index()].set(family);
 
-    // @todo emit event
+    mEventManager.emit<ComponentAddedEvent<C>>(ComponentAddedEvent<C>(Entity(this, id), component));
 
     return component;
 };
@@ -46,7 +46,7 @@ void EntityManager::remove(Entity::Id id)
     BasePool* pool = mComponentPools[family];
 
     ComponentHandle<C> component(this, id);
-    // @todo emit event component about to be deleted including the ComponentHandle
+    mEventManager.emit<ComponentRemovedEvent<C>>(ComponentRemovedEvent<C>(Entity(this, id), component));
 
     mEntityComponentMask[id.index()].reset(family);
     pool->destroy(id.index());
