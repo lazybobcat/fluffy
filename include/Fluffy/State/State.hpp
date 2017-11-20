@@ -39,10 +39,10 @@ public:
     bool         isPaused() const;
 
 protected:
-    /*template <typename T>
-    void requestStackPush<T>();
+    template <typename T>
+    void requestStackPush();
     void requestStackPop();
-    void requestStackClear();*/
+    void requestStackClear();
 
 protected:
     static Family mFamilyCounter;

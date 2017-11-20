@@ -36,3 +36,17 @@ bool BaseState::isPaused() const
 {
     return mPaused;
 }
+
+void BaseState::requestStackPop()
+{
+    assert(mStateStack);
+
+    mStateStack->pop();
+}
+
+void BaseState::requestStackClear()
+{
+    assert(mStateStack);
+
+    mStateStack->clear();
+}
