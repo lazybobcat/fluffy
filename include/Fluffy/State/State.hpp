@@ -12,28 +12,31 @@
 #include <cstddef>
 #include <memory>
 
-namespace Fluffy
-{
-namespace State
-{
+namespace Fluffy {
+namespace State {
 
 class StateStack;
 
+/**
+ * Internal class, you should use State to create your game states
+ */
 class BaseState
 {
 public:
-    typedef std::size_t Family;
+    typedef std::size_t                Family;
     typedef std::unique_ptr<BaseState> Ptr;
 
+    static const Family INVALID;
+
 public:
-    BaseState(StateStack& stateStack);
+    BaseState()          = default;
     virtual ~BaseState() = default;
 
-    virtual void initialize();
+    virtual void initialize(StateStack* mStateStack);
     virtual void terminate();
-    virtual void pause();
-    virtual void resume();
-    virtual bool isPaused() const;
+    void         pause();
+    void         resume();
+    bool         isPaused() const;
 
 protected:
     /*template <typename T>
@@ -44,8 +47,8 @@ protected:
 protected:
     static Family mFamilyCounter;
 
-    StateStack& mStateStack;
-    bool        mPaused = false;
+    StateStack* mStateStack = nullptr;
+    bool        mPaused     = false;
 };
 
 /**
@@ -57,11 +60,18 @@ template <typename Derived>
 class State : public BaseState
 {
 public:
-    static Family family() {
+    virtual ~State() = default;
+
+    static Family family()
+    {
         static Family family = mFamilyCounter++;
 
         return family;
     }
+};
+
+struct InvalidState : public State<InvalidState>
+{
 };
 }
 }

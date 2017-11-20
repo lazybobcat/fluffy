@@ -10,15 +10,12 @@
 
 using namespace Fluffy::State;
 
-BaseState::Family BaseState::mFamilyCounter = 0;
+BaseState::Family       BaseState::mFamilyCounter = 0;
+const BaseState::Family BaseState::INVALID        = InvalidState::family();
 
-BaseState::BaseState(StateStack &stateStack)
-: mStateStack(stateStack)
+void BaseState::initialize(StateStack* stateStack)
 {
-}
-
-void BaseState::initialize()
-{
+    mStateStack = stateStack;
 }
 
 void BaseState::terminate()
