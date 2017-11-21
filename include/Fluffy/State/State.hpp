@@ -9,6 +9,7 @@
 #ifndef FLUFFY_STATE_HPP
 #define FLUFFY_STATE_HPP
 
+#include <Fluffy/Utility/ServiceContainer.hpp>
 #include <cstddef>
 #include <memory>
 
@@ -18,7 +19,7 @@ namespace State {
 class StateStack;
 
 /**
- * Internal class, you should use State to create your game states
+ * Internal class, you should use State to create your game states.
  */
 class BaseState
 {
@@ -52,6 +53,8 @@ protected:
 };
 
 /**
+ * The class to inherit from to create game states.
+ *
  * struct TitleState : public State<TitleState> {
  *
  * };
@@ -60,6 +63,10 @@ template <typename Derived>
 class State : public BaseState
 {
 public:
+    /**
+     * If you override the constructor, make sure the ServiceContainer is always the first argument.
+     */
+    State(ServiceContainer& serviceContainer);
     virtual ~State() = default;
 
     static Family family()
@@ -68,6 +75,12 @@ public:
 
         return family;
     }
+
+protected:
+    ServiceContainer& serviceContainer() const;
+
+private:
+    ServiceContainer& mServiceContainer;
 };
 
 struct InvalidState : public State<InvalidState>

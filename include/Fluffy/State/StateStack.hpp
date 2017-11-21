@@ -12,6 +12,7 @@
 #include <Fluffy/Event/EventManager.hpp>
 #include <Fluffy/State/State.hpp>
 #include <Fluffy/Utility/NonCopyable.hpp>
+#include <Fluffy/Utility/ServiceContainer.hpp>
 #include <map>
 #include <vector>
 
@@ -29,7 +30,7 @@ public:
     };
 
 public:
-    StateStack(EventManager& eventManager);
+    StateStack(ServiceContainer& serviceContainer);
     ~StateStack();
 
     template <typename T, typename... Args>
@@ -62,7 +63,7 @@ private:
     };
 
 private:
-    EventManager&               mEventManager;
+    ServiceContainer&           mServiceContainer;
     std::vector<BaseState::Ptr> mStack;
     std::vector<PendingChange>  mPendingList;
     std::map<BaseState::Family, std::function<BaseState::Ptr(void)>> mFactories;

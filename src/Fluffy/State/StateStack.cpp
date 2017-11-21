@@ -6,6 +6,7 @@
 // File created by loic on 17/11/17.
 //
 
+#include <Fluffy/Event/EventManager.hpp>
 #include <Fluffy/State/StateStack.hpp>
 
 using namespace Fluffy::State;
@@ -16,15 +17,19 @@ StateStack::PendingChange::PendingChange(Action action, BaseState::Family family
 {
 }
 
-StateStack::StateStack(EventManager& eventManager)
-  : mEventManager(eventManager)
+StateStack::StateStack(ServiceContainer& serviceContainer)
+  : mServiceContainer(serviceContainer)
 {
     // @todo subscribe to AfterTickEvent once created
+    auto eventManager = mServiceContainer.get<EventManager>();
+    //mApplyPendingChangesSlot = eventManager->connect(...);
 }
 
 StateStack::~StateStack()
 {
     // @todo unsubscribe from AfterTickEvent once created
+    auto eventManager = mServiceContainer.get<EventManager>();
+    //    eventManager->disconnect(mApplyPendingChangesSlot);
     clear();
 }
 
