@@ -36,6 +36,8 @@ public:
     };
 
 public:
+    Slot() = default;
+
     void disconnect();
     Id   id();
 
@@ -47,6 +49,7 @@ private:
     Slot(std::function<void(Id)>&& disconnectCallback, Id id);
 
 private:
+    bool                    mInitialized = false;
     std::function<void(Id)> mDisconnectCallback;
     Id                      mId;
 };

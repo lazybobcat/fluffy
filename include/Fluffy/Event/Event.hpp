@@ -10,6 +10,7 @@
 #define FLUFFY_EVENT_HPP
 
 #include <Fluffy/Event/Signal.hpp>
+#include <Fluffy/Utility/Time.hpp>
 
 namespace Fluffy {
 namespace Event {
@@ -23,7 +24,7 @@ public:
     typedef std::size_t Family;
 
 public:
-    BaseEvent() = default;
+    BaseEvent()          = default;
     virtual ~BaseEvent() = default;
 
 protected:
@@ -36,11 +37,41 @@ template <typename Derived>
 class Event : public BaseEvent
 {
 public:
-    static Family family() {
+    static Family family()
+    {
         static Family family = mFamilyCounter++;
 
         return family;
     }
+};
+
+/**********************************************************************************************************************/
+
+/**
+ * Raised first at each loop iteration.
+ */
+struct BeforeGameTickEvent : public Event<BeforeGameTickEvent>
+{
+};
+
+/**
+ * Raised once at the beginning of each main loop iteration.
+ */
+struct GameTickEvent : public Event<GameTickEvent>
+{
+    explicit GameTickEvent(Fluffy::Utility::Time dt = Fluffy::Utility::Time::Zero)
+      : dt(dt)
+    {
+    }
+
+    Fluffy::Utility::Time dt;
+};
+
+/**
+ * Raised at the end of the main loop iteration.
+ */
+struct AfterGameTickEvent : public Event<AfterGameTickEvent>
+{
 };
 }
 }
