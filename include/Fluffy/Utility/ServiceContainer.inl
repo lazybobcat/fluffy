@@ -20,7 +20,7 @@ void ServiceContainer::set(Args... args)
 }
 
 template <typename T>
-T* ServiceContainer::get()
+T* ServiceContainer::get() const
 {
     auto it = mContainer.find(typeId<T>());
     assert(it != mContainer.end());
@@ -29,7 +29,15 @@ T* ServiceContainer::get()
 }
 
 template <typename T>
-int ServiceContainer::typeId()
+bool ServiceContainer::has() const
+{
+    auto it = mContainer.find(typeId<T>());
+
+    return it != mContainer.end();
+}
+
+template <typename T>
+int ServiceContainer::typeId() const
 {
     static int id = ++mLastTypeId;
 

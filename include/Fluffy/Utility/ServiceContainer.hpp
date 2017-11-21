@@ -81,11 +81,14 @@ public:
     void set(Args... args);
 
     template <typename T>
-    T* get();
+    T* get() const;
+
+    template <typename T>
+    bool has() const;
 
 private:
     template <typename T>
-    int typeId();
+    int typeId() const;
 
 private:
     static int mLastTypeId;
