@@ -12,18 +12,6 @@
 using namespace Fluffy::State;
 
 template <typename T>
-State::State(ServiceContainer& serviceContainer)
-  : mServiceContainer(serviceContainer)
-{
-}
-
-template <typename T>
-ServiceContainer& State::serviceContainer() const
-{
-    return mServiceContainer;
-}
-
-template <typename T>
 void BaseState::requestStackPush()
 {
     assert(mStateStack);

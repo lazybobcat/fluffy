@@ -13,9 +13,8 @@ using namespace Fluffy::State;
 BaseState::Family       BaseState::mFamilyCounter = 0;
 const BaseState::Family BaseState::INVALID        = InvalidState::family();
 
-void BaseState::initialize(StateStack* stateStack)
+void BaseState::initialize(ServiceContainer& serviceContainer)
 {
-    mStateStack = stateStack;
 }
 
 void BaseState::terminate()
@@ -35,6 +34,11 @@ void BaseState::resume()
 bool BaseState::isPaused() const
 {
     return mPaused;
+}
+
+void BaseState::setStateStack(StateStack* stateStack)
+{
+    mStateStack = stateStack;
 }
 
 void BaseState::requestStackPop()

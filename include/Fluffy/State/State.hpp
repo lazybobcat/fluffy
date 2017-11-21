@@ -33,13 +33,17 @@ public:
     BaseState()          = default;
     virtual ~BaseState() = default;
 
-    virtual void initialize(StateStack* mStateStack);
+    virtual void initialize(ServiceContainer& serviceContainer);
     virtual void terminate();
     void         pause();
     void         resume();
     bool         isPaused() const;
 
 protected:
+    friend StateStack;
+
+    void setStateStack(StateStack* stateStack);
+
     template <typename T>
     void requestStackPush();
     void requestStackPop();
@@ -63,10 +67,6 @@ template <typename Derived>
 class State : public BaseState
 {
 public:
-    /**
-     * If you override the constructor, make sure the ServiceContainer is always the first argument.
-     */
-    State(ServiceContainer& serviceContainer);
     virtual ~State() = default;
 
     static Family family()
@@ -77,10 +77,7 @@ public:
     }
 
 protected:
-    ServiceContainer& serviceContainer() const;
-
-private:
-    ServiceContainer& mServiceContainer;
+    friend StateStack;
 };
 
 struct InvalidState : public State<InvalidState>

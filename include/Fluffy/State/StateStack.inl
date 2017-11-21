@@ -23,8 +23,9 @@ void StateStack::registerState(Args&&... args)
     const BaseState::Family family = stateFamily<T>();
 
     mFactories[family] = [=]() {
-        auto state = BaseState::Ptr(new State<T>(mServiceContainer, args...));
-        state->initialize(this);
+        auto state = BaseState::Ptr(new State<T>(args...));
+        state->setStateStack(this);
+        state->initialize(mServiceContainer);
 
         return state;
     };
