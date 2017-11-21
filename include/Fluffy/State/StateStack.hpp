@@ -30,7 +30,7 @@ public:
     };
 
 public:
-    StateStack(ServiceContainer& serviceContainer);
+    explicit StateStack(ServiceContainer& serviceContainer);
     ~StateStack();
 
     template <typename T, typename... Args>
@@ -44,13 +44,23 @@ public:
 
     bool isEmpty() const;
 
+    /**
+     * You should NEVER user this method and rely on the triggering of BeforeGameTickEvent and AfterGameTickEvent for
+     * the changes to be applied.
+     *
+     * But if you don't use these events nor Fluffy default loop, you can force the changes to be applied. Be sure to do
+     * this only once the states have finished their updates/iterations to avoid any segfault.
+     */
+    void forcePendingChanges();
+
 private:
     template <typename T>
     static BaseState::Family stateFamily();
 
     BaseState::Ptr createState(BaseState::Family family);
 
-    // @todo subscribe to TickEvent to applyPendingChanges()
+    void onBeforeGameTickEvent(const BeforeGameTickEvent&);
+    void onAfterGameTickEvent(const AfterGameTickEvent&);
     void applyPendingChanges();
 
 private:
@@ -64,6 +74,8 @@ private:
 
 private:
     ServiceContainer&           mServiceContainer;
+    Slot                        mBeforeGameTickSlot;
+    Slot                        mAfterGameTickSlot;
     std::vector<BaseState::Ptr> mStack;
     std::vector<PendingChange>  mPendingList;
     std::map<BaseState::Family, std::function<BaseState::Ptr(void)>> mFactories;

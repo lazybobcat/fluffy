@@ -6,7 +6,6 @@
 // File created by loic on 17/11/17.
 //
 
-#include <Fluffy/Event/EventManager.hpp>
 #include <Fluffy/State/StateStack.hpp>
 
 using namespace Fluffy::State;
@@ -20,17 +19,25 @@ StateStack::PendingChange::PendingChange(Action action, BaseState::Family family
 StateStack::StateStack(ServiceContainer& serviceContainer)
   : mServiceContainer(serviceContainer)
 {
-    // @todo subscribe to AfterTickEvent once created
-    auto eventManager = mServiceContainer.get<EventManager>();
-    //mApplyPendingChangesSlot = eventManager->connect(...);
+    // Subscribe to events that will apply the pending changes
+    if (mServiceContainer.has<EventManager>()) {
+        auto eventManager   = mServiceContainer.get<EventManager>();
+        mBeforeGameTickSlot = eventManager->connect<BeforeGameTickEvent>(std::bind(&StateStack::onBeforeGameTickEvent, this, std::placeholders::_1));
+        mAfterGameTickSlot  = eventManager->connect<AfterGameTickEvent>(std::bind(&StateStack::onAfterGameTickEvent, this, std::placeholders::_1));
+    }
 }
 
 StateStack::~StateStack()
 {
-    // @todo unsubscribe from AfterTickEvent once created
-    auto eventManager = mServiceContainer.get<EventManager>();
-    //    eventManager->disconnect(mApplyPendingChangesSlot);
-    clear();
+    // Unsubscribe from events
+    mBeforeGameTickSlot.disconnect();
+    mAfterGameTickSlot.disconnect();
+
+    // Terminate all states and clear the stack
+    for (BaseState::Ptr& state : mStack) {
+        state->terminate();
+    }
+    mStack.clear();
 }
 
 void StateStack::pop()
@@ -54,6 +61,21 @@ BaseState::Ptr StateStack::createState(BaseState::Family family)
     assert(found != mFactories.end());
 
     return found->second();
+}
+
+void StateStack::onBeforeGameTickEvent(const BeforeGameTickEvent&)
+{
+    applyPendingChanges();
+}
+
+void StateStack::onAfterGameTickEvent(const AfterGameTickEvent&)
+{
+    applyPendingChanges();
+}
+
+void StateStack::forcePendingChanges()
+{
+    applyPendingChanges();
 }
 
 void StateStack::applyPendingChanges()

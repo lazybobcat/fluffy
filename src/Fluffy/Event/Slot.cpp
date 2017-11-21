@@ -40,12 +40,15 @@ bool Slot::Id::operator<(const Id& other) const
 Slot::Slot(std::function<void(Slot::Id)>&& disconnectCallback, Slot::Id id)
   : mDisconnectCallback(disconnectCallback)
   , mId(id)
+  , mInitialized(true)
 {
 }
 
 void Slot::disconnect()
 {
-    mDisconnectCallback(mId);
+    if (mInitialized) {
+        mDisconnectCallback(mId);
+    }
 }
 
 Slot::Id Slot::id()
