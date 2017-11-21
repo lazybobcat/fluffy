@@ -8,13 +8,13 @@
 
 #include <Fluffy/ECS/SystemManager.hpp>
 
-SystemManager::SystemManager(EntityManager &entityManager, EventManager &eventManager)
-    : mEntityManager(entityManager)
-    , mEventManager(eventManager)
+SystemManager::SystemManager(EntityManager& entityManager, EventManager& eventManager)
+  : mEntityManager(entityManager)
+  , mEventManager(eventManager)
 {
 }
 
-void SystemManager::updateAll(float dt)
+void SystemManager::updateAll(Fluffy::Utility::Time dt)
 {
     assert(mConfigured && "You must configure the SystemManager first");
     for (auto& pair : mSystems) {

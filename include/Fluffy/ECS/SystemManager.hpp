@@ -10,6 +10,7 @@
 #define FLUFFY_SYSTEMMANAGER_HPP
 
 #include <Fluffy/ECS/System.hpp>
+#include <Fluffy/Utility/Time.hpp>
 #include <map>
 #include <memory>
 
@@ -44,12 +45,12 @@ public:
      * Update the System passed as template parameter
      */
     template <typename S>
-    void update(float dt);
+    void update(Fluffy::Utility::Time dt);
 
     /**
      * Update all registered Systems
      */
-    void updateAll(float dt);
+    void updateAll(Fluffy::Utility::Time dt);
 
     /**
      * Configure all registered Systems. You must call this after adding all the systems.

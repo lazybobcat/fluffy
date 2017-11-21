@@ -37,7 +37,7 @@ std::shared_ptr<S> SystemManager::system()
 }
 
 template <typename S>
-void SystemManager::update(float dt)
+void SystemManager::update(Fluffy::Utility::Time dt)
 {
     assert(mConfigured && "You must configure the SystemManager first");
     std::shared_ptr<S> s = system<S>();

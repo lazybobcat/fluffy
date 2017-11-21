@@ -12,6 +12,7 @@
 #include <Fluffy/ECS/EntityManager.hpp>
 #include <Fluffy/Event/EventManager.hpp>
 #include <Fluffy/Utility/NonCopyable.hpp>
+#include <Fluffy/Utility/Time.hpp>
 #include <cstddef>
 
 namespace Fluffy {
@@ -22,7 +23,7 @@ class SystemManager;
 /**
  *  Base System - do not use this, inherit from System instead
  */
-struct BaseSystem : Utility::NonCopyable
+struct BaseSystem : Fluffy::Utility::NonCopyable
 {
 public:
     typedef std::size_t Family;
@@ -31,7 +32,7 @@ public:
     virtual ~BaseSystem() = default;
 
     virtual void configure(EntityManager& entityManager, EventManager& eventManager);
-    virtual void update(EntityManager& entityManager, float dt) = 0;
+    virtual void update(EntityManager& entityManager, Fluffy::Utility::Time dt) = 0;
 
 protected:
     static Family mFamilyCounter;
