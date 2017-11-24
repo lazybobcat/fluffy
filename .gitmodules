@@ -1,5 +1,5 @@
-[submodule "extlibs/chaiscript"]
-	path = extlibs/chaiscript
+[submodule "extlibs/ChaiScript"]
+	path = extlibs/ChaiScript
 	url = https://github.com/ChaiScript/ChaiScript
 [submodule "extlibs/bandit"]
 	path = extlibs/bandit
