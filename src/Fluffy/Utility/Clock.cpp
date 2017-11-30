@@ -21,3 +21,13 @@ Time Clock::elapsedTime() const
 
     return microseconds(std::chrono::duration_cast<std::chrono::microseconds>(now - mStartPoint));
 }
+
+Time Clock::restart()
+{
+    auto now         = std::chrono::steady_clock::now();
+    auto start_point = mStartPoint;
+
+    mStartPoint = std::chrono::steady_clock::now();
+
+    return microseconds(std::chrono::duration_cast<std::chrono::microseconds>(now - mStartPoint));
+}

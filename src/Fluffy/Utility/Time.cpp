@@ -10,6 +10,8 @@
 
 using namespace Fluffy::Utility;
 
+const Time Time::Zero = 0;
+
 Time::Time(std::int64_t microseconds)
   : mMicroseconds(microseconds)
 {
