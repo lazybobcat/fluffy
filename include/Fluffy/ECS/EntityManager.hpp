@@ -13,7 +13,6 @@
 #include <Fluffy/ECS/Entity.hpp>
 #include <Fluffy/ECS/View/EntityComponentView.hpp>
 #include <Fluffy/Event/EventManager.hpp>
-#include <Fluffy/Lua/Bindable.hpp>
 #include <Fluffy/Utility/NonCopyable.hpp>
 #include <Fluffy/Utility/Pool.hpp>
 #include <stack>

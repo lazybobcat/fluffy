@@ -1,6 +1,6 @@
-[submodule "extlibs/selene"]
-	path = extlibs/selene
-	url = https://github.com/jeremyong/Selene.git
+[submodule "extlibs/ChaiScript"]
+	path = extlibs/ChaiScript
+	url = https://github.com/ChaiScript/ChaiScript
 [submodule "extlibs/bandit"]
 	path = extlibs/bandit
 	url = https://github.com/banditcpp/bandit.git

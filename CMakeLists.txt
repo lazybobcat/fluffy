@@ -4,7 +4,7 @@ project(fluffy)
 set(CMAKE_BUILD_TYPE Debug)
 
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/selene/include ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/jsoncpp ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/bandit)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/ChaiScript/include ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/jsoncpp ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/bandit)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -fPIC")
 
@@ -14,8 +14,8 @@ set(TEST_SOURCE_FILES src/Fluffy/Test/tests.cpp src/Fluffy/Test/Utility/StringTe
 # Building libfluffy
 add_library(fluffy SHARED ${SOURCE_FILES})
 install(TARGETS fluffy DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/build)
-target_link_libraries(fluffy ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/lua/liblua.a dl)
+target_link_libraries(fluffy dl pthread)
 
 # Building unittests
 add_executable(unittests ${SOURCE_FILES} ${TEST_SOURCE_FILES})
-target_link_libraries(unittests ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/lua/liblua.a dl)
+target_link_libraries(unittests dl pthread)
