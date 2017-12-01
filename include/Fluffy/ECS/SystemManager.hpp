@@ -10,6 +10,7 @@
 #define FLUFFY_SYSTEMMANAGER_HPP
 
 #include <Fluffy/ECS/System.hpp>
+#include <Fluffy/Utility/ServiceContainer.hpp>
 #include <Fluffy/Utility/Time.hpp>
 #include <map>
 #include <memory>
@@ -21,6 +22,7 @@ class SystemManager : public Fluffy::Utility::NonCopyable
 {
 public:
     SystemManager(EntityManager& entityManager, EventManager& eventManager);
+    SystemManager(EntityManager* entityManager, EventManager* eventManager);
 
     /**
      * Add a before-handed initialized System to the manager. You should prefer to let Fluffy manager the system for you

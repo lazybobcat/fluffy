@@ -29,6 +29,7 @@ public:
 
 public:
     EntityManager(EventManager& eventManager);
+    EntityManager(EventManager* eventManager);
     virtual ~EntityManager();
 
     /**

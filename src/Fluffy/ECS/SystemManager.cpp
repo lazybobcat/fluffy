@@ -14,6 +14,12 @@ SystemManager::SystemManager(EntityManager& entityManager, EventManager& eventMa
 {
 }
 
+SystemManager::SystemManager(EntityManager* entityManager, EventManager* eventManager)
+        : mEntityManager(*entityManager)
+        , mEventManager(*eventManager)
+{
+}
+
 void SystemManager::updateAll(Fluffy::Utility::Time dt)
 {
     assert(mConfigured && "You must configure the SystemManager first");

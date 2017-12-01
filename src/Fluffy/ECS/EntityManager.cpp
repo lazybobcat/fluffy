@@ -17,6 +17,12 @@ EntityManager::EntityManager(EventManager& eventManager)
 {
 }
 
+EntityManager::EntityManager(EventManager* eventManager)
+        : mEventManager(*eventManager)
+{
+}
+
+
 EntityManager::~EntityManager()
 {
     reset();
