@@ -86,9 +86,6 @@ EntityComponentView<Types...>::EntityComponentView(const Iterator& first, const 
   : mFirst(first)
   , mLast(last)
 {
-    if (!mFirst.get().isValid()) {
-        ++mFirst;
-    }
 }
 
 template <typename... Types>
