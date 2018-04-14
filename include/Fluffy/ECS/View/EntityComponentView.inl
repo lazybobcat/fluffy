@@ -71,12 +71,17 @@ bool EntityComponentView<Types...>::Iterator::operator!=(const Iterator& rhs) co
 template <typename... Types>
 typename EntityComponentView<Types...>::Iterator& EntityComponentView<Types...>::Iterator::operator++()
 {
-    ++mIndex;
-    while (mIndex < mEntityManager->size() && (mEntityManager->mEntityComponentMask[mIndex] & mMask) != mMask) {
+    do {
         ++mIndex;
-    }
+    } while (!isEnd() && !test(mIndex));
 
     return *this;
+}
+
+template <typename... Types>
+bool EntityComponentView<Types...>::Iterator::test(std::size_t index) const
+{
+    return (mEntityManager->mEntityComponentMask[index] & mMask) == mMask;
 }
 
 /**********************************************************************************************************************/
@@ -86,7 +91,7 @@ EntityComponentView<Types...>::EntityComponentView(const Iterator& first, const 
   : mFirst(first)
   , mLast(last)
 {
-    if (!mFirst.get().isValid()) {
+    if (!mFirst.test(mFirst.mIndex)) {
         ++mFirst;
     }
 }
