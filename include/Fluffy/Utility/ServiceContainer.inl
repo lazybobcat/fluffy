@@ -20,6 +20,14 @@ void ServiceContainer::set(Args... args)
 }
 
 template <typename T>
+void ServiceContainer::give(T* service)
+{
+    auto                                  instance = std::unique_ptr<T>(service);
+    std::unique_ptr<InstanceContainer<T>> cservice = std::make_unique<InstanceContainer<T>>(std::move(instance));
+    mContainer[typeId<T>()]                        = std::move(cservice);
+}
+
+template <typename T>
 T* ServiceContainer::get() const
 {
     auto it = mContainer.find(typeId<T>());

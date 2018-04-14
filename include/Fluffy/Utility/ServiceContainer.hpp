@@ -81,6 +81,9 @@ public:
     void set(Args... args);
 
     template <typename T>
+    void give(T* service);
+
+    template <typename T>
     T* get() const;
 
     template <typename T>
