@@ -28,8 +28,9 @@ public:
     public:
         Iterator(EntityManager* manager, std::size_t index, ComponentMask mask);
 
-        std::size_t    index() const;
-        bool           isEnd() const;
+        std::size_t index() const;
+        bool        isEnd() const;
+        bool test(std::size_t index) const;
         EntityManager* entityManager() const;
         Entity         get() const;
         Entity operator*() const;
@@ -38,6 +39,8 @@ public:
         Iterator& operator++();
 
     private:
+        friend class EntityComponentView;
+
         EntityManager* mEntityManager;
         std::size_t    mIndex;
         ComponentMask  mMask;
