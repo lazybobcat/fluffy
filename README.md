@@ -2,7 +2,7 @@ Fluffy is still a work in progress.
 
 # Fluffy
 
-Fluffy is a video game basic framework. Its objective is not to be the better and the fastest out there, but simply to
+Fluffy is a 2D video game basic framework. Its objective is not to be the better and the fastest out there, but simply to
 help prototyping games.
 
 Fluffy  will offer a bunch of utility tools, a service container, time and clock, an ECS, game states, an event system, 
@@ -18,13 +18,13 @@ SFML.
 ## Fluffy needs
 
 * A compiler that supports C++14 at least
-* (for now) Lua 5.3.3 (the lib is included but you still need the include files)
+* SFML 2.x
 
 ## Fluffy uses
 
 * [Bandit/Bandit](https://github.com/banditcpp/) For unit testing
 * [open-source-parsers/jsoncpp](https://github.com/open-source-parsers/jsoncpp) For serialization stuff and loading data
-* [jeremyong/Selene](https://github.com/jeremyong/Selene) Lua to C++ binding
+* [sfml/sfml](https://github.com/sfml/sfml) SFML for graphic/math helpers and multimedia
 
 ## How to compile
 
