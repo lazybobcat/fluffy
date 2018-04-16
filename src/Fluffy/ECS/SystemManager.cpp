@@ -15,8 +15,8 @@ SystemManager::SystemManager(EntityManager& entityManager, EventManager& eventMa
 }
 
 SystemManager::SystemManager(EntityManager* entityManager, EventManager* eventManager)
-        : mEntityManager(*entityManager)
-        , mEventManager(*eventManager)
+  : mEntityManager(*entityManager)
+  , mEventManager(*eventManager)
 {
 }
 

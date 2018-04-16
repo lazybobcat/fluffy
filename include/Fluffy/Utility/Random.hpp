@@ -11,10 +11,8 @@
 
 #include <random>
 
-namespace Fluffy
-{
-namespace Utility
-{
+namespace Fluffy {
+namespace Utility {
 
 /**
  * Generate a random number of type T between 'min' and 'max' included
@@ -24,7 +22,6 @@ namespace Utility
  */
 template <typename T>
 T rand(T min, T max);
-
 }
 }
 

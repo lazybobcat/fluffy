@@ -18,10 +18,9 @@ EntityManager::EntityManager(EventManager& eventManager)
 }
 
 EntityManager::EntityManager(EventManager* eventManager)
-        : mEventManager(*eventManager)
+  : mEventManager(*eventManager)
 {
 }
-
 
 EntityManager::~EntityManager()
 {
