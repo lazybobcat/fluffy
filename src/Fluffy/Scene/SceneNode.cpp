@@ -32,7 +32,7 @@ SceneNode::Ptr SceneNode::detach(const SceneNode& child)
     return result;
 }
 
-sf::Transform SceneNode::getWorldTransform() const
+sf::Transform SceneNode::worldTransform() const
 {
     sf::Transform transform = sf::Transform::Identity;
 
@@ -43,12 +43,12 @@ sf::Transform SceneNode::getWorldTransform() const
     return transform;
 }
 
-sf::Vector2f SceneNode::getWorldPosition() const
+sf::Vector2f SceneNode::worldPosition() const
 {
-    return getWorldTransform() * sf::Vector2f();
+    return worldTransform() * sf::Vector2f();
 }
 
-sf::FloatRect SceneNode::getBoundingRect() const
+sf::FloatRect SceneNode::boundingRect() const
 {
     return sf::FloatRect();
 }

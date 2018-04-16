@@ -27,9 +27,9 @@ public:
     void attach(Ptr child);
     Ptr detach(const SceneNode& child);
 
-    sf::Transform         getWorldTransform() const;
-    sf::Vector2f          getWorldPosition() const;
-    virtual sf::FloatRect getBoundingRect() const;
+    sf::Transform         worldTransform() const;
+    sf::Vector2f          worldPosition() const;
+    virtual sf::FloatRect boundingRect() const;
 
 private:
     std::vector<Ptr> mChildren;
