@@ -12,7 +12,7 @@
 #include <json/json.h>
 
 namespace Fluffy {
-namespace Utils {
+namespace Utility {
 
 class Serializable
 {

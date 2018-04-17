@@ -16,7 +16,7 @@
 namespace Fluffy {
 namespace Scene {
 
-class SceneNode : public sf::Transformable, public Fluffy::Utils::Serializable
+class SceneNode : public sf::Transformable, public Fluffy::Utility::Serializable
 {
 public:
     typedef std::unique_ptr<SceneNode> Ptr;
