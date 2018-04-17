@@ -17,7 +17,7 @@ namespace Utility {
 class Serializable
 {
 public:
-    virtual ~Serializable() = default;
+    virtual ~Serializable()                     = default;
     virtual void serialize(Json::Value& to)     = 0;
     virtual void deserialize(Json::Value& from) = 0;
 };

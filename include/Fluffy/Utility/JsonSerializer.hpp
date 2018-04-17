@@ -14,14 +14,14 @@
 namespace Fluffy {
 namespace Utility {
 
-    class JsonSerializer
-    {
-    public:
-        static bool serializeToString(Fluffy::Utility::Serializable &input, std::string &output);
-        static bool serializeFromString(std::string &input, Fluffy::Utility::Serializable &output);
-        static bool serializeToFile(Fluffy::Utility::Serializable &input, std::string &filepath);
-        static bool serializeFromFile(std::string &filepath, Fluffy::Utility::Serializable &output);
-    };
+class JsonSerializer
+{
+public:
+    static bool serializeToString(Fluffy::Utility::Serializable& input, std::string& output);
+    static bool deserializeFromString(std::string& input, Fluffy::Utility::Serializable& output);
+    static bool serializeToFile(Fluffy::Utility::Serializable& input, std::string& filepath);
+    static bool deserializeFromFile(std::string& filepath, Fluffy::Utility::Serializable& output);
+};
 }
 }
 
