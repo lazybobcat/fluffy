@@ -14,5 +14,6 @@ script:
   - gcc -v
   - export CC=gcc-7
   - export CXX=g++-7
-  - cmake --target fluffy .
+  - cmake --target unittests .
   - make -j 4
+  - ./unittests

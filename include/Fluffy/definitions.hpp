@@ -21,10 +21,16 @@
 #define FLUFFY_LOG_FILE "logs.html"
 
 // Debug configurations
-#define FLUFFY_DEBUG_COMPACT_JSON true
+#ifndef FLUFFY_ENV
+    #define FLUFFY_ENV "release"
+#endif
+#if FLUFFY_ENV == test
+    #define FLUFFY_DEBUG_COMPACT_JSON true
+#else
+    #define FLUFFY_DEBUG_COMPACT_JSON false
+#endif
 
 // ECS configurations
-#define FLUFFY_ECS_FIRST_ID 1
 #define FLUFFY_ECS_MAX_COMPONENTS 64;
 
 #endif //FLUFFY_DEFINITIONS_HPP

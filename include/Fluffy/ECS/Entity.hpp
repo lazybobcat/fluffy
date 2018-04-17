@@ -18,7 +18,7 @@
 namespace Fluffy {
 namespace ECS {
 
-constexpr std::size_t MAX_COMPONENTS = 64;
+constexpr std::size_t MAX_COMPONENTS = FLUFFY_ECS_MAX_COMPONENTS;
 
 class EntityManager;
 template <typename C>
