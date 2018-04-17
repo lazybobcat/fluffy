@@ -33,7 +33,7 @@ public:
 
 private:
     std::vector<Ptr> mChildren;
-    SceneNode*       mParent;
+    SceneNode*       mParent = nullptr;
 };
 }
 }
