@@ -52,3 +52,13 @@ sf::FloatRect SceneNode::boundingRect() const
 {
     return sf::FloatRect();
 }
+
+void SceneNode::serialize(Json::Value& to)
+{
+    // nothing to do here, override this method in child classes
+}
+
+void SceneNode::deserialize(Json::Value& from)
+{
+    // nothing to do here, override this method in child classes
+}

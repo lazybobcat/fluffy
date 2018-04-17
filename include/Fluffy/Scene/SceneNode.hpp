@@ -9,13 +9,14 @@
 #ifndef FLUFFY_SCENENODE_HPP
 #define FLUFFY_SCENENODE_HPP
 
+#include <Fluffy/Utility/Serializable.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <memory>
 
 namespace Fluffy {
 namespace Scene {
 
-class SceneNode : public sf::Transformable
+class SceneNode : public sf::Transformable, public Fluffy::Utils::Serializable
 {
 public:
     typedef std::unique_ptr<SceneNode> Ptr;
@@ -30,6 +31,9 @@ public:
     sf::Transform         worldTransform() const;
     sf::Vector2f          worldPosition() const;
     virtual sf::FloatRect boundingRect() const;
+
+    void serialize(Json::Value& to) override;
+    void deserialize(Json::Value& from) override;
 
 private:
     std::vector<Ptr> mChildren;
