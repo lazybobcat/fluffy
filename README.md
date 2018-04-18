@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Lo-X/fluffy.svg?branch=develop)](https://travis-ci.org/Lo-X/fluffy)
+[![Build Status](https://travis-ci.org/Lo-X/fluffy.svg?branch=master)](https://travis-ci.org/Lo-X/fluffy)
 
 Fluffy is still a work in progress.
 
