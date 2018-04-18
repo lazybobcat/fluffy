@@ -9,6 +9,9 @@
 #ifndef FLUFFY_STRING_HPP
 #define FLUFFY_STRING_HPP
 
+#define STRING(x) XSTR(x)
+#define XSTR(s) #s
+
 #include <sstream>
 #include <string>
 

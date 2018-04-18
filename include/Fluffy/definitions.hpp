@@ -21,10 +21,14 @@
 #define FLUFFY_LOG_FILE "logs.html"
 
 // Debug configurations
+#define FLUFFY_ENV_TEST test
+#define FLUFFY_ENV_RELEASE release
 #ifndef FLUFFY_ENV
-    #define FLUFFY_ENV "release"
+    #define FLUFFY_ENV FLUFFY_ENV_RELEASE
 #endif
-#if FLUFFY_ENV == test
+
+// Json
+#if FLUFFY_ENV == FLUFFY_ENV_TEST
     #define FLUFFY_DEBUG_COMPACT_JSON true
 #else
     #define FLUFFY_DEBUG_COMPACT_JSON false

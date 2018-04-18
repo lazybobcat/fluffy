@@ -28,6 +28,8 @@ public:
     void attach(Ptr child);
     Ptr detach(const SceneNode& child);
 
+    std::vector<SceneNode*> children() const;
+
     sf::Transform         worldTransform() const;
     sf::Vector2f          worldPosition() const;
     virtual sf::FloatRect boundingRect() const;

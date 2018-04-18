@@ -7,6 +7,7 @@
 //
 
 #include <Fluffy/Scene/Scene.hpp>
+#include <Fluffy/Utility/JsonSerializer.hpp>
 
 using namespace Fluffy::Scene;
 
@@ -18,4 +19,33 @@ Scene::Scene(SceneNode::Ptr root)
 SceneNode& Scene::root() const
 {
     return *mRootNode.get();
+}
+
+bool Scene::saveToFile(std::string &&filepath)
+{
+    return Fluffy::Utility::JsonSerializer::serializeToFile(*this, filepath);
+}
+
+void Scene::serializeSceneNode(SceneNode &node, Json::Value &json)
+{
+    node.serialize(json);
+
+    for (auto child : node.children()) {
+        Json::Value childJson;
+        serializeSceneNode(*child, childJson);
+        json["children"].append(childJson);
+    }
+}
+
+void Scene::serialize(Json::Value &to)
+{
+    Json::Value root;
+    serializeSceneNode(*mRootNode, root);
+
+    to["root"] = root;
+}
+
+void Scene::deserialize(Json::Value &from)
+{
+    throw std::runtime_error("Scene::deserialize is not available yet");
 }

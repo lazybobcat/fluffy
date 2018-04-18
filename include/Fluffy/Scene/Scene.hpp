@@ -14,12 +14,20 @@
 namespace Fluffy {
 namespace Scene {
 
-class Scene
+class Scene : public Fluffy::Utility::Serializable
 {
 public:
     explicit Scene(SceneNode::Ptr root);
 
     SceneNode& root() const;
+
+    bool saveToFile(std::string&& filepath);
+
+    void serialize(Json::Value &to) override;
+    void deserialize(Json::Value &from) override;
+
+private:
+    void serializeSceneNode(SceneNode& node, Json::Value& json);
 
 private:
     SceneNode::Ptr mRootNode;

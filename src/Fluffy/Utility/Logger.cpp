@@ -9,6 +9,7 @@
 #include <Fluffy/Utility/Logger.hpp>
 #include <Fluffy/definitions.hpp>
 #include <ctime>
+#include <Fluffy/Utility/String.hpp>
 
 using namespace Fluffy::Utility;
 
@@ -61,7 +62,7 @@ Logger::Logger(unsigned int output)
     logToFile("<html lang=\"fr-FR\">");
     logToFile("<head>");
     logToFile("\t<meta charset=\"utf-8\">");
-    logToFile("\t<title>Game Logs - " + currentDateTime() + "</title>");
+    logToFile(printString("\t<title>Fluffy Logs - %1 (%2) - %3</title>", {FLUFFY_VERSION, STRING(FLUFFY_ENV), currentDateTime()}));
     logToFile("\t<style>body{font-size:15px;color:#000;background-color:#fff;} text,info,warning,error{display:block;} info{color:#3376FF;font-style:italic;} warning{color:#FF6A00;} error{color:#f00;font-weight:bold;}</style>");
     logToFile("</head>");
     logToFile("<body>");

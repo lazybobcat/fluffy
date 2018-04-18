@@ -62,3 +62,14 @@ void SceneNode::deserialize(Json::Value& from)
 {
     // nothing to do here, override this method in child classes
 }
+
+std::vector<SceneNode *> SceneNode::children() const
+{
+    auto results = std::vector<SceneNode *>();
+
+    for (auto& child : mChildren) {
+        results.push_back(child.get());
+    }
+
+    return results;
+}
