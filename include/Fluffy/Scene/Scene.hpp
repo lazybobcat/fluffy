@@ -19,12 +19,13 @@ class Scene : public Fluffy::Utility::Serializable
 public:
     explicit Scene(SceneNode::Ptr root);
 
-    SceneNode& root() const;
+    SceneNode* root() const;
+    SceneNode* find(std::string&& path) const;
 
     bool saveToFile(std::string&& filepath);
 
-    void serialize(Json::Value &to) override;
-    void deserialize(Json::Value &from) override;
+    void serialize(Json::Value& to) override;
+    void deserialize(Json::Value& from) override;
 
 private:
     void serializeSceneNode(SceneNode& node, Json::Value& json);

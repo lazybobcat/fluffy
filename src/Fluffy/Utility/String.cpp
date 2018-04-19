@@ -7,6 +7,7 @@
 //
 
 #include <Fluffy/Utility/String.hpp>
+#include <vector>
 
 void Fluffy::Utility::replaceAll(std::string& base, std::string& pattern, std::string& replacement)
 {
@@ -32,4 +33,16 @@ std::string Fluffy::Utility::printString(const std::string& base, std::initializ
     }
 
     return output;
+}
+
+std::vector<std::string> Fluffy::Utility::split(const std::string& base, char c)
+{
+    std::vector<std::string> strings;
+    std::istringstream       f(base);
+    std::string              s;
+    while (std::getline(f, s, c)) {
+        strings.push_back(s);
+    }
+
+    return strings;
 }

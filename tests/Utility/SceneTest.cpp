@@ -15,35 +15,43 @@
 using namespace bandit;
 using namespace snowhouse;
 
+struct RootNode : public Fluffy::Scene::SceneNode
+{
+    SCENE_NODE(RootNode)
+
+    RootNode(std::string&& name) : Fluffy::Scene::SceneNode(std::move(name)) {}
+};
+
 struct TestNode : public Fluffy::Scene::SceneNode
 {
-    TestNode(std::string&& name) : name(name) {}
+    SCENE_NODE(TestNode)
 
-    std::string name;
-    std::string data = "value";
+    TestNode(std::string&& name) : Fluffy::Scene::SceneNode(std::move(name)) {}
 
-    void serialize(Json::Value &to) override {
-        to["name"] = name;
-        to["data"] = data;
+    std::string attack = "High Kick";
+    int damage = 6;
+
+    void serializeData(Json::Value &to) override {
+        to["attack"] = attack;
+        to["damage"] = damage;
     }
 
-    void deserialize(Json::Value &from) override {
-        name = from["name"].asString();
-        data = from["data"].asString();
+    void deserializeData(Json::Value &from) override {
+        attack = from["attack"].asString();
+        damage = from["damage"].asInt();
     }
 };
 
 go_bandit([](){
     describe("Scene", [&](){
-
         describe("serialize", [&]() {
             it("should serialize the root node", [&]() {
-                Fluffy::Scene::SceneNode::Ptr root(new TestNode("/root"));
+                Fluffy::Scene::SceneNode::Ptr root(new RootNode("root"));
                 Fluffy::Scene::Scene scene(std::move(root));
 
                 Json::Value sceneJson;
                 std::string result;
-                std::string expected = "{\"root\":{\"data\":\"value\",\"name\":\"/root\"}}\n";
+                std::string expected = "{\"root\":{\"data\":null,\"name\":\"root\",\"path\":\"/root\",\"type\":\"RootNode\"}}\n";
 
                 Fluffy::Utility::JsonSerializer::serializeToString(scene, result);
 
@@ -51,11 +59,11 @@ go_bandit([](){
             });
 
             it("should serialize the node tree", [&]() {
-                Fluffy::Scene::SceneNode::Ptr root(new TestNode("/root"));
-                Fluffy::Scene::SceneNode::Ptr child1(new TestNode("/root/child1"));
-                Fluffy::Scene::SceneNode::Ptr child2(new TestNode("/root/child2"));
-                Fluffy::Scene::SceneNode::Ptr child21(new TestNode("/root/child21"));
-                Fluffy::Scene::SceneNode::Ptr child22(new TestNode("/root/child22"));
+                Fluffy::Scene::SceneNode::Ptr root(new RootNode("root"));
+                Fluffy::Scene::SceneNode::Ptr child1(new TestNode("child1"));
+                Fluffy::Scene::SceneNode::Ptr child2(new TestNode("child2"));
+                Fluffy::Scene::SceneNode::Ptr child21(new TestNode("child21"));
+                Fluffy::Scene::SceneNode::Ptr child22(new TestNode("child22"));
                 child2->attach(std::move(child21));
                 child2->attach(std::move(child22));
                 root->attach(std::move(child1));
@@ -64,7 +72,7 @@ go_bandit([](){
 
                 Json::Value sceneJson;
                 std::string result;
-                std::string expected = "{\"root\":{\"children\":[{\"data\":\"value\",\"name\":\"/root/child1\"},{\"children\":[{\"data\":\"value\",\"name\":\"/root/child21\"},{\"data\":\"value\",\"name\":\"/root/child22\"}],\"data\":\"value\",\"name\":\"/root/child2\"}],\"data\":\"value\",\"name\":\"/root\"}}\n";
+                std::string expected = "{\"root\":{\"children\":[{\"data\":{\"attack\":\"High Kick\",\"damage\":6},\"name\":\"child1\",\"path\":\"/root/child1\",\"type\":\"TestNode\"},{\"children\":[{\"data\":{\"attack\":\"High Kick\",\"damage\":6},\"name\":\"child21\",\"path\":\"/root/child2/child21\",\"type\":\"TestNode\"},{\"data\":{\"attack\":\"High Kick\",\"damage\":6},\"name\":\"child22\",\"path\":\"/root/child2/child22\",\"type\":\"TestNode\"}],\"data\":{\"attack\":\"High Kick\",\"damage\":6},\"name\":\"child2\",\"path\":\"/root/child2\",\"type\":\"TestNode\"}],\"data\":null,\"name\":\"root\",\"path\":\"/root\",\"type\":\"RootNode\"}}\n";
 
                 Fluffy::Utility::JsonSerializer::serializeToString(scene, result);
 
@@ -74,11 +82,11 @@ go_bandit([](){
 
         describe("saveToFile", [&]() {
             it("should serialize and save the node tree in a file", [&]() {
-                Fluffy::Scene::SceneNode::Ptr root(new TestNode("/root"));
-                Fluffy::Scene::SceneNode::Ptr child1(new TestNode("/root/child1"));
-                Fluffy::Scene::SceneNode::Ptr child2(new TestNode("/root/child2"));
-                Fluffy::Scene::SceneNode::Ptr child21(new TestNode("/root/child21"));
-                Fluffy::Scene::SceneNode::Ptr child22(new TestNode("/root/child22"));
+                Fluffy::Scene::SceneNode::Ptr root(new RootNode("root"));
+                Fluffy::Scene::SceneNode::Ptr child1(new TestNode("child1"));
+                Fluffy::Scene::SceneNode::Ptr child2(new TestNode("child2"));
+                Fluffy::Scene::SceneNode::Ptr child21(new TestNode("child21"));
+                Fluffy::Scene::SceneNode::Ptr child22(new TestNode("child22"));
                 child2->attach(std::move(child21));
                 child2->attach(std::move(child22));
                 root->attach(std::move(child1));
@@ -93,12 +101,58 @@ go_bandit([](){
                 AssertThat(file.is_open(), Equals(true));
 
                 std::string content;
-                std::string expected = "{\"root\":{\"children\":[{\"data\":\"value\",\"name\":\"/root/child1\"},{\"children\":[{\"data\":\"value\",\"name\":\"/root/child21\"},{\"data\":\"value\",\"name\":\"/root/child22\"}],\"data\":\"value\",\"name\":\"/root/child2\"}],\"data\":\"value\",\"name\":\"/root\"}}\n";
+                std::string expected = "{\"root\":{\"children\":[{\"data\":{\"attack\":\"High Kick\",\"damage\":6},\"name\":\"child1\",\"path\":\"/root/child1\",\"type\":\"TestNode\"},{\"children\":[{\"data\":{\"attack\":\"High Kick\",\"damage\":6},\"name\":\"child21\",\"path\":\"/root/child2/child21\",\"type\":\"TestNode\"},{\"data\":{\"attack\":\"High Kick\",\"damage\":6},\"name\":\"child22\",\"path\":\"/root/child2/child22\",\"type\":\"TestNode\"}],\"data\":{\"attack\":\"High Kick\",\"damage\":6},\"name\":\"child2\",\"path\":\"/root/child2\",\"type\":\"TestNode\"}],\"data\":null,\"name\":\"root\",\"path\":\"/root\",\"type\":\"RootNode\"}}\n";
                 content.assign(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
                 file.close();
 
                 AssertThat(content, Equals(expected));
             });
+        });
+
+        it("should find nodes by paths", [&]() {
+            Fluffy::Scene::SceneNode::Ptr root(new RootNode("root"));
+            Fluffy::Scene::SceneNode::Ptr child1(new TestNode("child1"));
+            Fluffy::Scene::SceneNode::Ptr child2(new TestNode("child2"));
+            Fluffy::Scene::SceneNode::Ptr child3(new TestNode("child3"));
+            child2->attach(std::move(child3));
+            root->attach(std::move(child1));
+            root->attach(std::move(child2));
+
+            Fluffy::Scene::Scene scene(std::move(root));
+
+            AssertThat(scene.find("/root"), Is().Not().EqualTo(nullptr));
+            AssertThat(scene.find("/root/child1"), Is().Not().EqualTo(nullptr));
+            AssertThat(scene.find("/root/child2"), Is().Not().EqualTo(nullptr));
+            AssertThat(scene.find("/root/child2/child3"), Is().Not().EqualTo(nullptr));
+            AssertThat(scene.find("/root/child2/childX"), IsNull());
+        });
+    });
+
+    describe("SceneNode", [&]() {
+        it("should throw exception when attaching two nodes with the same name", [&]() {
+            Fluffy::Scene::SceneNode::Ptr root(new RootNode("root"));
+            Fluffy::Scene::SceneNode::Ptr child1(new TestNode("child1"));
+            Fluffy::Scene::SceneNode::Ptr child2(new TestNode("child1"));
+            root->attach(std::move(child1));
+
+            AssertThrows(std::logic_error, root->attach(std::move(child2)));
+        });
+
+        it("should compute the correct paths", [&]() {
+            Fluffy::Scene::SceneNode::Ptr root(new RootNode("root"));
+            Fluffy::Scene::SceneNode::Ptr child1(new TestNode("child1"));
+            Fluffy::Scene::SceneNode::Ptr child2(new TestNode("child2"));
+            Fluffy::Scene::SceneNode::Ptr child3(new TestNode("child3"));
+            child2->attach(std::move(child3));
+            root->attach(std::move(child1));
+            root->attach(std::move(child2));
+
+            Fluffy::Scene::Scene scene(std::move(root));
+
+            AssertThat(scene.find("/root")->path(), Equals("/root"));
+            AssertThat(scene.find("/root/child1")->path(), Equals("/root/child1"));
+            AssertThat(scene.find("/root/child2")->path(), Equals("/root/child2"));
+            AssertThat(scene.find("/root/child2/child3")->path(), Equals("/root/child2/child3"));
         });
     });
 });
