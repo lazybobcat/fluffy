@@ -12,6 +12,8 @@
 #include <Fluffy/Asset/AssetHolder.hpp>
 #include <Fluffy/Utility/NonCopyable.hpp>
 #include <SFML/Audio/Sound.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Audio/Listener.hpp>
 #include <list>
 #include <string>
 
@@ -22,7 +24,7 @@ template <typename Identifier>
 class SoundPlayer : public Fluffy::Utility::NonCopyable
 {
 public:
-    typedef AssetHolder<sf::Sound, Identifier> SoundHolder;
+    typedef AssetHolder<sf::SoundBuffer, Identifier> SoundHolder;
     static constexpr float ListenerZ     = 300.f;
     static constexpr float Attenuation   = 8.f;
     static constexpr float MinDistance2D = 200.f;
@@ -44,6 +46,9 @@ private:
     SoundHolder          mSoundBuffers;
     std::list<sf::Sound> mSounds;
 };
+
+#include <Fluffy/Asset/SoundPlayer.inl>
+
 }
 }
 
