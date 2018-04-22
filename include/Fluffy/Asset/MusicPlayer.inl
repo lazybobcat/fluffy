@@ -12,13 +12,44 @@
 using namespace Fluffy::Asset;
 
 template <typename Identifier>
+MusicPlayer<Identifier>::MusicPlayer()
+        : mMusic()
+        , mVolume(100.f)
+        , mLibrary()
+{
+}
+
+template <typename Identifier>
+void MusicPlayer<Identifier>::stop()
+{
+    mMusic.stop();
+}
+
+template <typename Identifier>
+void MusicPlayer<Identifier>::pause(bool flag)
+{
+    if (flag) {
+        mMusic.pause();
+    } else {
+        mMusic.play();
+    }
+}
+
+template <typename Identifier>
+void MusicPlayer<Identifier>::setVolume(float volume)
+{
+    mVolume = volume;
+    mMusic.setVolume(mVolume);
+}
+
+template <typename Identifier>
 void MusicPlayer<Identifier>::load(Identifier song, const std::string &file)
 {
     mLibrary[song] = file;
 }
 
 template <typename Identifier>
-void MusicPlayer<Identifier>::play(Identifier song, bool loop = true)
+void MusicPlayer<Identifier>::play(Identifier song, bool loop)
 {
     auto found = mLibrary.find(song);
     assert(found != mLibrary.end());

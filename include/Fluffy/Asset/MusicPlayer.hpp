@@ -35,6 +35,8 @@ private:
     float     mVolume;
     std::map<Identifier, std::string> mLibrary;
 };
+
+#include <Fluffy/Asset/MusicPlayer.inl>
 }
 }
 
