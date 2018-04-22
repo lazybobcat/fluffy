@@ -68,7 +68,7 @@ Entity::Id Entity::id() const
 
 bool Entity::isValid() const
 {
-    return mManager && mManager->isValid(mId);
+    return mId != Entity::INVALID && mManager && mManager->isValid(mId);
 }
 
 void Entity::invalidate()
