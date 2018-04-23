@@ -14,11 +14,19 @@ using namespace Fluffy::Utility;
 
 EntityManager::EntityManager(EventManager& eventManager)
   : mEventManager(eventManager)
+, mEntityVersion()
+, mComponentPools()
+, mEntityComponentMask()
+, mComponentHelpers()
 {
 }
 
 EntityManager::EntityManager(EventManager* eventManager)
   : mEventManager(*eventManager)
+        , mEntityVersion()
+        , mComponentPools()
+        , mEntityComponentMask()
+        , mComponentHelpers()
 {
 }
 
@@ -113,13 +121,16 @@ void EntityManager::prepareForEntity(std::uint32_t index)
 {
     if (mEntityComponentMask.size() <= index) {
         mEntityComponentMask.resize(index + 1);
-        mEntityVersion.resize(index + 1);
 
         for (auto* pool : mComponentPools) {
             if (pool) {
                 pool->expand(index + 1);
             }
         }
+    }
+
+    if (mEntityVersion.size() <= index) {
+        mEntityVersion.resize(index + 1);
     }
 }
 
