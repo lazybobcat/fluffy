@@ -9,8 +9,12 @@
 #ifndef FLUFFY_STRING_HPP
 #define FLUFFY_STRING_HPP
 
+#define STRING(x) XSTR(x)
+#define XSTR(s) #s
+
 #include <sstream>
 #include <string>
+#include <vector>
 
 namespace Fluffy {
 namespace Utility {
@@ -34,6 +38,15 @@ void replaceAll(std::string& base, std::string& pattern, std::string& replacemen
  * @return std::string
  */
 std::string printString(const std::string& base, std::initializer_list<std::string> args);
+
+/**
+ * Split the string on the given char
+ * Usage: split("/root/child", '/')
+ * @param std::string base
+ * @param char c
+ * @return std::vector<std::string>
+ */
+std::vector<std::string> split(const std::string& base, char c);
 }
 }
 
