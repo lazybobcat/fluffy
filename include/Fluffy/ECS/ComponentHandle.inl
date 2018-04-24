@@ -59,7 +59,7 @@ Entity ComponentHandle<C>::getEntity()
 {
     assert(isValid());
 
-    mManager->getEntity(mId);
+    return mManager->getEntity(mId);
 }
 
 template <typename C>
