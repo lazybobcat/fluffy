@@ -38,8 +38,8 @@ bool Slot::Id::operator<(const Id& other) const
 /**********************************************************************************************************************/
 
 Slot::Slot(std::function<void(Slot::Id)>&& disconnectCallback, Slot::Id id)
-  : mDisconnectCallback(disconnectCallback)
-  , mId(id)
+  : mId(id)
+  , mDisconnectCallback(disconnectCallback)
   , mInitialized(true)
 {
 }

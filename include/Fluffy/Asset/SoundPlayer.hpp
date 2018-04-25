@@ -11,9 +11,9 @@
 
 #include <Fluffy/Asset/AssetHolder.hpp>
 #include <Fluffy/Utility/NonCopyable.hpp>
+#include <SFML/Audio/Listener.hpp>
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
-#include <SFML/Audio/Listener.hpp>
 #include <list>
 #include <string>
 
@@ -48,7 +48,6 @@ private:
 };
 
 #include <Fluffy/Asset/SoundPlayer.inl>
-
 }
 }
 

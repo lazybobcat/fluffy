@@ -63,7 +63,7 @@ go_bandit([](){
 
                 AssertThat(object.question, Equals(std::string("What is the number of days in a year?")));
                 AssertThat(object.answer, Equals(365));
-                AssertThat(object.proposal.size(), Equals(4));
+                AssertThat(object.proposal.size(), Equals(static_cast<unsigned int>(4)));
                 AssertThat(object.proposal[0], Equals(10));
                 AssertThat(object.proposal[1], Equals(20));
                 AssertThat(object.proposal[2], Equals(30));
@@ -79,7 +79,7 @@ go_bandit([](){
 
                 AssertThat(object.question, Equals(std::string("What is the answer to the ultimate question of life, the universe and everything?")));
                 AssertThat(object.answer, Equals(42));
-                AssertThat(object.proposal.size(), Equals(4));
+                AssertThat(object.proposal.size(), Equals(static_cast<unsigned int>(4)));
                 AssertThat(object.proposal[0], Equals(0));
                 AssertThat(object.proposal[1], Equals(1));
                 AssertThat(object.proposal[2], Equals(42));
@@ -128,7 +128,7 @@ go_bandit([](){
 
                 AssertThat(object.question, Equals(std::string("What is the number of days in a year?")));
                 AssertThat(object.answer, Equals(365));
-                AssertThat(object.proposal.size(), Equals(4));
+                AssertThat(object.proposal.size(), Equals(static_cast<unsigned int>(4)));
                 AssertThat(object.proposal[0], Equals(10));
                 AssertThat(object.proposal[1], Equals(20));
                 AssertThat(object.proposal[2], Equals(30));

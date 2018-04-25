@@ -14,19 +14,19 @@ using namespace Fluffy::Utility;
 
 EntityManager::EntityManager(EventManager& eventManager)
   : mEventManager(eventManager)
-, mEntityVersion()
-, mComponentPools()
-, mEntityComponentMask()
-, mComponentHelpers()
+  , mEntityVersion()
+  , mComponentPools()
+  , mEntityComponentMask()
+  , mComponentHelpers()
 {
 }
 
 EntityManager::EntityManager(EventManager* eventManager)
   : mEventManager(*eventManager)
-        , mEntityVersion()
-        , mComponentPools()
-        , mEntityComponentMask()
-        , mComponentHelpers()
+  , mEntityVersion()
+  , mComponentPools()
+  , mEntityComponentMask()
+  , mComponentHelpers()
 {
 }
 

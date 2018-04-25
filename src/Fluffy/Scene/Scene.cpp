@@ -31,7 +31,7 @@ SceneNode* Scene::find(std::string&& path) const
 
     auto node_names = split(path.substr(1), '/');
     auto node       = mRootNode.get();
-    for (auto i = 1; i < node_names.size(); ++i) {
+    for (unsigned int i = 1; i < node_names.size(); ++i) {
         auto child = node->findChildWithName(node_names[i]);
 
         if (nullptr == child) {

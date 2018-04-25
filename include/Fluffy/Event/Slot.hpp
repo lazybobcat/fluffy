@@ -49,9 +49,9 @@ private:
     Slot(std::function<void(Id)>&& disconnectCallback, Id id);
 
 private:
-    bool                    mInitialized = false;
-    std::function<void(Id)> mDisconnectCallback;
     Id                      mId;
+    std::function<void(Id)> mDisconnectCallback;
+    bool                    mInitialized = false;
 };
 }
 }

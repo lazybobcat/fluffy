@@ -113,6 +113,8 @@ std::string Logger::formatAsHtml(LogType type, const std::string& message)
         case LogType::Error:
             return "<error>" + message + "</error>";
     }
+
+    return message;
 }
 
 std::string Logger::formatAsText(LogType type, const std::string& message)
@@ -130,6 +132,8 @@ std::string Logger::formatAsText(LogType type, const std::string& message)
         case LogType::Error:
             return "<error> " + message;
     }
+
+    return message;
 }
 
 void Logger::logToFile(const std::string& message, const std::string& datetime)
