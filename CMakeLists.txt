@@ -10,6 +10,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -fPIC")
 
 set(SOURCE_FILES include/Fluffy/definitions.hpp
         extlibs/jsoncpp/jsoncpp.cpp
+        include/Fluffy/Utility/NonCopyable.hpp
         include/Fluffy/Utility/Pool.hpp include/Fluffy/Utility/Pool.inl src/Fluffy/Utility/Pool.cpp
         include/Fluffy/Utility/String.hpp src/Fluffy/Utility/String.cpp
         include/Fluffy/Utility/Logger.hpp src/Fluffy/Utility/Logger.cpp
