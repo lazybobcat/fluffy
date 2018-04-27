@@ -41,7 +41,7 @@ set(SOURCE_FILES include/Fluffy/definitions.hpp
         include/Fluffy/Asset/AssetHolder.hpp include/Fluffy/Asset/AssetHolder.inl
         include/Fluffy/Asset/MusicPlayer.hpp include/Fluffy/Asset/MusicPlayer.inl src/Fluffy/Asset/MusicPlayer.cpp
         include/Fluffy/Asset/SoundPlayer.hpp include/Fluffy/Asset/SoundPlayer.inl src/Fluffy/Asset/SoundPlayer.cpp)
-set(TEST_SOURCE_FILES tests/tests.cpp tests/Utility/StringTest.cpp tests/Utility/SerializationTest.cpp tests/Utility/SceneTest.cpp)
+set(TEST_SOURCE_FILES tests/tests.cpp tests/Utility/StringTest.cpp tests/Utility/SerializationTest.cpp tests/Utility/SceneTest.cpp tests/Utility/ECSTest.cpp)
 
 # Building libfluffy
 add_library(fluffy SHARED ${SOURCE_FILES})
