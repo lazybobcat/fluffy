@@ -38,6 +38,12 @@ public:
     std::shared_ptr<S> add(Args... args);
 
     /**
+     * Terminate and remove a System from the manager
+     */
+    template <typename S>
+    void remove();
+
+    /**
      * Return the System passed as template parameter
      */
     template <typename S>
@@ -57,7 +63,12 @@ public:
     /**
      * Configure all registered Systems. You must call this after adding all the systems.
      */
-    void configure();
+    void initialize();
+
+    /**
+     * Terminate all registered Systems.
+     */
+    void terminate();
 
 private:
     bool           mConfigured = false;

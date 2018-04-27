@@ -27,6 +27,17 @@ std::shared_ptr<S> SystemManager::add(Args... args)
     return system;
 }
 
+template<typename S>
+void SystemManager::remove()
+{
+    auto it = mSystems.find(S::family());
+    assert(it != mSystems.end());
+
+    it->second->terminate();
+    mSystems.erase(it);
+}
+
+
 template <typename S>
 std::shared_ptr<S> SystemManager::system()
 {

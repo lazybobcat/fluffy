@@ -28,11 +28,20 @@ void SystemManager::updateAll(Fluffy::Utility::Time dt)
     }
 }
 
-void SystemManager::configure()
+void SystemManager::initialize()
 {
     for (auto& pair : mSystems) {
-        pair.second->configure(mEntityManager, mEventManager);
+        pair.second->initialize(mEntityManager, mEventManager);
     }
 
     mConfigured = true;
+}
+
+void SystemManager::terminate()
+{
+    for (auto& pair : mSystems) {
+        pair.second->terminate(mEntityManager, mEventManager);
+    }
+
+    mConfigured = false;
 }

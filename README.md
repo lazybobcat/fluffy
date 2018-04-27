@@ -100,7 +100,7 @@ System are responsible for the update ad handling of the dat stored in Component
 class MovementSystem : public System<MovementSystem>
 {
 public:
-    virtual void configure(EntityManager& entityManager, EventManager& eventManager) override {
+    virtual void initialize(EntityManager& entityManager, EventManager& eventManager) override {
         // ...
     }
  
@@ -118,7 +118,7 @@ public:
     SystemManager systemManager(em, eventManager);
  
     auto movementSystem = systemManager.add<MovementSystem>();
-    systemManager.configure();
+    systemManager.initialize();
     
     while (/** Game Loop or something **/) {
         systemManager.updateAll(seconds(1 / 60.f));

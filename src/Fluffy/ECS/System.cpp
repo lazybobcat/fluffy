@@ -12,6 +12,10 @@ using namespace Fluffy::ECS;
 
 BaseSystem::Family BaseSystem::mFamilyCounter = 0;
 
-void BaseSystem::configure(EntityManager& entityManager, EventManager& eventManager)
+void BaseSystem::initialize(EntityManager& entityManager, EventManager& eventManager)
+{
+}
+
+void BaseSystem::terminate(EntityManager& entityManager, EventManager& eventManager)
 {
 }

@@ -31,7 +31,8 @@ public:
 public:
     virtual ~BaseSystem() = default;
 
-    virtual void configure(EntityManager& entityManager, EventManager& eventManager);
+    virtual void initialize(EntityManager& entityManager, EventManager& eventManager);
+    virtual void terminate(EntityManager& entityManager, EventManager& eventManager);
     virtual void update(EntityManager& entityManager, Fluffy::Utility::Time dt) = 0;
 
 protected:
