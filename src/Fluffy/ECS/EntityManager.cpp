@@ -55,9 +55,11 @@ void EntityManager::reset()
     for (auto pool : mComponentPools) {
         delete pool;
     }
+    mComponentPools.clear();
     for (auto helper : mComponentHelpers) {
         delete helper;
     }
+    mComponentHelpers.clear();
 
     mIndexCounter = 0;
 }

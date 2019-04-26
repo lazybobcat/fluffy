@@ -49,8 +49,11 @@ public:
 public:
     EntityComponentView(const Iterator& first, const Iterator& last);
 
-    Iterator begin();
-    Iterator end();
+    Iterator begin() const;
+    Iterator end() const;
+
+    // Avoid using this as it will iterate through the collection, for debugging purpose only
+    std::size_t size() const;
 
 private:
     Iterator mFirst;

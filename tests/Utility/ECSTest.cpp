@@ -97,7 +97,61 @@ go_bandit([](){
             // @todo test component data persistence
         });
 
+        describe("EntityComponentView", [&]() {
+            before_each([&]() {
+                entityManager.reset();
+            });
+
+            it("should contain Component holding Entities", [&]() {
+                {
+                    auto view = entityManager.each<Position>();
+                    AssertThat(view.size(), Equals(static_cast<unsigned int>(0)));
+                }
+
+                Entity entity1 = entityManager.createEntity();
+                entity1.assign<Position>();
+
+                {
+                    auto view = entityManager.each<Position>();
+                    AssertThat(view.size(), Equals(static_cast<unsigned int>(1)));
+                }
+
+                Entity entity2 = entityManager.createEntity();
+                entity2.assign<Position>();
+
+                {
+                    auto view = entityManager.each<Position>();
+                    AssertThat(view.size(), Equals(static_cast<unsigned int>(2)));
+                }
+            });
+
+            it("should allow iteration", [&]() {
+                Entity entity1 = entityManager.createEntity();
+                entity1.assign<Position>();
+
+                Entity entity2 = entityManager.createEntity();
+                entity2.assign<Position>();
+
+                std::size_t count = 0;
+                for (auto entity : entityManager.each<Position>()) {
+                    if (entity.isValid()) {}
+                    ++count;
+                }
+
+                AssertThat(count, Equals(static_cast<unsigned int>(2)));
+            });
+
+            it("should not allow iteration when empty", [&]() {
+                std::size_t count = 0;
+                for (auto entity : entityManager.each<Position>()) {
+                    if (entity.isValid()) {}
+                    ++count;
+                }
+
+                AssertThat(count, Equals(static_cast<unsigned int>(0)));
+            });
+        });
+
         // @todo test systems
-        // @todo test entity views
     });
 });

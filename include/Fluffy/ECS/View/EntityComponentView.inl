@@ -91,19 +91,30 @@ EntityComponentView<Types...>::EntityComponentView(const Iterator& first, const 
   : mFirst(first)
   , mLast(last)
 {
-    if (!mFirst.test(mFirst.mIndex)) {
+    if (mFirst != mLast && !mFirst.test(mFirst.mIndex)) {
         ++mFirst;
     }
 }
 
 template <typename... Types>
-typename EntityComponentView<Types...>::Iterator EntityComponentView<Types...>::begin()
+typename EntityComponentView<Types...>::Iterator EntityComponentView<Types...>::begin() const
 {
     return mFirst;
 }
 
 template <typename... Types>
-typename EntityComponentView<Types...>::Iterator EntityComponentView<Types...>::end()
+typename EntityComponentView<Types...>::Iterator EntityComponentView<Types...>::end() const
 {
     return mLast;
+}
+
+template <typename... Types>
+std::size_t EntityComponentView<Types...>::size() const {
+    std::size_t s = 0;
+
+    for (auto it = begin(); it != end(); ++it) {
+        ++s;
+    }
+
+    return s;
 }
