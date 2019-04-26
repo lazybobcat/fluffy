@@ -13,6 +13,11 @@ using namespace Fluffy::ECS;
 
 const Entity::Id Entity::INVALID = Entity::Id();
 
+Entity::Id::Id(const Id &other)
+{
+    mId = other.mId;
+}
+
 Entity::Id::Id(std::uint64_t id)
   : mId(id)
 {

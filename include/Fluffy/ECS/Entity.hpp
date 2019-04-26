@@ -30,6 +30,7 @@ public:
     struct Id
     {
         Id() = default;
+        Id(const Id& other);
         Id(std::uint64_t id);
         Id(std::uint32_t index, std::uint32_t version);
 
