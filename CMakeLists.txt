@@ -30,7 +30,7 @@ set(SOURCE_FILES include/Fluffy/definitions.hpp
         include/Fluffy/ECS/SystemManager.hpp include/Fluffy/ECS/SystemManager.inl src/Fluffy/ECS/SystemManager.cpp
         include/Fluffy/Utility/Clock.hpp src/Fluffy/Utility/Clock.cpp
         include/Fluffy/Utility/Time.hpp src/Fluffy/Utility/Time.cpp
-        include/Fluffy/Utility/Random.hpp src/Fluffy/Utility/Random.cpp
+        include/Fluffy/Utility/Random.hpp include/Fluffy/Utility/Random.inl src/Fluffy/Utility/Random.cpp
         include/Fluffy/State/State.hpp src/Fluffy/State/State.cpp include/Fluffy/State/State.inl
         include/Fluffy/State/StateStack.hpp src/Fluffy/State/StateStack.cpp include/Fluffy/State/StateStack.inl
         include/Fluffy/Utility/ServiceContainer.hpp include/Fluffy/Utility/ServiceContainer.inl src/Fluffy/Utility/ServiceContainer.cpp

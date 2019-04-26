@@ -25,4 +25,6 @@ T rand(T min, T max);
 }
 }
 
+#include <Fluffy/Utility/Random.inl>
+
 #endif //FLUFFY_RANDOM_HPP
