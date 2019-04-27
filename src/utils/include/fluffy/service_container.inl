@@ -6,12 +6,12 @@
 // File created by lo-x on 21/11/17.
 //
 
-#include <fluffy/service_container.hpp>
 #include <cassert>
+#include <fluffy/service_container.hpp>
 
 using namespace Fluffly;
 
-template <typename T, typename... Deps, typename... Args>
+template<typename T, typename... Deps, typename... Args>
 void ServiceContainer::set(Args... args)
 {
     auto                                  instance = std::make_unique<T>(get<typename std::remove_const<Deps>::type>()..., args...);
@@ -19,7 +19,7 @@ void ServiceContainer::set(Args... args)
     mContainer[typeId<T>()]                        = std::move(service);
 }
 
-template <typename T>
+template<typename T>
 void ServiceContainer::give(T* service)
 {
     auto                                  instance = std::unique_ptr<T>(service);
@@ -27,7 +27,7 @@ void ServiceContainer::give(T* service)
     mContainer[typeId<T>()]                        = std::move(cservice);
 }
 
-template <typename T>
+template<typename T>
 T* ServiceContainer::get() const
 {
     auto it = mContainer.find(typeId<T>());
@@ -36,7 +36,7 @@ T* ServiceContainer::get() const
     return static_cast<T*>(it->second->get());
 }
 
-template <typename T>
+template<typename T>
 bool ServiceContainer::has() const
 {
     auto it = mContainer.find(typeId<T>());
@@ -44,7 +44,7 @@ bool ServiceContainer::has() const
     return it != mContainer.end();
 }
 
-template <typename T>
+template<typename T>
 int ServiceContainer::typeId() const
 {
     static int id = ++mLastTypeId;

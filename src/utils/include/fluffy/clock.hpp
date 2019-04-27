@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include <fluffy/time.hpp>
 #include <chrono>
+#include <fluffy/time.hpp>
 
 namespace Fluffy {
 

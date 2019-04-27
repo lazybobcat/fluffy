@@ -10,13 +10,13 @@
 
 using namespace Fluffy;
 
-template <typename T>
+template<typename T>
 std::size_t Pool<T>::size() const
 {
     return mBlocks.size();
 }
 
-template <typename T>
+template<typename T>
 void* Pool<T>::get(std::uint32_t n)
 {
     assert(n < size());
@@ -25,20 +25,20 @@ void* Pool<T>::get(std::uint32_t n)
     return &mBlocks[n];
 }
 
-template <typename T>
+template<typename T>
 void Pool<T>::set(std::uint32_t n, T&& object)
 {
     assert(n < size());
     mBlocks[n] = std::move(object);
 }
 
-template <typename T>
+template<typename T>
 void Pool<T>::expand(std::uint32_t n)
 {
     mBlocks.resize(n);
 }
 
-template <typename T>
+template<typename T>
 void Pool<T>::destroy(std::uint32_t n)
 {
     assert(n < size());

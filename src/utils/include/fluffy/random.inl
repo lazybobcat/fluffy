@@ -11,18 +11,18 @@
 using namespace Fluffy;
 
 namespace {
-    std::random_device random_device;
-    std::seed_seq      seed({ random_device(), random_device(), random_device(), random_device(), random_device() });
-    std::mt19937       random_engine(seed);
+std::random_device random_device;
+std::seed_seq      seed({ random_device(), random_device(), random_device(), random_device(), random_device() });
+std::mt19937       random_engine(seed);
 }
 
-template <typename T>
+template<typename T>
 T Fluffy::rand(T min, T max)
 {
     using distribution_type = typename std::conditional<
-            std::is_integral<T>::value,
-            std::uniform_int_distribution<T>,
-            std::uniform_real_distribution<T>>::type;
+      std::is_integral<T>::value,
+      std::uniform_int_distribution<T>,
+      std::uniform_real_distribution<T>>::type;
     auto dist = distribution_type(min, max);
 
     return dist(random_engine);

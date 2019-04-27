@@ -18,7 +18,7 @@ namespace Fluffy {
  * int r = Fluffy::Utility::rand<int>(1, 100);
  * float r = Fluffy::Utility::rand<float>(1.f, 2.f);
  */
-template <typename T>
+template<typename T>
 T rand(T min, T max);
 }
 

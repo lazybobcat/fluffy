@@ -6,10 +6,10 @@
 // File created by lo-x on 27/12/15.
 //
 
+#include <ctime>
+#include <fluffy/definitions.hpp>
 #include <fluffy/logger.hpp>
 #include <fluffy/string.hpp>
-#include <fluffy/definitions.hpp>
-#include <ctime>
 
 using namespace Fluffy;
 

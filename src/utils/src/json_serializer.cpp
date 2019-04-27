@@ -6,10 +6,10 @@
 // File created by loic on 17/04/18.
 //
 
+#include <fluffy/definitions.hpp>
 #include <fluffy/json_serializer.hpp>
 #include <fluffy/logger.hpp>
 #include <fluffy/string.hpp>
-#include <fluffy/definitions.hpp>
 #include <fstream>
 
 using namespace Fluffy;

@@ -45,7 +45,7 @@ private:
 /**
  * Internal
  */
-template <class T>
+template<class T>
 class InstanceContainer : public AbstractInstanceContainer
 {
 public:
@@ -74,24 +74,24 @@ private:
 class ServiceContainer
 {
 public:
-    template <typename T, typename... Deps, typename... Args>
+    template<typename T, typename... Deps, typename... Args>
     void set(Args... args);
 
-    template <typename T>
+    template<typename T>
     void give(T* service);
 
-    template <typename T>
+    template<typename T>
     T* get() const;
 
-    template <typename T>
+    template<typename T>
     bool has() const;
 
 private:
-    template <typename T>
+    template<typename T>
     int typeId() const;
 
 private:
-    static int mLastTypeId;
+    static int                                                mLastTypeId;
     std::map<int, std::unique_ptr<AbstractInstanceContainer>> mContainer;
 };
 }

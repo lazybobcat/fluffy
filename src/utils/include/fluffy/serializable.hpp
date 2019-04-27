@@ -20,4 +20,3 @@ public:
     virtual void deserialize(Json::Value& from) = 0;
 };
 }
-

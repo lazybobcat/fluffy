@@ -36,8 +36,8 @@ public:
     ~Logger();
 
     static Logger* getInstance(unsigned int output = File | StdOut);
-    static void deleteInstance();
-    void setOutput(unsigned int output);
+    static void    deleteInstance();
+    void           setOutput(unsigned int output);
 
     static void log(LogType type, const std::string& message);
 
@@ -46,9 +46,9 @@ private:
 
     std::string formatAsHtml(LogType type, const std::string& message);
     std::string formatAsText(LogType type, const std::string& message);
-    void logToFile(const std::string& message, const std::string& datetime = "");
-    void logToStdOut(const std::string& message, const std::string& datetime = "");
-    void logToConsole(const std::string& message, const std::string& datetime = "");
+    void        logToFile(const std::string& message, const std::string& datetime = "");
+    void        logToStdOut(const std::string& message, const std::string& datetime = "");
+    void        logToConsole(const std::string& message, const std::string& datetime = "");
 
 private:
     static Logger* mInstance;

@@ -17,7 +17,7 @@
 
 namespace Fluffy {
 
-template <typename T>
+template<typename T>
 std::string toString(const T& value)
 {
     std::stringstream stream;

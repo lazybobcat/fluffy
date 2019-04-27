@@ -20,9 +20,9 @@
 
 // Json
 #if FLUFFY_ENV == FLUFFY_ENV_TEST
-    #define FLUFFY_DEBUG_COMPACT_JSON true
+#define FLUFFY_DEBUG_COMPACT_JSON true
 #else
-    #define FLUFFY_DEBUG_COMPACT_JSON false
+#define FLUFFY_DEBUG_COMPACT_JSON false
 #endif
 
 // ECS configurations
