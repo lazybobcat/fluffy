@@ -8,13 +8,15 @@
 
 #pragma once
 
-#include <fluffy/clock.hpp>
 #include <fluffy/definitions.hpp>
-#include <fluffy/json_serializer.hpp>
-#include <fluffy/logger.hpp>
-#include <fluffy/pool.hpp>
-#include <fluffy/random.hpp>
-#include <fluffy/serializable.hpp>
-#include <fluffy/service_container.hpp>
-#include <fluffy/string.hpp>
-#include <fluffy/time.hpp>
+#include <fluffy/math/random.hpp>
+#include <fluffy/serialization/json_serializer.hpp>
+#include <fluffy/serialization/serializable.hpp>
+#include <fluffy/service/service_container.hpp>
+#include <fluffy/signal/signal.hpp>
+#include <fluffy/signal/slot.hpp>
+#include <fluffy/text/string.hpp>
+#include <fluffy/time/clock.hpp>
+#include <fluffy/time/time.hpp>
+#include <fluffy/utils/logger.hpp>
+#include <fluffy/utils/pool.hpp>

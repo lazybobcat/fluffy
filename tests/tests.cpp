@@ -7,7 +7,7 @@
 //
 
 #include <bandit/bandit.h>
-#include <fluffy/logger.hpp>
+#include <fluffy/utils/logger.hpp>
 
 using namespace bandit;
 
