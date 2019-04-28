@@ -6,12 +6,12 @@
 // File created by loic on 21/05/17.
 //
 
-#include <Fluffy/ECS/EntityManager.hpp>
-#include <Fluffy/ECS/View/EntityComponentView.hpp>
+#include <fluffy/entity_manager.hpp>
+#include <fluffy/view/entity_component_view.hpp>
 
-using namespace Fluffy::ECS;
+using namespace Fluffy;
 
-template <typename... Types>
+template<typename... Types>
 EntityComponentView<Types...>::Iterator::Iterator(EntityManager* manager,
                                                   std::size_t    index,
                                                   ComponentMask  mask)
@@ -21,25 +21,25 @@ EntityComponentView<Types...>::Iterator::Iterator(EntityManager* manager,
 {
 }
 
-template <typename... Types>
+template<typename... Types>
 std::size_t EntityComponentView<Types...>::Iterator::index() const
 {
     return mIndex;
 }
 
-template <typename... Types>
+template<typename... Types>
 bool EntityComponentView<Types...>::Iterator::isEnd() const
 {
     return mIndex >= mEntityManager->size();
 }
 
-template <typename... Types>
+template<typename... Types>
 EntityManager* EntityComponentView<Types...>::Iterator::entityManager() const
 {
     return mEntityManager;
 }
 
-template <typename... Types>
+template<typename... Types>
 Entity EntityComponentView<Types...>::Iterator::get() const
 {
     if (isEnd()) {
@@ -49,26 +49,26 @@ Entity EntityComponentView<Types...>::Iterator::get() const
     return mEntityManager->getEntity(mEntityManager->createEntityId(mIndex));
 }
 
-template <typename... Types>
+template<typename... Types>
 Entity EntityComponentView<Types...>::Iterator::operator*() const
 {
     return get();
 }
 
-template <typename... Types>
+template<typename... Types>
 bool EntityComponentView<Types...>::Iterator::operator==(const Iterator& rhs) const
 {
     return mEntityManager == rhs.mEntityManager && mMask == rhs.mMask &&
            mIndex == rhs.mIndex;
 }
 
-template <typename... Types>
+template<typename... Types>
 bool EntityComponentView<Types...>::Iterator::operator!=(const Iterator& rhs) const
 {
     return !(*this == rhs);
 }
 
-template <typename... Types>
+template<typename... Types>
 typename EntityComponentView<Types...>::Iterator& EntityComponentView<Types...>::Iterator::operator++()
 {
     do {
@@ -78,7 +78,7 @@ typename EntityComponentView<Types...>::Iterator& EntityComponentView<Types...>:
     return *this;
 }
 
-template <typename... Types>
+template<typename... Types>
 bool EntityComponentView<Types...>::Iterator::test(std::size_t index) const
 {
     return (mEntityManager->mEntityComponentMask[index] & mMask) == mMask;
@@ -86,7 +86,7 @@ bool EntityComponentView<Types...>::Iterator::test(std::size_t index) const
 
 /**********************************************************************************************************************/
 
-template <typename... Types>
+template<typename... Types>
 EntityComponentView<Types...>::EntityComponentView(const Iterator& first, const Iterator& last)
   : mFirst(first)
   , mLast(last)
@@ -96,20 +96,21 @@ EntityComponentView<Types...>::EntityComponentView(const Iterator& first, const 
     }
 }
 
-template <typename... Types>
+template<typename... Types>
 typename EntityComponentView<Types...>::Iterator EntityComponentView<Types...>::begin() const
 {
     return mFirst;
 }
 
-template <typename... Types>
+template<typename... Types>
 typename EntityComponentView<Types...>::Iterator EntityComponentView<Types...>::end() const
 {
     return mLast;
 }
 
-template <typename... Types>
-std::size_t EntityComponentView<Types...>::size() const {
+template<typename... Types>
+std::size_t EntityComponentView<Types...>::size() const
+{
     std::size_t s = 0;
 
     for (auto it = begin(); it != end(); ++it) {

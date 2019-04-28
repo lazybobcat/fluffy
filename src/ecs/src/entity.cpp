@@ -6,14 +6,14 @@
 // File created by lo-x on 27/12/15.
 //
 
-#include <Fluffy/ECS/Entity.hpp>
-#include <Fluffy/ECS/EntityManager.hpp>
+#include <fluffy/entity.hpp>
+#include <fluffy/entity_manager.hpp>
 
-using namespace Fluffy::ECS;
+using namespace Fluffy;
 
 const Entity::Id Entity::INVALID = Entity::Id();
 
-Entity::Id::Id(const Id &other)
+Entity::Id::Id(const Id& other)
 {
     mId = other.mId;
 }

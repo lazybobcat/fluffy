@@ -4,8 +4,8 @@ set(SOURCE_FILES
         utils/serialization_test.cpp
         utils/random_test.cpp
         core/scene_test.cpp
-        core/state_test.cpp)
-        #ecs/ECSTest.cpp )
+        core/state_test.cpp
+        ecs/ecs_test.cpp)
 
 add_executable(unittests ${SOURCE_FILES})
 target_compile_definitions(unittests PRIVATE FLUFFY_ENV=test PRIVATE FLUFFY_VERSION=${PROJECT_VERSION})

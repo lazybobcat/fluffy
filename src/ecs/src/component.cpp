@@ -6,14 +6,15 @@
 // File created by loic on 21/05/17.
 //
 
-#include <Fluffy/ECS/Component.hpp>
-#include <Fluffy/ECS/Exception/BadComponentDestruction.hpp>
+#include <fluffy/component.hpp>
+#include <fluffy/utils/logger.hpp>
 
-using namespace Fluffy::ECS;
+using namespace Fluffy;
 
 BaseComponent::Family BaseComponent::mFamilyCounter = 0;
 
 void BaseComponent::fail()
 {
-    throw BadComponentDestruction("You musn't delete any component by hand.");
+    Logger::log(Logger::LogType::Error, "You must not delete any component by hand.");
+    //exit(CODE); // @todo exit codes
 }

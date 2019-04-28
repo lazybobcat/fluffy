@@ -6,15 +6,13 @@
 // File created by loic on 20/05/17.
 //
 
-#ifndef FLUFFY_COMPONENT_HPP
-#define FLUFFY_COMPONENT_HPP
+#pragma once
 
-#include <Fluffy/ECS/ComponentHandle.hpp>
 #include <cassert>
+#include <fluffy/component_handle.hpp>
 #include <memory>
 
 namespace Fluffy {
-namespace ECS {
 
 /**
  *  Base Component - do not use this, inherit from Component instead
@@ -46,7 +44,7 @@ protected:
  *      float x, y;
  *  }
  */
-template <typename Derived>
+template<typename Derived>
 struct Component : public BaseComponent
 {
 public:
@@ -59,7 +57,7 @@ private:
     static Family family()
     {
         static Family family = mFamilyCounter++;
-        assert(family < ECS::MAX_COMPONENTS);
+        assert(family < MAX_COMPONENTS);
 
         return family;
     }
@@ -72,7 +70,7 @@ public:
     virtual void removeComponent(Entity entity) = 0;
 };
 
-template <typename C>
+template<typename C>
 class ComponentHelper : public BaseComponentHelper
 {
 public:
@@ -85,8 +83,8 @@ public:
 /**
  * Raised after the component has been added to an entity
  */
-template <typename C>
-struct ComponentAddedEvent : public Event::Event<ComponentAddedEvent<C>>
+template<typename C>
+struct ComponentAddedEvent : public Event<ComponentAddedEvent<C>>
 {
     ComponentAddedEvent(Entity entity, ComponentHandle<C> component)
       : entity(entity)
@@ -102,8 +100,8 @@ struct ComponentAddedEvent : public Event::Event<ComponentAddedEvent<C>>
 /**
  * Raised before the component is removed from an entity
  */
-template <typename C>
-struct ComponentRemovedEvent : public Event::Event<ComponentRemovedEvent<C>>
+template<typename C>
+struct ComponentRemovedEvent : public Event<ComponentRemovedEvent<C>>
 {
     ComponentRemovedEvent(Entity entity, ComponentHandle<C> component)
       : entity(entity)
@@ -116,6 +114,3 @@ struct ComponentRemovedEvent : public Event::Event<ComponentRemovedEvent<C>>
     ComponentHandle<C> component;
 };
 }
-}
-
-#endif //FLUFFY_COMPONENT_HPP

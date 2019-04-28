@@ -6,22 +6,20 @@
 // File created by lo-x on 27/12/15.
 //
 
-#ifndef FLUFFY_ENTITY_HPP
-#define FLUFFY_ENTITY_HPP
+#pragma once
 
-#include <Fluffy/Event/Event.hpp>
-#include <Fluffy/definitions.hpp>
 #include <bitset>
 #include <cstdint>
+#include <fluffy/definitions.hpp>
+#include <fluffy/event/event.hpp>
 #include <typeindex>
 
 namespace Fluffy {
-namespace ECS {
 
 constexpr std::size_t MAX_COMPONENTS = FLUFFY_ECS_MAX_COMPONENTS;
 
 class EntityManager;
-template <typename C>
+template<typename C>
 class ComponentHandle;
 
 class Entity
@@ -76,27 +74,27 @@ public:
      */
     void destroy();
 
-    std::bitset<ECS::MAX_COMPONENTS> getComponentMask() const;
+    std::bitset<MAX_COMPONENTS> getComponentMask() const;
 
-    template <typename C, typename... Args>
+    template<typename C, typename... Args>
     ComponentHandle<C> assign(Args&&... args);
 
     /**
      * @return ComponentHandle<C> The new component handle
      */
-    template <typename C, typename... Args>
+    template<typename C, typename... Args>
     ComponentHandle<C> replace(Args&&... args);
 
-    template <typename C>
+    template<typename C>
     void remove();
 
-    template <typename C>
+    template<typename C>
     ComponentHandle<C> component();
 
-    template <typename... Components>
+    template<typename... Components>
     std::tuple<ComponentHandle<Components>...> components();
 
-    template <typename C>
+    template<typename C>
     bool hasComponent() const;
 
 private:
@@ -107,7 +105,7 @@ private:
 /**
  * Raised after the entity has been added to an EntityManager
  */
-struct EntityCreatedEvent : public Event::Event<EntityCreatedEvent>
+struct EntityCreatedEvent : public Event<EntityCreatedEvent>
 {
     explicit EntityCreatedEvent(Entity entity)
       : entity(entity)
@@ -121,7 +119,7 @@ struct EntityCreatedEvent : public Event::Event<EntityCreatedEvent>
 /**
  * Raised before the entity is being destroyed
  */
-struct EntityDestroyedEvent : public Event::Event<EntityDestroyedEvent>
+struct EntityDestroyedEvent : public Event<EntityDestroyedEvent>
 {
     explicit EntityDestroyedEvent(Entity entity)
       : entity(entity)
@@ -132,6 +130,3 @@ struct EntityDestroyedEvent : public Event::Event<EntityDestroyedEvent>
     Entity entity;
 };
 }
-}
-
-#endif //FLUFFY_ENTITY_HPP

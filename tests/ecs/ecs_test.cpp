@@ -7,8 +7,7 @@
 //
 
 #include <bandit/bandit.h>
-#include <Fluffy/ECS/EntityManager.hpp>
-#include <Fluffy/ECS/Entity.hpp>
+#include <fluffy/fluffy_ecs.hpp>
 
 using namespace bandit;
 using namespace snowhouse;

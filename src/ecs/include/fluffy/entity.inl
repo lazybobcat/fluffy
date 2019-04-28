@@ -6,16 +6,15 @@
 // File created by loic on 20/05/17.
 //
 
-#include <Fluffy/ECS/Entity.hpp>
-#include <Fluffy/ECS/EntityManager.hpp>
-#include <Fluffy/ECS/Exception/ComponentNotFoundException.hpp>
-#include <Fluffy/Utility/String.hpp>
 #include <cassert>
+#include <fluffy/entity.hpp>
+#include <fluffy/entity_manager.hpp>
+#include <fluffy/text/string.hpp>
+#include <fluffy/utils/logger.hpp>
 
-using namespace Fluffy::ECS;
-using namespace Fluffy::Utility;
+using namespace Fluffy;
 
-template <typename C, typename... Args>
+template<typename C, typename... Args>
 ComponentHandle<C> Entity::assign(Args&&... args)
 {
     assert(isValid());
@@ -23,7 +22,7 @@ ComponentHandle<C> Entity::assign(Args&&... args)
     return mManager->assign<C>(mId, std::forward<Args>(args)...);
 }
 
-template <typename C, typename... Args>
+template<typename C, typename... Args>
 ComponentHandle<C> Entity::replace(Args&&... args)
 {
     assert(isValid());
@@ -38,7 +37,7 @@ ComponentHandle<C> Entity::replace(Args&&... args)
     return handle;
 }
 
-template <typename C>
+template<typename C>
 bool Entity::hasComponent() const
 {
     assert(isValid());
@@ -46,7 +45,7 @@ bool Entity::hasComponent() const
     return mManager->hasComponent<C>(mId);
 }
 
-template <typename C>
+template<typename C>
 ComponentHandle<C> Entity::component()
 {
     assert(isValid());
@@ -54,7 +53,7 @@ ComponentHandle<C> Entity::component()
     return mManager->component<C>(mId);
 }
 
-template <typename... Components>
+template<typename... Components>
 std::tuple<ComponentHandle<Components>...> Entity::components()
 {
     assert(isValid());
@@ -62,14 +61,13 @@ std::tuple<ComponentHandle<Components>...> Entity::components()
     return mManager->components<Components...>(mId);
 }
 
-template <typename C>
+template<typename C>
 void Entity::remove()
 {
     assert(isValid());
 
     if (!hasComponent<C>()) {
-        throw ComponentNotFoundException(printString("Trying to remove unassigned component '%1' from entity #%2", { toString(typeid(C).name()), toString(
-                mId.index()) }));
+        Logger::log(Logger::LogType::Error, printString("Trying to remove unassigned component '%1' from entity #%2", { toString(typeid(C).name()), toString(mId.index()) }));
     }
 
     mManager->remove<C>(mId);

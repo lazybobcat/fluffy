@@ -6,26 +6,23 @@
 // File created by lo-x on 27/12/15.
 //
 
-#ifndef FLUFFY_ENTITYMANAGER_HPP
-#define FLUFFY_ENTITYMANAGER_HPP
+#pragma once
 
-#include <Fluffy/ECS/Component.hpp>
-#include <Fluffy/ECS/Entity.hpp>
-#include <Fluffy/ECS/View/EntityComponentView.hpp>
-#include <Fluffy/Event/EventManager.hpp>
-#include <Fluffy/Utility/NonCopyable.hpp>
-#include <Fluffy/Utility/Pool.hpp>
+#include <fluffy/component.hpp>
+#include <fluffy/entity.hpp>
+#include <fluffy/event/event_manager.hpp>
+#include <fluffy/utils/pool.hpp>
+#include <fluffy/view/entity_component_view.hpp>
 #include <stack>
 #include <typeindex>
 #include <vector>
 
 namespace Fluffy {
-namespace ECS {
 
-class EntityManager : public Utility::NonCopyable
+class EntityManager
 {
 public:
-    typedef std::bitset<ECS::MAX_COMPONENTS> ComponentMask;
+    typedef std::bitset<MAX_COMPONENTS> ComponentMask;
 
 public:
     EntityManager(EventManager& eventManager);
@@ -41,69 +38,66 @@ public:
 
     bool isValid(Entity::Id id) const;
 
-    Entity createEntity();
-    void destroyEntity(Entity::Id id);
-    Entity getEntity(Entity::Id id);
+    Entity     createEntity();
+    void       destroyEntity(Entity::Id id);
+    Entity     getEntity(Entity::Id id);
     Entity::Id createEntityId(std::uint32_t index) const;
 
-    template <typename C>
+    template<typename C>
     static std::size_t componentFamily();
 
-    template <typename C, typename... Args>
+    template<typename C, typename... Args>
     ComponentHandle<C> assign(Entity::Id id, Args&&... args);
 
-    template <typename C>
+    template<typename C>
     void remove(Entity::Id id);
 
-    template <typename C>
+    template<typename C>
     bool hasComponent(Entity::Id id) const;
 
-    template <typename C>
+    template<typename C>
     ComponentHandle<C> component(Entity::Id id);
 
-    template <typename... Components>
+    template<typename... Components>
     std::tuple<ComponentHandle<Components>...> components(Entity::Id id);
 
-    template <typename... Components>
+    template<typename... Components>
     EntityComponentView<Components...> each();
 
 private:
     void prepareForEntity(std::uint32_t index);
     void assertValid(Entity::Id id) const;
 
-    template <typename C>
+    template<typename C>
     C* getComponentPointer(Entity::Id id);
 
-    template <typename C>
-    Utility::Pool<C>* getComponentPool();
+    template<typename C>
+    Pool<C>* getComponentPool();
 
     ComponentMask getComponentMask(Entity::Id id);
-    template <typename C>
+    template<typename C>
     ComponentMask getComponentMask();
-    template <typename C1, typename C2, typename... Components>
+    template<typename C1, typename C2, typename... Components>
     ComponentMask getComponentMask();
 
 private:
     friend class Entity;
-    template <typename C>
+    template<typename C>
     friend class ComponentHandle;
-    template <typename... Types>
+    template<typename... Types>
     friend class EntityComponentView;
 
     EventManager&                     mEventManager;
     std::uint32_t                     mIndexCounter = 0;
     std::stack<std::uint32_t>         mFreeIndexes;
     std::vector<std::uint32_t>        mEntityVersion;
-    std::vector<Utility::BasePool*>   mComponentPools; // indexed by Component::family()
+    std::vector<BasePool*>            mComponentPools; // indexed by Component::family()
     std::vector<ComponentMask>        mEntityComponentMask;
     std::vector<BaseComponentHelper*> mComponentHelpers;
 };
 }
-}
 
-#include <Fluffy/ECS/ComponentHandle.inl>
-#include <Fluffy/ECS/Entity.inl>
-#include <Fluffy/ECS/EntityManager.inl>
-#include <Fluffy/ECS/View/EntityComponentView.inl>
-
-#endif //FLUFFY_ENTITYMANAGER_HPP
+#include <fluffy/component_handle.inl>
+#include <fluffy/entity.inl>
+#include <fluffy/entity_manager.inl>
+#include <fluffy/view/entity_component_view.inl>

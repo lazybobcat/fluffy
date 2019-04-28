@@ -6,11 +6,10 @@
 // File created by lo-x on 27/12/15.
 //
 
-#include <Fluffy/ECS/EntityManager.hpp>
 #include <algorithm>
+#include <fluffy/entity_manager.hpp>
 
-using namespace Fluffy::ECS;
-using namespace Fluffy::Utility;
+using namespace Fluffy;
 
 EntityManager::EntityManager(EventManager& eventManager)
   : mEventManager(eventManager)

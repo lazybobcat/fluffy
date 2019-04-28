@@ -6,17 +6,15 @@
 // File created by loic on 20/05/17.
 //
 
-#ifndef FLUFFY_COMPONENTHANDLE_HPP
-#define FLUFFY_COMPONENTHANDLE_HPP
+#pragma once
 
-#include <Fluffy/ECS/Entity.hpp>
+#include <fluffy/entity.hpp>
 
 namespace Fluffy {
-namespace ECS {
 
 class EntityManager;
 
-template <typename C>
+template<typename C>
 class ComponentHandle
 {
 public:
@@ -25,7 +23,7 @@ public:
     bool isValid() const;
     operator bool() const;
 
-    C* operator->();
+    C*       operator->();
     const C* operator->() const;
 
     C*       get();
@@ -52,6 +50,3 @@ private:
     Entity::Id     mId;
 };
 }
-}
-
-#endif //FLUFFY_COMPONENTHANDLE_HPP

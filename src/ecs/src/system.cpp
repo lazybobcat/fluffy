@@ -6,9 +6,9 @@
 // File created by loic on 09/11/17.
 //
 
-#include <Fluffy/ECS/System.hpp>
+#include <fluffy/system.hpp>
 
-using namespace Fluffy::ECS;
+using namespace Fluffy;
 
 BaseSystem::Family BaseSystem::mFamilyCounter = 0;
 

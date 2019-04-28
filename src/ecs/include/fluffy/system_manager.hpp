@@ -6,19 +6,17 @@
 // File created by loic on 13/11/17.
 //
 
-#ifndef FLUFFY_SYSTEMMANAGER_HPP
-#define FLUFFY_SYSTEMMANAGER_HPP
+#pragma once
 
-#include <Fluffy/ECS/System.hpp>
-#include <Fluffy/Utility/ServiceContainer.hpp>
-#include <Fluffy/Utility/Time.hpp>
+#include <fluffy/service/service_container.hpp>
+#include <fluffy/system.hpp>
+#include <fluffy/time/time.hpp>
 #include <map>
 #include <memory>
 
 namespace Fluffy {
-namespace ECS {
 
-class SystemManager : public Fluffy::Utility::NonCopyable
+class SystemManager
 {
 public:
     SystemManager(EntityManager& entityManager, EventManager& eventManager);
@@ -28,37 +26,37 @@ public:
      * Add a before-handed initialized System to the manager. You should prefer to let Fluffy manager the system for you
      * by using SystemManager::add(Args...) to create the Systems.
      */
-    template <typename S>
+    template<typename S>
     void add(std::shared_ptr<S> system);
 
     /**
      * Create and add a System in the manager
      */
-    template <typename S, typename... Args>
+    template<typename S, typename... Args>
     std::shared_ptr<S> add(Args... args);
 
     /**
      * Terminate and remove a System from the manager
      */
-    template <typename S>
+    template<typename S>
     void remove();
 
     /**
      * Return the System passed as template parameter
      */
-    template <typename S>
+    template<typename S>
     std::shared_ptr<S> system();
 
     /**
      * Update the System passed as template parameter
      */
-    template <typename S>
-    void update(Fluffy::Utility::Time dt);
+    template<typename S>
+    void update(Fluffy::Time dt);
 
     /**
      * Update all registered Systems
      */
-    void updateAll(Fluffy::Utility::Time dt);
+    void updateAll(Fluffy::Time dt);
 
     /**
      * Configure all registered Systems. You must call this after adding all the systems.
@@ -71,14 +69,11 @@ public:
     void terminate();
 
 private:
-    bool           mConfigured = false;
-    EntityManager& mEntityManager;
-    EventManager&  mEventManager;
+    bool                                                      mConfigured = false;
+    EntityManager&                                            mEntityManager;
+    EventManager&                                             mEventManager;
     std::map<BaseSystem::Family, std::shared_ptr<BaseSystem>> mSystems;
 };
 }
-}
 
-#include <Fluffy/ECS/SystemManager.inl>
-
-#endif //FLUFFY_SYSTEMMANAGER_HPP
+#include <fluffy/system_manager.inl>

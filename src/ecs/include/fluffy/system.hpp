@@ -6,24 +6,21 @@
 // File created by loic on 09/11/17.
 //
 
-#ifndef FLUFFY_SYSTEM_HPP
-#define FLUFFY_SYSTEM_HPP
+#pragma once
 
-#include <Fluffy/ECS/EntityManager.hpp>
-#include <Fluffy/Event/EventManager.hpp>
-#include <Fluffy/Utility/NonCopyable.hpp>
-#include <Fluffy/Utility/Time.hpp>
 #include <cstddef>
+#include <fluffy/entity_manager.hpp>
+#include <fluffy/event/event_manager.hpp>
+#include <fluffy/time/time.hpp>
 
 namespace Fluffy {
-namespace ECS {
 
 class SystemManager;
 
 /**
  *  Base System - do not use this, inherit from System instead
  */
-struct BaseSystem : Fluffy::Utility::NonCopyable
+struct BaseSystem
 {
 public:
     typedef std::size_t Family;
@@ -33,7 +30,7 @@ public:
 
     virtual void initialize(EntityManager& entityManager, EventManager& eventManager);
     virtual void terminate(EntityManager& entityManager, EventManager& eventManager);
-    virtual void update(EntityManager& entityManager, Fluffy::Utility::Time dt) = 0;
+    virtual void update(EntityManager& entityManager, Fluffy::Time dt) = 0;
 
 protected:
     static Family mFamilyCounter;
@@ -48,7 +45,7 @@ protected:
  *     }
  * }
  */
-template <typename Derived>
+template<typename Derived>
 class System : public BaseSystem
 {
 public:
@@ -64,6 +61,3 @@ private:
     }
 };
 }
-}
-
-#endif //FLUFFY_SYSTEM_HPP

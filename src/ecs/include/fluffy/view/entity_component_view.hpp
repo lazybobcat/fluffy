@@ -6,37 +6,35 @@
 // File created by loic on 20/05/17.
 //
 
-#ifndef FLUFFY_ENTITYCOMPONENTVIEW_HPP
-#define FLUFFY_ENTITYCOMPONENTVIEW_HPP
+#pragma once
 
-#include <Fluffy/ECS/Entity.hpp>
 #include <cstdio>
+#include <fluffy/entity.hpp>
 
 namespace Fluffy {
-namespace ECS {
 
 class EntityManager;
 
-template <typename... Types>
+template<typename... Types>
 class EntityComponentView
 {
 public:
-    typedef std::bitset<ECS::MAX_COMPONENTS> ComponentMask;
+    typedef std::bitset<MAX_COMPONENTS> ComponentMask;
 
     class Iterator
     {
     public:
         Iterator(EntityManager* manager, std::size_t index, ComponentMask mask);
 
-        std::size_t index() const;
-        bool        isEnd() const;
-        bool test(std::size_t index) const;
+        std::size_t    index() const;
+        bool           isEnd() const;
+        bool           test(std::size_t index) const;
         EntityManager* entityManager() const;
         Entity         get() const;
-        Entity operator*() const;
-        bool operator==(const Iterator& rhs) const;
-        bool operator!=(const Iterator& rhs) const;
-        Iterator& operator++();
+        Entity         operator*() const;
+        bool           operator==(const Iterator& rhs) const;
+        bool           operator!=(const Iterator& rhs) const;
+        Iterator&      operator++();
 
     private:
         friend class EntityComponentView;
@@ -60,6 +58,3 @@ private:
     Iterator mLast;
 };
 }
-}
-
-#endif //FLUFFY_ENTITYCOMPONENTVIEW_HPP

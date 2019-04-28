@@ -6,18 +6,17 @@
 // File created by loic on 21/05/17.
 //
 
-#include <Fluffy/ECS/EntityManager.hpp>
+#include <fluffy/entity_manager.hpp>
 
-using namespace Fluffy::ECS;
-using namespace Fluffy::Utility;
+using namespace Fluffy;
 
-template <typename C>
+template<typename C>
 std::size_t EntityManager::componentFamily()
 {
     return Component<typename std::remove_const<C>::type>::family();
 }
 
-template <typename C, typename... Args>
+template<typename C, typename... Args>
 ComponentHandle<C> EntityManager::assign(Entity::Id id, Args&&... args)
 {
     assertValid(id);
@@ -36,7 +35,7 @@ ComponentHandle<C> EntityManager::assign(Entity::Id id, Args&&... args)
     return component;
 };
 
-template <typename C>
+template<typename C>
 void EntityManager::remove(Entity::Id id)
 {
     assertValid(id);
@@ -52,7 +51,7 @@ void EntityManager::remove(Entity::Id id)
     pool->destroy(id.index());
 };
 
-template <typename C>
+template<typename C>
 bool EntityManager::hasComponent(Entity::Id id) const
 {
     assertValid(id);
@@ -67,7 +66,7 @@ bool EntityManager::hasComponent(Entity::Id id) const
     return (pool && mEntityComponentMask[id.index()][family]);
 }
 
-template <typename C>
+template<typename C>
 ComponentHandle<C> EntityManager::component(Entity::Id id)
 {
     assertValid(id);
@@ -86,13 +85,13 @@ ComponentHandle<C> EntityManager::component(Entity::Id id)
     return component;
 }
 
-template <typename... Components>
+template<typename... Components>
 std::tuple<ComponentHandle<Components>...> EntityManager::components(Entity::Id id)
 {
     return std::make_tuple(component<Components>(id)...);
 }
 
-template <typename... Components>
+template<typename... Components>
 EntityComponentView<Components...> EntityManager::each()
 {
     ComponentMask mask = getComponentMask<Components...>();
@@ -105,7 +104,7 @@ EntityComponentView<Components...> EntityManager::each()
 
 // Private
 
-template <typename C>
+template<typename C>
 C* EntityManager::getComponentPointer(Entity::Id id)
 {
     BasePool* pool = mComponentPools[componentFamily<C>()];
@@ -114,7 +113,7 @@ C* EntityManager::getComponentPointer(Entity::Id id)
     return static_cast<C*>(pool->get(id.index()));
 }
 
-template <typename C>
+template<typename C>
 Pool<C>* EntityManager::getComponentPool()
 {
     BaseComponent::Family family = componentFamily<C>();
@@ -140,7 +139,7 @@ Pool<C>* EntityManager::getComponentPool()
     return static_cast<Pool<C>*>(mComponentPools[family]);
 }
 
-template <typename C>
+template<typename C>
 EntityManager::ComponentMask EntityManager::getComponentMask()
 {
     ComponentMask mask;
@@ -149,7 +148,7 @@ EntityManager::ComponentMask EntityManager::getComponentMask()
     return mask;
 }
 
-template <typename C1, typename C2, typename... Components>
+template<typename C1, typename C2, typename... Components>
 EntityManager::ComponentMask EntityManager::getComponentMask()
 {
     return getComponentMask<C1>() | getComponentMask<C2, Components...>();
