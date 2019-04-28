@@ -3,3 +3,4 @@
 # Project
 build/
 cmake-build-*
+src/utils/include/fluffy/definitions.hpp

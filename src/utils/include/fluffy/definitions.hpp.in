@@ -8,10 +8,10 @@
 
 #pragma once
 
-#include <string>
-
 // General configurations
+#define FLUFFY_VERSION "@PROJECT_VERSION@"
 #define FLUFFY_LOG_FILE "logs.html"
+#define FLUFFY_ENV @FLUFFY_ENV@
 
 // Debug configurations
 #define FLUFFY_ENV_TEST test

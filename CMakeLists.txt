@@ -24,9 +24,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -fPIC")
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/ChaiScript/include ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/bandit)
 add_subdirectory(src)
-add_subdirectory(tests)
 
 # Building libfluffy
 add_library(fluffy SHARED)
-target_compile_definitions(fluffy PRIVATE FLUFFY_ENV=${FLUFFY_ENV} PRIVATE FLUFFY_VERSION=${PROJECT_VERSION})
 target_link_libraries(fluffy ${FLUFFY_EXTERNAL_LIBS} ${FLUFFY_INTERNAL_LIBS})
+
+# Tests
+add_subdirectory(tests)

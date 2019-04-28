@@ -1,3 +1,5 @@
+configure_file(include/fluffy/definitions.hpp.in ${CMAKE_CURRENT_SOURCE_DIR}/include/fluffy/definitions.hpp @ONLY)
+
 set(SOURCE_FILES
         contrib/jsoncpp/jsoncpp.cpp
         include/fluffy/definitions.hpp
