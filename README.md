@@ -10,13 +10,6 @@ help prototyping games.
 Fluffy  will offer a bunch of utility tools, a service container, time and clock, an ECS, game states, an event system, 
 scripting, asset pipes, and whatever comes to my mind or yours.
 
-__Please mind that Fluffy currently has a dependency on Selene (Lua) but that this is subject to change soon!__
-
-Even if I'm planning to use it mainly with [SFML](https://github.com/SFML/SFML), I don't want Fluffy to be tied to it 
-so that anyone can use it with whatever multimedia/graphic lib he wants. So that means there will be no window handling, 
-no GUI, keyboard and mouse nor drawing included directly in Fluffy. But I plan on making a plugin to bridge Fluffy and
-SFML.
-
 ## Fluffy needs
 
 * A compiler that supports C++14 at least

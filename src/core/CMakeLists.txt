@@ -9,4 +9,4 @@ set(SOURCE_FILES
 
 add_library(fluffy-core ${SOURCE_FILES})
 target_include_directories(fluffy-core PUBLIC "include")
-target_link_libraries(fluffy-core fluffy-utils sfml-graphics) # @todo Get rid of SFML here, it's used for Scene (sf::Transformable)
+target_link_libraries(fluffy-core fluffy-utils sfml-graphics)
