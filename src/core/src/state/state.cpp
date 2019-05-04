@@ -13,12 +13,17 @@ using namespace Fluffy;
 BaseState::Family       BaseState::mFamilyCounter = 0;
 const BaseState::Family BaseState::INVALID        = InvalidState::family();
 
-void BaseState::initialize(const Context& context)
+void BaseState::initialize()
 {
 }
 
 void BaseState::terminate()
 {
+}
+
+bool BaseState::isShielding() const
+{
+    return true;
 }
 
 void BaseState::pause()
@@ -36,11 +41,6 @@ bool BaseState::isPaused() const
     return mPaused;
 }
 
-void BaseState::setStateStack(StateStack* stateStack)
-{
-    mStateStack = stateStack;
-}
-
 void BaseState::requestStackPop()
 {
     assert(mStateStack);
@@ -53,4 +53,9 @@ void BaseState::requestStackClear()
     assert(mStateStack);
 
     mStateStack->clear();
+}
+
+const Context& BaseState::getContext()
+{
+    return *mContext;
 }

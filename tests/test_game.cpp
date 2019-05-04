@@ -8,15 +8,31 @@
 
 #include <fluffy/fluffy_core.hpp>
 
-class TestGame : public Fluffy::Game
+class TestState : public State<TestState>
 {
-public:
     int mNbUpdates = 0;
 
     void update(Time dt) override
     {
         mNbUpdates++;
-        std::cout << "TestGame has been updated (iteration " << mNbUpdates << ") after " << dt.seconds() << "sec" << std::endl;
+        std::cout << "TestState has been updated (iteration " << mNbUpdates << ") after " << dt.seconds() << "sec" << std::endl;
+
+        if (mNbUpdates >= 10) {
+            requestStackPop(); // should end the game
+        }
+    }
+
+    void render() override
+    {
+    }
+};
+
+class TestGame : public Fluffy::Game
+{
+public:
+    void update(Time dt) override
+    {
+        std::cout << "TestGame has been updated" << std::endl;
     }
 
     void render() override
@@ -25,17 +41,12 @@ public:
 
     BaseState::Ptr start() override
     {
-        return nullptr;
+        return std::make_unique<TestState>();
     }
 
     std::string getTitle() const override
     {
         return std::string("TestGame");
-    }
-
-    bool isRunning() const override
-    {
-        return mNbUpdates < 10;
     }
 };
 

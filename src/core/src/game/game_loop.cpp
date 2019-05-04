@@ -40,6 +40,7 @@ void GameLoop::runLoop()
 
             processInput();
             game.update(timePerFrame);
+            game.internalUpdate(timePerFrame);
         }
 
         game.render();

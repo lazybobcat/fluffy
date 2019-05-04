@@ -27,6 +27,7 @@ void GameLoader::load()
 
     mGame = createGame();
     mGame->initialize(mContext, mApplicationArgs);
+    mGame->setStartingState(mGame->start(), mContext);
 }
 
 void GameLoader::reload()

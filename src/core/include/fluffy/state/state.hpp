@@ -9,7 +9,8 @@
 #pragma once
 
 #include <cstddef>
-#include <fluffy/service/service_container.hpp>
+#include <fluffy/context/context.hpp>
+#include <fluffy/time/time.hpp>
 #include <memory>
 
 namespace Fluffy {
@@ -28,30 +29,38 @@ public:
     static const Family INVALID;
 
 public:
-    BaseState()          = default;
+    BaseState() = default;
     virtual ~BaseState() = default;
 
-    virtual void initialize(ServiceContainer& serviceContainer);
+    virtual void initialize();
     virtual void terminate();
-    void         pause();
-    void         resume();
-    bool         isPaused() const;
 
-protected:
+    // If false, States that are further in the StateStack will be updated/drawn until a shielding state is found
+    virtual bool isShielding() const;
+    virtual void update(Time dt) = 0;
+    virtual void render()        = 0;
+
+    void pause();
+    void resume();
+    bool isPaused() const;
+
+private:
     friend StateStack;
 
-    void setStateStack(StateStack* stateStack);
-
+protected:
     template<typename T>
     void requestStackPush();
     void requestStackPop();
     void requestStackClear();
 
-protected:
+    const Context& getContext();
+
+private:
     static Family mFamilyCounter;
 
-    StateStack* mStateStack = nullptr;
-    bool        mPaused     = false;
+    StateStack*    mStateStack = nullptr;
+    const Context* mContext;
+    bool           mPaused = false;
 };
 
 /**

@@ -10,7 +10,6 @@
 
 #include <fluffy/definitions.hpp>
 #include <fluffy/event/event_manager.hpp>
-#include <fluffy/service/service_container.hpp>
 #include <fluffy/state/state.hpp>
 #include <map>
 #include <vector>
@@ -28,19 +27,17 @@ public:
     };
 
 public:
-    explicit StateStack(ServiceContainer& serviceContainer);
+    explicit StateStack(const Context& context);
     ~StateStack();
 
-    template<typename T, typename... Args>
-    void registerState(Args&&... args);
-
-    template<typename T>
-    void push();
-
+    void push(BaseState::Ptr state);
     void pop();
     void clear();
 
     bool isEmpty() const;
+
+    void update(Time dt);
+    void render();
 
     /**
      * You should NEVER user this method and rely on the triggering of BeforeGameTickEvent and AfterGameTickEvent for
@@ -52,36 +49,26 @@ public:
     void forcePendingChanges();
 
 private:
-    template<typename T>
-    static BaseState::Family stateFamily();
-
-    BaseState::Ptr createState(BaseState::Family family);
-
     void applyPendingChanges();
 
 private:
     struct PendingChange
     {
-        explicit PendingChange(Action action, BaseState::Family family = BaseState::INVALID);
+        explicit PendingChange(Action action);
+        PendingChange(Action action, BaseState::Ptr state);
 
-        Action            action;
-        BaseState::Family family;
+        Action         action;
+        BaseState::Ptr state;
     };
 
 private:
-    ServiceContainer&                                                mServiceContainer;
-    Slot                                                             mBeforeGameTickSlot;
-    Slot                                                             mAfterGameTickSlot;
-    std::vector<BaseState::Ptr>                                      mStack;
-    std::vector<PendingChange>                                       mPendingList;
-    std::map<BaseState::Family, std::function<BaseState::Ptr(void)>> mFactories;
+    const Context&              mContext;
+    std::vector<BaseState::Ptr> mStack;
+    std::vector<PendingChange>  mPendingList;
 
 #if FLUFFY_ENV == FLUFFY_ENV_TEST
 public:
     std::size_t pendingListSize() const { return mPendingList.size(); };
-    std::size_t factoriesSize() const { return mFactories.size(); };
 #endif
 };
 }
-
-#include <fluffy/state/state_stack.inl>

@@ -10,34 +10,35 @@
 
 using namespace Fluffy;
 
-StateStack::PendingChange::PendingChange(Action action, BaseState::Family family)
-  : action(action)
-  , family(family)
+StateStack::PendingChange::PendingChange(Action action)
+        : action(action)
+        , state()
 {
 }
 
-StateStack::StateStack(ServiceContainer& serviceContainer)
-  : mServiceContainer(serviceContainer)
+StateStack::PendingChange::PendingChange(Action action, BaseState::Ptr state)
+  : action(action)
+  , state(std::move(state))
 {
-    // Subscribe to events that will apply the pending changes
-    if (mServiceContainer.has<EventManager>()) {
-//        auto eventManager   = mServiceContainer.get<EventManager>();
-//        mBeforeGameTickSlot = eventManager->connect<BeforeGameTickEvent>(std::bind(&StateStack::onBeforeGameTickEvent, this, std::placeholders::_1));
-//        mAfterGameTickSlot  = eventManager->connect<AfterGameTickEvent>(std::bind(&StateStack::onAfterGameTickEvent, this, std::placeholders::_1));
-    }
+}
+
+StateStack::StateStack(const Context& context)
+  : mContext(context)
+{
 }
 
 StateStack::~StateStack()
 {
-    // Unsubscribe from events
-    mBeforeGameTickSlot.disconnect();
-    mAfterGameTickSlot.disconnect();
-
     // Terminate all states and clear the stack
     for (BaseState::Ptr& state : mStack) {
         state->terminate();
     }
     mStack.clear();
+}
+
+void StateStack::push(BaseState::Ptr state)
+{
+    mPendingList.emplace_back(Action::Push, std::move(state));
 }
 
 void StateStack::pop()
@@ -55,12 +56,23 @@ bool StateStack::isEmpty() const
     return mStack.empty();
 }
 
-BaseState::Ptr StateStack::createState(BaseState::Family family)
+void StateStack::update(Time dt)
 {
-    auto found = mFactories.find(family);
-    assert(found != mFactories.end());
+    for (auto it = mStack.rbegin(); it != mStack.rend(); ++it) {
+        (*it)->update(dt);
+        if ((*it)->isShielding()) {
+            break;
+        }
+    }
 
-    return found->second();
+    applyPendingChanges();
+}
+
+void StateStack::render()
+{
+    for (BaseState::Ptr& state : mStack) {
+        state->render();
+    }
 }
 
 void StateStack::forcePendingChanges()
@@ -70,13 +82,14 @@ void StateStack::forcePendingChanges()
 
 void StateStack::applyPendingChanges()
 {
-    for (PendingChange change : mPendingList) {
+    for (auto& change : mPendingList) {
         switch (change.action) {
             case Action::Push:
                 if (!mStack.empty()) {
                     mStack.back()->pause();
                 }
-                mStack.push_back(createState(change.family));
+                mStack.push_back(std::move(change.state));
+                mStack.back()->mStateStack = this;
                 break;
 
             case Action::Pop:
