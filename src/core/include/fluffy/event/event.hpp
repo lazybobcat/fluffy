@@ -42,33 +42,4 @@ public:
         return family;
     }
 };
-
-/**********************************************************************************************************************/
-
-/**
- * Raised first at each loop iteration.
- */
-struct BeforeGameTickEvent : public Event<BeforeGameTickEvent>
-{
-};
-
-/**
- * Raised once at the beginning of each main loop iteration.
- */
-struct GameTickEvent : public Event<GameTickEvent>
-{
-    explicit GameTickEvent(Fluffy::Time dt = Fluffy::Time::Zero)
-      : dt(dt)
-    {
-    }
-
-    Fluffy::Time dt;
-};
-
-/**
- * Raised at the end of the main loop iteration.
- */
-struct AfterGameTickEvent : public Event<AfterGameTickEvent>
-{
-};
 }

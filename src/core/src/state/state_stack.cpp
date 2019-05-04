@@ -21,9 +21,9 @@ StateStack::StateStack(ServiceContainer& serviceContainer)
 {
     // Subscribe to events that will apply the pending changes
     if (mServiceContainer.has<EventManager>()) {
-        auto eventManager   = mServiceContainer.get<EventManager>();
-        mBeforeGameTickSlot = eventManager->connect<BeforeGameTickEvent>(std::bind(&StateStack::onBeforeGameTickEvent, this, std::placeholders::_1));
-        mAfterGameTickSlot  = eventManager->connect<AfterGameTickEvent>(std::bind(&StateStack::onAfterGameTickEvent, this, std::placeholders::_1));
+//        auto eventManager   = mServiceContainer.get<EventManager>();
+//        mBeforeGameTickSlot = eventManager->connect<BeforeGameTickEvent>(std::bind(&StateStack::onBeforeGameTickEvent, this, std::placeholders::_1));
+//        mAfterGameTickSlot  = eventManager->connect<AfterGameTickEvent>(std::bind(&StateStack::onAfterGameTickEvent, this, std::placeholders::_1));
     }
 }
 
@@ -61,16 +61,6 @@ BaseState::Ptr StateStack::createState(BaseState::Family family)
     assert(found != mFactories.end());
 
     return found->second();
-}
-
-void StateStack::onBeforeGameTickEvent(const BeforeGameTickEvent&)
-{
-    applyPendingChanges();
-}
-
-void StateStack::onAfterGameTickEvent(const AfterGameTickEvent&)
-{
-    applyPendingChanges();
 }
 
 void StateStack::forcePendingChanges()

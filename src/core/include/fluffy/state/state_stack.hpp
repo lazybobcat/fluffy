@@ -57,8 +57,6 @@ private:
 
     BaseState::Ptr createState(BaseState::Family family);
 
-    void onBeforeGameTickEvent(const BeforeGameTickEvent&);
-    void onAfterGameTickEvent(const AfterGameTickEvent&);
     void applyPendingChanges();
 
 private:

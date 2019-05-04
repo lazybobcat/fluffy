@@ -27,10 +27,10 @@ int GameMain::main(int argc, char* argv[])
         args.push_back(argv[i]);
     }
 
-    ServiceContainer serviceContainer;
+    auto context = Context::create();
 
     try {
-        SpecializedGameLoader<T> loader(serviceContainer, std::move(args));
+        SpecializedGameLoader<T> loader(*context, std::move(args));
         GameLoop loop(loader);
         loop.run();
     } catch (std::exception& e) {

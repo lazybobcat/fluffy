@@ -10,8 +10,8 @@
 
 using namespace Fluffy;
 
-GameLoader::GameLoader(ServiceContainer& serviceContainer, std::vector<std::string>&& args)
-  : mServiceContainer(serviceContainer)
+GameLoader::GameLoader(const Context& context, std::vector<std::string>&& args)
+  : mContext(context)
   , mApplicationArgs(args)
 {
 }
@@ -29,7 +29,7 @@ void GameLoader::load()
     unload();
 
     mGame = createGame();
-    mGame->init(mServiceContainer, mApplicationArgs);
+    mGame->init(mContext, mApplicationArgs);
 }
 
 void GameLoader::reload()

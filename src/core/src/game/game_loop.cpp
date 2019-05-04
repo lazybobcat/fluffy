@@ -38,14 +38,8 @@ void GameLoop::runLoop()
         while (timeSinceLastUpdate >= timePerFrame) {
             timeSinceLastUpdate -= timePerFrame;
 
-            BeforeGameTickEvent beforeGameTickEvent;
-            // @todo emit the event once service container will be refactored
-
             processInput();
             game.update(timePerFrame);
-
-            AfterGameTickEvent afterGameTickEvent;
-            // @todo emit the event once service container will be refactored
         }
 
         game.render();

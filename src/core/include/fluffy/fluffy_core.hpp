@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <fluffy/context/context.hpp>
 #include <fluffy/event/event.hpp>
 #include <fluffy/event/event_manager.hpp>
 #include <fluffy/game/game.hpp>
