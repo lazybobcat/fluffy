@@ -21,11 +21,10 @@ public:
     virtual ~Game() = default;
 
     virtual void init(const Context& /*context*/, const std::vector<std::string> /*args*/) {}
-    virtual void deInit() {}
 
     // @todo handling states
 
-    bool isRunning() const
+    virtual bool isRunning() const
     {
         // @todo return if statestack is empty
         return true;

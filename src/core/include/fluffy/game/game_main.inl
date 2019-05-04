@@ -31,8 +31,10 @@ int GameMain::main(int argc, char* argv[])
 
     try {
         SpecializedGameLoader<T> loader(*context, std::move(args));
+        loader.load();
         GameLoop loop(loader);
         loop.run();
+        loader.unload();
     } catch (std::exception& e) {
         Logger::getInstance()->log(Logger::LogType::Error, toString("Game terminated with an error: ") + e.what());
 

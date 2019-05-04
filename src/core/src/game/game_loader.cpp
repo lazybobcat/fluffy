@@ -18,10 +18,7 @@ GameLoader::GameLoader(const Context& context, std::vector<std::string>&& args)
 
 GameLoader::~GameLoader()
 {
-    if (mGame) {
-        mGame->deInit();
-        delete mGame;
-    }
+    unload();
 }
 
 void GameLoader::load()
@@ -40,16 +37,12 @@ void GameLoader::reload()
 
 void GameLoader::unload()
 {
-    if (mGame) {
-        mGame->deInit();
-        delete mGame;
-    }
 }
 
 Game& GameLoader::getGame() const
 {
     if (!mGame) {
-        throw std::logic_error("The game object is asked to game loader while game is unloaded");
+        throw std::logic_error("The game object is asked while still unloaded");
     }
 
     return *mGame;

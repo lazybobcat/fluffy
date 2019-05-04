@@ -9,3 +9,6 @@ set(SOURCE_FILES
 
 add_executable(unittests ${SOURCE_FILES})
 target_link_libraries(unittests ${FLUFFY_EXTERNAL_LIBS} ${FLUFFY_INTERNAL_LIBS})
+
+add_executable(gametest test_game.cpp)
+target_link_libraries(gametest ${FLUFFY_EXTERNAL_LIBS} ${FLUFFY_INTERNAL_LIBS})
