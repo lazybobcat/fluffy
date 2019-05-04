@@ -13,7 +13,7 @@ using namespace Fluffy;
 BaseState::Family       BaseState::mFamilyCounter = 0;
 const BaseState::Family BaseState::INVALID        = InvalidState::family();
 
-void BaseState::initialize(ServiceContainer& serviceContainer)
+void BaseState::initialize(const Context& context)
 {
 }
 

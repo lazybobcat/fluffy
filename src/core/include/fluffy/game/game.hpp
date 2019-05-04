@@ -20,7 +20,7 @@ class Game
 public:
     virtual ~Game() = default;
 
-    virtual void init(const Context& /*context*/, const std::vector<std::string> /*args*/) {}
+    virtual void initialize(const Context & /*context*/, const std::vector<std::string> /*args*/) {}
 
     // @todo handling states
 

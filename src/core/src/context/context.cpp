@@ -12,14 +12,14 @@ using namespace Fluffy;
 
 Context::~Context()
 {
-    deInit();
+    terminate();
 }
 
-void Context::init()
+void Context::initialize()
 {
 }
 
-void Context::deInit()
+void Context::terminate()
 {
 }
 

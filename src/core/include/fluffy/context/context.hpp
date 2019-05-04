@@ -31,8 +31,8 @@ public:
 private:
     friend class GameMain;
 
-    void init();
-    void deInit();
+    void initialize();
+    void terminate();
 
     static std::unique_ptr<Context> create();
 
