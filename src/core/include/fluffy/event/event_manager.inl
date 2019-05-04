@@ -6,7 +6,7 @@
 // File created by loic on 12/11/17.
 //
 
-#include "event_manager.hpp"
+#include <fluffy/event/event_manager.hpp>
 
 using namespace Fluffy;
 
