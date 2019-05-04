@@ -8,15 +8,51 @@
 
 #include <fluffy/fluffy_core.hpp>
 
-class TestState : public State<TestState>
+struct ShieldState : public State<ShieldState>
+{
+    void update(Time dt) override
+    {
+        std::cout << "\t<<<< SHIELD STATE  >>>>" << std::endl;
+        requestStackPop();
+    }
+
+    void render() override
+    {
+    }
+};
+
+struct NonShieldState : public State<ShieldState>
+{
+    void update(Time dt) override
+    {
+        std::cout << "\t(: NON SHIELD STATE  :)" << std::endl;
+        requestStackPop();
+    }
+
+    void render() override
+    {
+    }
+
+    bool isShielding() const override {
+        return false;
+    }
+};
+
+struct TestState : public State<TestState>
 {
     int mNbUpdates = 0;
 
     void update(Time dt) override
     {
         mNbUpdates++;
-        std::cout << "TestState has been updated (iteration " << mNbUpdates << ") after " << dt.seconds() << "sec" << std::endl;
+        std::cout << "\tTestState has been updated (iteration " << mNbUpdates << ") after " << dt.seconds() << "sec" << std::endl;
 
+        if (mNbUpdates == 2) {
+            requestStackPush(std::make_unique<ShieldState>());
+        }
+        if (mNbUpdates == 5) {
+            requestStackPush(std::make_unique<NonShieldState>());
+        }
         if (mNbUpdates >= 10) {
             requestStackPop(); // should end the game
         }
@@ -32,7 +68,7 @@ class TestGame : public Fluffy::Game
 public:
     void update(Time dt) override
     {
-        std::cout << "TestGame has been updated" << std::endl;
+        std::cout << "New Iteration:" << std::endl;
     }
 
     void render() override

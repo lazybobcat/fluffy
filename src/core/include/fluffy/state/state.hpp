@@ -48,8 +48,7 @@ private:
     friend StateStack;
 
 protected:
-    template<typename T>
-    void requestStackPush();
+    void requestStackPush(BaseState::Ptr state);
     void requestStackPop();
     void requestStackClear();
 

@@ -3,7 +3,7 @@ set(SOURCE_FILES
         include/fluffy/event/event_manager.hpp src/event/event_manager.cpp
         include/fluffy/scene/scene_node.hpp src/scene/scene_node.cpp
         include/fluffy/scene/scene.hpp src/scene/scene.cpp
-        include/fluffy/state/state.hpp src/state/state.cpp include/fluffy/state/state.inl
+        include/fluffy/state/state.hpp src/state/state.cpp
         include/fluffy/state/state_stack.hpp src/state/state_stack.cpp
         include/fluffy/game/game.hpp src/game/game.cpp
         include/fluffy/game/game_loader.hpp src/game/game_loader.cpp

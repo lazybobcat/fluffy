@@ -41,6 +41,13 @@ bool BaseState::isPaused() const
     return mPaused;
 }
 
+void BaseState::requestStackPush(BaseState::Ptr state)
+{
+    assert(mStateStack);
+
+    mStateStack->push(std::move(state));
+}
+
 void BaseState::requestStackPop()
 {
     assert(mStateStack);
