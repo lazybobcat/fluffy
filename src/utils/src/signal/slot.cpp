@@ -44,6 +44,11 @@ Slot::Slot(std::function<void(Slot::Id)>&& disconnectCallback, Slot::Id id)
 {
 }
 
+Slot::~Slot()
+{
+    disconnect();
+}
+
 void Slot::disconnect()
 {
     if (mInitialized) {

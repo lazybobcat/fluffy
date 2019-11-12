@@ -35,6 +35,7 @@ public:
 
 public:
     Slot() = default;
+    ~Slot();
 
     void disconnect();
     Id   id();
