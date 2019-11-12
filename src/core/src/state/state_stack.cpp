@@ -11,8 +11,8 @@
 using namespace Fluffy;
 
 StateStack::PendingChange::PendingChange(Action action)
-        : action(action)
-        , state()
+  : action(action)
+  , state()
 {
 }
 

@@ -10,8 +10,7 @@
 
 #include <memory>
 
-namespace Fluffy
-{
+namespace Fluffy {
 
 class GameMain;
 

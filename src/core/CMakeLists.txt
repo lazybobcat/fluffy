@@ -12,6 +12,8 @@ set(SOURCE_FILES
         include/fluffy/context/context.hpp src/context/context.cpp
         include/fluffy/fluffy_core.hpp)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+
 add_library(fluffy-core ${SOURCE_FILES})
 target_include_directories(fluffy-core PUBLIC "include")
 target_link_libraries(fluffy-core fluffy-utils sfml-graphics)

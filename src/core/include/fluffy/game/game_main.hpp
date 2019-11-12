@@ -19,4 +19,5 @@ public:
 
 #include <fluffy/game/game_main.inl>
 
-#define FluffyGame(T) int main(int argc, char* argv[]) { return Fluffy::GameMain::main<T>(argc, argv); }
+#define FluffyGame(T) \
+    int main(int argc, char* argv[]) { return Fluffy::GameMain::main<T>(argc, argv); }

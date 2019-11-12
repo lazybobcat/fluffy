@@ -8,8 +8,8 @@
 
 #include <ctime>
 #include <fluffy/definitions.hpp>
-#include <fluffy/utils/logger.hpp>
 #include <fluffy/text/string.hpp>
+#include <fluffy/utils/logger.hpp>
 
 using namespace Fluffy;
 

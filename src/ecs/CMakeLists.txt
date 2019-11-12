@@ -8,6 +8,8 @@ set(SOURCE_FILES
         include/fluffy/system_manager.hpp src/system_manager.cpp
         include/fluffy/fluffy_ecs.hpp)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+
 add_library(fluffy-ecs ${SOURCE_FILES})
 target_include_directories(fluffy-ecs PUBLIC "include")
 target_link_libraries(fluffy-ecs fluffy-utils fluffy-core)

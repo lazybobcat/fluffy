@@ -8,8 +8,8 @@
 
 #include <fluffy/definitions.hpp>
 #include <fluffy/serialization/json_serializer.hpp>
-#include <fluffy/utils/logger.hpp>
 #include <fluffy/text/string.hpp>
+#include <fluffy/utils/logger.hpp>
 #include <fstream>
 
 using namespace Fluffy;

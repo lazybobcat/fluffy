@@ -11,8 +11,7 @@
 #include <fluffy/game/game_loader.hpp>
 #include <fluffy/time/time.hpp>
 
-namespace Fluffy
-{
+namespace Fluffy {
 class GameLoop
 {
 public:

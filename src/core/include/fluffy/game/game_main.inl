@@ -9,13 +9,13 @@
 #pragma once
 
 #include <fluffy/game/game_loader.hpp>
+#include <fluffy/game/game_loop.hpp>
 #include <fluffy/game/game_main.hpp>
 #include <fluffy/text/string.hpp>
 #include <fluffy/utils/logger.hpp>
 #include <memory>
 #include <string>
 #include <vector>
-#include "game_loop.hpp"
 
 using namespace Fluffy;
 

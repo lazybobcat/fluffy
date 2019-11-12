@@ -6,9 +6,9 @@
 // File created by loic on 04/05/2019.
 //
 
+#include <fluffy/event/event.hpp>
 #include <fluffy/game/game_loop.hpp>
 #include <fluffy/time/clock.hpp>
-#include <fluffy/event/event.hpp>
 
 using namespace Fluffy;
 
@@ -27,9 +27,9 @@ void GameLoop::run()
 void GameLoop::runLoop()
 {
     Clock clock;
-    Time timeSinceLastUpdate = Time::Zero;
-    Time timePerFrame = seconds(1.f / mGameLoader.getGame().getTargetFPS());
-    Game& game = mGameLoader.getGame();
+    Time  timeSinceLastUpdate = Time::Zero;
+    Time  timePerFrame        = seconds(1.f / mGameLoader.getGame().getTargetFPS());
+    Game& game                = mGameLoader.getGame();
 
     while (game.isRunning()) {
         Time elapsedTime = clock.restart();

@@ -29,7 +29,7 @@ public:
     static const Family INVALID;
 
 public:
-    BaseState() = default;
+    BaseState()          = default;
     virtual ~BaseState() = default;
 
     virtual void initialize();

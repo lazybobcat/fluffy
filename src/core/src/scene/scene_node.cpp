@@ -6,9 +6,9 @@
 // File created by loic on 16/04/18.
 //
 
-#include "fluffy/text/string.hpp"
 #include <cassert>
 #include <fluffy/scene/scene_node.hpp>
+#include <fluffy/text/string.hpp>
 
 using namespace Fluffy;
 
