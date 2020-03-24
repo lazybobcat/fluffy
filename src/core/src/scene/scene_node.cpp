@@ -6,6 +6,7 @@
 // File created by loic on 16/04/18.
 //
 
+#include <algorithm>
 #include <cassert>
 #include <fluffy/scene/scene_node.hpp>
 #include <fluffy/text/string.hpp>
@@ -43,27 +44,6 @@ SceneNode::Ptr SceneNode::detach(const SceneNode& child)
     mChildren.erase(found);
 
     return result;
-}
-
-sf::Transform SceneNode::worldTransform() const
-{
-    sf::Transform transform = sf::Transform::Identity;
-
-    for (const SceneNode* node = this; node != nullptr; node = node->mParent) {
-        transform = node->getTransform() * transform;
-    }
-
-    return transform;
-}
-
-sf::Vector2f SceneNode::worldPosition() const
-{
-    return worldTransform() * sf::Vector2f();
-}
-
-sf::FloatRect SceneNode::boundingRect() const
-{
-    return sf::FloatRect();
 }
 
 void SceneNode::serialize(Json::Value& to)

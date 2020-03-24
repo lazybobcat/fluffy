@@ -1,4 +1,7 @@
+configure_file(include/fluffy/definitions.hpp.in ${CMAKE_CURRENT_SOURCE_DIR}/include/fluffy/definitions.hpp @ONLY)
+
 set(SOURCE_FILES
+        include/fluffy/definitions.hpp
         include/fluffy/event/event.hpp src/event/event.cpp
         include/fluffy/event/event_manager.hpp src/event/event_manager.cpp
         include/fluffy/scene/scene_node.hpp src/scene/scene_node.cpp
@@ -16,4 +19,4 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_library(fluffy-core ${SOURCE_FILES})
 target_include_directories(fluffy-core PUBLIC "include")
-target_link_libraries(fluffy-core fluffy-utils sfml-graphics)
+target_link_libraries(fluffy-core fluffy-utils)

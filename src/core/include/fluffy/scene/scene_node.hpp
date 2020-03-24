@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include <SFML/Graphics/Transformable.hpp>
 #include <fluffy/serialization/serializable.hpp>
 #include <memory>
 
@@ -19,8 +18,7 @@ namespace Fluffy {
 
 class Scene;
 
-class SceneNode : public sf::Transformable
-  , public Fluffy::Serializable
+class SceneNode : public Fluffy::Serializable
 {
 public:
     virtual std::string type() const = 0;
@@ -39,10 +37,6 @@ public:
     Ptr  detach(const SceneNode& child);
 
     std::vector<SceneNode*> children() const;
-
-    sf::Transform         worldTransform() const;
-    sf::Vector2f          worldPosition() const;
-    virtual sf::FloatRect boundingRect() const;
 
     void serialize(Json::Value& to) final;
     void deserialize(Json::Value& from) final;

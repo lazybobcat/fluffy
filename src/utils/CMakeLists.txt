@@ -1,8 +1,5 @@
-configure_file(include/fluffy/definitions.hpp.in ${CMAKE_CURRENT_SOURCE_DIR}/include/fluffy/definitions.hpp @ONLY)
-
 set(SOURCE_FILES
         contrib/jsoncpp/jsoncpp.cpp
-        include/fluffy/definitions.hpp
         include/fluffy/time/clock.hpp src/time/clock.cpp
         include/fluffy/serialization/serializable.hpp
         include/fluffy/serialization/json_serializer.hpp src/serialization/json_serializer.cpp
@@ -17,6 +14,7 @@ set(SOURCE_FILES
         include/fluffy/fluffy_utils.hpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../core/include)
 
 add_library(fluffy-utils ${SOURCE_FILES})
 target_include_directories(fluffy-utils PUBLIC "include" "contrib/jsoncpp")
