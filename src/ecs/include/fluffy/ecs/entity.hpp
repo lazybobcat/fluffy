@@ -6,6 +6,10 @@
 #include <fluffy/event/event.hpp>
 #include <typeindex>
 
+#if FLUFFY_ENV_DEBUG
+#include <fluffy/text/string.hpp>
+#endif
+
 namespace Fluffy {
 
 constexpr std::size_t MAX_COMPONENTS = FLUFFY_ECS_MAX_COMPONENTS;
@@ -106,6 +110,13 @@ struct EntityCreatedEvent : public Event<EntityCreatedEvent>
     ~EntityCreatedEvent() = default;
 
     Entity entity;
+
+#if FLUFFY_ENV_DEBUG
+    virtual const std::string toString() const
+    {
+        return "'EntityCreatedEvent' {entityId:" + Fluffy::toString(entity.id().index()) + "}";
+    }
+#endif
 };
 
 /**
@@ -120,5 +131,12 @@ struct EntityDestroyedEvent : public Event<EntityDestroyedEvent>
     ~EntityDestroyedEvent() = default;
 
     Entity entity;
+
+#if FLUFFY_ENV_DEBUG
+    virtual const std::string toString() const
+    {
+        return "'EntityDestroyedEvent' {entityId:" + Fluffy::toString(entity.id().index()) + "}";
+    }
+#endif
 };
 }

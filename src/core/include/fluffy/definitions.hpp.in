@@ -6,15 +6,21 @@
 #define FLUFFY_ENV @FLUFFY_ENV@
 
 // Debug configurations
-#define FLUFFY_ENV_TEST test
-#define FLUFFY_ENV_DEBUG debug
-#define FLUFFY_ENV_RELEASE release
-
-// Json
-#if FLUFFY_ENV == FLUFFY_ENV_TEST
-#define FLUFFY_DEBUG_COMPACT_JSON true
+#if (FLUFFY_ENV == test)
+    #define FLUFFY_ENV_TEST true
+    #define FLUFFY_ENV_DEBUG false
+    #define FLUFFY_ENV_RELEASE false
+    #define FLUFFY_DEBUG_COMPACT_JSON true
+#elif (FLUFFY_ENV == debug)
+    #define FLUFFY_ENV_TEST false
+    #define FLUFFY_ENV_DEBUG true
+    #define FLUFFY_ENV_RELEASE false
+    #define FLUFFY_DEBUG_COMPACT_JSON false
 #else
-#define FLUFFY_DEBUG_COMPACT_JSON false
+    #define FLUFFY_ENV_TEST false
+    #define FLUFFY_ENV_DEBUG false
+    #define FLUFFY_ENV_RELEASE true
+    #define FLUFFY_DEBUG_COMPACT_JSON false
 #endif
 
 // ECS configurations

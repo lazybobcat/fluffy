@@ -43,6 +43,13 @@ public:
     typedef ComponentHandle<Derived>       Handle;
     typedef ComponentHandle<const Derived> ConstHandle;
 
+#if FLUFFY_ENV_DEBUG
+    virtual const std::string toString() const
+    {
+        return "'UnnamedComponent' {}";
+    }
+#endif
+
 private:
     friend class EntityManager;
 
@@ -87,6 +94,13 @@ struct ComponentAddedEvent : public Event<ComponentAddedEvent<C>>
 
     Entity             entity;
     ComponentHandle<C> component;
+
+#if FLUFFY_ENV_DEBUG
+    virtual const std::string toString() const
+    {
+        return "'ComponentAddedEvent' {entityId:" + Fluffy::toString(entity.id().index()) + ", component=" + component.get()->toString() + "}";
+    }
+#endif
 };
 
 /**
@@ -104,5 +118,12 @@ struct ComponentRemovedEvent : public Event<ComponentRemovedEvent<C>>
 
     Entity             entity;
     ComponentHandle<C> component;
+
+#if FLUFFY_ENV_DEBUG
+    virtual const std::string toString() const
+    {
+        return "'ComponentRemovedEvent' {entityId:" + Fluffy::toString(entity.id().index()) + ", component=" + component.get()->toString() + "}";
+    }
+#endif
 };
 }

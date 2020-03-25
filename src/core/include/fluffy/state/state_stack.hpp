@@ -66,7 +66,7 @@ private:
     std::vector<BaseState::Ptr> mStack;
     std::vector<PendingChange>  mPendingList;
 
-#if FLUFFY_ENV == FLUFFY_ENV_TEST
+#if FLUFFY_ENV_TEST
 public:
     std::size_t pendingListSize() const { return mPendingList.size(); };
 #endif

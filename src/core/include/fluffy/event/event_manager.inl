@@ -1,12 +1,5 @@
-//
-// Fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by loic on 12/11/17.
-//
-
 #include <fluffy/event/event_manager.hpp>
+#include <fluffy/utils/logger.hpp>
 
 using namespace Fluffy;
 
@@ -30,6 +23,10 @@ template<typename E>
 void EventManager::emit(const E& event)
 {
     const BaseEvent::Family family = eventFamily<E>();
+
+#if FLUFFY_ENV_DEBUG
+    FLUFFY_LOG_DEBUG("Emitted event " + event.toString());
+#endif
 
     if (mConnections.find(family) != mConnections.end()) {
         mConnections[family].emit(event);

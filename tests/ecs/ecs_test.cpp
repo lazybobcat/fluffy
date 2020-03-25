@@ -1,18 +1,10 @@
-//
-// fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by loic on 27/04/18.
-//
-
 #include <bandit/bandit.h>
 #include <fluffy/fluffy_ecs.hpp>
 
 using namespace bandit;
 using namespace snowhouse;
 
-std::ostream& operator<<(std::ostream& os, const Entity &e)
+std::ostream& operator<<(std::ostream& os, const Entity& e)
 {
     os << "Entity#" << e.id().index() << "/" << e.id().version();
 
@@ -22,24 +14,44 @@ std::ostream& operator<<(std::ostream& os, const Entity &e)
 struct Position : public Component<Position>
 {
     Position() = default;
-    Position(float x, float y) : x(x), y(y) {}
+    Position(float x, float y)
+      : x(x)
+      , y(y)
+    {}
 
     float x = 0.f;
     float y = 0.f;
+
+#if FLUFFY_ENV_DEBUG
+    virtual const std::string toString() const
+    {
+        return "'Position' {x:" + Fluffy::toString(x) + ", y:" + Fluffy::toString(y) + "}";
+    }
+#endif
 };
 
 struct Speed : public Component<Speed>
 {
     Speed() = default;
-    Speed(float x, float y) : x(x), y(y) {}
+    Speed(float x, float y)
+      : x(x)
+      , y(y)
+    {}
 
     float x = 0.f;
     float y = 0.f;
+
+#if FLUFFY_ENV_DEBUG
+    virtual const std::string toString() const
+    {
+        return "'Speed' {x:" + Fluffy::toString(x) + ", y:" + Fluffy::toString(y) + "}";
+    }
+#endif
 };
 
-go_bandit([](){
-    describe("ECS", [&](){
-        EventManager eventManager;
+go_bandit([]() {
+    describe("ECS", [&]() {
+        EventManager  eventManager;
         EntityManager entityManager(eventManager);
 
         describe("EntityManager", [&]() {
@@ -133,7 +145,8 @@ go_bandit([](){
 
                 std::size_t count = 0;
                 for (auto entity : entityManager.each<Position>()) {
-                    if (entity.isValid()) {}
+                    if (entity.isValid()) {
+                    }
                     ++count;
                 }
 
@@ -143,7 +156,8 @@ go_bandit([](){
             it("should not allow iteration when empty", [&]() {
                 std::size_t count = 0;
                 for (auto entity : entityManager.each<Position>()) {
-                    if (entity.isValid()) {}
+                    if (entity.isValid()) {
+                    }
                     ++count;
                 }
 
