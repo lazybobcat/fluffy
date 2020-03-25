@@ -1,15 +1,7 @@
-//
-// Fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by loic on 20/05/17.
-//
-
 #pragma once
 
 #include <cstdio>
-#include <fluffy/entity.hpp>
+#include <fluffy/ecs/entity.hpp>
 
 namespace Fluffy {
 

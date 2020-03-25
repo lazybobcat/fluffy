@@ -1,11 +1,11 @@
 set(SOURCE_FILES
-        include/fluffy/view/entity_component_view.hpp
-        include/fluffy/component_handle.hpp
-        include/fluffy/component.hpp src/component.cpp
-        include/fluffy/entity.hpp src/entity.cpp
-        include/fluffy/entity_manager.hpp src/entity_manager.cpp
-        include/fluffy/system.hpp src/system.cpp
-        include/fluffy/system_manager.hpp src/system_manager.cpp
+        include/fluffy/ecs/view/entity_component_view.hpp
+        include/fluffy/ecs/component_handle.hpp
+        include/fluffy/ecs/component.hpp src/component.cpp
+        include/fluffy/ecs/entity.hpp src/entity.cpp
+        include/fluffy/ecs/entity_manager.hpp src/entity_manager.cpp
+        include/fluffy/ecs/system.hpp src/system.cpp
+        include/fluffy/ecs/system_manager.hpp src/system_manager.cpp
         include/fluffy/fluffy_ecs.hpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)

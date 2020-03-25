@@ -6,7 +6,7 @@
 // File created by loic on 21/05/17.
 //
 
-#include <fluffy/component.hpp>
+#include <fluffy/ecs/component.hpp>
 #include <fluffy/utils/logger.hpp>
 
 using namespace Fluffy;

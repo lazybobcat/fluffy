@@ -1,15 +1,7 @@
-//
-// Fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by loic on 20/05/17.
-//
-
 #pragma once
 
 #include <cassert>
-#include <fluffy/component_handle.hpp>
+#include <fluffy/ecs/component_handle.hpp>
 #include <memory>
 
 namespace Fluffy {

@@ -6,7 +6,7 @@
 // File created by loic on 09/11/17.
 //
 
-#include <fluffy/system.hpp>
+#include <fluffy/ecs/system.hpp>
 
 using namespace Fluffy;
 

@@ -7,7 +7,7 @@
 //
 
 #include <algorithm>
-#include <fluffy/entity_manager.hpp>
+#include <fluffy/ecs/entity_manager.hpp>
 
 using namespace Fluffy;
 

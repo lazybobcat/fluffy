@@ -6,8 +6,8 @@
 // File created by lo-x on 27/12/15.
 //
 
-#include <fluffy/entity.hpp>
-#include <fluffy/entity_manager.hpp>
+#include <fluffy/ecs/entity.hpp>
+#include <fluffy/ecs/entity_manager.hpp>
 
 using namespace Fluffy;
 

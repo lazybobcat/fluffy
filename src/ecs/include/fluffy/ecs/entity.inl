@@ -1,14 +1,6 @@
-//
-// Fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by loic on 20/05/17.
-//
-
 #include <cassert>
-#include <fluffy/entity.hpp>
-#include <fluffy/entity_manager.hpp>
+#include <fluffy/ecs/entity.hpp>
+#include <fluffy/ecs/entity_manager.hpp>
 #include <fluffy/text/string.hpp>
 #include <fluffy/utils/logger.hpp>
 

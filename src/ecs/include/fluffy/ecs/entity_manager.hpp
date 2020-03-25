@@ -1,18 +1,10 @@
-//
-// Fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by lo-x on 27/12/15.
-//
-
 #pragma once
 
-#include <fluffy/component.hpp>
-#include <fluffy/entity.hpp>
+#include <fluffy/ecs/component.hpp>
+#include <fluffy/ecs/entity.hpp>
+#include <fluffy/ecs/view/entity_component_view.hpp>
 #include <fluffy/event/event_manager.hpp>
 #include <fluffy/utils/pool.hpp>
-#include <fluffy/view/entity_component_view.hpp>
 #include <stack>
 #include <typeindex>
 #include <vector>
@@ -97,7 +89,7 @@ private:
 };
 }
 
-#include <fluffy/component_handle.inl>
-#include <fluffy/entity.inl>
-#include <fluffy/entity_manager.inl>
-#include <fluffy/view/entity_component_view.inl>
+#include <fluffy/ecs/component_handle.inl>
+#include <fluffy/ecs/entity.inl>
+#include <fluffy/ecs/entity_manager.inl>
+#include <fluffy/ecs/view/entity_component_view.inl>

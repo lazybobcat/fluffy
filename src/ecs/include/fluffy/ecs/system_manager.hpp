@@ -1,15 +1,7 @@
-//
-// Fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by loic on 13/11/17.
-//
-
 #pragma once
 
+#include <fluffy/ecs/system.hpp>
 #include <fluffy/service/service_container.hpp>
-#include <fluffy/system.hpp>
 #include <fluffy/time/time.hpp>
 #include <map>
 #include <memory>
@@ -76,4 +68,4 @@ private:
 };
 }
 
-#include <fluffy/system_manager.inl>
+#include <fluffy/ecs/system_manager.inl>
