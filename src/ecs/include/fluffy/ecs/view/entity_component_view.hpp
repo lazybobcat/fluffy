@@ -1,7 +1,7 @@
 #pragma once
 
-#include <cstdio>
 #include <fluffy/ecs/entity.hpp>
+#include <fluffy/pch.hpp>
 
 namespace Fluffy {
 

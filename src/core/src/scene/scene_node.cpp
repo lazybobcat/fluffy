@@ -1,15 +1,5 @@
-//
-// fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by loic on 16/04/18.
-//
-
-#include <algorithm>
-#include <cassert>
+#include <fluffy/pch.hpp>
 #include <fluffy/scene/scene_node.hpp>
-#include <fluffy/text/string.hpp>
 
 using namespace Fluffy;
 

@@ -1,8 +1,7 @@
 #pragma once
 
-#include <cassert>
 #include <fluffy/ecs/component_handle.hpp>
-#include <memory>
+#include <fluffy/pch.hpp>
 
 namespace Fluffy {
 

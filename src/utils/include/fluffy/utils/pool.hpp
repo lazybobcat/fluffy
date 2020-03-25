@@ -1,16 +1,6 @@
-//
-// fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright (c) 2019. All rights reserved.
-// File created by loic on 27/04/2019.
-//
-
 #pragma once
 
-#include <cassert>
-#include <cstdint>
-#include <vector>
+#include <fluffy/pch.hpp>
 
 namespace Fluffy {
 

@@ -10,9 +10,8 @@
 
 #include <fluffy/definitions.hpp>
 #include <fluffy/event/event_manager.hpp>
+#include <fluffy/pch.hpp>
 #include <fluffy/state/state.hpp>
-#include <map>
-#include <vector>
 
 namespace Fluffy {
 

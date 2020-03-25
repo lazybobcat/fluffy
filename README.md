@@ -12,14 +12,12 @@ scripting, asset pipes, and whatever comes to my mind or yours.
 
 ## Fluffy needs
 
-* A compiler that supports C++14 at least
-* SFML 2.x
+* A compiler that supports C++17 at least
 
 ## Fluffy uses
 
 * [Bandit/Bandit](https://github.com/banditcpp/) For unit testing
 * [open-source-parsers/jsoncpp](https://github.com/open-source-parsers/jsoncpp) For serialization stuff and loading data
-* [sfml/sfml](https://github.com/sfml/sfml) SFML for graphic/math helpers and multimedia
 
 ## How to compile
 
@@ -121,54 +119,3 @@ public:
 
 ### States
 
-Create and add a State to the StateStack:
-```
-class TitleState : public State<TitleState>
-{
-public:
-    void initialize(ServiceContainer& serviceContainer) override
-    {
-        BaseState::initialize(serviceContainer);
-
-        if (serviceContainer.has<EventManager>()) {
-            _tickSlot = serviceContainer.get<EventManager>()->connect<GameTickEvent>(std::bind(&TitleState::onGameTickEvent, this, std::placeholders::_1));
-        }
-    }
- 
-    void terminate() override
-    {
-        BaseState::terminate();
-
-        _tickSlot.disconnect();
-    }
- 
-    void onGameTickEvent(const GameTickEvent& event)
-    {
-        std::cout << "TICK!!!" << std::endl;
-    }
- 
-    Slot _tickSlot;
-};
- 
-{
-    StateStack stack(serviceContainer);
-    stack.registerState<TitleState>();
-    stack.push<TitleState>();
- 
-    while (/** Game Loop or something**/) {
-        BeforeGameTickEvent beforeGameTickEvent;
-        serviceContainer.get<EventManager>()->emit(beforeGameTickEvent);
-        
-        GameTickEvent gameTickEvent(seconds(1/60.f));
-        serviceContainer.get<EventManager>()->emit(gameTickEvent);
-        
-        AfterGameTickEvent afterGameTickEvent;
-        serviceContainer.get<EventManager>()->emit(afterGameTickEvent);
-    }
-}
-```
-
-The StateStack apply the pending changes (push state, pop state or clear states) when BeforeGameTickEvent and 
-AfterGameTickEvent are raised.
-
-Here, the TitleState class also define a callback to be called when GameTickEvent is raised.

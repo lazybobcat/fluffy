@@ -1,15 +1,7 @@
-//
-// fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by loic on 16/04/18.
-//
-
 #pragma once
 
+#include <fluffy/pch.hpp>
 #include <fluffy/serialization/serializable.hpp>
-#include <memory>
 
 #define SCENE_NODE(_type) \
     std::string type() const { return #_type; }

@@ -9,6 +9,7 @@
 #pragma once
 
 #include <fluffy/serialization/serializable.hpp>
+#include <fluffy/pch.hpp>
 
 namespace Fluffy {
 

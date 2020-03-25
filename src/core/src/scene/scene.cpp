@@ -8,7 +8,6 @@
 
 #include <fluffy/scene/scene.hpp>
 #include <fluffy/serialization/json_serializer.hpp>
-#include <fluffy/text/string.hpp>
 
 using namespace Fluffy;
 

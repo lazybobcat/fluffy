@@ -1,5 +1,5 @@
 #include <fluffy/event/event_manager.hpp>
-#include <fluffy/utils/logger.hpp>
+#include <fluffy/pch.hpp>
 
 using namespace Fluffy;
 

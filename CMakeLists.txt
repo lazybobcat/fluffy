@@ -19,8 +19,12 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/build)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_SOURCE_DIR}/build)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_CURRENT_SOURCE_DIR}/build)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall -fPIC")
 
+# Plugins
+include(cmake/PrecompiledHeader.cmake) # If CMake < 3.16, precompiled headers are not supported out of the box
+
+# Fluffy
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/extlibs/bandit)
 add_subdirectory(src)
 

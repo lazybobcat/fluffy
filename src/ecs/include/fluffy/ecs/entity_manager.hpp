@@ -4,10 +4,8 @@
 #include <fluffy/ecs/entity.hpp>
 #include <fluffy/ecs/view/entity_component_view.hpp>
 #include <fluffy/event/event_manager.hpp>
+#include <fluffy/pch.hpp>
 #include <fluffy/utils/pool.hpp>
-#include <stack>
-#include <typeindex>
-#include <vector>
 
 namespace Fluffy {
 

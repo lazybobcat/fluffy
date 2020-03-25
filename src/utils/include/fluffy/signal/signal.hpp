@@ -1,17 +1,7 @@
-//
-// Fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by loic on 12/11/17.
-//
-
 #pragma once
 
+#include <fluffy/pch.hpp>
 #include <fluffy/signal/slot.hpp>
-#include <functional>
-#include <map>
-#include <vector>
 
 namespace Fluffy {
 

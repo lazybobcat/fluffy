@@ -1,5 +1,5 @@
 #include <bandit/bandit.h>
-#include <fluffy/utils/logger.hpp>
+#include <fluffy/pch.hpp>
 
 using namespace bandit;
 

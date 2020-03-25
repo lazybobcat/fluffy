@@ -1,6 +1,6 @@
-#include <cassert>
 #include <fluffy/ecs/component_handle.hpp>
 #include <fluffy/ecs/entity_manager.hpp>
+#include <fluffy/pch.hpp>
 
 using namespace Fluffy;
 
