@@ -1,13 +1,6 @@
-//
-// fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright (c) 2019. All rights reserved.
-// File created by loic on 04/05/2019.
-//
-
 #pragma once
 
+#include <fluffy/definitions.hpp>
 #include <fluffy/game/game_loader.hpp>
 #include <fluffy/game/game_loop.hpp>
 #include <fluffy/game/game_main.hpp>
@@ -22,6 +15,8 @@ using namespace Fluffy;
 template<typename T>
 int GameMain::main(int argc, char* argv[])
 {
+    Logger::init(false);
+
     std::vector<std::string> args;
     for (int i = 0; i < argc; ++i) {
         args.push_back(argv[i]);
@@ -36,14 +31,16 @@ int GameMain::main(int argc, char* argv[])
         loop.run();
         loader.unload();
     } catch (std::exception& e) {
-        Logger::getInstance()->log(Logger::LogType::Error, toString("Game terminated with an error: ") + e.what());
+        FLUFFY_LOG_ERROR("Game terminated with an error: " + toString(e.what()));
 
         return 1;
     } catch (...) {
-        Logger::getInstance()->log(Logger::LogType::Error, "Game terminated with an unexpected error");
+        FLUFFY_LOG_ERROR("Game terminated with an unexpected error");
 
         return 1;
     }
+
+    Logger::clear();
 
     return 0;
 }

@@ -1,62 +1,79 @@
-//
-// Fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by lo-x on 27/12/15.
-//
-
 #pragma once
 
 #include <fstream>
-#include <iostream>
+#include <mutex>
+#include <set>
+#include <string>
 
 namespace Fluffy {
+
+enum class LogLevel
+{
+    Debug,
+    Info,
+    Warning,
+    Error,
+};
+
+class BaseLoggerSink
+{
+public:
+    virtual ~BaseLoggerSink()                                    = default;
+    virtual void log(LogLevel level, const std::string& message) = 0;
+
+    void setLevel(LogLevel level) { mMinimumLevel = level; }
+    bool canLog(LogLevel level) { return level >= mMinimumLevel; }
+
+private:
+    LogLevel mMinimumLevel = LogLevel::Debug;
+};
+
+class StdOutSink : public BaseLoggerSink
+{
+public:
+    void log(LogLevel level, const std::string& message) override;
+
+private:
+    std::mutex mMutex;
+};
+
+class FileSink : public BaseLoggerSink
+{
+public:
+    FileSink();
+    void log(LogLevel level, const std::string& message) override;
+
+private:
+    std::mutex    mMutex;
+    std::ofstream mFile;
+};
 
 class Logger
 {
 public:
-    enum class LogType
-    {
-        Info,
-        Text,
-        Warning,
-        Error,
-    };
+    static void init(bool testMode = false);
+    static void clear();
 
-    enum LogOutput
-    {
-        None    = 0,
-        File    = 1 << 0,
-        StdOut  = 1 << 1,
-        Console = 1 << 2,
-    };
-
-public:
-    ~Logger();
-
-    static Logger* getInstance(unsigned int output = File | StdOut);
-    static void    deleteInstance();
-    void           setOutput(unsigned int output);
-
-    static void log(LogType type, const std::string& message);
+    static void debug(const std::string& message);
+    static void info(const std::string& message);
+    static void warn(const std::string& message);
+    static void error(const std::string& message);
 
 private:
-    Logger(unsigned int output = File | StdOut);
-
-    std::string formatAsHtml(LogType type, const std::string& message);
-    std::string formatAsText(LogType type, const std::string& message);
-    void        logToFile(const std::string& message, const std::string& datetime = "");
-    void        logToStdOut(const std::string& message, const std::string& datetime = "");
-    void        logToConsole(const std::string& message, const std::string& datetime = "");
+    Logger() = default;
+    static void log(LogLevel level, const std::string& message);
 
 private:
-    static Logger* mInstance;
+    static Logger* sInstance;
 
-    unsigned int  mOutput;
-    std::ofstream mFile;
-
-    unsigned int mWarnings;
-    unsigned int mErrors;
+    std::set<BaseLoggerSink*> mSinks;
 };
 }
+
+// Fluffy core log macros
+#define FLUFFY_LOG_DEBUG(...) Fluffy::Logger::debug(__VA_ARGS__)
+#define FLUFFY_LOG_INFO(...) Fluffy::Logger::info(__VA_ARGS__)
+#define FLUFFY_LOG_WARN(...) Fluffy::Logger::warn(__VA_ARGS__)
+#define FLUFFY_LOG_ERROR(...) Fluffy::Logger::error(__VA_ARGS__)
+
+std::ostream& operator<<(std::ostream& os, Fluffy::LogLevel level);

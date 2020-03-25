@@ -67,7 +67,7 @@ void Entity::remove()
     assert(isValid());
 
     if (!hasComponent<C>()) {
-        Logger::log(Logger::LogType::Error, printString("Trying to remove unassigned component '%1' from entity #%2", { toString(typeid(C).name()), toString(mId.index()) }));
+        FLUFFY_LOG_ERROR("Trying to remove unassigned component '" + toString(typeid(C).name()) + "' from entity #" + toString(mId.index()));
     }
 
     mManager->remove<C>(mId);

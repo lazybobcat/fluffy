@@ -1,14 +1,5 @@
-//
-// fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by loic on 17/04/18.
-//
-
 #include <fluffy/definitions.hpp>
 #include <fluffy/serialization/json_serializer.hpp>
-#include <fluffy/text/string.hpp>
 #include <fluffy/utils/logger.hpp>
 #include <fstream>
 
@@ -36,7 +27,7 @@ bool JsonSerializer::deserializeFromString(std::string& input, Fluffy::Serializa
     Json::Reader reader;
 
     if (!reader.parse(input, value)) {
-        Logger::log(Logger::LogType::Error, printString("An error occurred while deserializing json string: %1", { input }));
+        FLUFFY_LOG_ERROR("An error occurred while deserializing json string: " + input);
 
         return false;
     }
@@ -61,7 +52,7 @@ bool JsonSerializer::serializeToFile(Fluffy::Serializable& input, std::string& f
     output.open(filepath);
 
     if (!output.is_open()) {
-        Logger::log(Logger::LogType::Error, printString("Unable to open file '%1' for serialization", { filepath }));
+        FLUFFY_LOG_ERROR("Unable to open file '" + filepath + "' for serialization");
 
         return false;
     }
@@ -81,7 +72,7 @@ bool JsonSerializer::deserializeFromFile(std::string& filepath, Fluffy::Serializ
     input.open(filepath);
 
     if (!input.is_open()) {
-        Logger::log(Logger::LogType::Error, printString("Unable to open file '%1' for deserialization", { filepath }));
+        FLUFFY_LOG_ERROR("Unable to open file '" + filepath + "' for serialization");
 
         return false;
     }
@@ -89,7 +80,7 @@ bool JsonSerializer::deserializeFromFile(std::string& filepath, Fluffy::Serializ
     try {
         input >> value;
     } catch (Json::RuntimeError& e) {
-        Logger::log(Logger::LogType::Error, printString("An error occurred while deserializing file '%1': %2", { filepath, e.what() }));
+        FLUFFY_LOG_ERROR("An error occurred while deserializing file '" + filepath + "': " + e.what());
 
         return false;
     }

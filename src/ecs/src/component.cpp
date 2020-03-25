@@ -15,6 +15,7 @@ BaseComponent::Family BaseComponent::mFamilyCounter = 0;
 
 void BaseComponent::fail()
 {
-    Logger::log(Logger::LogType::Error, "You must not delete any component by hand.");
-    //exit(CODE); // @todo exit codes
+    FLUFFY_LOG_ERROR("You must not delete any component by hand");
+
+    exit(1); // @todo exit codes
 }

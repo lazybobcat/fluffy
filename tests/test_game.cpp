@@ -1,18 +1,12 @@
-//
-// fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright (c) 2019. All rights reserved.
-// File created by loic on 04/05/2019.
-//
-
 #include <fluffy/fluffy_core.hpp>
+#include <fluffy/fluffy_utils.hpp>
+#include <iostream>
 
 struct ShieldState : public State<ShieldState>
 {
     void update(Time dt) override
     {
-        std::cout << "\t<<<< SHIELD STATE  >>>>" << std::endl;
+        FLUFFY_LOG_DEBUG("\t<<<< SHIELD STATE  >>>>");
         requestStackPop();
     }
 
@@ -25,7 +19,7 @@ struct NonShieldState : public State<ShieldState>
 {
     void update(Time dt) override
     {
-        std::cout << "\t(: NON SHIELD STATE  :)" << std::endl;
+        FLUFFY_LOG_DEBUG("\t(: NON SHIELD STATE  :)");
         requestStackPop();
     }
 
@@ -33,7 +27,8 @@ struct NonShieldState : public State<ShieldState>
     {
     }
 
-    bool isShielding() const override {
+    bool isShielding() const override
+    {
         return false;
     }
 };
@@ -45,7 +40,7 @@ struct TestState : public State<TestState>
     void update(Time dt) override
     {
         mNbUpdates++;
-        std::cout << "\tTestState has been updated (iteration " << mNbUpdates << ") after " << dt.seconds() << "sec" << std::endl;
+        FLUFFY_LOG_DEBUG("\tTestState has been updated (iteration " + toString(mNbUpdates) + ") after " + toString(dt.seconds()) + "sec");
 
         if (mNbUpdates == 2) {
             requestStackPush(std::make_unique<ShieldState>());
@@ -68,7 +63,7 @@ class TestGame : public Fluffy::Game
 public:
     void update(Time dt) override
     {
-        std::cout << "New Iteration:" << std::endl;
+        FLUFFY_LOG_DEBUG("New Iteration:");
     }
 
     void render() override

@@ -1,19 +1,13 @@
-//
-// Fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by lo-x on 27/12/15.
-//
-
+#include <cassert>
 #include <ctime>
 #include <fluffy/definitions.hpp>
 #include <fluffy/text/string.hpp>
 #include <fluffy/utils/logger.hpp>
+#include <iostream>
 
 using namespace Fluffy;
 
-const std::string currentDateTime()
+std::string currentDateTime()
 {
     time_t    now = time(0);
     struct tm tstruct;
@@ -26,138 +20,128 @@ const std::string currentDateTime()
     return std::string(buf);
 }
 
-/*****************************************************/
-
-Logger* Logger::mInstance = nullptr;
-
-Logger* Logger::getInstance(unsigned int output)
+std::ostream& operator<<(std::ostream& os, LogLevel level)
 {
-    if (nullptr == Logger::mInstance) {
-        Logger::mInstance = new Logger(output);
-    } else {
-        Logger::mInstance->setOutput(output);
+    switch (level) {
+        case LogLevel::Error:
+            return os << "error";
+
+        case LogLevel::Warning:
+            return os << "warn";
+
+        case LogLevel::Info:
+            return os << "info";
+
+        case LogLevel::Debug:
+            return os << "debug";
     }
 
-    return Logger::mInstance;
-}
-
-void Logger::deleteInstance()
-{
-    delete mInstance;
+    return os;
 }
 
 /*****************************************************/
 
-Logger::Logger(unsigned int output)
-  : mOutput(output)
-  , mWarnings(0)
-  , mErrors(0)
+void StdOutSink::log(LogLevel level, const std::string& message)
+{
+    std::unique_lock<std::mutex> lock(mMutex);
+
+    switch (level) {
+        case LogLevel::Error:
+            std::cout << "\033[31m";
+            break;
+
+        case LogLevel::Warning:
+            std::cout << "\033[33m";
+            break;
+
+        case LogLevel::Info:
+            std::cout << "\033[94m";
+            break;
+
+        case LogLevel::Debug:
+            std::cout << "\033[37m";
+            break;
+    }
+
+    std::cout << "[" << currentDateTime() << "] [" << level << "] " << message << "\033[0m" << std::endl;
+}
+
+FileSink::FileSink()
 {
     mFile.open(FLUFFY_LOG_FILE, std::ios::trunc);
-    if (!mFile.is_open()) {
-        // throw exception
-    }
-
-    logToFile("<!doctype html>");
-    logToFile("<html lang=\"fr-FR\">");
-    logToFile("<head>");
-    logToFile("\t<meta charset=\"utf-8\">");
-    logToFile(printString("\t<title>Fluffy Logs - %1 (%2) - %3</title>", { FLUFFY_VERSION, STRING(FLUFFY_ENV), currentDateTime() }));
-    logToFile("\t<style>body{font-size:15px;color:#000;background-color:#fff;} text,info,warning,error{display:block;} info{color:#3376FF;font-style:italic;} warning{color:#FF6A00;} error{color:#f00;font-weight:bold;}</style>");
-    logToFile("</head>");
-    logToFile("<body>");
-
     mFile.close();
 }
 
-Logger::~Logger()
+void FileSink::log(LogLevel level, const std::string& message)
 {
-    logToFile("</body>");
-    logToFile("</html>");
-}
-
-void Logger::setOutput(unsigned int output)
-{
-    mOutput = output;
-}
-
-void Logger::log(LogType type, const std::string& message)
-{
-    if (nullptr == mInstance) {
-        getInstance();
-    }
-
-    const std::string time = currentDateTime();
-
-    if (mInstance->mOutput & File) {
-        mInstance->logToFile(std::move(mInstance->formatAsHtml(type, message)), time);
-    }
-
-    if (mInstance->mOutput & StdOut) {
-        mInstance->logToStdOut(std::move(mInstance->formatAsText(type, message)), time);
-    }
-}
-
-std::string Logger::formatAsHtml(LogType type, const std::string& message)
-{
-    switch (type) {
-        case LogType::Text:
-            return "<text>" + message + "</text>";
-
-        case LogType::Info:
-            return "<info>" + message + "</info>";
-
-        case LogType::Warning:
-            return "<warning>" + message + "</warning>";
-
-        case LogType::Error:
-            return "<error>" + message + "</error>";
-    }
-
-    return message;
-}
-
-std::string Logger::formatAsText(LogType type, const std::string& message)
-{
-    switch (type) {
-        case LogType::Text:
-            return message;
-
-        case LogType::Info:
-            return "<info> " + message;
-
-        case LogType::Warning:
-            return "<warning> " + message;
-
-        case LogType::Error:
-            return "<error> " + message;
-    }
-
-    return message;
-}
-
-void Logger::logToFile(const std::string& message, const std::string& datetime)
-{
+    std::unique_lock<std::mutex> lock(mMutex);
     mFile.open(FLUFFY_LOG_FILE, std::ios::app);
 
     if (mFile.is_open()) {
-        if (!datetime.empty()) {
-            mFile << "<!-- " << datetime << " -->" << std::endl;
-        }
-        mFile << message << std::endl;
+        mFile << "[" << currentDateTime() << "] [" << level << "] " << message << std::endl;
     }
 
     mFile.close();
 }
 
-void Logger::logToStdOut(const std::string& message, const std::string& datetime)
+/*****************************************************/
+
+Logger* Logger::sInstance = nullptr;
+
+void Logger::init(bool testMode)
 {
-    if (!datetime.empty()) {
-        std::cout << "[" << datetime << "] ";
+    if (nullptr == sInstance) {
+        sInstance = new Logger();
+
+        if (!testMode) {
+            auto console_sink = new StdOutSink();
+            console_sink->setLevel(LogLevel::Debug);
+            sInstance->mSinks.insert(console_sink);
+        }
+
+        auto file_sink = new FileSink();
+        file_sink->setLevel(LogLevel::Info);
+        sInstance->mSinks.insert(file_sink);
     }
-    std::cout << message << std::endl;
 }
 
-void Logger::logToConsole(const std::string& message, const std::string& datetime)
+void Logger::clear()
 {
+    for (BaseLoggerSink* sink : sInstance->mSinks) {
+        delete sink;
+    }
+
+    delete sInstance;
+    sInstance = nullptr;
+}
+
+void Logger::log(LogLevel level, const std::string& message)
+{
+    assert(sInstance);
+
+    for (auto& sink : sInstance->mSinks) {
+        if (sink->canLog(level)) {
+            sink->log(level, message);
+        }
+    }
+}
+
+void Logger::debug(const std::string& message)
+{
+    log(LogLevel::Debug, message);
+}
+
+void Logger::info(const std::string& message)
+{
+    log(LogLevel::Info, message);
+}
+
+void Logger::warn(const std::string& message)
+{
+    log(LogLevel::Warning, message);
+}
+
+void Logger::error(const std::string& message)
+{
+    log(LogLevel::Error, message);
 }
