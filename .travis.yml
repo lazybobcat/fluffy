@@ -8,6 +8,11 @@ addons:
     packages:
       - gcc-7
       - g++-7
+      - libxrandr-dev
+      - libxinerama-dev
+      - libxcursor-dev
+      - libxi-dev
+      - libgl1-mesa-dev
 before_install:
   - sudo apt-get install libsfml-dev
 script:
