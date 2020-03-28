@@ -1,6 +1,7 @@
 #pragma once
 
 #include <fluffy/pch.hpp>
+#include <mutex>
 
 namespace Fluffy {
 

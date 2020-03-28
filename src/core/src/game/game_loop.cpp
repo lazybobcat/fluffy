@@ -1,11 +1,3 @@
-//
-// fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright (c) 2019. All rights reserved.
-// File created by loic on 04/05/2019.
-//
-
 #include <fluffy/event/event.hpp>
 #include <fluffy/game/game_loop.hpp>
 #include <fluffy/time/clock.hpp>

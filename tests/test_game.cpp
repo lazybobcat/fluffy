@@ -1,3 +1,4 @@
+#include <fluffy/api/modules.hpp>
 #include <fluffy/fluffy_core.hpp>
 #include <fluffy/fluffy_utils.hpp>
 #include <iostream>
@@ -58,9 +59,36 @@ struct TestState : public State<TestState>
     }
 };
 
+class CustomVideoModule : public VideoModule
+{
+public:
+    void initialize(const Context& context) override
+    {
+        FLUFFY_LOG_DEBUG("CustomVideoModule initialized");
+    }
+    void terminate() override
+    {
+        FLUFFY_LOG_DEBUG("CustomVideoModule terminated");
+    }
+    std::string getName() const override
+    {
+        return "CustomVideoModule";
+    }
+    ModuleType getType() const override
+    {
+        return ModuleType::Video;
+    }
+};
+
 class TestGame : public Fluffy::Game
 {
 public:
+    void initializeModules(ModuleRegistry& registry) override
+    {
+        registry.registerModule(new SystemModule());
+        registry.registerModule(new CustomVideoModule());
+    }
+
     void update(Time dt) override
     {
         FLUFFY_LOG_DEBUG("New Iteration:");

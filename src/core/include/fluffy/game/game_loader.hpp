@@ -7,7 +7,7 @@ namespace Fluffy {
 class GameLoader
 {
 public:
-    GameLoader(const Context& context, std::vector<std::string>&& args);
+    explicit GameLoader(std::vector<std::string>&& args);
     virtual ~GameLoader();
 
     void load();
@@ -20,7 +20,7 @@ protected:
     virtual std::unique_ptr<Game> createGame() { return nullptr; }
 
 private:
-    const Context&           mContext;
+    std::unique_ptr<Context> mContext;
     std::vector<std::string> mApplicationArgs;
 
     std::unique_ptr<Game> mGame = nullptr;
@@ -30,8 +30,8 @@ template<typename T>
 class SpecializedGameLoader final : public GameLoader
 {
 public:
-    SpecializedGameLoader(const Context& context, std::vector<std::string>&& args)
-      : GameLoader(context, std::move(args))
+    explicit SpecializedGameLoader(std::vector<std::string>&& args)
+      : GameLoader(std::move(args))
     {}
 
 protected:

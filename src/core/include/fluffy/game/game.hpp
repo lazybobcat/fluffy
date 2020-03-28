@@ -1,6 +1,7 @@
 #pragma once
 
-#include <fluffy/context/context.hpp>
+#include <fluffy/api/context.hpp>
+#include <fluffy/api/modules.hpp>
 #include <fluffy/pch.hpp>
 #include <fluffy/state/state.hpp>
 #include <fluffy/state/state_stack.hpp>
@@ -16,7 +17,9 @@ class Game
 public:
     virtual ~Game() = default;
 
-    virtual void initialize(const Context& /*context*/, const std::vector<std::string> /*args*/) {}
+    virtual void initialize(const std::vector<std::string> /*args*/) {}
+    virtual void initializeModules(ModuleRegistry& registry) = 0;
+    virtual void terminate(const Context& /*context*/) {}
 
     bool isRunning() const;
 

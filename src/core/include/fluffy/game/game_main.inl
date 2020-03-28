@@ -1,6 +1,7 @@
 #pragma once
 
 #include <fluffy/definitions.hpp>
+#include <fluffy/graphics/platform/glfw_window.hpp>
 #include <fluffy/game/game_loader.hpp>
 #include <fluffy/game/game_loop.hpp>
 #include <fluffy/game/game_main.hpp>
@@ -18,10 +19,10 @@ int GameMain::main(int argc, char* argv[])
         args.push_back(argv[i]);
     }
 
-    auto context = Context::create();
+//    Window* window = new GlfwWindow({"Test Fluffy", WindowType::Windowed, 1280, 720});
 
     try {
-        SpecializedGameLoader<T> loader(*context, std::move(args));
+        SpecializedGameLoader<T> loader(std::move(args));
         loader.load();
         GameLoop loop(loader);
         loop.run();
@@ -35,6 +36,8 @@ int GameMain::main(int argc, char* argv[])
 
         return 1;
     }
+
+//    delete window;
 
     Logger::clear();
 
