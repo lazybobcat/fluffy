@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include <fluffy/serialization/serializable.hpp>
 #include <fluffy/pch.hpp>
+#include <fluffy/serialization/serializable.hpp>
 
 namespace Fluffy {
 

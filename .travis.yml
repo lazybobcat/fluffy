@@ -13,8 +13,8 @@ addons:
       - libxcursor-dev
       - libxi-dev
       - libgl1-mesa-dev
-before_install:
-  - sudo apt-get install libsfml-dev
+#before_install:
+#  - sudo apt-get install libsfml-dev
 script:
   - gcc -v
   - export CC=gcc-7

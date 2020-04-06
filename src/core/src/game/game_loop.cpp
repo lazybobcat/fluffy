@@ -7,6 +7,7 @@ using namespace Fluffy;
 GameLoop::GameLoop(GameLoader& loader)
   : mGameLoader(loader)
 {
+    FLUFFY_LOG_INFO("Starting game " + mGameLoader.getGame().getTitle() + " with Fluffy...");
 }
 
 void GameLoop::run()
@@ -22,10 +23,10 @@ void GameLoop::runLoop()
     Time  timeSinceLastUpdate = Time::Zero;
     Time  timePerFrame        = seconds(1.f / mGameLoader.getGame().getTargetFPS());
     Game& game                = mGameLoader.getGame();
+    bool  restartClock        = false;
 
     while (game.isRunning()) {
-        Time elapsedTime = clock.restart();
-        timeSinceLastUpdate += elapsedTime;
+        timeSinceLastUpdate = clock.elapsedTime();
 
         while (timeSinceLastUpdate >= timePerFrame) {
             timeSinceLastUpdate -= timePerFrame;
@@ -33,6 +34,12 @@ void GameLoop::runLoop()
             processInput();
             game.update(timePerFrame);
             game.internalUpdate(timePerFrame);
+            restartClock = true;
+        }
+
+        if (restartClock) {
+            clock.restart();
+            restartClock = false;
         }
 
         game.render();

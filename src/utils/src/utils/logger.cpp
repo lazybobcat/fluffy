@@ -75,6 +75,7 @@ void FileSink::log(LogLevel level, const std::string& message)
 
     if (mFile.is_open()) {
         mFile << "[" << currentDateTime() << "] [" << level << "] " << message << std::endl;
+        mFile.flush();
     }
 
     mFile.close();

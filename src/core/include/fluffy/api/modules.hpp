@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fluffy/graphics/window.hpp>
 #include <fluffy/pch.hpp>
 
 namespace Fluffy {
@@ -26,10 +27,10 @@ public:
     virtual ~BaseModule() = default;
 
     virtual void initialize(const Context& context) = 0;
-    virtual void terminate()  = 0;
+    virtual void terminate()                        = 0;
 
-    virtual std::string getName() const = 0;
-    virtual ModuleType  getType() const = 0;
+    [[nodiscard]] virtual std::string getName() const = 0;
+    [[nodiscard]] virtual ModuleType  getType() const = 0;
 };
 
 class ModuleRegistry
@@ -40,7 +41,7 @@ public:
      */
     void                                            registerModule(BaseModule* module);
     [[nodiscard]] std::map<ModuleType, BaseModule*> getModules() const;
-    BaseModule*                                     getModule(ModuleType type) const;
+    [[nodiscard]] BaseModule*                       getModule(ModuleType type) const;
 
 private:
     std::map<ModuleType, BaseModule*> mRegistry;
@@ -49,17 +50,14 @@ private:
 class SystemModule : public BaseModule
 {
 public:
-    void initialize(const Context& context) override
-    {
-    }
-    void terminate() override
-    {
-    }
-    std::string getName() const override
-    {
+    void initialize(const Context& context) override;
+    void terminate() override;
+
+    [[nodiscard]] std::string getName() const override {
         return "system_module";
     }
-    ModuleType getType() const override
+
+      [[nodiscard]] ModuleType getType() const override
     {
         return ModuleType::System;
     }
@@ -67,5 +65,26 @@ public:
 
 class VideoModule : public BaseModule
 {
+public:
+    explicit VideoModule(Window::Definition&& windowDefinition);
+
+    void initialize(const Context& context) override;
+    void terminate() override;
+
+    [[nodiscard]] std::string getName() const override {
+        return "video_module";
+    }
+
+      [[nodiscard]] ModuleType getType() const override
+    {
+        return ModuleType::Video;
+    }
+
+    [[nodiscard]] Window* getWindow() const {
+        return mWindow;
+    }
+
+    private : Window::Definition mWindowDefinition;
+    Window* mWindow = nullptr;
 };
 }

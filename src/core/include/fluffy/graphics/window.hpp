@@ -34,9 +34,9 @@ public:
 public:
     virtual ~Window() = default;
 
-    virtual void update(const Definition& definition) = 0;
-    virtual void setVsync(bool vsync) = 0;
-    virtual const Definition& getDefinition() const = 0;
+    virtual void              update(const Definition& definition) = 0;
+    virtual void              setVsync(bool vsync)                 = 0;
+    virtual const Definition& getDefinition() const                = 0;
 
     virtual void* getNativeWindow() { return nullptr; }
 

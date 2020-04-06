@@ -1,5 +1,5 @@
-#include <fluffy/pch.hpp>
 #include <fluffy/ecs/entity_manager.hpp>
+#include <fluffy/pch.hpp>
 
 using namespace Fluffy;
 
