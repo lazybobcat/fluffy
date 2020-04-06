@@ -51,10 +51,10 @@ VideoModule::VideoModule(Window::Definition&& windowDefinition)
 
 void VideoModule::initialize(const Context& context)
 {
-    //    mWindow = new GlfwWindow(mWindowDefinition);
+    mWindow = new GlfwWindow(mWindowDefinition);
 }
 
 void VideoModule::terminate()
 {
-    //    delete mWindow;
+    delete mWindow;
 }

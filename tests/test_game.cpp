@@ -86,6 +86,11 @@ public:
     {
         return std::string("TestGame");
     }
+
+    int getTargetFPS() const override
+    {
+        return 120;
+    }
 };
 
 FluffyGame(TestGame)

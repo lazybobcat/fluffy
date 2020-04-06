@@ -25,3 +25,7 @@
 
 // ECS configurations
 #define FLUFFY_ECS_MAX_COMPONENTS 128;
+
+// OpenGL configurations
+#define OPENGL_MAJOR_VERSION 3
+#define OPENGL_MINOR_VERSION 3

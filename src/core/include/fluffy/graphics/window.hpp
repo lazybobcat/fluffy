@@ -34,10 +34,11 @@ public:
 public:
     virtual ~Window() = default;
 
-    virtual void              update(const Definition& definition) = 0;
-    virtual void              setVsync(bool vsync)                 = 0;
-    virtual const Definition& getDefinition() const                = 0;
+    virtual void                            update(const Definition& definition) = 0;
+    virtual void                            setVsync(bool vsync)                 = 0;
+    [[nodiscard]] virtual const Definition& getDefinition() const                = 0;
 
+    virtual void  resize(int w, int h) {}
     virtual void* getNativeWindow() { return nullptr; }
 
 private:

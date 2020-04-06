@@ -1,4 +1,5 @@
 
+#ifdef __cplusplus
 // STL includes
 #include <algorithm>
 #include <bitset>
@@ -35,3 +36,5 @@
 // Fluffy includes
 #include <fluffy/text/string.hpp>
 #include <fluffy/utils/logger.hpp>
+
+#endif

@@ -1,3 +1,4 @@
+#include <fluffy/definitions.hpp>
 #include <fluffy/graphics/platform/glfw_window.hpp>
 #include <utility>
 
@@ -16,27 +17,42 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
 
     int success = glfwInit();
     if(!success) {
-        FLUFFY_LOG_ERROR("something went wrong");
-        exit(1);
+        FLUFFY_LOG_ERROR("Failed to initialize GLFW");
+        exit(1); // @todo exit codes
     }
 
+    // Some declarations about our OpenGL
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, OPENGL_MAJOR_VERSION);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, OPENGL_MINOR_VERSION);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
     mWindow = glfwCreateWindow((int)mDefinition.width, (int)mDefinition.height, mDefinition.title.c_str(), nullptr, nullptr);
-    assert(mWindow);
+    if (!mWindow)
+    {
+        FLUFFY_LOG_ERROR("Failed to create GLFW window");
+        exit(1); // @todo exit codes
+    }
 
     glfwMakeContextCurrent(mWindow);
+
+    auto initialized = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+    if (!initialized)
+    {
+        FLUFFY_LOG_ERROR("Failed to initialize GLAD (error " + toString(initialized));
+        exit(1); // @todo exit codes
+    }
+
+    resize(mDefinition.width, mDefinition.height);
+    initializeGLFWEvents();
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(mWindow))
     {
         /* Render here */
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         /* Test triangle */
-        glBegin(GL_TRIANGLES);
-        glVertex2f(-.5f, -.5f);
-        glVertex2f(0.f, .5f);
-        glVertex2f(.5f, -.5f);
-        glEnd();
 
         /* Swap front and back buffers */
         glfwSwapBuffers(mWindow);
@@ -50,6 +66,13 @@ GlfwWindow::~GlfwWindow()
 {
     glfwDestroyWindow(mWindow);
     glfwTerminate();
+}
+
+void GlfwWindow::initializeGLFWEvents()
+{
+    glfwSetFramebufferSizeCallback(mWindow, [] (GLFWwindow* window, int width, int height) {
+        glViewport(0, 0, width, height);
+    });
 }
 
 void GlfwWindow::update(const Window::Definition& definition)
@@ -74,4 +97,9 @@ const Window::Definition& GlfwWindow::getDefinition() const
 void* GlfwWindow::getNativeWindow()
 {
     return mWindow;
+}
+
+void GlfwWindow::resize(int w, int h)
+{
+    glViewport(0, 0, w, h);
 }

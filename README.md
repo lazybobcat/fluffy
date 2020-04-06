@@ -13,6 +13,7 @@ scripting, asset pipes, and whatever comes to my mind or yours.
 ## Fluffy needs
 
 * A compiler that supports C++17 at least
+* OpenGL 3.3+ compatible GPU
 
 ## Fluffy uses
 

@@ -16,7 +16,6 @@ public:
     // @todo getters below :
     SystemModule* system = nullptr;
     VideoModule*  video  = nullptr;
-    // graphics
     // audio
     // resources
     // network

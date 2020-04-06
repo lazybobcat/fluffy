@@ -53,11 +53,12 @@ public:
     void initialize(const Context& context) override;
     void terminate() override;
 
-    [[nodiscard]] std::string getName() const override {
+    std::string getName() const override
+    {
         return "system_module";
     }
 
-      [[nodiscard]] ModuleType getType() const override
+    ModuleType getType() const override
     {
         return ModuleType::System;
     }
@@ -71,20 +72,23 @@ public:
     void initialize(const Context& context) override;
     void terminate() override;
 
-    [[nodiscard]] std::string getName() const override {
+    std::string getName() const override
+    {
         return "video_module";
     }
 
-      [[nodiscard]] ModuleType getType() const override
+    ModuleType getType() const override
     {
         return ModuleType::Video;
     }
 
-    [[nodiscard]] Window* getWindow() const {
+    Window* getWindow() const
+    {
         return mWindow;
     }
 
-    private : Window::Definition mWindowDefinition;
-    Window* mWindow = nullptr;
+private:
+    Window::Definition mWindowDefinition;
+    Window*            mWindow = nullptr;
 };
 }
