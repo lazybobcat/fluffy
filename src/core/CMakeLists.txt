@@ -18,6 +18,8 @@ set(SOURCE_FILES
         include/fluffy/graphics/window.hpp
         include/fluffy/graphics/platform/glfw_window.hpp src/graphics/platform/glfw_window.cpp
         src/graphics/glad.c
+        include/fluffy/graphics/shader.hpp
+        include/fluffy/graphics/platform/opengl_shader.hpp src/graphics/platform/opengl_shader.cpp
         include/fluffy/fluffy_core.hpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
