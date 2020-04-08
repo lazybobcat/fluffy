@@ -1,7 +1,7 @@
 #pragma once
 
 // Keep this first
-#include <glad/glad.h>
+#include <fluffy/graphics/platform/opengl.hpp>
 
 // Then
 #include <GLFW/glfw3.h>

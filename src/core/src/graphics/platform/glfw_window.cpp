@@ -2,6 +2,7 @@
 #include <fluffy/graphics/platform/glfw_window.hpp>
 #include <utility>
 #include <fluffy/graphics/platform/opengl_shader.hpp>
+#include <fluffy/graphics/platform/opengl.hpp>
 
 using namespace Fluffy;
 
@@ -66,13 +67,13 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    GlCall(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW));
 
     // Position
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    GlCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0));
     glEnableVertexAttribArray(0);
     // Color
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
+    GlCall(glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float))));
     glEnableVertexAttribArray(1);
 
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
@@ -94,7 +95,7 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
 
         /* Test triangle */
         glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        GlCall(glDrawArrays(GL_TRIANGLES, 0, 3));
 
         /* Swap front and back buffers */
         glfwSwapBuffers(mWindow);

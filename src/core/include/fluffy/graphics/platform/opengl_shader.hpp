@@ -20,6 +20,7 @@ public:
     void bindUniform(const std::string& name, float value);
     void bindUniform(const std::string& name, int value);
     void bindUniform(const std::string& name, bool value);
+    //    void bindUniform(const std::string& name, bool value);
     // @todo other uniform types
 
 private:

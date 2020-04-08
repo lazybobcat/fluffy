@@ -1,5 +1,5 @@
 #include <fluffy/graphics/platform/opengl_shader.hpp>
-#include <glad/glad.h>
+#include <fluffy/graphics/platform/opengl.hpp>
 
 using namespace Fluffy;
 

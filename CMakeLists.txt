@@ -42,6 +42,9 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/glfw/include)
 # Glad
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/glad/include)
 
+# GLM
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/glm)
+
 # Fluffy
 add_subdirectory(src)
 
