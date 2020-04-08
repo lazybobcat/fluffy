@@ -11,6 +11,7 @@ set(SOURCE_FILES
         include/fluffy/time/time.hpp src/time/time.cpp
         include/fluffy/signal/slot.hpp src/signal/slot.cpp
         include/fluffy/signal/signal.hpp src/signal/signal.cpp
+        include/fluffy/math/math.hpp
         include/fluffy/fluffy_utils.hpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
