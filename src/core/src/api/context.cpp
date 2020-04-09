@@ -1,9 +1,13 @@
 #include <fluffy/api/context.hpp>
+#include <fluffy/file/path.hpp>
 
 using namespace Fluffy;
 
 Context::Context(const ModuleRegistry& registry)
 {
+    FLUFFY_LOG_INFO("Create game context");
+    FLUFFY_LOG_INFO("> Working directory: " + Path::getWorkingDirectory().toString());
+
     auto modules = registry.getModules();
 
     {

@@ -32,23 +32,23 @@ OpenglShader::~OpenglShader()
 
 }
 
-void OpenglShader::loadFromFile(const std::string& vextexFile, const std::string& fragmentFile)
+void OpenglShader::loadFromFile(const Path& vextexFile, const Path& fragmentFile)
 {
     std::vector<char> vertexShader, fragmentShader;
 
-    if (!getFileContents(vextexFile, vertexShader)) {
-        FLUFFY_LOG_ERROR("Failed to open vertex shader from file '" + vextexFile + "'");
+    if (!getFileContents(vextexFile.toString(), vertexShader)) {
+        FLUFFY_LOG_ERROR("Failed to open vertex shader from file '" + vextexFile.toString() + "'");
 
         return;
     }
-    FLUFFY_LOG_INFO("Loaded vertex shader from file '" + vextexFile + "'");
+    FLUFFY_LOG_INFO("Loaded vertex shader from file '" + vextexFile.toString() + "'");
 
-    if (!getFileContents(fragmentFile, fragmentShader)) {
-        FLUFFY_LOG_ERROR("Failed to open fragment shader from file " + fragmentFile);
+    if (!getFileContents(fragmentFile.toString(), fragmentShader)) {
+        FLUFFY_LOG_ERROR("Failed to open fragment shader from file " + fragmentFile.toString());
 
         return;
     }
-    FLUFFY_LOG_INFO("Loaded fragment shader from file '" + fragmentFile + "'");
+    FLUFFY_LOG_INFO("Loaded fragment shader from file '" + fragmentFile.toString() + "'");
 
     compile(&vertexShader[0], &fragmentShader[0]);
 }

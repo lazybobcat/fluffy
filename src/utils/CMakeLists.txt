@@ -12,10 +12,12 @@ set(SOURCE_FILES
         include/fluffy/signal/slot.hpp src/signal/slot.cpp
         include/fluffy/signal/signal.hpp src/signal/signal.cpp
         include/fluffy/math/math.hpp
+        include/fluffy/file/path.hpp src/file/path.cpp
         include/fluffy/fluffy_utils.hpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../core/include)
 
 add_library(fluffy-utils ${SOURCE_FILES})
+target_link_libraries(fluffy-utils stdc++fs)
 target_include_directories(fluffy-utils PUBLIC "include" "../contrib/jsoncpp")

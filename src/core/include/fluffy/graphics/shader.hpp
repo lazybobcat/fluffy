@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fluffy/file/path.hpp>
 #include <fluffy/pch.hpp>
 
 namespace Fluffy {
@@ -21,8 +22,8 @@ public:
     Shader()          = default;
     virtual ~Shader() = default;
 
-    virtual void loadFromFile(const std::string& vextexFile, const std::string& fragmentFile) = 0;
-    virtual void enable()                                                                     = 0;
-    virtual void disable()                                                                    = 0;
+    virtual void loadFromFile(const Path& vextexFile, const Path& fragmentFile) = 0;
+    virtual void enable()                                                       = 0;
+    virtual void disable()                                                      = 0;
 };
 }

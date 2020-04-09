@@ -13,7 +13,7 @@ public:
     OpenglShader() = default;
     ~OpenglShader();
 
-    void loadFromFile(const std::string& vextexFile, const std::string& fragmentFile) override;
+    void loadFromFile(const Path& vextexFile, const Path& fragmentFile) override;
     void enable() override;
     void disable() override;
 
