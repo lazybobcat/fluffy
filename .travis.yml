@@ -6,8 +6,8 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - gcc-7
-      - g++-7
+      - gcc-8
+      - g++-8
       - libxrandr-dev
       - libxinerama-dev
       - libxcursor-dev
@@ -17,8 +17,8 @@ addons:
 #  - sudo apt-get install libsfml-dev
 script:
   - gcc -v
-  - export CC=gcc-7
-  - export CXX=g++-7
+  - export CC=gcc-8
+  - export CXX=g++-8
   - cmake --target unittests .
   - make -j 4
   - ./build/unittests
