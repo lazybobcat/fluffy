@@ -13,6 +13,8 @@ set(SOURCE_FILES
         include/fluffy/game/game_loader.hpp src/game/game_loader.cpp
         include/fluffy/game/game_main.hpp include/fluffy/game/game_main.inl src/game/game_main.cpp
         include/fluffy/game/game_loop.hpp src/game/game_loop.cpp
+        include/fluffy/resources/resource.hpp
+        include/fluffy/resources/resource_holder.hpp
         include/fluffy/api/modules.hpp src/api/modules.cpp
         include/fluffy/api/context.hpp src/api/context.cpp
         include/fluffy/graphics/window.hpp
