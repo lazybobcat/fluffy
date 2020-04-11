@@ -19,6 +19,4 @@ public:
 
     virtual bool loadFromFile(const Path& path) = 0;
 };
-
-Resource::Identifier Resource::InvalidIdentifier = -1;
 }
