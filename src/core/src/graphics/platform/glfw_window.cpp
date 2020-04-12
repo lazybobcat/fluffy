@@ -61,19 +61,18 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
     va[1] = {{ 0.5f, -0.5f, 0.0f}, {0, 255, 0}, {1.0f, 0.0f}};
     va[2] = {{ -0.5f, -0.5f, 0.0f}, {0, 0, 255}, {0.0f, 0.0f}};
     va[3] = {{ -0.5f,  0.5f, 0.0f}, {255, 255, 0}, {0.0f, 1.0f}};
-    float* vertices = va.raw();
+    const float* vertices = va.raw();
     unsigned int indices[] = {
         0, 1, 3, // first triangle
         1, 2, 3  // second triangle
     };
 
-    unsigned int VBO, VAO, EBO;
-    glGenVertexArrays(1, &VAO);
+    unsigned int VBO, EBO;
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
 
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    glBindVertexArray(VAO);
+    va.bind();
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     GlCall(glBufferData(GL_ARRAY_BUFFER, va.getByteSize(), vertices, GL_STATIC_DRAW));
@@ -118,7 +117,7 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
         shader.enable();
 
         /* Test triangle */
-        glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+        va.bind(); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
         GlCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0));
 
         /* Swap front and back buffers */
@@ -128,7 +127,6 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
         glfwPollEvents();
     }
 
-    glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
 }

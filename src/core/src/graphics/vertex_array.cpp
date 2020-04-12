@@ -1,10 +1,22 @@
 #include <fluffy/graphics/vertex_array.hpp>
+#include <glad/glad.h>
 
 using namespace std;
+
+Fluffy::VertexArray::VertexArray()
+{
+    glGenVertexArrays(1, &mId);
+}
 
 Fluffy::VertexArray::VertexArray(std::size_t count)
   : mVertices(count)
 {
+    glGenVertexArrays(1, &mId);
+}
+
+Fluffy::VertexArray::~VertexArray()
+{
+    glDeleteVertexArrays(1, &mId);
 }
 
 void Fluffy::VertexArray::resize(std::size_t count)
@@ -40,4 +52,9 @@ Fluffy::Vertex& Fluffy::VertexArray::operator[](std::size_t index)
 const Fluffy::Vertex& Fluffy::VertexArray::operator[](std::size_t index) const
 {
     return mVertices[index];
+}
+
+void Fluffy::VertexArray::bind()
+{
+    glBindVertexArray(mId);
 }

@@ -22,5 +22,5 @@ struct Vertex
     Vector2f textureCoords;
 };
 
-#define FLUFFY_VERTEX_NB_ELEMENTS 8
+#define FLUFFY_VERTEX_NB_ELEMENTS 9
 }
