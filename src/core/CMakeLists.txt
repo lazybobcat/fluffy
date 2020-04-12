@@ -25,7 +25,7 @@ set(SOURCE_FILES
         include/fluffy/graphics/shader.hpp
         include/fluffy/graphics/platform/opengl_shader.hpp src/graphics/platform/opengl_shader.cpp
         include/fluffy/graphics/texture.hpp src/graphics/texture.cpp
-        include/fluffy/fluffy_core.hpp)
+        include/fluffy/fluffy_core.hpp src/graphics/vertex.cpp include/fluffy/graphics/vertex_array.hpp src/graphics/vertex_array.cpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 

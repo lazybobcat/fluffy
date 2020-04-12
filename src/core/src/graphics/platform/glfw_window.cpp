@@ -4,6 +4,7 @@
 #include <fluffy/graphics/platform/opengl_shader.hpp>
 #include <fluffy/graphics/platform/opengl.hpp>
 #include <fluffy/graphics/texture.hpp>
+#include <fluffy/graphics/vertex_array.hpp>
 
 using namespace Fluffy;
 
@@ -55,13 +56,12 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
-    float vertices[] = {
-        // positions          // colors           // texture coords
-        0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-        0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-        -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left
-    };
+    VertexArray va(4);
+    va[0] = {{ 0.5f,  0.5f, 0.0f}, {255, 0, 0}, {1.0f, 1.0f}};
+    va[1] = {{ 0.5f, -0.5f, 0.0f}, {0, 255, 0}, {1.0f, 0.0f}};
+    va[2] = {{ -0.5f, -0.5f, 0.0f}, {0, 0, 255}, {0.0f, 0.0f}};
+    va[3] = {{ -0.5f,  0.5f, 0.0f}, {255, 255, 0}, {0.0f, 1.0f}};
+    float* vertices = va.raw();
     unsigned int indices[] = {
         0, 1, 3, // first triangle
         1, 2, 3  // second triangle
@@ -76,7 +76,7 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    GlCall(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW));
+    GlCall(glBufferData(GL_ARRAY_BUFFER, va.getByteSize(), vertices, GL_STATIC_DRAW));
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     GlCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW));
@@ -102,6 +102,7 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
     // My texture
     Texture2D texture;
     texture.loadFromFile("assets/textures/tile.png");
+    texture.setRepeat(RepeatType::Repeat);
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(mWindow))
