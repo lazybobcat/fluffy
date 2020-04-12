@@ -1,15 +1,28 @@
 #pragma once
 
+#include <fluffy/graphics/platform/opengl.hpp>
 #include <fluffy/graphics/vertex.hpp>
 #include <fluffy/pch.hpp>
+#include <glad/glad.h>
 
 namespace Fluffy {
+
+enum class PrimitiveType
+{
+    Points        = GL_POINTS,         // List of individual points
+    Lines         = GL_LINES,          // List of individual lines
+    LineStrip     = GL_LINE_STRIP,     // List of connected lines, a point uses the previous point to form a line
+    Triangles     = GL_TRIANGLES,      // List of individual triangles
+    TriangleStrip = GL_TRIANGLE_STRIP, // List of connected triangles, a point uses the two previous points to form a triangle
+    TriangleFan   = GL_TRIANGLE_FAN,   // List of connected triangles, a point uses the common center and the previous point to form a triangle
+    Quads         = GL_QUADS,
+};
 
 class VertexArray
 {
 public:
     VertexArray();
-    explicit VertexArray(std::size_t count); // @todo primitive type
+    explicit VertexArray(PrimitiveType type, std::size_t count = 0);
     ~VertexArray();
 
     void                      resize(std::size_t count);
@@ -17,43 +30,40 @@ public:
     [[nodiscard]] std::size_t getByteSize() const;
 
     void append(const Vertex& vertex);
-
+    void setVertex(std::size_t position, const Vertex& vertex);
     void clear();
-
-    Vertex&       operator[](std::size_t index);
-    const Vertex& operator[](std::size_t index) const;
 
     void bind();
 
-    // @todo : temp function to return the vertices data, remove it when proper Drawable / Renderer classes in place
-    const float* raw() const
+    // @todo : temp function, remove it when proper Drawable / Renderer classes in place
+    void draw()
     {
-        static float* vertices = nullptr;
+        bind();
 
-        if (vertices) {
-            delete[] vertices;
-        }
+        unsigned int VBO;
+        glGenBuffers(1, &VBO);
 
-        vertices = new float[getVerticesCount() * FLUFFY_VERTEX_NB_ELEMENTS];
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        GlCall(glBufferData(GL_ARRAY_BUFFER, getByteSize(), mVerticesData.data(), GL_STATIC_DRAW));
 
-        for (int i = 0; i < (int)getVerticesCount(); ++i) {
-            auto& v             = mVertices[i];
-            vertices[i * 8]     = v.position.x;
-            vertices[i * 8 + 1] = v.position.y;
-            vertices[i * 8 + 2] = v.position.z;
-            vertices[i * 8 + 3] = (v.color.r / 255.f);
-            vertices[i * 8 + 4] = (v.color.g / 255.f);
-            vertices[i * 8 + 5] = (v.color.b / 255.f);
-            vertices[i * 8 + 6] = (v.color.a / 255.f);
-            vertices[i * 8 + 7] = v.textureCoords.x;
-            vertices[i * 8 + 8] = v.textureCoords.y;
-        }
+        // Position
+        GlCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0));
+        glEnableVertexAttribArray(0);
+        // Color
+        GlCall(glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(3 * sizeof(float))));
+        glEnableVertexAttribArray(1);
+        // Texture
+        GlCall(glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(7 * sizeof(float))));
+        glEnableVertexAttribArray(2);
 
-        return vertices;
+        GlCall(glDrawArrays((GLenum)mPrimitiveType, 0, static_cast<GLsizei>(getVerticesCount())));
+
+        glDeleteBuffers(1, &VBO);
     }
 
 private:
-    unsigned int        mId;
-    std::vector<Vertex> mVertices;
+    unsigned int       mId;
+    std::vector<float> mVerticesData;
+    PrimitiveType      mPrimitiveType;
 };
 }
