@@ -124,3 +124,8 @@ void OpenglShader::bindUniform(const std::string& name, bool value)
 {
     glUniform1i(glGetUniformLocation(mProgramId, name.c_str()), (int)value);
 }
+
+void OpenglShader::bindUniform(const std::string& name, Transform value)
+{
+    glUniformMatrix4fv(glGetUniformLocation(mProgramId, name.c_str()), 1, GL_FALSE, value.getData());
+}

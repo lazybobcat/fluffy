@@ -5,6 +5,7 @@
 #include <fluffy/graphics/platform/opengl.hpp>
 #include <fluffy/graphics/texture.hpp>
 #include <fluffy/graphics/vertex_array.hpp>
+#include <fluffy/graphics/transform.hpp>
 
 using namespace Fluffy;
 
@@ -71,9 +72,16 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
     texture.loadFromFile("assets/textures/tile.png");
     texture.setRepeat(RepeatType::Repeat);
 
+    // Transform
+    Transform transform;
+//    transform.rotate(45, {0.2,0,0}, {0,0,1});
+//    transform.translate({0.2, 0, 0});
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(mWindow))
     {
+        transform.rotate(1, {0,0,0}, {0,0,1});
+
         /* Render here */
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -83,11 +91,10 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
 
         /* Shader */
         shader.enable();
+        shader.bindUniform("transform", transform);
 
         /* Test triangle */
-        va.bind(); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
         va.draw();
-//        GlCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0));
 
         /* Swap front and back buffers */
         glfwSwapBuffers(mWindow);

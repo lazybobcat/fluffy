@@ -65,7 +65,7 @@ public:
     void initializeModules(ModuleRegistry& registry) override
     {
         registry.registerModule(new SystemModule());
-        registry.registerModule(new VideoModule({getTitle(), WindowType::Windowed, 1280, 720}));
+        registry.registerModule(new VideoModule({getTitle(), WindowType::Windowed, 720, 720}));
     }
 
     void update(Time dt) override
