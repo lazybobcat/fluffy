@@ -47,14 +47,14 @@ public:
         GlCall(glBufferData(GL_ARRAY_BUFFER, getByteSize(), mVerticesData.data(), GL_STATIC_DRAW));
 
         // Position
-        GlCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0));
         glEnableVertexAttribArray(0);
+        GlCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0));
         // Color
-        GlCall(glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(3 * sizeof(float))));
         glEnableVertexAttribArray(1);
+        GlCall(glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(3 * sizeof(float))));
         // Texture
-        GlCall(glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(7 * sizeof(float))));
         glEnableVertexAttribArray(2);
+        GlCall(glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(7 * sizeof(float))));
 
         GlCall(glDrawArrays((GLenum)mPrimitiveType, 0, static_cast<GLsizei>(getVerticesCount())));
 

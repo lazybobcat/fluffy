@@ -50,10 +50,15 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
     resize(mDefinition.width, mDefinition.height);
     initializeGLFWEvents();
 
+    // @todo move into Context
+    FLUFFY_LOG_INFO("> " + toString(glGetString(GL_VENDOR)));
+    FLUFFY_LOG_INFO("> " + toString(glGetString(GL_RENDERER)));
+    FLUFFY_LOG_INFO("> " + toString(glGetString(GL_VERSION)));
+
     // Shader
-    OpenglShader shader;
-    shader.loadFromFile("assets/shaders/sprite.vertex.shader", "assets/shaders/sprite.fragment.shader");
-    shader.enable();
+    auto shader = Shader::create();
+    shader->loadFromFile("assets/shaders/sprite.vertex.shader", "assets/shaders/sprite.fragment.shader");
+    shader->enable();
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -62,6 +67,13 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
     va.setVertex(1, {{ 0.5f,  0.5f, 0.0f}, {255, 0, 0}, {1.0f, 1.0f}});
     va.setVertex(2, {{ -0.5f, -0.5f, 0.0f}, {0, 0, 255}, {0.0f, 0.0f}});
     va.setVertex(3, {{ -0.5f,  0.5f, 0.0f}, {255, 255, 0}, {0.0f, 1.0f}});
+
+    va.append({{ -0.5f, -0.5f, -1.f}, {0, 255, 255}, {1.0f, 0.0f}}); // 4
+    va.append({{ -0.5f,  0.5f, -1.f}, {255, 128, 128}, {1.0f, 1.0f}}); // 5
+    va.append({{ 0.5f, -0.5f, -1.f}, {0, 255, 0}, {0.0f, 1.0f}}); // 6
+    va.append({{ 0.5f,  0.5f, -1.f}, {0, 255, 0}, {0.0f, 0.0f}}); // 7
+    va.append({{ 0.5f, -0.5f, 0.0f}, {0, 255, 0}, {1.0f, 0.0f}}); // 0
+    va.append({{ 0.5f,  0.5f, 0.0f}, {255, 0, 0}, {1.0f, 1.0f}}); // 1
 
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
     va.bind();
@@ -80,7 +92,7 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(mWindow))
     {
-        transform.rotate(1, {0,0,0}, {0,0,1});
+        transform.rotate(1, {0,0,0}, {1,0,1});
 
         /* Render here */
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -90,8 +102,8 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
         texture.bind();
 
         /* Shader */
-        shader.enable();
-        shader.bindUniform("transform", transform);
+        shader->enable();
+        shader->bindUniform("transform", transform);
 
         /* Test triangle */
         va.draw();

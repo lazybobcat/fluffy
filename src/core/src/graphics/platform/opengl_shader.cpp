@@ -27,9 +27,14 @@ bool getFileContents(const std::string& filename, std::vector<char>& buffer)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+OpenglShader::OpenglShader()
+{
+    mProgramId = glCreateProgram();
+}
+
 OpenglShader::~OpenglShader()
 {
-
+    glDeleteProgram(mProgramId);
 }
 
 void OpenglShader::loadFromFile(const Path& vextexFile, const Path& fragmentFile)
@@ -55,19 +60,20 @@ void OpenglShader::loadFromFile(const Path& vextexFile, const Path& fragmentFile
 
 void OpenglShader::compile(const char* vertexShader, const char* fragmentShader)
 {
-    mVertexId = glCreateShader(GL_VERTEX_SHADER);
-    if (!compileShaderCode(mVertexId, vertexShader, ShaderType::Vertex)) {
+    std::uint32_t vertexId, fragmentId;
+
+    vertexId = glCreateShader(GL_VERTEX_SHADER);
+    if (!compileShaderCode(vertexId, vertexShader, ShaderType::Vertex)) {
         return;
     }
 
-    mFragmentId = glCreateShader(GL_FRAGMENT_SHADER);
-    if (!compileShaderCode(mFragmentId, fragmentShader, ShaderType::Fragment)) {
+    fragmentId = glCreateShader(GL_FRAGMENT_SHADER);
+    if (!compileShaderCode(fragmentId, fragmentShader, ShaderType::Fragment)) {
         return;
     }
 
-    mProgramId = glCreateProgram();
-    glAttachShader(mProgramId, mVertexId);
-    glAttachShader(mProgramId, mFragmentId);
+    glAttachShader(mProgramId, vertexId);
+    glAttachShader(mProgramId, fragmentId);
 
     int success;
     char infoLog[512];
@@ -79,11 +85,11 @@ void OpenglShader::compile(const char* vertexShader, const char* fragmentShader)
         FLUFFY_LOG_ERROR("Failed to link shader program : " + toString(infoLog));
     }
 
-    glDeleteShader(mVertexId);
-    glDeleteShader(mFragmentId);
+    glDeleteShader(vertexId);
+    glDeleteShader(fragmentId);
 }
 
-bool OpenglShader::compileShaderCode(Id shaderId, const char* code, ShaderType type) const
+bool OpenglShader::compileShaderCode(std::uint32_t shaderId, const char* code, ShaderType type) const
 {
     int  success;
     char infoLog[512];
@@ -108,6 +114,7 @@ void OpenglShader::enable()
 
 void OpenglShader::disable()
 {
+    glUseProgram(0);
 }
 
 void OpenglShader::bindUniform(const std::string& name, float value)
@@ -128,4 +135,49 @@ void OpenglShader::bindUniform(const std::string& name, bool value)
 void OpenglShader::bindUniform(const std::string& name, Transform value)
 {
     glUniformMatrix4fv(glGetUniformLocation(mProgramId, name.c_str()), 1, GL_FALSE, value.getData());
+}
+
+void OpenglShader::bindUniform(const std::string& name, Vector2f value)
+{
+    glUniform2f(glGetUniformLocation(mProgramId, name.c_str()), value.x, value.y);
+}
+
+void OpenglShader::bindUniform(const std::string& name, Vector3f value)
+{
+    glUniform3f(glGetUniformLocation(mProgramId, name.c_str()), value.x, value.y, value.z);
+}
+
+void OpenglShader::bindUniform(const std::string& name, Vector4f value)
+{
+    glUniform4f(glGetUniformLocation(mProgramId, name.c_str()), value.r, value.g, value.b, value.a);
+}
+
+void OpenglShader::bindUniform(const std::string& name, Vector2i value)
+{
+    glUniform2i(glGetUniformLocation(mProgramId, name.c_str()), value.x, value.y);
+}
+
+void OpenglShader::bindUniform(const std::string& name, Vector3i value)
+{
+    glUniform3i(glGetUniformLocation(mProgramId, name.c_str()), value.x, value.y, value.z);
+}
+
+void OpenglShader::bindUniform(const std::string& name, Vector4i value)
+{
+    glUniform4i(glGetUniformLocation(mProgramId, name.c_str()), value.r, value.g, value.b, value.a);
+}
+
+void OpenglShader::bindUniform(const std::string& name, Vector2u value)
+{
+    glUniform2ui(glGetUniformLocation(mProgramId, name.c_str()), value.x, value.y);
+}
+
+void OpenglShader::bindUniform(const std::string& name, Vector3u value)
+{
+    glUniform3ui(glGetUniformLocation(mProgramId, name.c_str()), value.x, value.y, value.z);
+}
+
+void OpenglShader::bindUniform(const std::string& name, Vector4u value)
+{
+    glUniform4ui(glGetUniformLocation(mProgramId, name.c_str()), value.r, value.g, value.b, value.a);
 }
