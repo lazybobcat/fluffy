@@ -12,6 +12,7 @@ set(SOURCE_FILES
         include/fluffy/signal/slot.hpp src/signal/slot.cpp
         include/fluffy/signal/signal.hpp src/signal/signal.cpp
         include/fluffy/math/math.hpp
+        include/fluffy/math/rectangle.hpp include/fluffy/math/rectangle.inl
         include/fluffy/file/path.hpp src/file/path.cpp
         include/fluffy/fluffy_utils.hpp)
 

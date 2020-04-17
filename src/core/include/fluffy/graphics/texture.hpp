@@ -2,6 +2,7 @@
 
 #include <fluffy/definitions.hpp>
 #include <fluffy/math/math.hpp>
+#include <fluffy/math/rectangle.hpp>
 #include <fluffy/resources/resource.hpp>
 
 namespace Fluffy {
@@ -27,7 +28,7 @@ class Texture2D : public Texture
 public:
     virtual ~Texture2D() = default;
 
-    static Ref<Texture2D> create(const Path& path);
+    static Ref<Texture2D> create(const Path& path, const IntRect& area = IntRect());
 
     virtual void setRepeat(RepeatType type) = 0;
     virtual void setSmooth(bool smooth)     = 0;

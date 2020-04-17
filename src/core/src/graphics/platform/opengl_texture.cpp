@@ -9,24 +9,34 @@ using namespace Fluffy;
 
 OpenglTexture2D::OpenglTexture2D()
 {
-    glGenTextures(1, &mTextureId);
 }
 
-OpenglTexture2D::OpenglTexture2D(const Path& path)
+OpenglTexture2D::OpenglTexture2D(const Path& path, const IntRect& area)
+: mArea(area)
 {
     loadFromFile(path);
 }
 
 OpenglTexture2D::~OpenglTexture2D()
 {
-    glDeleteTextures(1, &mTextureId);
+    if (mTextureId) {
+        glDeleteTextures(1, &mTextureId);
+    }
+}
+
+void OpenglTexture2D::create(unsigned int width, unsigned int height, unsigned int internalFormat, unsigned int dataFormat)
+{
+    if (!mTextureId) {
+        glGenTextures(1, &mTextureId);
+    }
+
+    bind();
+    GlCall(glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, dataFormat, GL_UNSIGNED_BYTE, nullptr));
 }
 
 bool OpenglTexture2D::loadFromFile(const Path& path)
 {
     // Load image
-    stbi_set_flip_vertically_on_load(1);
-
     int            width, height, channels;
     unsigned char* data = stbi_load(path.toString().c_str(), &width, &height, &channels, 0);
 
@@ -46,8 +56,32 @@ bool OpenglTexture2D::loadFromFile(const Path& path)
     }
 
     // Generate texture
-    glBindTexture(GL_TEXTURE_2D, mTextureId);
-    GlCall(glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, dataFormat, GL_UNSIGNED_BYTE, data));
+    if (mArea == IntRect(0,0,0,0)) {
+        mArea.width = width;
+        mArea.height = height;
+
+        create(mArea.width, mArea.height, internalFormat, dataFormat);
+        GlCall(glTexSubImage2D(GL_TEXTURE_2D, 0, mArea.left, mArea.top, mArea.width, mArea.height, dataFormat, GL_UNSIGNED_BYTE, data));
+    } else {
+        IntRect rectangle = mArea;
+        if (rectangle.left   < 0) rectangle.left = 0;
+        if (rectangle.top    < 0) rectangle.top  = 0;
+        if (rectangle.left + rectangle.width > width)  rectangle.width  = width - rectangle.left;
+        if (rectangle.top + rectangle.height > height) rectangle.height = height - rectangle.top;
+
+        std::cout << rectangle.left << "," << rectangle.top << ","<< rectangle.width << ","<< rectangle.height << std::endl;
+
+        create(rectangle.width, rectangle.height, internalFormat, dataFormat);
+
+        unsigned char* pixels = data + channels * (rectangle.left + (width * rectangle.top));
+        for (int i = 0; i < rectangle.height; ++i) {
+            GlCall(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, i, rectangle.width, 1, dataFormat, GL_UNSIGNED_BYTE, pixels));
+            pixels += channels * width;
+        }
+
+        GlCall(glFlush());
+    }
+
     updateRepeatability();
     updateSmoothness();
 
@@ -66,19 +100,21 @@ void OpenglTexture2D::bind()
 void OpenglTexture2D::setRepeat(RepeatType type)
 {
     mRepeat = type;
+    bind();
     updateRepeatability();
 }
 
 void OpenglTexture2D::setSmooth(bool smooth)
 {
     mSmoothed = smooth;
+    bind();
     updateSmoothness();
 }
 
 void OpenglTexture2D::generateMipmaps()
 {
     mHasMipMaps = true;
-    glBindTexture(GL_TEXTURE_2D, mTextureId);
+    bind();
     GlCall(glGenerateMipmap(GL_TEXTURE_2D));
     updateSmoothness();
 }
@@ -90,7 +126,6 @@ Vector2u OpenglTexture2D::getSize() const
 
 void OpenglTexture2D::updateSmoothness()
 {
-    glBindTexture(GL_TEXTURE_2D, mTextureId);
     GlCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mSmoothed ? GL_LINEAR : GL_NEAREST));
 
     if (mHasMipMaps) {
@@ -102,8 +137,6 @@ void OpenglTexture2D::updateSmoothness()
 
 void OpenglTexture2D::updateRepeatability()
 {
-    glBindTexture(GL_TEXTURE_2D, mTextureId);
-
     switch (mRepeat) {
         case RepeatType::None:
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
