@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fluffy/definitions.hpp>
 #include <fluffy/file/path.hpp>
 #include <fluffy/graphics/transform.hpp>
 #include <fluffy/pch.hpp>
@@ -23,7 +24,7 @@ public:
     Shader()          = default;
     virtual ~Shader() = default;
 
-    static std::shared_ptr<Shader> create();
+    static Ref<Shader> create();
 
     virtual void loadFromFile(const Path& vextexFile, const Path& fragmentFile) = 0;
     virtual void enable()                                                       = 0;

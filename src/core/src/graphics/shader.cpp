@@ -4,7 +4,7 @@
 
 using namespace Fluffy;
 
-std::shared_ptr<Shader> Shader::create()
+Ref<Shader> Shader::create()
 {
     switch (Renderer::RenderAPI) {
         case RenderAPIList::OpenGL:

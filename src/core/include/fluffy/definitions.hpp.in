@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 // General configurations
 #define FLUFFY_VERSION "@PROJECT_VERSION@"
 #define FLUFFY_LOG_FILE "logs.txt"
@@ -29,3 +31,9 @@
 // OpenGL configurations
 #define OPENGL_MAJOR_VERSION 3
 #define OPENGL_MINOR_VERSION 3
+
+namespace Fluffy
+{
+template<typename T>
+using Ref = std::shared_ptr<T>;
+}

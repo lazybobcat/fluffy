@@ -3,7 +3,7 @@
 #include <utility>
 #include <fluffy/graphics/platform/opengl_shader.hpp>
 #include <fluffy/graphics/platform/opengl.hpp>
-#include <fluffy/graphics/texture.hpp>
+#include <fluffy/graphics/platform/opengl_texture.hpp>
 #include <fluffy/graphics/vertex_array.hpp>
 #include <fluffy/graphics/transform.hpp>
 
@@ -68,10 +68,10 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
     va.setVertex(2, {{ -0.5f, -0.5f, 0.0f}, {0, 0, 255}, {0.0f, 0.0f}});
     va.setVertex(3, {{ -0.5f,  0.5f, 0.0f}, {255, 255, 0}, {0.0f, 1.0f}});
 
-    va.append({{ -0.5f, -0.5f, -1.f}, {0, 255, 255}, {1.0f, 0.0f}}); // 4
-    va.append({{ -0.5f,  0.5f, -1.f}, {255, 128, 128}, {1.0f, 1.0f}}); // 5
-    va.append({{ 0.5f, -0.5f, -1.f}, {0, 255, 0}, {0.0f, 1.0f}}); // 6
-    va.append({{ 0.5f,  0.5f, -1.f}, {0, 255, 0}, {0.0f, 0.0f}}); // 7
+    va.append({{ -0.5f, -0.5f, -1.f}, {0, 255, 255}, {0.0f, 0.0f}}); // 4
+    va.append({{ -0.5f,  0.5f, -1.f}, {255, 128, 128}, {0.0f, 1.0f}}); // 5
+    va.append({{ 0.5f, -0.5f, -1.f}, {0, 255, 0}, {0.0f, 0.0f}}); // 6
+    va.append({{ 0.5f,  0.5f, -1.f}, {0, 255, 0}, {0.0f, 1.0f}}); // 7
     va.append({{ 0.5f, -0.5f, 0.0f}, {0, 255, 0}, {1.0f, 0.0f}}); // 0
     va.append({{ 0.5f,  0.5f, 0.0f}, {255, 0, 0}, {1.0f, 1.0f}}); // 1
 
@@ -80,9 +80,8 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
 
 
     // My texture
-    Texture2D texture;
-    texture.loadFromFile("assets/textures/tile.png");
-    texture.setRepeat(RepeatType::Repeat);
+    auto texture = Texture2D::create("assets/textures/alpaca.png");
+    texture->setRepeat(RepeatType::Repeat);
 
     // Transform
     Transform transform;
@@ -99,7 +98,7 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
         glClear(GL_COLOR_BUFFER_BIT);
 
         /* Textures */
-        texture.bind();
+        texture->bind();
 
         /* Shader */
         shader->enable();

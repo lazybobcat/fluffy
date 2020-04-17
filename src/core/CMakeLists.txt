@@ -23,13 +23,14 @@ set(SOURCE_FILES
         include/fluffy/graphics/platform/opengl.hpp src/graphics/glad.c
         include/fluffy/graphics/color.hpp src/graphics/color.cpp
         include/fluffy/graphics/vertex.hpp
-        include/fluffy/graphics/shader.hpp
-        include/fluffy/graphics/platform/opengl_shader.hpp src/graphics/platform/opengl_shader.cpp
+        include/fluffy/graphics/shader.hpp src/graphics/shader.cpp
         include/fluffy/graphics/texture.hpp src/graphics/texture.cpp
+        include/fluffy/graphics/platform/opengl_shader.hpp src/graphics/platform/opengl_shader.cpp
+        include/fluffy/graphics/platform/opengl_texture.hpp src/graphics/platform/opengl_texture.cpp
         src/graphics/vertex.cpp include/fluffy/graphics/vertex_array.hpp src/graphics/vertex_array.cpp
         include/fluffy/graphics/transform.hpp src/graphics/transform.cpp
         include/fluffy/graphics/transformable.hpp
-        include/fluffy/fluffy_core.hpp src/graphics/shader.cpp)
+        include/fluffy/fluffy_core.hpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 

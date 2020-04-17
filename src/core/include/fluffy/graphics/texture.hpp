@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fluffy/definitions.hpp>
 #include <fluffy/math/math.hpp>
 #include <fluffy/resources/resource.hpp>
 
@@ -12,31 +13,24 @@ enum class RepeatType
     MirrorRepeat,
 };
 
-class Texture2D : public Resource
+class Texture
 {
 public:
-    Texture2D();
-    ~Texture2D();
+    virtual ~Texture() = default;
 
-    bool loadFromFile(const Path& path) override;
+    virtual void                   bind()          = 0;
+    [[nodiscard]] virtual Vector2u getSize() const = 0;
+};
 
-    void bind();
+class Texture2D : public Texture
+{
+public:
+    virtual ~Texture2D() = default;
 
-    void setRepeat(RepeatType type);
-    void setSmooth(bool smooth);
-    void generateMipmaps();
+    static Ref<Texture2D> create(const Path& path);
 
-    Vector2u getSize() const;
-
-private:
-    void updateSmoothness();
-    void updateRepeatability();
-
-private:
-    unsigned int mTextureId;
-    Vector2u     mSize       = { 0, 0 };
-    bool         mSmoothed   = false;
-    bool         mHasMipMaps = false;
-    RepeatType   mRepeat     = RepeatType::None;
+    virtual void setRepeat(RepeatType type) = 0;
+    virtual void setSmooth(bool smooth)     = 0;
+    virtual void generateMipmaps()          = 0;
 };
 }
