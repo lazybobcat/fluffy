@@ -1,11 +1,3 @@
-//
-// Fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by loic on 23/05/17.
-//
-
 #include <fluffy/utils/pool.hpp>
 
 using namespace Fluffy;
@@ -19,7 +11,7 @@ std::size_t Pool<T>::size() const
 template<typename T>
 void* Pool<T>::get(std::uint32_t n)
 {
-    assert(n < size());
+    FLUFFY_ASSERT(n < size(), "Request for undefined index in Pool");
     T object = mBlocks[n];
 
     return &mBlocks[n];
@@ -28,7 +20,7 @@ void* Pool<T>::get(std::uint32_t n)
 template<typename T>
 void Pool<T>::set(std::uint32_t n, T&& object)
 {
-    assert(n < size());
+    FLUFFY_ASSERT(n < size(), "Request for undefined index in Pool");
     mBlocks[n] = std::move(object);
 }
 
@@ -41,7 +33,7 @@ void Pool<T>::expand(std::uint32_t n)
 template<typename T>
 void Pool<T>::destroy(std::uint32_t n)
 {
-    assert(n < size());
+    FLUFFY_ASSERT(n < size(), "Request for undefined index in Pool");
     T* ptr = static_cast<T*>(get(n));
     ptr->~T();
 }

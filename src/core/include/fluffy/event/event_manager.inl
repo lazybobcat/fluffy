@@ -24,7 +24,7 @@ void EventManager::emit(const E& event)
 {
     const BaseEvent::Family family = eventFamily<E>();
 
-#if FLUFFY_ENV_DEBUG
+#if FLUFFY_DEBUG
     FLUFFY_LOG_DEBUG("Emitted event " + event.toString());
 #endif
 

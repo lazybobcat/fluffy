@@ -1,4 +1,5 @@
 #include <fluffy/definitions.hpp>
+#include <fluffy/pch.hpp>
 #include <fluffy/serialization/json_serializer.hpp>
 
 using namespace Fluffy;

@@ -1,13 +1,12 @@
 #include <fluffy/ecs/entity.hpp>
 #include <fluffy/ecs/entity_manager.hpp>
-#include <fluffy/pch.hpp>
 
 using namespace Fluffy;
 
 template<typename C, typename... Args>
 ComponentHandle<C> Entity::assign(Args&&... args)
 {
-    assert(isValid());
+    FLUFFY_ASSERT(isValid(), "Entity is not valid");
 
     return mManager->assign<C>(mId, std::forward<Args>(args)...);
 }
@@ -15,7 +14,7 @@ ComponentHandle<C> Entity::assign(Args&&... args)
 template<typename C, typename... Args>
 ComponentHandle<C> Entity::replace(Args&&... args)
 {
-    assert(isValid());
+    FLUFFY_ASSERT(isValid(), "Entity is not valid");
 
     auto handle = component<C>();
     if (handle) {
@@ -30,7 +29,7 @@ ComponentHandle<C> Entity::replace(Args&&... args)
 template<typename C>
 bool Entity::hasComponent() const
 {
-    assert(isValid());
+    FLUFFY_ASSERT(isValid(), "Entity is not valid");
 
     return mManager->hasComponent<C>(mId);
 }
@@ -38,7 +37,7 @@ bool Entity::hasComponent() const
 template<typename C>
 ComponentHandle<C> Entity::component()
 {
-    assert(isValid());
+    FLUFFY_ASSERT(isValid(), "Entity is not valid");
 
     return mManager->component<C>(mId);
 }
@@ -46,7 +45,7 @@ ComponentHandle<C> Entity::component()
 template<typename... Components>
 std::tuple<ComponentHandle<Components>...> Entity::components()
 {
-    assert(isValid());
+    FLUFFY_ASSERT(isValid(), "Entity is not valid");
 
     return mManager->components<Components...>(mId);
 }
@@ -54,7 +53,7 @@ std::tuple<ComponentHandle<Components>...> Entity::components()
 template<typename C>
 void Entity::remove()
 {
-    assert(isValid());
+    FLUFFY_ASSERT(isValid(), "Entity is not valid");
 
     if (!hasComponent<C>()) {
         FLUFFY_LOG_ERROR("Trying to remove unassigned component '" + toString(typeid(C).name()) + "' from entity #" + toString(mId.index()));

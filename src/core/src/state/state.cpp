@@ -1,11 +1,4 @@
-//
-// Fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by loic on 17/11/17.
-//
-
+#include <fluffy/assert.hpp>
 #include <fluffy/state/state_stack.hpp>
 
 using namespace Fluffy;
@@ -43,21 +36,21 @@ bool BaseState::isPaused() const
 
 void BaseState::requestStackPush(BaseState::Ptr state)
 {
-    assert(mStateStack);
+    FLUFFY_ASSERT(mStateStack, "StateStack has not be defined, you shouldn't use States outside of a StateStack");
 
     mStateStack->push(std::move(state));
 }
 
 void BaseState::requestStackPop()
 {
-    assert(mStateStack);
+    FLUFFY_ASSERT(mStateStack, "StateStack has not be defined, you shouldn't use States outside of a StateStack");
 
     mStateStack->pop();
 }
 
 void BaseState::requestStackClear()
 {
-    assert(mStateStack);
+    FLUFFY_ASSERT(mStateStack, "StateStack has not be defined, you shouldn't use States outside of a StateStack");
 
     mStateStack->clear();
 }

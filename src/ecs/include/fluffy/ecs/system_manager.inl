@@ -27,7 +27,7 @@ template<typename S>
 void SystemManager::remove()
 {
     auto it = mSystems.find(S::family());
-    assert(it != mSystems.end());
+    FLUFFY_ASSERT(it != mSystems.end(), "System not found");
 
     it->second->terminate();
     mSystems.erase(it);
@@ -37,7 +37,7 @@ template<typename S>
 std::shared_ptr<S> SystemManager::system()
 {
     auto it = mSystems.find(S::family());
-    assert(it != mSystems.end());
+    FLUFFY_ASSERT(it != mSystems.end(), "System not found");
 
     return std::shared_ptr<S>(std::static_pointer_cast<S>(it->second));
 }
@@ -45,7 +45,7 @@ std::shared_ptr<S> SystemManager::system()
 template<typename S>
 void SystemManager::update(Fluffy::Time dt)
 {
-    assert(mConfigured && "You must configure the SystemManager first");
+    FLUFFY_ASSERT(mConfigured, "You must configure the SystemManager first");
     std::shared_ptr<S> s = system<S>();
     s->update(mEntityManager, mEventManager, dt);
 }

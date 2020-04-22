@@ -1,12 +1,4 @@
-//
-// Fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by loic on 12/11/17.
-//
-
-#include <cassert>
+#include <fluffy/assert.hpp>
 #include <fluffy/signal/signal.hpp>
 
 using namespace Fluffy;
@@ -28,7 +20,7 @@ Slot Signal<Args...>::connect(std::function<void(Args...)> callback)
 template<typename... Args>
 void Signal<Args...>::disconnect(Slot slot)
 {
-    assert(mCallbacks.find(slot.id()) != mCallbacks.end());
+    FLUFFY_ASSERT(mCallbacks.find(slot.id()) != mCallbacks.end(), "Slot not found");
 
     mCallbacks.erase(slot.id());
 }
@@ -36,7 +28,7 @@ void Signal<Args...>::disconnect(Slot slot)
 template<typename... Args>
 void Signal<Args...>::disconnect(Slot::Id id)
 {
-    assert(mCallbacks.find(id) != mCallbacks.end());
+    FLUFFY_ASSERT(mCallbacks.find(id) != mCallbacks.end(), "Slot not found");
 
     mCallbacks.erase(id);
 }

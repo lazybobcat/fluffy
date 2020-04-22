@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fluffy/assert.hpp>
 #include <fluffy/file/path.hpp>
 #include <fluffy/pch.hpp>
 #include <fluffy/resources/resource.hpp>

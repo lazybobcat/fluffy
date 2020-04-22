@@ -1,5 +1,6 @@
 #include <fluffy/event/event.hpp>
 #include <fluffy/game/game_loop.hpp>
+#include <fluffy/pch.hpp>
 #include <fluffy/time/clock.hpp>
 
 using namespace Fluffy;

@@ -1,11 +1,3 @@
-//
-// Fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by lo-x on 27/12/15.
-//
-
 #include <fluffy/ecs/entity.hpp>
 #include <fluffy/ecs/entity_manager.hpp>
 
@@ -83,7 +75,7 @@ void Entity::invalidate()
 
 void Entity::destroy()
 {
-    assert(isValid());
+    FLUFFY_ASSERT(isValid(), "Entity is not valid");
 
     mManager->destroyEntity(mId);
     invalidate();
@@ -91,7 +83,7 @@ void Entity::destroy()
 
 std::bitset<MAX_COMPONENTS> Entity::getComponentMask() const
 {
-    assert(isValid());
+    FLUFFY_ASSERT(isValid(), "Entity is not valid");
 
     return mManager->getComponentMask(mId);
 }

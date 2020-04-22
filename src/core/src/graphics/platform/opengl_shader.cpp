@@ -1,26 +1,22 @@
-#include <fluffy/graphics/platform/opengl_shader.hpp>
 #include <fluffy/graphics/platform/opengl.hpp>
+#include <fluffy/graphics/platform/opengl_shader.hpp>
 
 using namespace Fluffy;
 
 bool getFileContents(const std::string& filename, std::vector<char>& buffer)
 {
     std::ifstream file(filename.c_str(), std::ios_base::binary);
-    if (file)
-    {
+    if (file) {
         file.seekg(0, std::ios_base::end);
         std::streamsize size = file.tellg();
-        if (size > 0)
-        {
+        if (size > 0) {
             file.seekg(0, std::ios_base::beg);
             buffer.resize(static_cast<std::size_t>(size));
             file.read(&buffer[0], size);
         }
         buffer.push_back('\0');
         return true;
-    }
-    else
-    {
+    } else {
         return false;
     }
 }
@@ -75,12 +71,11 @@ void OpenglShader::compile(const char* vertexShader, const char* fragmentShader)
     glAttachShader(mProgramId, vertexId);
     glAttachShader(mProgramId, fragmentId);
 
-    int success;
+    int  success;
     char infoLog[512];
     glLinkProgram(mProgramId);
     glGetProgramiv(mProgramId, GL_LINK_STATUS, &success);
-    if(!success)
-    {
+    if (!success) {
         glGetProgramInfoLog(mProgramId, 512, nullptr, infoLog);
         FLUFFY_LOG_ERROR("Failed to link shader program : " + toString(infoLog));
     }
@@ -96,8 +91,7 @@ bool OpenglShader::compileShaderCode(std::uint32_t shaderId, const char* code, S
     glShaderSource(shaderId, 1, &code, nullptr);
     glCompileShader(shaderId);
     glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
-    if(!success)
-    {
+    if (!success) {
         glGetShaderInfoLog(shaderId, 512, nullptr, infoLog);
         FLUFFY_LOG_ERROR("Failed to compile " + toString(EnumNames::ShaderType[(int)type]) + " shader : " + code);
 

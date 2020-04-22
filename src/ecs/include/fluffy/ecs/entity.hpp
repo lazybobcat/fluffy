@@ -4,8 +4,8 @@
 #include <fluffy/event/event.hpp>
 #include <fluffy/pch.hpp>
 
-#if FLUFFY_ENV_DEBUG
-#include <fluffy/text/string.hpp>
+#if FLUFFY_DEBUG
+#include <fluffy/pch.hpp>
 #endif
 
 namespace Fluffy {
@@ -109,7 +109,7 @@ struct EntityCreatedEvent : public Event<EntityCreatedEvent>
 
     Entity entity;
 
-#if FLUFFY_ENV_DEBUG
+#if FLUFFY_DEBUG
     virtual const std::string toString() const
     {
         return "'EntityCreatedEvent' {entityId:" + Fluffy::toString(entity.id().index()) + "}";
@@ -130,7 +130,7 @@ struct EntityDestroyedEvent : public Event<EntityDestroyedEvent>
 
     Entity entity;
 
-#if FLUFFY_ENV_DEBUG
+#if FLUFFY_DEBUG
     virtual const std::string toString() const
     {
         return "'EntityDestroyedEvent' {entityId:" + Fluffy::toString(entity.id().index()) + "}";

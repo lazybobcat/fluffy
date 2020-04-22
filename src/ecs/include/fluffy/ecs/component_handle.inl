@@ -1,6 +1,5 @@
 #include <fluffy/ecs/component_handle.hpp>
 #include <fluffy/ecs/entity_manager.hpp>
-#include <fluffy/pch.hpp>
 
 using namespace Fluffy;
 
@@ -33,7 +32,7 @@ bool ComponentHandle<C>::operator!=(const ComponentHandle<C>& other) const
 template<typename C>
 C* ComponentHandle<C>::get()
 {
-    assert(isValid());
+    FLUFFY_ASSERT(isValid(), "Component is not valid");
 
     return mManager->template getComponentPointer<C>(mId);
 }
@@ -41,7 +40,7 @@ C* ComponentHandle<C>::get()
 template<typename C>
 void ComponentHandle<C>::remove()
 {
-    assert(isValid());
+    FLUFFY_ASSERT(isValid(), "Component is not valid");
 
     mManager->template remove<C>(mId);
 }
@@ -49,7 +48,7 @@ void ComponentHandle<C>::remove()
 template<typename C>
 Entity ComponentHandle<C>::getEntity()
 {
-    assert(isValid());
+    FLUFFY_ASSERT(isValid(), "Component is not valid");
 
     return mManager->getEntity(mId);
 }
@@ -75,7 +74,7 @@ C* ComponentHandle<C>::operator->()
 template<typename C>
 const C* ComponentHandle<C>::get() const
 {
-    assert(isValid());
+    FLUFFY_ASSERT(isValid(), "Component is not valid");
 
     return mManager->template getComponentPointer<C>(mId);
 }

@@ -12,7 +12,7 @@ OpenglTexture2D::OpenglTexture2D()
 }
 
 OpenglTexture2D::OpenglTexture2D(const Path& path, const IntRect& area)
-: mArea(area)
+  : mArea(area)
 {
     loadFromFile(path);
 }
@@ -56,20 +56,22 @@ bool OpenglTexture2D::loadFromFile(const Path& path)
     }
 
     // Generate texture
-    if (mArea == IntRect(0,0,0,0)) {
-        mArea.width = width;
+    if (mArea == IntRect(0, 0, 0, 0)) {
+        mArea.width  = width;
         mArea.height = height;
 
         create(mArea.width, mArea.height, internalFormat, dataFormat);
         GlCall(glTexSubImage2D(GL_TEXTURE_2D, 0, mArea.left, mArea.top, mArea.width, mArea.height, dataFormat, GL_UNSIGNED_BYTE, data));
     } else {
         IntRect rectangle = mArea;
-        if (rectangle.left   < 0) rectangle.left = 0;
-        if (rectangle.top    < 0) rectangle.top  = 0;
-        if (rectangle.left + rectangle.width > width)  rectangle.width  = width - rectangle.left;
-        if (rectangle.top + rectangle.height > height) rectangle.height = height - rectangle.top;
-
-        std::cout << rectangle.left << "," << rectangle.top << ","<< rectangle.width << ","<< rectangle.height << std::endl;
+        if (rectangle.left < 0)
+            rectangle.left = 0;
+        if (rectangle.top < 0)
+            rectangle.top = 0;
+        if (rectangle.left + rectangle.width > width)
+            rectangle.width = width - rectangle.left;
+        if (rectangle.top + rectangle.height > height)
+            rectangle.height = height - rectangle.top;
 
         create(rectangle.width, rectangle.height, internalFormat, dataFormat);
 

@@ -1,11 +1,4 @@
-//
-// fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by loic on 16/04/18.
-//
-
+#include <fluffy/pch.hpp>
 #include <fluffy/scene/scene.hpp>
 #include <fluffy/serialization/json_serializer.hpp>
 

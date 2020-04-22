@@ -1,3 +1,4 @@
+#include <fluffy/assert.hpp>
 #include <fluffy/pch.hpp>
 #include <fluffy/scene/scene_node.hpp>
 
@@ -26,7 +27,7 @@ SceneNode::Ptr SceneNode::detach(const SceneNode& child)
         return p.get() == &child;
     });
 
-    assert(found != mChildren.end());
+    FLUFFY_ASSERT(found != mChildren.end(), "Children node not found, unable to detach");
 
     Ptr result      = std::move(*found);
     result->mParent = nullptr;

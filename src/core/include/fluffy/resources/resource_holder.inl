@@ -36,7 +36,7 @@ typename Resource::Identifier ResourceHolder<Resource>::insertResource(std::uniq
 
     typename Resource::Identifier id       = mNextId++;
     auto                          inserted = mResourceMap.insert(std::make_pair(id, std::move(resource)));
-    assert(inserted.second);
+    FLUFFY_ASSERT(inserted.second);
 
     return id;
 }

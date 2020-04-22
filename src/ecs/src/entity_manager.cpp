@@ -1,5 +1,5 @@
+#include <fluffy/assert.hpp>
 #include <fluffy/ecs/entity_manager.hpp>
-#include <fluffy/pch.hpp>
 
 using namespace Fluffy;
 
@@ -129,8 +129,8 @@ void EntityManager::prepareForEntity(std::uint32_t index)
 
 void EntityManager::assertValid(Entity::Id id) const
 {
-    assert(id.index() < mEntityComponentMask.size());
-    assert(id.version() == mEntityVersion[id.index()]);
+    FLUFFY_ASSERT(id.index() < mEntityComponentMask.size(), "Entity is not valid");
+    FLUFFY_ASSERT(id.version() == mEntityVersion[id.index()], "Entity is not valid");
 }
 
 Entity::Id EntityManager::createEntityId(std::uint32_t index) const

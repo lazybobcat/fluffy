@@ -5,6 +5,7 @@ clang-format -style=file -i src/core/include/fluffy/*/*.hpp
 clang-format -style=file -i src/core/include/fluffy/*/*/*.hpp
 clang-format -style=file -i src/core/include/fluffy/*/*.inl
 clang-format -style=file -i src/core/src/*/*.cpp
+clang-format -style=file -i src/core/src/*/*/*.cpp
 
 # ecs
 clang-format -style=file -i src/ecs/include/fluffy/*/*.hpp

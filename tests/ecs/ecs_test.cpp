@@ -22,7 +22,7 @@ struct Position : public Component<Position>
     float x = 0.f;
     float y = 0.f;
 
-#if FLUFFY_ENV_DEBUG
+#if FLUFFY_DEBUG
     virtual const std::string toString() const
     {
         return "'Position' {x:" + Fluffy::toString(x) + ", y:" + Fluffy::toString(y) + "}";
@@ -41,7 +41,7 @@ struct Speed : public Component<Speed>
     float x = 0.f;
     float y = 0.f;
 
-#if FLUFFY_ENV_DEBUG
+#if FLUFFY_DEBUG
     virtual const std::string toString() const
     {
         return "'Speed' {x:" + Fluffy::toString(x) + ", y:" + Fluffy::toString(y) + "}";

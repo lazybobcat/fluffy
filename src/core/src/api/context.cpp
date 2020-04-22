@@ -1,10 +1,16 @@
 #include <fluffy/api/context.hpp>
+#include <fluffy/assert.hpp>
+#include <fluffy/definitions.hpp>
 #include <fluffy/file/path.hpp>
 
 using namespace Fluffy;
 
 Context::Context(const ModuleRegistry& registry)
 {
+    FLUFFY_LOG_INFO("Thanks for using Fluffy " + toString(FLUFFY_VERSION));
+#ifdef FLUFFY_DEBUG
+    FLUFFY_LOG_WARN("Fluffy is in DEBUG mode");
+#endif
     FLUFFY_LOG_INFO("Create game context");
     FLUFFY_LOG_INFO("> Working directory: " + Path::getWorkingDirectory().toString());
 
@@ -12,15 +18,15 @@ Context::Context(const ModuleRegistry& registry)
 
     {
         auto module = dynamic_cast<SystemModule*>(registry.getModule(ModuleType::System));
-        assert(module && "System module must be defined");
-        FLUFFY_LOG_INFO("Loaded " + toString(EnumNames::ModuleType[(int)ModuleType::System]) + " module: " + module->getName());
+        FLUFFY_ASSERT(module, "System module must be defined");
+        FLUFFY_LOG_INFO("> Loaded " + toString(EnumNames::ModuleType[(int)ModuleType::System]) + " module: " + module->getName());
         systemModule.reset(module);
     }
 
     {
         auto module = dynamic_cast<VideoModule*>(registry.getModule(ModuleType::Video));
-        assert(module && "Video module must be defined");
-        FLUFFY_LOG_INFO("Loaded " + toString(EnumNames::ModuleType[(int)ModuleType::Video]) + " module: " + module->getName());
+        FLUFFY_ASSERT(module, "Video module must be defined");
+        FLUFFY_LOG_INFO("> Loaded " + toString(EnumNames::ModuleType[(int)ModuleType::Video]) + " module: " + module->getName());
         videoModule.reset(module);
     }
 

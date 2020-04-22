@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fluffy/assert.hpp>
 #include <fluffy/ecs/component_handle.hpp>
 #include <fluffy/pch.hpp>
 
@@ -42,7 +43,7 @@ public:
     typedef ComponentHandle<Derived>       Handle;
     typedef ComponentHandle<const Derived> ConstHandle;
 
-#if FLUFFY_ENV_DEBUG
+#if FLUFFY_DEBUG
     virtual const std::string toString() const
     {
         return "'UnnamedComponent' {}";
@@ -55,7 +56,7 @@ private:
     static Family family()
     {
         static Family family = mFamilyCounter++;
-        assert(family < MAX_COMPONENTS);
+        FLUFFY_ASSERT(family < MAX_COMPONENTS, "To many component types have been defined");
 
         return family;
     }
@@ -94,7 +95,7 @@ struct ComponentAddedEvent : public Event<ComponentAddedEvent<C>>
     Entity             entity;
     ComponentHandle<C> component;
 
-#if FLUFFY_ENV_DEBUG
+#if FLUFFY_DEBUG
     virtual const std::string toString() const
     {
         return "'ComponentAddedEvent' {entityId:" + Fluffy::toString(entity.id().index()) + ", component=" + component.get()->toString() + "}";
@@ -118,7 +119,7 @@ struct ComponentRemovedEvent : public Event<ComponentRemovedEvent<C>>
     Entity             entity;
     ComponentHandle<C> component;
 
-#if FLUFFY_ENV_DEBUG
+#if FLUFFY_DEBUG
     virtual const std::string toString() const
     {
         return "'ComponentRemovedEvent' {entityId:" + Fluffy::toString(entity.id().index()) + ", component=" + component.get()->toString() + "}";

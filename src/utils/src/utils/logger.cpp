@@ -1,5 +1,6 @@
+#include <fluffy/assert.hpp>
 #include <fluffy/definitions.hpp>
-#include <fluffy/utils/logger.hpp>
+#include <fluffy/pch.hpp>
 
 using namespace Fluffy;
 
@@ -114,7 +115,7 @@ void Logger::clear()
 
 void Logger::log(LogLevel level, const std::string& message)
 {
-    assert(sInstance);
+    FLUFFY_ASSERT(sInstance, "No Logger instance has been created, use Logger::Init()");
 
     for (auto& sink : sInstance->mSinks) {
         if (sink->canLog(level)) {

@@ -1,11 +1,6 @@
 cmake_minimum_required(VERSION 3.8.2)
 project(fluffy VERSION 0.1.0)
 
-#set(CMAKE_BUILD_TYPE Release)
-#set(FLUFFY_ENV release)
-set(CMAKE_BUILD_TYPE Debug)
-set(FLUFFY_ENV debug)
-
 if (WIN32)
     set(FLUFFY_EXTERNAL_LIBS pthread opengl32 glfw)
 elseif(UNIX)
@@ -26,11 +21,15 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_SOURCE_DIR}/build)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_CURRENT_SOURCE_DIR}/build)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fPIC")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -DFLUFFY_DEBUG")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Plugins
 include(cmake/PrecompiledHeader.cmake) # If CMake < 3.16, precompiled headers are not supported out of the box
+
+# Debug libs
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/debug)
 
 # GLFW
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)

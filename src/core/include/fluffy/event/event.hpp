@@ -35,7 +35,7 @@ public:
         return family;
     }
 
-#if FLUFFY_ENV_DEBUG
+#if FLUFFY_DEBUG
     virtual const std::string toString() const
     {
         return "'UnnamedEvent' {}";

@@ -1,4 +1,4 @@
-#include <fluffy/text/string.hpp>
+#include <fluffy/pch.hpp>
 
 void Fluffy::replaceAll(std::string& base, std::string& pattern, std::string& replacement)
 {

@@ -6,7 +6,6 @@ set(SOURCE_FILES
         include/fluffy/utils/logger.hpp src/utils/logger.cpp
         include/fluffy/utils/pool.hpp src/utils/pool.cpp
         include/fluffy/math/random.hpp src/math/random.cpp
-        include/fluffy/service/service_container.hpp src/service/service_container.cpp
         include/fluffy/text/string.hpp src/text/string.cpp
         include/fluffy/time/time.hpp src/time/time.cpp
         include/fluffy/signal/slot.hpp src/signal/slot.cpp

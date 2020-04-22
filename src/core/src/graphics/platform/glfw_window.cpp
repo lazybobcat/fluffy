@@ -1,11 +1,12 @@
+#include <fluffy/assert.hpp>
 #include <fluffy/definitions.hpp>
 #include <fluffy/graphics/platform/glfw_window.hpp>
-#include <utility>
-#include <fluffy/graphics/platform/opengl_shader.hpp>
 #include <fluffy/graphics/platform/opengl.hpp>
+#include <fluffy/graphics/platform/opengl_shader.hpp>
 #include <fluffy/graphics/platform/opengl_texture.hpp>
-#include <fluffy/graphics/vertex_array.hpp>
 #include <fluffy/graphics/transform.hpp>
+#include <fluffy/graphics/vertex_array.hpp>
+#include <utility>
 
 using namespace Fluffy;
 
@@ -21,10 +22,7 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
     FLUFFY_LOG_INFO("Creating window " + mDefinition.title + " (" + toString(mDefinition.width) + "x" + toString(mDefinition.height) + ")");
 
     int success = glfwInit();
-    if(!success) {
-        FLUFFY_LOG_ERROR("Failed to initialize GLFW");
-        exit(1); // @todo exit codes
-    }
+    FLUFFY_ASSERT(success, "Failed to initialize GLFW");
 
     // Some declarations about our OpenGL
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, OPENGL_MAJOR_VERSION);
@@ -32,20 +30,12 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     mWindow = glfwCreateWindow((int)mDefinition.width, (int)mDefinition.height, mDefinition.title.c_str(), nullptr, nullptr);
-    if (!mWindow)
-    {
-        FLUFFY_LOG_ERROR("Failed to create GLFW window");
-        exit(1); // @todo exit codes
-    }
+    FLUFFY_ASSERT(mWindow, "Failed to create GLFW window");
 
     glfwMakeContextCurrent(mWindow);
 
     auto initialized = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-    if (!initialized)
-    {
-        FLUFFY_LOG_ERROR("Failed to initialize GLAD (error " + toString(initialized));
-        exit(1); // @todo exit codes
-    }
+    FLUFFY_ASSERT(initialized, "Failed to initialize GLAD");
 
     resize(mDefinition.width, mDefinition.height);
     initializeGLFWEvents();
@@ -55,6 +45,10 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
     FLUFFY_LOG_INFO("> " + toString(glGetString(GL_RENDERER)));
     FLUFFY_LOG_INFO("> " + toString(glGetString(GL_VERSION)));
 
+    // Enable blending @todo move into the renderer init function
+    GlCall(glEnable(GL_BLEND));
+    GlCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
     // Shader
     auto shader = Shader::create();
     shader->loadFromFile("assets/shaders/sprite.vertex.shader", "assets/shaders/sprite.fragment.shader");
@@ -63,35 +57,33 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     VertexArray va(PrimitiveType::TriangleStrip, 4);
-    va.setVertex(0, {{ 0.5f, -0.5f, 0.0f}, {0, 255, 0}, {1.0f, 1.0f}});
-    va.setVertex(1, {{ 0.5f,  0.5f, 0.0f}, {255, 0, 0}, {1.0f, 0.0f}});
-    va.setVertex(2, {{ -0.5f, -0.5f, 0.0f}, {0, 0, 255}, {0.0f, 1.0f}});
-    va.setVertex(3, {{ -0.5f,  0.5f, 0.0f}, {255, 255, 0}, {0.0f, 0.0f}});
+    va.setVertex(0, { { 0.5f, -0.5f, 0.0f }, { 0, 255, 0 }, { 1.0f, 1.0f } });
+    va.setVertex(1, { { 0.5f, 0.5f, 0.0f }, { 255, 0, 0 }, { 1.0f, 0.0f } });
+    va.setVertex(2, { { -0.5f, -0.5f, 0.0f }, { 0, 0, 255 }, { 0.0f, 1.0f } });
+    va.setVertex(3, { { -0.5f, 0.5f, 0.0f }, { 255, 255, 0 }, { 0.0f, 0.0f } });
 
-//    va.append({{ -0.5f, -0.5f, -1.f}, {0, 255, 255}, {0.0f, 0.0f}}); // 4
-//    va.append({{ -0.5f,  0.5f, -1.f}, {255, 128, 128}, {0.0f, 1.0f}}); // 5
-//    va.append({{ 0.5f, -0.5f, -1.f}, {0, 255, 0}, {0.0f, 0.0f}}); // 6
-//    va.append({{ 0.5f,  0.5f, -1.f}, {0, 255, 0}, {0.0f, 1.0f}}); // 7
-//    va.append({{ 0.5f, -0.5f, 0.0f}, {0, 255, 0}, {1.0f, 0.0f}}); // 0
-//    va.append({{ 0.5f,  0.5f, 0.0f}, {255, 0, 0}, {1.0f, 1.0f}}); // 1
+    //    va.append({{ -0.5f, -0.5f, -1.f}, {0, 255, 255}, {0.0f, 0.0f}}); // 4
+    //    va.append({{ -0.5f,  0.5f, -1.f}, {255, 128, 128}, {0.0f, 1.0f}}); // 5
+    //    va.append({{ 0.5f, -0.5f, -1.f}, {0, 255, 0}, {0.0f, 0.0f}}); // 6
+    //    va.append({{ 0.5f,  0.5f, -1.f}, {0, 255, 0}, {0.0f, 1.0f}}); // 7
+    //    va.append({{ 0.5f, -0.5f, 0.0f}, {0, 255, 0}, {1.0f, 0.0f}}); // 0
+    //    va.append({{ 0.5f,  0.5f, 0.0f}, {255, 0, 0}, {1.0f, 1.0f}}); // 1
 
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
     va.bind();
 
-
     // My texture
-    auto texture = Texture2D::create("assets/textures/alpaca.png");
+    auto texture = Texture2D::create("assets/textures/tile.png");
     texture->setRepeat(RepeatType::Repeat);
 
     // Transform
     Transform transform;
-//    transform.rotate(45, {0.2,0,0}, {0,0,1});
-//    transform.translate({0.2, 0, 0});
+    //    transform.rotate(45, {0.2,0,0}, {0,0,1});
+    //    transform.translate({0.2, 0, 0});
 
     /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(mWindow))
-    {
-        transform.rotate(1, {0,0,0}, {1,0,1});
+    while (!glfwWindowShouldClose(mWindow)) {
+        transform.rotate(1, { 0, 0, 0 }, { 1, 0, 1 });
 
         /* Render here */
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -123,7 +115,7 @@ GlfwWindow::~GlfwWindow()
 
 void GlfwWindow::initializeGLFWEvents()
 {
-    glfwSetFramebufferSizeCallback(mWindow, [] (GLFWwindow* window, int width, int height) {
+    glfwSetFramebufferSizeCallback(mWindow, [](GLFWwindow* window, int width, int height) {
         glViewport(0, 0, width, height);
     });
 }

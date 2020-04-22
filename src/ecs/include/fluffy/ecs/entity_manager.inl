@@ -13,7 +13,7 @@ ComponentHandle<C> EntityManager::assign(Entity::Id id, Args&&... args)
 {
     assertValid(id);
     const BaseComponent::Family family = componentFamily<C>();
-    assert(!mEntityComponentMask[id.index()].test(family));
+    FLUFFY_ASSERT(!mEntityComponentMask[id.index()].test(family), "Invalid family");
 
     Pool<C>* pool = getComponentPool<C>();
     C        comp = C(std::forward<Args>(args)...);
@@ -32,7 +32,7 @@ void EntityManager::remove(Entity::Id id)
 {
     assertValid(id);
     const BaseComponent::Family family = componentFamily<C>();
-    assert(mEntityComponentMask[id.index()].test(family));
+    FLUFFY_ASSERT(!mEntityComponentMask[id.index()].test(family), "Invalid family");
 
     BasePool* pool = mComponentPools[family];
 
@@ -100,7 +100,7 @@ template<typename C>
 C* EntityManager::getComponentPointer(Entity::Id id)
 {
     BasePool* pool = mComponentPools[componentFamily<C>()];
-    assert(pool);
+    FLUFFY_ASSERT(pool, "Invalid family: no pool available");
 
     return static_cast<C*>(pool->get(id.index()));
 }
