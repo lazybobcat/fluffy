@@ -1,14 +1,31 @@
+[![Generic badge](https://img.shields.io/badge/licence-MIT-brightgreen.svg)](https://en.wikipedia.org/wiki/MIT_License)
 [![Build Status](https://travis-ci.org/Lo-X/fluffy.svg?branch=master)](https://travis-ci.org/Lo-X/fluffy)
+[![Generic badge](https://img.shields.io/badge/C++-17-brightgreen.svg)](https://en.wikipedia.org/wiki/C%2B%2B17)
 
 Fluffy is still a work in progress.
 
 # Fluffy
 
-Fluffy is a 2D video game basic framework. Its objective is not to be the better and the fastest out there, but simply to
+Fluffy is a basic video game engine. Its objective is not to be the better and the fastest out there, but simply to
 help prototyping games.
 
-Fluffy  will offer a bunch of utility tools, a service container, time and clock, an ECS, game states, an event system, 
-scripting, asset pipes, and whatever comes to my mind or yours.
+Its objective is to highly reduce the amount of code needed to build a game. Of course there will still be some code,
+but the goal is to make the user write as little code as possible and instead use scripting and an asset pipe. 
+
+## Fluffy contains
+
+* A fully working Entity-Component-System (ECS)
+* Logging
+* Window handling
+* Graphics handling
+* Resource managers
+* States (screens/layers)
+* Useful utility classes like Time, Signals/slots, Path, etc.
+
+## Fluffy will contain (probably)
+
+* Scripting
+* Asset pipe
 
 ## Fluffy needs
 
@@ -19,6 +36,11 @@ scripting, asset pipes, and whatever comes to my mind or yours.
 
 * [Bandit/Bandit](https://github.com/banditcpp/) For unit testing
 * [open-source-parsers/jsoncpp](https://github.com/open-source-parsers/jsoncpp) For serialization stuff and loading data
+* GLAD To bind to OpenGL
+* GLFW For window handling
+* GLM For graphic maths
+* [STB](http://nothings.org/stb) For image loading
+* [scottt/debugbreak](https://github.com/scottt/debugbreak) For breakpoints
 
 ## How to compile
 
