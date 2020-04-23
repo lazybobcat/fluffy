@@ -2,7 +2,7 @@
 
 using namespace Fluffy;
 
-GameLoader::GameLoader(std::vector<std::string>&& args)
+GameLoader::GameLoader(std::vector<String>&& args)
   : mApplicationArgs(args)
 {
 }

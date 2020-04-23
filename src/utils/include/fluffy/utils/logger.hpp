@@ -1,6 +1,8 @@
 #pragma once
 
 #include <fluffy/pch.hpp>
+#include <fluffy/text/string.hpp>
+#include <fmt/format.h>
 #include <mutex>
 
 namespace Fluffy {
@@ -16,8 +18,8 @@ enum class LogLevel
 class BaseLoggerSink
 {
 public:
-    virtual ~BaseLoggerSink()                                    = default;
-    virtual void log(LogLevel level, const std::string& message) = 0;
+    virtual ~BaseLoggerSink()                               = default;
+    virtual void log(LogLevel level, const String& message) = 0;
 
     void setLevel(LogLevel level) { mMinimumLevel = level; }
     bool canLog(LogLevel level) { return level >= mMinimumLevel; }
@@ -29,7 +31,7 @@ private:
 class StdOutSink : public BaseLoggerSink
 {
 public:
-    void log(LogLevel level, const std::string& message) override;
+    void log(LogLevel level, const String& message) override;
 
 private:
     std::mutex mMutex;
@@ -39,7 +41,7 @@ class FileSink : public BaseLoggerSink
 {
 public:
     FileSink();
-    void log(LogLevel level, const std::string& message) override;
+    void log(LogLevel level, const String& message) override;
 
 private:
     std::mutex    mMutex;
@@ -52,14 +54,33 @@ public:
     static void init(bool testMode = false);
     static void clear();
 
-    static void debug(const std::string& message);
-    static void info(const std::string& message);
-    static void warn(const std::string& message);
-    static void error(const std::string& message);
+    template<typename... Args>
+    static void debug(const String& message, Args... args)
+    {
+        log(LogLevel::Debug, fmt::format(message, args...));
+    }
+
+    template<typename... Args>
+    static void info(const String& message, Args... args)
+    {
+        log(LogLevel::Info, fmt::format(message, args...));
+    }
+
+    template<typename... Args>
+    static void warn(const String& message, Args... args)
+    {
+        log(LogLevel::Warning, fmt::format(message, args...));
+    }
+
+    template<typename... Args>
+    static void error(const String& message, Args... args)
+    {
+        log(LogLevel::Error, fmt::format(message, args...));
+    }
 
 private:
     Logger() = default;
-    static void log(LogLevel level, const std::string& message);
+    static void log(LogLevel level, const String& message);
 
 private:
     static Logger* sInstance;

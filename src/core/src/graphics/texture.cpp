@@ -11,10 +11,11 @@ Ref<Texture2D> Texture2D::create(const Path& path, const IntRect& area)
             return std::make_shared<OpenglTexture2D>(path, area);
 
         case RenderAPIList::None:
-            FLUFFY_LOG_ERROR("Shader for render API '" + toString(EnumNames::RenderAPI[(int)Renderer::RenderAPI]) + "' is not supported!");
+        default:
+            FLUFFY_LOG_ERROR("Texture for render API '{}' is not supported!", EnumNames::RenderAPI[(int)Renderer::RenderAPI]);
             return nullptr;
     }
 
-    FLUFFY_LOG_ERROR("Shader for render API '" + toString(EnumNames::RenderAPI[(int)Renderer::RenderAPI]) + "' is not supported!");
+    FLUFFY_LOG_ERROR("Texture for render API '{}' is not supported!", EnumNames::RenderAPI[(int)Renderer::RenderAPI]);
     return nullptr;
 }

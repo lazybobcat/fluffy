@@ -1,9 +1,7 @@
 set(SOURCE_FILES
         tests.cpp
-        utils/string_test.cpp
         utils/serialization_test.cpp
         utils/random_test.cpp
-        core/scene_test.cpp
         core/state_test.cpp
         ecs/ecs_test.cpp)
 

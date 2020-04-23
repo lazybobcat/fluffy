@@ -7,7 +7,7 @@ typename Resource::Identifier ResourceHolder<Resource>::load(const Fluffy::Path&
 {
     std::unique_ptr<Resource> resource(new Resource());
     if (!resource->loadFromFile(path)) {
-        FLUFFY_LOG_ERROR("Failed to load resource from " + path.toString());
+        FLUFFY_LOG_ERROR("Failed to load resource from '{}'", path);
 
         return Resource::InvalidIdentifier;
     }
@@ -21,7 +21,7 @@ typename Resource::Identifier ResourceHolder<Resource>::load(const Fluffy::Path&
 {
     std::unique_ptr<Resource> resource(new Resource());
     if (!resource->loadFromFile(path, secondParameter)) {
-        FLUFFY_LOG_ERROR("Failed to load resource from " + path.toString());
+        FLUFFY_LOG_ERROR("Failed to load resource from '{}'", path);
 
         return Resource::InvalidIdentifier;
     }
@@ -48,7 +48,7 @@ Resource& ResourceHolder<Resource>::get(typename Resource::Identifier id)
 
     auto found = mResourceMap.find(id);
     if (found == mResourceMap.end()) {
-        FLUFFY_LOG_ERROR("Resource not found for ID " + id);
+        FLUFFY_LOG_ERROR("Resource not found for ID '{}'", id);
 
         return nullptr;
     }
@@ -63,7 +63,7 @@ const Resource& ResourceHolder<Resource>::get(typename Resource::Identifier id) 
 
     auto found = mResourceMap.find(id);
     if (found == mResourceMap.end()) {
-        FLUFFY_LOG_ERROR("Resource not found for ID " + id);
+        FLUFFY_LOG_ERROR("Resource not found for ID '{}'", id);
 
         return nullptr;
     }

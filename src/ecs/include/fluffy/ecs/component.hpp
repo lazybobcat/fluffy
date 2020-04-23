@@ -44,7 +44,7 @@ public:
     typedef ComponentHandle<const Derived> ConstHandle;
 
 #if FLUFFY_DEBUG
-    virtual const std::string toString() const
+    virtual const String toString() const
     {
         return "'UnnamedComponent' {}";
     }
@@ -96,9 +96,9 @@ struct ComponentAddedEvent : public Event<ComponentAddedEvent<C>>
     ComponentHandle<C> component;
 
 #if FLUFFY_DEBUG
-    virtual const std::string toString() const
+    virtual const String toString() const
     {
-        return "'ComponentAddedEvent' {entityId:" + Fluffy::toString(entity.id().index()) + ", component=" + component.get()->toString() + "}";
+        return fmt::format("'ComponentAddedEvent' {{entityId:{}, component={}}}", entity.id().index(), component.get()->toString());
     }
 #endif
 };
@@ -120,9 +120,9 @@ struct ComponentRemovedEvent : public Event<ComponentRemovedEvent<C>>
     ComponentHandle<C> component;
 
 #if FLUFFY_DEBUG
-    virtual const std::string toString() const
+    virtual const String toString() const
     {
-        return "'ComponentRemovedEvent' {entityId:" + Fluffy::toString(entity.id().index()) + ", component=" + component.get()->toString() + "}";
+        return fmt::format("'ComponentRemovedEvent' {{entityId:{}, component={}}}", entity.id().index(), component.get()->toString());
     }
 #endif
 };

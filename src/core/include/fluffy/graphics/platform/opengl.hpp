@@ -20,7 +20,7 @@ inline void GLClearErrors()
 inline bool GLCheckError(const char* function, const char* file, int line)
 {
     while (GLenum error = glGetError()) {
-        FLUFFY_LOG_ERROR("OpenGL error (" + toString(error) + ") in " + function + " in file " + file + ":" + toString(line));
+        FLUFFY_LOG_ERROR("OpenGL error ({}) in {} in file {}:{}", error, function, file, line);
 
         return false;
     }

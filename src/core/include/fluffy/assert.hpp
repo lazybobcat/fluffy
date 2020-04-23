@@ -10,7 +10,7 @@
 inline void FluffyAssert(bool condition, const char* message, const char* file, int line)
 {
     if (!condition) {
-        FLUFFY_LOG_ERROR("Assert failed in " + Fluffy::toString(file) + " on line " + Fluffy::toString(line) + ": " + Fluffy::toString(message));
+        FLUFFY_LOG_ERROR("Assert failed in '{}' on line {}: {}", file, line, message);
         debug_break();
     }
 }

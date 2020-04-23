@@ -4,7 +4,7 @@
 
 using namespace Fluffy;
 
-bool JsonSerializer::serializeToString(Fluffy::Serializable& input, std::string& output)
+bool JsonSerializer::serializeToString(Fluffy::Serializable& input, String& output)
 {
     Json::Value value;
     input.serialize(value);
@@ -20,13 +20,13 @@ bool JsonSerializer::serializeToString(Fluffy::Serializable& input, std::string&
     return true;
 }
 
-bool JsonSerializer::deserializeFromString(std::string& input, Fluffy::Serializable& output)
+bool JsonSerializer::deserializeFromString(String& input, Fluffy::Serializable& output)
 {
     Json::Value  value;
     Json::Reader reader;
 
     if (!reader.parse(input, value)) {
-        FLUFFY_LOG_ERROR("An error occurred while deserializing json string: " + input);
+        FLUFFY_LOG_ERROR("An error occurred while deserializing json string: {}", input);
 
         return false;
     }
@@ -36,7 +36,7 @@ bool JsonSerializer::deserializeFromString(std::string& input, Fluffy::Serializa
     return true;
 }
 
-bool JsonSerializer::serializeToFile(Fluffy::Serializable& input, std::string& filepath)
+bool JsonSerializer::serializeToFile(Fluffy::Serializable& input, const Path& filepath)
 {
     Json::Value value;
     input.serialize(value);
@@ -48,10 +48,10 @@ bool JsonSerializer::serializeToFile(Fluffy::Serializable& input, std::string& f
 #endif
 
     std::ofstream output;
-    output.open(filepath);
+    output.open(filepath.toString());
 
     if (!output.is_open()) {
-        FLUFFY_LOG_ERROR("Unable to open file '" + filepath + "' for serialization");
+        FLUFFY_LOG_ERROR("Unable to open file '{}' for serialization", filepath);
 
         return false;
     }
@@ -62,16 +62,16 @@ bool JsonSerializer::serializeToFile(Fluffy::Serializable& input, std::string& f
     return true;
 }
 
-bool JsonSerializer::deserializeFromFile(std::string& filepath, Fluffy::Serializable& output)
+bool JsonSerializer::deserializeFromFile(const Path& filepath, Fluffy::Serializable& output)
 {
     Json::Value  value;
     Json::Reader reader;
 
     std::ifstream input;
-    input.open(filepath);
+    input.open(filepath.toString());
 
     if (!input.is_open()) {
-        FLUFFY_LOG_ERROR("Unable to open file '" + filepath + "' for serialization");
+        FLUFFY_LOG_ERROR("Unable to open file '{}' for serialization", filepath);
 
         return false;
     }
@@ -79,7 +79,7 @@ bool JsonSerializer::deserializeFromFile(std::string& filepath, Fluffy::Serializ
     try {
         input >> value;
     } catch (Json::RuntimeError& e) {
-        FLUFFY_LOG_ERROR("An error occurred while deserializing file '" + filepath + "': " + e.what());
+        FLUFFY_LOG_ERROR("An error occurred while deserializing file '{}': ", filepath, e.what());
 
         return false;
     }

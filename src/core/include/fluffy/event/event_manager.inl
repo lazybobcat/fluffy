@@ -25,7 +25,7 @@ void EventManager::emit(const E& event)
     const BaseEvent::Family family = eventFamily<E>();
 
 #if FLUFFY_DEBUG
-    FLUFFY_LOG_DEBUG("Emitted event " + event.toString());
+    FLUFFY_LOG_DEBUG("Emitted event {}", event.toString());
 #endif
 
     if (mConnections.find(family) != mConnections.end()) {

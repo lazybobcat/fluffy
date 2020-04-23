@@ -11,10 +11,10 @@ Ref<Shader> Shader::create()
             return std::make_shared<OpenglShader>();
 
         case RenderAPIList::None:
-            FLUFFY_LOG_ERROR("Shader for render API '" + toString(EnumNames::RenderAPI[(int)Renderer::RenderAPI]) + "' is not supported!");
+            FLUFFY_LOG_ERROR("Shader for render API '{}' is not supported!", EnumNames::RenderAPI[(int)Renderer::RenderAPI]);
             return nullptr;
     }
 
-    FLUFFY_LOG_ERROR("Shader for render API '" + toString(EnumNames::RenderAPI[(int)Renderer::RenderAPI]) + "' is not supported!");
+    FLUFFY_LOG_ERROR("Shader for render API '{}' is not supported!", EnumNames::RenderAPI[(int)Renderer::RenderAPI]);
     return nullptr;
 }

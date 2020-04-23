@@ -17,7 +17,7 @@ class Game
 public:
     virtual ~Game() = default;
 
-    virtual void initialize(const std::vector<std::string> /*args*/) {}
+    virtual void initialize(const std::vector<String> /*args*/) {}
     virtual void initializeModules(ModuleRegistry& registry) = 0;
     virtual void terminate(const Context& /*context*/) {}
 
@@ -29,7 +29,7 @@ public:
     virtual void           update(Time dt)  = 0;
     virtual void           render()         = 0;
     virtual BaseState::Ptr start()          = 0;
-    virtual std::string    getTitle() const = 0;
+    virtual String         getTitle() const = 0;
 
 private:
     friend GameLoader;

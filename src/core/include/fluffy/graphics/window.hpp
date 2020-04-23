@@ -17,7 +17,7 @@ class Window
 public:
     struct Definition
     {
-        Definition(std::string title = "Fluffy", WindowType type = WindowType::Windowed, unsigned int width = 1280, unsigned int height = 720)
+        Definition(String title = "Fluffy", WindowType type = WindowType::Windowed, unsigned int width = 1280, unsigned int height = 720)
           : title(std::move(title))
           , type(type)
           , width(width)
@@ -25,7 +25,7 @@ public:
         {
         }
 
-        std::string  title;
+        String       title;
         WindowType   type;
         unsigned int width;
         unsigned int height;

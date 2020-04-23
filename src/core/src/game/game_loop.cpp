@@ -8,7 +8,7 @@ using namespace Fluffy;
 GameLoop::GameLoop(GameLoader& loader)
   : mGameLoader(loader)
 {
-    FLUFFY_LOG_INFO("Starting game " + mGameLoader.getGame().getTitle() + " with Fluffy...");
+    FLUFFY_LOG_INFO("Starting game {} with Fluffy...", mGameLoader.getGame().getTitle());
 }
 
 void GameLoop::run()

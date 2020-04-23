@@ -12,14 +12,14 @@ using namespace Fluffy;
 
 void error_callback(int error, const char* description)
 {
-    FLUFFY_LOG_ERROR("GLFW error (" + toString(error) + "): " + toString(description));
+    FLUFFY_LOG_ERROR("GLFW error ({}): {}", error, description);
 }
 
 GlfwWindow::GlfwWindow(Window::Definition definition)
   : mDefinition(std::move(definition))
 {
     glfwSetErrorCallback(error_callback);
-    FLUFFY_LOG_INFO("Creating window " + mDefinition.title + " (" + toString(mDefinition.width) + "x" + toString(mDefinition.height) + ")");
+    FLUFFY_LOG_INFO("Creating window {} ({}x{})", mDefinition.title, mDefinition.width, mDefinition.height);
 
     int success = glfwInit();
     FLUFFY_ASSERT(success, "Failed to initialize GLFW");
@@ -41,9 +41,9 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
     initializeGLFWEvents();
 
     // @todo move into Context
-    FLUFFY_LOG_INFO("> " + toString(glGetString(GL_VENDOR)));
-    FLUFFY_LOG_INFO("> " + toString(glGetString(GL_RENDERER)));
-    FLUFFY_LOG_INFO("> " + toString(glGetString(GL_VERSION)));
+    FLUFFY_LOG_INFO("> {}", glGetString(GL_VENDOR));
+    FLUFFY_LOG_INFO("> {}", glGetString(GL_RENDERER));
+    FLUFFY_LOG_INFO("> {}", glGetString(GL_VERSION));
 
     // Enable blending @todo move into the renderer init function
     GlCall(glEnable(GL_BLEND));

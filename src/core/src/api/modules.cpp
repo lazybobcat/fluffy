@@ -9,8 +9,7 @@ void ModuleRegistry::registerModule(BaseModule* module)
     ModuleType type = module->getType();
     auto       it   = mRegistry.find(type);
     if (it != mRegistry.end()) {
-        FLUFFY_LOG_WARN("Module '" + it->second->getName() + "' of type '" + EnumNames::ModuleType[(int)type] +
-                        "' has already been registered. Removing it.");
+        FLUFFY_LOG_WARN("Module '{}' of type '{}' has already been registered. Removing it.", it->second->getName(), EnumNames::ModuleType[(int)type]);
         delete it->second;
     }
 

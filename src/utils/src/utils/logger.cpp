@@ -1,10 +1,11 @@
 #include <fluffy/assert.hpp>
 #include <fluffy/definitions.hpp>
 #include <fluffy/pch.hpp>
+#include <fluffy/utils/logger.hpp>
 
 using namespace Fluffy;
 
-std::string currentDateTime()
+String currentDateTime()
 {
     time_t    now = time(0);
     struct tm tstruct;
@@ -14,7 +15,7 @@ std::string currentDateTime()
     // for more information about date/time format
     strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
 
-    return std::string(buf);
+    return String(buf);
 }
 
 std::ostream& operator<<(std::ostream& os, LogLevel level)
@@ -38,7 +39,7 @@ std::ostream& operator<<(std::ostream& os, LogLevel level)
 
 /*****************************************************/
 
-void StdOutSink::log(LogLevel level, const std::string& message)
+void StdOutSink::log(LogLevel level, const String& message)
 {
     std::unique_lock<std::mutex> lock(mMutex);
 
@@ -69,7 +70,7 @@ FileSink::FileSink()
     mFile.close();
 }
 
-void FileSink::log(LogLevel level, const std::string& message)
+void FileSink::log(LogLevel level, const String& message)
 {
     std::unique_lock<std::mutex> lock(mMutex);
     mFile.open(FLUFFY_LOG_FILE, std::ios::app);
@@ -113,7 +114,7 @@ void Logger::clear()
     sInstance = nullptr;
 }
 
-void Logger::log(LogLevel level, const std::string& message)
+void Logger::log(LogLevel level, const String& message)
 {
     FLUFFY_ASSERT(sInstance, "No Logger instance has been created, use Logger::Init()");
 
@@ -122,24 +123,4 @@ void Logger::log(LogLevel level, const std::string& message)
             sink->log(level, message);
         }
     }
-}
-
-void Logger::debug(const std::string& message)
-{
-    log(LogLevel::Debug, message);
-}
-
-void Logger::info(const std::string& message)
-{
-    log(LogLevel::Info, message);
-}
-
-void Logger::warn(const std::string& message)
-{
-    log(LogLevel::Warning, message);
-}
-
-void Logger::error(const std::string& message)
-{
-    log(LogLevel::Error, message);
 }

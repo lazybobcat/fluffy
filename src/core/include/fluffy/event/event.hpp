@@ -36,7 +36,7 @@ public:
     }
 
 #if FLUFFY_DEBUG
-    virtual const std::string toString() const
+    virtual const String toString() const
     {
         return "'UnnamedEvent' {}";
     }

@@ -41,7 +41,7 @@ bool OpenglTexture2D::loadFromFile(const Path& path)
     unsigned char* data = stbi_load(path.toString().c_str(), &width, &height, &channels, 0);
 
     if (!data) {
-        FLUFFY_LOG_ERROR("stbi_load unable to load file '" + path.toString() + "'");
+        FLUFFY_LOG_ERROR("stbi_load unable to load file '{}'", path);
 
         return false;
     }

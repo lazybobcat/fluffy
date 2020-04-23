@@ -8,7 +8,7 @@ elseif(UNIX)
 else()
     message(FATAL_ERROR "Your platform is not supported! (yet?)")
 endif()
-set(FLUFFY_INTERNAL_LIBS fluffy-utils fluffy-core fluffy-ecs)
+set(FLUFFY_INTERNAL_LIBS fmt fluffy-utils fluffy-core fluffy-ecs)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/build)
@@ -38,13 +38,13 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/glfw)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/glfw/include)
 
-# Glad
+# FMT
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/fmt)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/fmt/include)
+
+# Contrib libraries
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/glad/include)
-
-# GLM
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/glm)
-
-# STB
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/stb)
 
 # Fluffy

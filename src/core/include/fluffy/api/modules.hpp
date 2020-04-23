@@ -29,8 +29,8 @@ public:
     virtual void initialize(const Context& context) = 0;
     virtual void terminate()                        = 0;
 
-    [[nodiscard]] virtual std::string getName() const = 0;
-    [[nodiscard]] virtual ModuleType  getType() const = 0;
+    [[nodiscard]] virtual String     getName() const = 0;
+    [[nodiscard]] virtual ModuleType getType() const = 0;
 };
 
 class ModuleRegistry
@@ -53,7 +53,7 @@ public:
     void initialize(const Context& context) override;
     void terminate() override;
 
-    std::string getName() const override
+    String getName() const override
     {
         return "system_module";
     }
@@ -72,7 +72,7 @@ public:
     void initialize(const Context& context) override;
     void terminate() override;
 
-    std::string getName() const override
+    String getName() const override
     {
         return "video_module";
     }

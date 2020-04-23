@@ -14,7 +14,7 @@ int GameMain::main(int argc, char* argv[])
 {
     Logger::init(false);
 
-    std::vector<std::string> args;
+    std::vector<String> args;
     for (int i = 0; i < argc; ++i) {
         args.push_back(argv[i]);
     }
@@ -26,7 +26,7 @@ int GameMain::main(int argc, char* argv[])
         loop.run();
         loader.unload();
     } catch (std::exception& e) {
-        FLUFFY_LOG_ERROR("Game terminated with an error: " + toString(e.what()));
+        FLUFFY_LOG_ERROR("Game terminated with an error: {}", e.what());
 
         return 1;
     } catch (...) {

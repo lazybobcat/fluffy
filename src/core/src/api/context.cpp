@@ -7,26 +7,26 @@ using namespace Fluffy;
 
 Context::Context(const ModuleRegistry& registry)
 {
-    FLUFFY_LOG_INFO("Thanks for using Fluffy " + toString(FLUFFY_VERSION));
+    FLUFFY_LOG_INFO("Thanks for using Fluffy, {}", FLUFFY_VERSION);
 #ifdef FLUFFY_DEBUG
     FLUFFY_LOG_WARN("Fluffy is in DEBUG mode");
 #endif
     FLUFFY_LOG_INFO("Create game context");
-    FLUFFY_LOG_INFO("> Working directory: " + Path::getWorkingDirectory().toString());
+    FLUFFY_LOG_INFO("> Working directory: '{}'", Path::getWorkingDirectory());
 
     auto modules = registry.getModules();
 
     {
         auto module = dynamic_cast<SystemModule*>(registry.getModule(ModuleType::System));
         FLUFFY_ASSERT(module, "System module must be defined");
-        FLUFFY_LOG_INFO("> Loaded " + toString(EnumNames::ModuleType[(int)ModuleType::System]) + " module: " + module->getName());
+        FLUFFY_LOG_INFO("> Loaded {} module: {}", EnumNames::ModuleType[(int)ModuleType::System], module->getName());
         systemModule.reset(module);
     }
 
     {
         auto module = dynamic_cast<VideoModule*>(registry.getModule(ModuleType::Video));
         FLUFFY_ASSERT(module, "Video module must be defined");
-        FLUFFY_LOG_INFO("> Loaded " + toString(EnumNames::ModuleType[(int)ModuleType::Video]) + " module: " + module->getName());
+        FLUFFY_LOG_INFO("> Loaded {} module: {}", EnumNames::ModuleType[(int)ModuleType::Video], module->getName());
         videoModule.reset(module);
     }
 

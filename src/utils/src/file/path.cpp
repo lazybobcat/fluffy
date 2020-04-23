@@ -19,7 +19,7 @@ Path::Path(const char* name)
     changePath(name);
 }
 
-Path::Path(const std::string& name)
+Path::Path(const String& name)
 {
     changePath(name);
 }
@@ -29,7 +29,7 @@ Path::Path(const std::filesystem::path& path)
 {
 }
 
-Path& Path::operator=(const std::string& other)
+Path& Path::operator=(const String& other)
 {
     changePath(other);
 
@@ -46,7 +46,7 @@ Path Path::operator/(const Path& other) const
     return Path(mPath / other.mPath);
 }
 
-Path Path::operator/(const std::string& other) const
+Path Path::operator/(const String& other) const
 {
     return operator/(Path(other));
 }
@@ -66,7 +66,7 @@ bool Path::operator!=(const Path& other) const
     return mPath != other.mPath;
 }
 
-std::string Path::toString() const
+String Path::toString() const
 {
     return mPath.string();
 }
@@ -121,7 +121,7 @@ Path Path::getFileExtension() const
     return Path(mPath.extension());
 }
 
-void Path::changePath(const std::string& name)
+void Path::changePath(const String& name)
 {
     mPath = name;
     normalize();

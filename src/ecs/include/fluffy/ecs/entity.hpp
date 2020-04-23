@@ -110,9 +110,9 @@ struct EntityCreatedEvent : public Event<EntityCreatedEvent>
     Entity entity;
 
 #if FLUFFY_DEBUG
-    virtual const std::string toString() const
+    virtual const String toString() const
     {
-        return "'EntityCreatedEvent' {entityId:" + Fluffy::toString(entity.id().index()) + "}";
+        return fmt::format("'EntityCreatedEvent' {{entityId:{}}}", entity.id().index());
     }
 #endif
 };
@@ -131,9 +131,9 @@ struct EntityDestroyedEvent : public Event<EntityDestroyedEvent>
     Entity entity;
 
 #if FLUFFY_DEBUG
-    virtual const std::string toString() const
+    virtual const String toString() const
     {
-        return "'EntityDestroyedEvent' {entityId:" + Fluffy::toString(entity.id().index()) + "}";
+        return fmt::format("'EntityDestroyedEvent' {{entityId:{}}}", entity.id().index());
     }
 #endif
 };

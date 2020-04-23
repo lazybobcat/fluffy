@@ -1,7 +1,13 @@
 #include <fluffy/api/modules.hpp>
 #include <fluffy/fluffy_core.hpp>
 #include <fluffy/fluffy_utils.hpp>
+#include <fluffy/fluffy_ecs.hpp>
 #include <iostream>
+
+struct MyComponent : public Component<MyComponent>
+{
+    int a = 2;
+};
 
 struct ShieldState : public State<ShieldState>
 {
@@ -41,7 +47,7 @@ struct TestState : public State<TestState>
     void update(Time dt) override
     {
         mNbUpdates++;
-        FLUFFY_LOG_DEBUG("\tTestState has been updated (iteration " + toString(mNbUpdates) + ") after " + toString(dt.seconds()) + "sec");
+        FLUFFY_LOG_DEBUG("\tTestState has been updated (iteration {}) after {}sec", mNbUpdates, dt.seconds());
 
         if (mNbUpdates == 2) {
             requestStackPush(std::make_unique<ShieldState>());
@@ -66,6 +72,10 @@ public:
     {
         registry.registerModule(new SystemModule());
         registry.registerModule(new VideoModule({getTitle(), WindowType::Windowed, 720, 720}));
+
+        EntityManager em(new EventManager());
+        auto e = em.createEntity();
+        e.assign<MyComponent>();
     }
 
     void update(Time dt) override
