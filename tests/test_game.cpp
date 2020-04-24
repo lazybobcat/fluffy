@@ -71,6 +71,28 @@ private:
     VertexArray va = VertexArray(PrimitiveType::TriangleStrip, 4);
 };
 
+
+class EntityTestState : public State<EntityTestState>
+{
+public:
+    void initialize() override
+    {
+        EntityManager em(getContext()->events);
+        auto e = em.createEntity();
+        e.assign<MyComponent>();
+    }
+
+    void fixUpdate(Time dt) override
+    {
+        requestStackPop();
+        requestStackPush(CreateUnique<TestState>());
+    }
+
+    void render(Time dt) override
+    {
+    }
+};
+
 class TestGame : public Fluffy::Game
 {
 public:
@@ -78,15 +100,11 @@ public:
     {
         registry.registerModule(new SystemModule());
         registry.registerModule(new VideoModule({getTitle(), WindowType::Windowed, 720, 720}));
-
-        EntityManager em(new EventManager());
-        auto e = em.createEntity();
-        e.assign<MyComponent>();
     }
 
-    BaseState::Ptr start() override
+    Unique<BaseState> start() override
     {
-        return std::make_unique<TestState>();
+        return CreateUnique<EntityTestState>();
     }
 
     std::string getTitle() const override
