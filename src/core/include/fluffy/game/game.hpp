@@ -26,14 +26,14 @@ public:
     virtual int  getTargetFPS() const { return 60; }
     virtual bool infiniteReload() const { return false; }
 
-    virtual BaseState::Ptr start()          = 0;
-    virtual String         getTitle() const = 0;
+    virtual Unique<BaseState> start()          = 0;
+    virtual String            getTitle() const = 0;
 
 private:
     friend GameLoader;
     friend GameLoop;
 
-    void         setStartingState(BaseState::Ptr state, const Ref<Context>& context);
+    void         setStartingState(Unique<BaseState> state, const Ref<Context>& context);
     Ref<Context> getContext() const;
 
     void fixUpdate(Time dt);

@@ -9,7 +9,7 @@ bool Game::isRunning() const
     return mStateStack && !mStateStack->isEmpty() && !shouldClose;
 }
 
-void Game::setStartingState(BaseState::Ptr state, const Ref<Context>& context)
+void Game::setStartingState(Unique<BaseState> state, const Ref<Context>& context)
 {
     mContext = context;
 

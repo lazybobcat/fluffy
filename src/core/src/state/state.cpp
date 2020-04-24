@@ -39,7 +39,7 @@ bool BaseState::isPaused() const
     return mPaused;
 }
 
-void BaseState::requestStackPush(BaseState::Ptr state)
+void BaseState::requestStackPush(Unique<BaseState> state)
 {
     FLUFFY_ASSERT(mStateStack, "StateStack has not be defined, you shouldn't use States outside of a StateStack");
 
@@ -60,7 +60,7 @@ void BaseState::requestStackClear()
     mStateStack->clear();
 }
 
-const Context& BaseState::getContext()
+Ref<Context> BaseState::getContext()
 {
-    return *mContext;
+    return mContext;
 }

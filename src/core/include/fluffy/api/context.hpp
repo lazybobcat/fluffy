@@ -2,6 +2,7 @@
 
 #include <fluffy/api/modules.hpp>
 #include <fluffy/definitions.hpp>
+#include <fluffy/event/event_manager.hpp>
 #include <fluffy/pch.hpp>
 
 namespace Fluffy {
@@ -13,6 +14,8 @@ class Context
 {
 public:
     ~Context();
+
+    EventManager* events = nullptr;
 
     // @todo getters below :
     SystemModule* system = nullptr;
@@ -33,9 +36,11 @@ private:
     explicit Context(const ModuleRegistry& registry);
 
 private:
+    Unique<EventManager> eventManager;
+
     // @todo unique_ptr below :
-    std::unique_ptr<SystemModule> systemModule;
-    std::unique_ptr<VideoModule>  videoModule;
+    Unique<SystemModule> systemModule;
+    Unique<VideoModule>  videoModule;
     // audio
     // resources
     // network

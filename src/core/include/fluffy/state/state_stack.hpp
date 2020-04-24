@@ -21,7 +21,7 @@ public:
     explicit StateStack(const Ref<Context>& context);
     ~StateStack();
 
-    void push(BaseState::Ptr state);
+    void push(Unique<BaseState> state);
     void pop();
     void clear();
 
@@ -47,16 +47,16 @@ private:
     struct PendingChange
     {
         explicit PendingChange(Action action);
-        PendingChange(Action action, BaseState::Ptr state);
+        PendingChange(Action action, Unique<BaseState> state);
 
-        Action         action;
-        BaseState::Ptr state;
+        Action            action;
+        Unique<BaseState> state;
     };
 
 private:
-    Ref<Context>                mContext;
-    std::vector<BaseState::Ptr> mStack;
-    std::vector<PendingChange>  mPendingList;
+    Ref<Context>                   mContext;
+    std::vector<Unique<BaseState>> mStack;
+    std::vector<PendingChange>     mPendingList;
 
 #if FLUFFY_DEBUG
 public:

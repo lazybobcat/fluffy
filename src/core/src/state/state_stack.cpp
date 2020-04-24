@@ -8,7 +8,7 @@ StateStack::PendingChange::PendingChange(Action action)
 {
 }
 
-StateStack::PendingChange::PendingChange(Action action, BaseState::Ptr state)
+StateStack::PendingChange::PendingChange(Action action, Unique<BaseState> state)
   : action(action)
   , state(std::move(state))
 {
@@ -22,13 +22,13 @@ StateStack::StateStack(const Ref<Context>& context)
 StateStack::~StateStack()
 {
     // Terminate all states and clear the stack
-    for (BaseState::Ptr& state : mStack) {
+    for (Unique<BaseState>& state : mStack) {
         state->terminate();
     }
     mStack.clear();
 }
 
-void StateStack::push(BaseState::Ptr state)
+void StateStack::push(Unique<BaseState> state)
 {
     mPendingList.emplace_back(Action::Push, std::move(state));
 }
@@ -74,7 +74,7 @@ void StateStack::variableUpdate(Time dt)
 
 void StateStack::render(Time dt)
 {
-    for (BaseState::Ptr& state : mStack) {
+    for (Unique<BaseState>& state : mStack) {
         state->render(dt);
     }
 }
@@ -92,9 +92,14 @@ void StateStack::applyPendingChanges()
                 if (!mStack.empty()) {
                     mStack.back()->pause();
                 }
+
+                // Setup the state
+                change.state->mStateStack = this;
+                change.state->mContext    = mContext;
                 change.state->initialize();
+
+                // Push it!
                 mStack.push_back(std::move(change.state));
-                mStack.back()->mStateStack = this;
                 break;
 
             case Action::Pop:
@@ -106,7 +111,7 @@ void StateStack::applyPendingChanges()
                 break;
 
             case Action::Clear:
-                for (BaseState::Ptr& state : mStack) {
+                for (Unique<BaseState>& state : mStack) {
                     state->terminate();
                 }
                 mStack.clear();

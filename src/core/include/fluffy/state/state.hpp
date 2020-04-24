@@ -14,8 +14,7 @@ class StateStack;
 class BaseState
 {
 public:
-    typedef std::size_t                Family;
-    typedef std::unique_ptr<BaseState> Ptr;
+    typedef std::size_t Family;
 
     static const Family INVALID;
 
@@ -40,18 +39,18 @@ private:
     friend StateStack;
 
 protected:
-    void requestStackPush(BaseState::Ptr state);
+    void requestStackPush(Unique<BaseState> state);
     void requestStackPop();
     void requestStackClear();
 
-    const Context& getContext();
+    Ref<Context> getContext();
 
 private:
     static Family mFamilyCounter;
 
-    StateStack*    mStateStack = nullptr;
-    const Context* mContext;
-    bool           mPaused = false;
+    StateStack*  mStateStack = nullptr;
+    Ref<Context> mContext    = nullptr;
+    bool         mPaused     = false;
 };
 
 /**
