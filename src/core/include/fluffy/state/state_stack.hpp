@@ -1,11 +1,3 @@
-//
-// Fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by loic on 17/11/17.
-//
-
 #pragma once
 
 #include <fluffy/definitions.hpp>
@@ -26,7 +18,7 @@ public:
     };
 
 public:
-    explicit StateStack(const Context& context);
+    explicit StateStack(const Ref<Context>& context);
     ~StateStack();
 
     void push(BaseState::Ptr state);
@@ -35,8 +27,9 @@ public:
 
     bool isEmpty() const;
 
-    void update(Time dt);
-    void render();
+    void fixUpdate(Time dt);
+    void variableUpdate(Time dt);
+    void render(Time dt);
 
     /**
      * You should NEVER user this method and rely on the triggering of BeforeGameTickEvent and AfterGameTickEvent for
@@ -61,7 +54,7 @@ private:
     };
 
 private:
-    const Context&              mContext;
+    Ref<Context>                mContext;
     std::vector<BaseState::Ptr> mStack;
     std::vector<PendingChange>  mPendingList;
 

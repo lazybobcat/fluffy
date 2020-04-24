@@ -4,20 +4,39 @@ using namespace Fluffy;
 
 bool Game::isRunning() const
 {
-    return mStateStack && !mStateStack->isEmpty();
+    bool shouldClose = mContext->video->getWindow()->shouldClose();
+
+    return mStateStack && !mStateStack->isEmpty() && !shouldClose;
 }
 
-void Game::setStartingState(BaseState::Ptr state, const Context& context)
+void Game::setStartingState(BaseState::Ptr state, const Ref<Context>& context)
 {
+    mContext = context;
+
     if (!mStateStack) {
-        mStateStack = std::make_unique<StateStack>(context);
+        mStateStack = Unique<StateStack>(new StateStack(context));
     }
 
     mStateStack->push(std::move(state));
     mStateStack->forcePendingChanges();
 }
 
-void Game::internalUpdate(Time dt)
+void Game::fixUpdate(Time dt)
 {
-    mStateStack->update(dt);
+    mStateStack->fixUpdate(dt);
+}
+
+void Game::variableUpdate(Time dt)
+{
+    mStateStack->variableUpdate(dt);
+}
+
+void Game::render(Time dt)
+{
+    mStateStack->render(dt);
+}
+
+Ref<Context> Game::getContext() const
+{
+    return mContext;
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <fluffy/api/modules.hpp>
+#include <fluffy/definitions.hpp>
 #include <fluffy/pch.hpp>
 
 namespace Fluffy {

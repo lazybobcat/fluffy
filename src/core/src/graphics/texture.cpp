@@ -8,7 +8,7 @@ Ref<Texture2D> Texture2D::create(const Path& path, const IntRect& area)
 {
     switch (Renderer::RenderAPI) {
         case RenderAPIList::OpenGL:
-            return std::make_shared<OpenglTexture2D>(path, area);
+            return CreateRef<OpenglTexture2D>(path, area);
 
         case RenderAPIList::None:
         default:

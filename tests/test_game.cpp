@@ -1,68 +1,74 @@
 #include <fluffy/api/modules.hpp>
 #include <fluffy/fluffy_core.hpp>
-#include <fluffy/fluffy_utils.hpp>
 #include <fluffy/fluffy_ecs.hpp>
 #include <iostream>
+#include <fluffy/graphics/transform.hpp>
+#include <fluffy/graphics/vertex_array.hpp>
+#include <fluffy/graphics/shader.hpp>
+#include <fluffy/graphics/texture.hpp>
 
 struct MyComponent : public Component<MyComponent>
 {
     int a = 2;
 };
 
-struct ShieldState : public State<ShieldState>
+
+class TestState : public State<TestState>
 {
-    void update(Time dt) override
+public:
+    void initialize() override
     {
-        FLUFFY_LOG_DEBUG("\t<<<< SHIELD STATE  >>>>");
-        requestStackPop();
+        // Enable blending @todo move into the renderer init function
+        GlCall(glEnable(GL_BLEND));
+        GlCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
+        // Shader
+        shader = Shader::create();
+        shader->loadFromFile("assets/shaders/sprite.vertex.shader", "assets/shaders/sprite.fragment.shader");
+        shader->enable();
+
+        // set up vertex data (and buffer(s)) and configure vertex attributes
+        // ------------------------------------------------------------------
+        va.setVertex(0, { { 0.5f, -0.5f, 0.0f }, { 0, 255, 0 }, { 1.0f, 1.0f } });
+        va.setVertex(1, { { 0.5f, 0.5f, 0.0f }, { 255, 0, 0 }, { 1.0f, 0.0f } });
+        va.setVertex(2, { { -0.5f, -0.5f, 0.0f }, { 0, 0, 255 }, { 0.0f, 1.0f } });
+        va.setVertex(3, { { -0.5f, 0.5f, 0.0f }, { 255, 255, 0 }, { 0.0f, 0.0f } });
+
+        // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+        va.bind();
+
+        // My texture
+        texture = Texture2D::create("assets/textures/tile.png");
+        texture->setRepeat(RepeatType::Repeat);
     }
 
-    void render() override
+    void fixUpdate(Time dt) override
     {
-    }
-};
-
-struct NonShieldState : public State<ShieldState>
-{
-    void update(Time dt) override
-    {
-        FLUFFY_LOG_DEBUG("\t(: NON SHIELD STATE  :)");
-        requestStackPop();
+        transform.rotate(1, { 0, 0, 0 }, { 1, 0, 1 });
     }
 
-    void render() override
+    void render(Time dt) override
     {
+        /* Render here */
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        /* Textures */
+        texture->bind();
+
+        /* Shader */
+        shader->enable();
+        shader->bindUniform("transform", transform);
+
+        /* Test triangle */
+        va.draw();
     }
 
-    bool isShielding() const override
-    {
-        return false;
-    }
-};
-
-struct TestState : public State<TestState>
-{
-    int mNbUpdates = 0;
-
-    void update(Time dt) override
-    {
-        mNbUpdates++;
-        FLUFFY_LOG_DEBUG("\tTestState has been updated (iteration {}) after {}sec", mNbUpdates, dt.seconds());
-
-        if (mNbUpdates == 2) {
-            requestStackPush(std::make_unique<ShieldState>());
-        }
-        if (mNbUpdates == 5) {
-            requestStackPush(std::make_unique<NonShieldState>());
-        }
-        if (mNbUpdates >= 10) {
-            requestStackPop(); // should end the game
-        }
-    }
-
-    void render() override
-    {
-    }
+private:
+    Transform transform;
+    Ref<Shader> shader;
+    Ref<Texture2D> texture;
+    VertexArray va = VertexArray(PrimitiveType::TriangleStrip, 4);
 };
 
 class TestGame : public Fluffy::Game
@@ -76,15 +82,6 @@ public:
         EntityManager em(new EventManager());
         auto e = em.createEntity();
         e.assign<MyComponent>();
-    }
-
-    void update(Time dt) override
-    {
-        FLUFFY_LOG_DEBUG("New Iteration:");
-    }
-
-    void render() override
-    {
     }
 
     BaseState::Ptr start() override

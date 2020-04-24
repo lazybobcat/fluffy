@@ -1,4 +1,5 @@
 #include <fluffy/assert.hpp>
+#include <fluffy/state/state.hpp>
 #include <fluffy/state/state_stack.hpp>
 
 using namespace Fluffy;
@@ -11,6 +12,10 @@ void BaseState::initialize()
 }
 
 void BaseState::terminate()
+{
+}
+
+void BaseState::variableUpdate(Time dt)
 {
 }
 

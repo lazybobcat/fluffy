@@ -32,9 +32,17 @@ void GameLoop::runLoop()
         while (timeSinceLastUpdate >= timePerFrame) {
             timeSinceLastUpdate -= timePerFrame;
 
+            // Events
+            game.getContext()->video->getWindow()->handleEvents();
             processInput();
-            game.update(timePerFrame);
-            game.internalUpdate(timePerFrame);
+
+            // Update
+            game.fixUpdate(timePerFrame);
+
+            // Draw
+            game.render(timePerFrame);
+            game.getContext()->video->getWindow()->swapBuffers();
+
             restartClock = true;
         }
 
@@ -43,7 +51,7 @@ void GameLoop::runLoop()
             restartClock = false;
         }
 
-        game.render();
+        game.variableUpdate(timeSinceLastUpdate);
     }
 }
 

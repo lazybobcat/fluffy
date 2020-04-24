@@ -28,8 +28,9 @@ public:
 
     // If false, States that are further in the StateStack will be updated/drawn until a shielding state is found
     virtual bool isShielding() const;
-    virtual void update(Time dt) = 0;
-    virtual void render()        = 0;
+    virtual void fixUpdate(Time dt) = 0;
+    virtual void variableUpdate(Time dt);
+    virtual void render(Time dt) = 0;
 
     void pause();
     void resume();

@@ -15,9 +15,13 @@ public:
     GlfwWindow(Definition definition);
     ~GlfwWindow();
 
-    void                            update(const Definition& definition) override;
+    void                            updateDefinition(const Definition& definition) override;
     void                            setVsync(bool vsync) override;
     [[nodiscard]] const Definition& getDefinition() const override;
+
+    void handleEvents() override;
+    void swapBuffers() override;
+    bool shouldClose() const override;
 
     void  resize(int w, int h) override;
     void* getNativeWindow() override;

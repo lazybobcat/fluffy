@@ -84,11 +84,11 @@ public:
 
     Window* getWindow() const
     {
-        return mWindow;
+        return mWindow.get();
     }
 
 private:
     Window::Definition mWindowDefinition;
-    Window*            mWindow = nullptr;
+    Unique<Window>     mWindow = nullptr;
 };
 }

@@ -19,9 +19,9 @@ void GameLoader::load()
     mGame = createGame();
     mGame->initialize(mApplicationArgs);
     mGame->initializeModules(registry);
-    mContext = std::unique_ptr<Context>(new Context(registry));
+    mContext = Unique<Context>(new Context(registry));
     mContext->initialize();
-    mGame->setStartingState(mGame->start(), *mContext);
+    mGame->setStartingState(mGame->start(), mContext);
 }
 
 void GameLoader::reload()

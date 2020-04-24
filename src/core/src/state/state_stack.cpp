@@ -1,11 +1,3 @@
-//
-// Fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by loic on 17/11/17.
-//
-
 #include <fluffy/state/state_stack.hpp>
 
 using namespace Fluffy;
@@ -22,7 +14,7 @@ StateStack::PendingChange::PendingChange(Action action, BaseState::Ptr state)
 {
 }
 
-StateStack::StateStack(const Context& context)
+StateStack::StateStack(const Ref<Context>& context)
   : mContext(context)
 {
 }
@@ -56,10 +48,10 @@ bool StateStack::isEmpty() const
     return mStack.empty();
 }
 
-void StateStack::update(Time dt)
+void StateStack::fixUpdate(Time dt)
 {
     for (auto it = mStack.rbegin(); it != mStack.rend(); ++it) {
-        (*it)->update(dt);
+        (*it)->fixUpdate(dt);
         if ((*it)->isShielding()) {
             break;
         }
@@ -68,10 +60,22 @@ void StateStack::update(Time dt)
     applyPendingChanges();
 }
 
-void StateStack::render()
+void StateStack::variableUpdate(Time dt)
+{
+    for (auto it = mStack.rbegin(); it != mStack.rend(); ++it) {
+        (*it)->variableUpdate(dt);
+        if ((*it)->isShielding()) {
+            break;
+        }
+    }
+
+    applyPendingChanges();
+}
+
+void StateStack::render(Time dt)
 {
     for (BaseState::Ptr& state : mStack) {
-        state->render();
+        state->render(dt);
     }
 }
 
@@ -88,6 +92,7 @@ void StateStack::applyPendingChanges()
                 if (!mStack.empty()) {
                     mStack.back()->pause();
                 }
+                change.state->initialize();
                 mStack.push_back(std::move(change.state));
                 mStack.back()->mStateStack = this;
                 break;

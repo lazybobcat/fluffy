@@ -17,13 +17,13 @@ public:
     Game& getGame() const;
 
 protected:
-    virtual std::unique_ptr<Game> createGame() { return nullptr; }
+    virtual Unique<Game> createGame() { return nullptr; }
 
 private:
-    std::unique_ptr<Context> mContext;
-    std::vector<String>      mApplicationArgs;
+    Ref<Context>        mContext;
+    std::vector<String> mApplicationArgs;
 
-    std::unique_ptr<Game> mGame = nullptr;
+    Unique<Game> mGame = nullptr;
 };
 
 template<typename T>
@@ -35,6 +35,6 @@ public:
     {}
 
 protected:
-    std::unique_ptr<Game> createGame() override { return std::make_unique<T>(); }
+    Unique<Game> createGame() override { return std::make_unique<T>(); }
 };
 }

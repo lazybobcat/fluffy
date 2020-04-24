@@ -26,8 +26,6 @@ public:
     virtual int  getTargetFPS() const { return 60; }
     virtual bool infiniteReload() const { return false; }
 
-    virtual void           update(Time dt)  = 0;
-    virtual void           render()         = 0;
     virtual BaseState::Ptr start()          = 0;
     virtual String         getTitle() const = 0;
 
@@ -35,10 +33,15 @@ private:
     friend GameLoader;
     friend GameLoop;
 
-    void setStartingState(BaseState::Ptr state, const Context& context);
-    void internalUpdate(Time dt);
+    void         setStartingState(BaseState::Ptr state, const Ref<Context>& context);
+    Ref<Context> getContext() const;
+
+    void fixUpdate(Time dt);
+    void variableUpdate(Time dt);
+    void render(Time dt);
 
 private:
-    std::unique_ptr<StateStack> mStateStack;
+    Unique<StateStack> mStateStack;
+    Ref<Context>       mContext = nullptr;
 };
 }
