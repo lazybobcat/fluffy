@@ -15,7 +15,7 @@ enum class ShaderType
 };
 
 namespace EnumNames {
-const std::array<const char*, 6> ShaderType({ { "vertex", "geometry", "fragment" } });
+const std::array<const char*, 3> ShaderType({ { "vertex", "geometry", "fragment" } });
 }
 
 class Shader

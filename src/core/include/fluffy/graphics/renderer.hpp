@@ -11,7 +11,7 @@ enum class RenderAPIList
 };
 
 namespace EnumNames {
-const std::array<const char*, 6> RenderAPI({ { "none", "OpenGL" } });
+const std::array<const char*, 2> RenderAPI({ { "none", "OpenGL" } });
 }
 
 class Renderer

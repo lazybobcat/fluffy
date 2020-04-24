@@ -14,7 +14,7 @@ enum class WindowType
 };
 
 namespace EnumNames {
-const std::array<const char*, 6> WindowType({ { "windowed", "fullscreen", "resizable" } });
+const std::array<const char*, 3> WindowType({ { "windowed", "fullscreen", "resizable" } });
 }
 
 class Window
