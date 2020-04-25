@@ -99,7 +99,7 @@ private:
 /**
  * Raised after the entity has been added to an EntityManager
  */
-struct EntityCreatedEvent : public Event<EntityCreatedEvent>
+struct EntityCreatedEvent : public GameEvent<EntityCreatedEvent>
 {
     explicit EntityCreatedEvent(Entity entity)
       : entity(entity)
@@ -120,7 +120,7 @@ struct EntityCreatedEvent : public Event<EntityCreatedEvent>
 /**
  * Raised before the entity is being destroyed
  */
-struct EntityDestroyedEvent : public Event<EntityDestroyedEvent>
+struct EntityDestroyedEvent : public GameEvent<EntityDestroyedEvent>
 {
     explicit EntityDestroyedEvent(Entity entity)
       : entity(entity)

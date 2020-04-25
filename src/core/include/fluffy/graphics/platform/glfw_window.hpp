@@ -5,6 +5,7 @@
 
 // Then
 #include <GLFW/glfw3.h>
+#include <fluffy/event/event_manager.hpp>
 #include <fluffy/graphics/window.hpp>
 
 namespace Fluffy {
@@ -19,12 +20,15 @@ public:
     void                            setVsync(bool vsync) override;
     [[nodiscard]] const Definition& getDefinition() const override;
 
-    void handleEvents() override;
+    void update() override;
     void swapBuffers() override;
     bool shouldClose() const override;
+    bool pollEvents(Event& event) override;
 
     void  resize(int w, int h) override;
     void* getNativeWindow() override;
+
+    void pushEvent(Event event);
 
 private:
     void initializeGLFWEvents();
@@ -32,5 +36,6 @@ private:
 private:
     GLFWwindow* mWindow;
     Definition  mDefinition;
+    EventQueue  mEvents;
 };
 }

@@ -22,6 +22,7 @@
 #include <memory>
 #include <mutex>
 #include <ostream>
+#include <queue>
 #include <random>
 #include <set>
 #include <sstream>

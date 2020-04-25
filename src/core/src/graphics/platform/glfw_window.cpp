@@ -33,6 +33,7 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
     FLUFFY_ASSERT(mWindow, "Failed to create GLFW window");
 
     glfwMakeContextCurrent(mWindow);
+    glfwSetWindowUserPointer(mWindow, this);
 
     auto initialized = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     FLUFFY_ASSERT(initialized, "Failed to initialize GLAD");
@@ -55,7 +56,13 @@ GlfwWindow::~GlfwWindow()
 void GlfwWindow::initializeGLFWEvents()
 {
     glfwSetFramebufferSizeCallback(mWindow, [](GLFWwindow* window, int width, int height) {
-        glViewport(0, 0, width, height);
+        auto* glfwWindow = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+        glfwWindow->resize(width, height);
+
+        Event event;
+        event.type      = Event::EventType::WindowResized;
+        event.size.size = { width, height };
+        glfwWindow->pushEvent(event);
     });
 }
 
@@ -86,9 +93,11 @@ void* GlfwWindow::getNativeWindow()
 void GlfwWindow::resize(int w, int h)
 {
     glViewport(0, 0, w, h);
+    mDefinition.width  = w;
+    mDefinition.height = h;
 }
 
-void GlfwWindow::handleEvents()
+void GlfwWindow::update()
 {
     glfwPollEvents();
 }
@@ -101,4 +110,20 @@ void GlfwWindow::swapBuffers()
 bool GlfwWindow::shouldClose() const
 {
     return glfwWindowShouldClose(mWindow);
+}
+
+bool GlfwWindow::pollEvents(Event& event)
+{
+    if (mEvents.isEmpty()) {
+        return false;
+    }
+
+    event = mEvents.pull();
+
+    return true;
+}
+
+void GlfwWindow::pushEvent(Event event)
+{
+    mEvents.push(event);
 }

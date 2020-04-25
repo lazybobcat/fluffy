@@ -79,6 +79,16 @@ void StateStack::render(Time dt)
     }
 }
 
+void StateStack::onEvent(Event& event)
+{
+    for (auto it = mStack.rbegin(); it != mStack.rend(); ++it) {
+        (*it)->onEvent(event);
+        if ((*it)->isShielding() || event.isStopped()) {
+            break;
+        }
+    }
+}
+
 void StateStack::forcePendingChanges()
 {
     applyPendingChanges();

@@ -1,4 +1,3 @@
-#include <fluffy/event/event_manager.hpp>
 #include <fluffy/pch.hpp>
 
 using namespace Fluffy;
@@ -6,13 +5,13 @@ using namespace Fluffy;
 template<typename E>
 Slot EventManager::connect(std::function<void(const E&)> callback)
 {
-    const BaseEvent::Family family = eventFamily<E>();
+    const BaseGameEvent::Family family = eventFamily<E>();
 
     if (mConnections.find(family) == mConnections.end()) {
-        mConnections[family] = EventSignal();
+        mConnections[family] = GameEventSignal();
     }
 
-    auto slot = mConnections[family].connect([=](const BaseEvent& event) {
+    auto slot = mConnections[family].connect([=](const BaseGameEvent& event) {
         callback(static_cast<const E&>(event));
     });
 
@@ -22,7 +21,7 @@ Slot EventManager::connect(std::function<void(const E&)> callback)
 template<typename E>
 void EventManager::emit(const E& event)
 {
-    const BaseEvent::Family family = eventFamily<E>();
+    const BaseGameEvent::Family family = eventFamily<E>();
 
 #if FLUFFY_DEBUG
     FLUFFY_LOG_DEBUG("Emitted event {}", event.toString());
@@ -34,7 +33,7 @@ void EventManager::emit(const E& event)
 }
 
 template<typename E>
-BaseEvent::Family EventManager::eventFamily()
+BaseGameEvent::Family EventManager::eventFamily()
 {
-    return Event<typename std::remove_const<E>::type>::family();
+    return GameEvent<typename std::remove_const<E>::type>::family();
 }

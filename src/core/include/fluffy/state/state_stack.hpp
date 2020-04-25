@@ -30,6 +30,7 @@ public:
     void fixUpdate(Time dt);
     void variableUpdate(Time dt);
     void render(Time dt);
+    void onEvent(Event& event);
 
     /**
      * You should NEVER user this method and rely on the triggering of BeforeGameTickEvent and AfterGameTickEvent for

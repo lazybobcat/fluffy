@@ -29,7 +29,8 @@ public:
     virtual bool isShielding() const;
     virtual void fixUpdate(Time dt) = 0;
     virtual void variableUpdate(Time dt);
-    virtual void render(Time dt) = 0;
+    virtual void render(Time dt)       = 0;
+    virtual void onEvent(Event& event) = 0;
 
     void pause();
     void resume();

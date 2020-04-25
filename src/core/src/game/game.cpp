@@ -36,6 +36,11 @@ void Game::render(Time dt)
     mStateStack->render(dt);
 }
 
+void Game::onEvent(Event& event)
+{
+    mStateStack->onEvent(event);
+}
+
 Ref<Context> Game::getContext() const
 {
     return mContext;

@@ -29,7 +29,7 @@ set(SOURCE_FILES
         src/graphics/vertex.cpp include/fluffy/graphics/vertex_array.hpp src/graphics/vertex_array.cpp
         include/fluffy/graphics/transform.hpp src/graphics/transform.cpp
         include/fluffy/graphics/transformable.hpp
-        include/fluffy/fluffy_core.hpp src/graphics/window.cpp)
+        include/fluffy/fluffy_core.hpp src/graphics/window.cpp include/fluffy/input/mouse.hpp include/fluffy/input/keyboard.hpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 

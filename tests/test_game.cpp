@@ -64,6 +64,13 @@ public:
         va.draw();
     }
 
+    void onEvent(Event& event) override
+    {
+        if (event.type == Fluffy::Event::EventType::WindowResized) {
+            FLUFFY_LOG_DEBUG("Window resize: {}", event.size.size);
+        }
+    }
+
 private:
     Transform transform;
     Ref<Shader> shader;
@@ -89,6 +96,10 @@ public:
     }
 
     void render(Time dt) override
+    {
+    }
+
+    void onEvent(Event& event) override
     {
     }
 };

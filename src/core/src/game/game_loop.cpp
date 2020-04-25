@@ -19,11 +19,13 @@ void GameLoop::run()
 
 void GameLoop::runLoop()
 {
-    Clock clock;
-    Time  timeSinceLastUpdate = Time::Zero;
-    Time  timePerFrame        = seconds(1.f / mGameLoader.getGame().getTargetFPS());
-    Game& game                = mGameLoader.getGame();
-    bool  restartClock        = false;
+    Clock   clock;
+    Time    timeSinceLastUpdate = Time::Zero;
+    Time    timePerFrame        = seconds(1.f / mGameLoader.getGame().getTargetFPS());
+    Game&   game                = mGameLoader.getGame();
+    bool    restartClock        = false;
+    Window* window              = game.getContext()->video->getWindow();
+    Event   event;
 
     while (game.isRunning()) {
         timeSinceLastUpdate = clock.elapsedTime();
@@ -32,7 +34,10 @@ void GameLoop::runLoop()
             timeSinceLastUpdate -= timePerFrame;
 
             // Events
-            game.getContext()->video->getWindow()->handleEvents();
+            window->update();
+            while (window->pollEvents(event)) {
+                game.onEvent(event);
+            }
             processInput();
 
             // Update
@@ -40,7 +45,7 @@ void GameLoop::runLoop()
 
             // Draw
             game.render(timePerFrame);
-            game.getContext()->video->getWindow()->swapBuffers();
+            window->swapBuffers();
 
             restartClock = true;
         }

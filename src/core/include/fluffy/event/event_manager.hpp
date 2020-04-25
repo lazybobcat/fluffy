@@ -1,6 +1,7 @@
 #pragma once
 
 #include <fluffy/event/event.hpp>
+#include <fluffy/pch.hpp>
 
 namespace Fluffy {
 
@@ -22,10 +23,21 @@ public:
 
 private:
     template<typename E>
-    BaseEvent::Family eventFamily();
+    BaseGameEvent::Family eventFamily();
 
 protected:
-    std::map<BaseEvent::Family, EventSignal> mConnections;
+    std::map<BaseGameEvent::Family, GameEventSignal> mConnections;
+};
+
+class EventQueue
+{
+public:
+    void  push(Event& event);
+    Event pull();
+    bool  isEmpty() const;
+
+private:
+    std::queue<Event> mEventQueue;
 };
 }
 

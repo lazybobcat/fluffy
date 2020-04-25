@@ -83,7 +83,7 @@ public:
  * Raised after the component has been added to an entity
  */
 template<typename C>
-struct ComponentAddedEvent : public Event<ComponentAddedEvent<C>>
+struct ComponentAddedEvent : public GameEvent<ComponentAddedEvent<C>>
 {
     ComponentAddedEvent(Entity entity, ComponentHandle<C> component)
       : entity(entity)
@@ -107,7 +107,7 @@ struct ComponentAddedEvent : public Event<ComponentAddedEvent<C>>
  * Raised before the component is removed from an entity
  */
 template<typename C>
-struct ComponentRemovedEvent : public Event<ComponentRemovedEvent<C>>
+struct ComponentRemovedEvent : public GameEvent<ComponentRemovedEvent<C>>
 {
     ComponentRemovedEvent(Entity entity, ComponentHandle<C> component)
       : entity(entity)
