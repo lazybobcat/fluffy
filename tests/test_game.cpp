@@ -66,8 +66,11 @@ public:
 
     void onEvent(Event& event) override
     {
-        if (event.type == Fluffy::Event::EventType::WindowResized) {
-            FLUFFY_LOG_DEBUG("Window resize: {}", event.size.size);
+        if (event.type == Fluffy::Event::KeyPressed) {
+            FLUFFY_LOG_DEBUG("key pressed: {} (ctrl: {}, alt: {}, shift: {})", event.key.code, event.key.control, event.key.alt, event.key.shift);
+        }
+        if (event.type == Fluffy::Event::MouseButtonPressed) {
+            FLUFFY_LOG_DEBUG("Mouse button pressed: {}", EnumNames::MouseButton[(int)event.mouseButton.button]);
         }
     }
 

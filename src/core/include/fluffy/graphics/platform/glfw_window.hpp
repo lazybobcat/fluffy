@@ -28,7 +28,7 @@ public:
     void  resize(int w, int h) override;
     void* getNativeWindow() override;
 
-    void pushEvent(Event event);
+    void pushEvent(Event&& event);
 
 private:
     void initializeGLFWEvents();

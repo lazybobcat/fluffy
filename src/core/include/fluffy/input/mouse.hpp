@@ -11,11 +11,11 @@ const std::array<const char*, 5> MouseButton({ { "left", "right", "middle", "xbu
 class Mouse
 {
 public:
-    enum class Button
+    enum Button
     {
-        Left,
-        Right,
-        Middle,
+        ButtonLeft = 0,
+        ButtonRight,
+        ButtonMiddle,
         XButton1,
         XButton2
     };

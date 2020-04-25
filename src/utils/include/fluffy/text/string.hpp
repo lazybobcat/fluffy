@@ -3,11 +3,10 @@
 #define STRING(x) XSTR(x)
 #define XSTR(s) #s
 
+#include <fluffy/definitions.hpp>
 #include <fmt/format.h>
 
 namespace Fluffy {
-
-using String = std::string;
 
 /**
  * sprintf like : replaces occurrences of "{}", "{0}", "{1}", etc. by given string args
@@ -23,4 +22,6 @@ inline String printString(const String& base, Args... args)
 {
     return fmt::format(base, args...);
 }
+
+String fromUTF32(String32 string);
 }

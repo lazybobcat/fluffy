@@ -2,11 +2,7 @@
 #include <fluffy/definitions.hpp>
 #include <fluffy/graphics/platform/glfw_window.hpp>
 #include <fluffy/graphics/platform/opengl.hpp>
-#include <fluffy/graphics/platform/opengl_shader.hpp>
-#include <fluffy/graphics/platform/opengl_texture.hpp>
-#include <fluffy/graphics/transform.hpp>
-#include <fluffy/graphics/vertex_array.hpp>
-#include <utility>
+#include <fluffy/pch.hpp>
 
 using namespace Fluffy;
 
@@ -58,11 +54,111 @@ void GlfwWindow::initializeGLFWEvents()
     glfwSetFramebufferSizeCallback(mWindow, [](GLFWwindow* window, int width, int height) {
         auto* glfwWindow = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
         glfwWindow->resize(width, height);
+        glfwWindow->pushEvent(Event::createWindowResizedEvent({ width, height }));
+    });
 
-        Event event;
-        event.type      = Event::EventType::WindowResized;
-        event.size.size = { width, height };
-        glfwWindow->pushEvent(event);
+    glfwSetWindowCloseCallback(mWindow, [](GLFWwindow* window) {
+        auto* glfwWindow = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+        glfwWindow->pushEvent(Event::createWindowClosedEvent());
+    });
+
+    glfwSetWindowFocusCallback(mWindow, [](GLFWwindow* window, int focused) {
+        auto* glfwWindow = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+        if (focused) {
+            glfwWindow->pushEvent(Event::createWindowGainedFocusEvent());
+        } else {
+            glfwWindow->pushEvent(Event::createWindowLostFocusEvent());
+        }
+    });
+
+    glfwSetKeyCallback(mWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+        auto* glfwWindow = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+        //std::cout << "Key code is " << key << " (" << (char)key << ") / scancode is " << scancode << " (" << (char)scancode << ")" << std::endl;
+
+        switch (action) {
+            case GLFW_PRESS:
+                glfwWindow->pushEvent(Event::createKeyPressedEvent(
+                  static_cast<Keyboard::Key>(key),
+                  false,
+                  mods & GLFW_MOD_CONTROL,
+                  mods & GLFW_MOD_ALT,
+                  mods & GLFW_MOD_SHIFT));
+                break;
+
+            case GLFW_REPEAT:
+                glfwWindow->pushEvent(Event::createKeyPressedEvent(static_cast<Keyboard::Key>(key), true));
+                break;
+
+            case GLFW_RELEASE:
+                glfwWindow->pushEvent(Event::createKeyReleasedEvent(static_cast<Keyboard::Key>(key)));
+                break;
+
+            default:
+                break;
+        }
+    });
+
+    glfwSetCharCallback(mWindow, [](GLFWwindow* window, unsigned int unicode) {
+        auto* glfwWindow = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+        glfwWindow->pushEvent(Event::createTextEnteredEvent(unicode));
+    });
+
+    glfwSetCursorPosCallback(mWindow, [](GLFWwindow* window, double x, double y) {
+        auto* glfwWindow = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+        glfwWindow->pushEvent(Event::createMouseMovedEvent({ x, y }));
+    });
+
+    glfwSetCursorEnterCallback(mWindow, [](GLFWwindow* window, int entered) {
+        auto* glfwWindow = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+
+        if (entered) {
+            glfwWindow->pushEvent(Event::createMouseEnteredEvent());
+        } else {
+            glfwWindow->pushEvent(Event::createMouseLeftEvent());
+        }
+    });
+
+    glfwSetMouseButtonCallback(mWindow, [](GLFWwindow* window, int button, int action, int mods) {
+        auto* glfwWindow     = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+        auto  toFluffyButton = [](int button) -> Mouse::Button {
+            switch (button) {
+                case GLFW_MOUSE_BUTTON_LEFT:
+                    return Mouse::ButtonLeft;
+
+                case GLFW_MOUSE_BUTTON_RIGHT:
+                    return Mouse::ButtonRight;
+
+                case GLFW_MOUSE_BUTTON_MIDDLE:
+                    return Mouse::ButtonMiddle;
+
+                case GLFW_MOUSE_BUTTON_4:
+                    return Mouse::XButton1;
+
+                case GLFW_MOUSE_BUTTON_5:
+                    return Mouse::XButton2;
+
+                default:
+                    return Mouse::ButtonLeft;
+            }
+        };
+
+        switch (action) {
+            case GLFW_PRESS:
+                glfwWindow->pushEvent(Event::createMouseButtonPressedEvent(toFluffyButton(button)));
+                break;
+
+            case GLFW_RELEASE:
+                glfwWindow->pushEvent(Event::createMouseButtonReleasedEvent(toFluffyButton(button)));
+                break;
+
+            default:
+                break;
+        }
+    });
+
+    glfwSetScrollCallback(mWindow, [](GLFWwindow* window, double x, double y) {
+        auto* glfwWindow = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+        glfwWindow->pushEvent(Event::createMouseWheelScrolledEvent({ x, y }));
     });
 }
 
@@ -123,7 +219,7 @@ bool GlfwWindow::pollEvents(Event& event)
     return true;
 }
 
-void GlfwWindow::pushEvent(Event event)
+void GlfwWindow::pushEvent(Event&& event)
 {
     mEvents.push(event);
 }

@@ -57,15 +57,15 @@ public:
     struct KeyEvent
     {
         Keyboard::Key code;
+        bool          repeated;
         bool          alt;
         bool          control;
         bool          shift;
-        bool          system;
     };
 
     struct TextEvent
     {
-        std::uint32_t unicode;
+        Char32 unicode;
     };
 
     struct MouseMoveEvent
@@ -83,7 +83,7 @@ public:
         Vector2f delta;
     };
 
-    enum class EventType
+    enum EventType
     {
         WindowClosed,
         WindowResized,
@@ -101,8 +101,22 @@ public:
     };
 
 public:
-    void stopPropagation();
-    bool isStopped() const;
+    static Event createWindowResizedEvent(const Vector2u& size);
+    static Event createWindowClosedEvent();
+    static Event createWindowLostFocusEvent();
+    static Event createWindowGainedFocusEvent();
+    static Event createKeyPressedEvent(Keyboard::Key key, bool repeated = false, bool ctrl = false, bool alt = false, bool shift = false);
+    static Event createKeyReleasedEvent(Keyboard::Key key);
+    static Event createTextEnteredEvent(Char32 character);
+    static Event createMouseMovedEvent(const Vector2f& position);
+    static Event createMouseEnteredEvent();
+    static Event createMouseLeftEvent();
+    static Event createMouseButtonPressedEvent(Mouse::Button button);
+    static Event createMouseButtonReleasedEvent(Mouse::Button button);
+    static Event createMouseWheelScrolledEvent(Vector2f delta);
+
+    void               stopPropagation();
+    [[nodiscard]] bool isStopped() const;
 
 public:
     EventType type;

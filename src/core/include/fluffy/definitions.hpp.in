@@ -31,4 +31,8 @@ constexpr Unique<T> CreateUnique(Args&& ... args)
 {
     return std::make_unique<T>(std::forward<Args>(args)...);
 }
+
+using Char32 = std::uint32_t;
+using String = std::string;
+using String32 = std::u32string;
 }

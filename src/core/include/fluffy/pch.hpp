@@ -5,6 +5,7 @@
 #include <bitset>
 #include <cassert>
 #include <chrono>
+#include <codecvt>
 #include <cstddef>
 #include <cstdint>
 #include <cstdio>
@@ -18,6 +19,7 @@
 #include <iostream>
 #include <istream>
 #include <limits>
+#include <locale>
 #include <map>
 #include <memory>
 #include <mutex>
