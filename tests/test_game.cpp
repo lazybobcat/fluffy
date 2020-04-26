@@ -6,6 +6,7 @@
 #include <fluffy/graphics/vertex_array.hpp>
 #include <fluffy/graphics/shader.hpp>
 #include <fluffy/graphics/texture.hpp>
+#include <fluffy/input/input.hpp>
 
 struct MyComponent : public Component<MyComponent>
 {
@@ -114,6 +115,7 @@ public:
     {
         registry.registerModule(new SystemModule());
         registry.registerModule(new VideoModule({getTitle(), WindowType::Windowed, 720, 720}));
+        registry.registerModule(new InputModule());
     }
 
     Unique<BaseState> start() override

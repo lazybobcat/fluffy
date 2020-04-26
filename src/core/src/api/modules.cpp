@@ -1,5 +1,6 @@
 #include <fluffy/api/context.hpp>
 #include <fluffy/api/modules.hpp>
+#include <fluffy/input/input.hpp>
 
 using namespace Fluffy;
 
@@ -53,5 +54,16 @@ void VideoModule::initialize(const Context& context)
 }
 
 void VideoModule::terminate()
+{
+}
+
+/**********************************************************************************************************************/
+
+void InputModule::initialize(const Context& context)
+{
+    Input::create(context.video->getWindow());
+}
+
+void InputModule::terminate()
 {
 }

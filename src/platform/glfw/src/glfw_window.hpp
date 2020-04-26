@@ -1,10 +1,6 @@
 #pragma once
 
-// Keep this first
-#include "../../opengl/src/opengl.hpp"
-
-// Then
-#include <GLFW/glfw3.h>
+#include "glfw.hpp"
 #include <fluffy/event/event_manager.hpp>
 #include <fluffy/graphics/window.hpp>
 

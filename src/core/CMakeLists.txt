@@ -27,6 +27,7 @@ set(SOURCE_FILES
         include/fluffy/graphics/transformable.hpp
         include/fluffy/input/mouse.hpp
         include/fluffy/input/keyboard.hpp
+        include/fluffy/input/input.hpp src/input/input.cpp
         include/fluffy/fluffy_core.hpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)

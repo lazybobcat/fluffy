@@ -91,4 +91,21 @@ private:
     Window::Definition mWindowDefinition;
     Unique<Window>     mWindow = nullptr;
 };
+
+class InputModule : public BaseModule
+{
+public:
+    void initialize(const Context& context) override;
+    void terminate() override;
+
+    String getName() const override
+    {
+        return "input_module";
+    }
+
+    ModuleType getType() const override
+    {
+        return ModuleType::Input;
+    }
+};
 }

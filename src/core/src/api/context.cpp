@@ -33,6 +33,14 @@ Context::Context(const ModuleRegistry& registry)
         videoModule.reset(module);
     }
 
+    {
+        auto module = dynamic_cast<InputModule*>(registry.getModule(ModuleType::Input));
+        if (module) {
+            FLUFFY_LOG_INFO("> Loaded {} module: {}", EnumNames::ModuleType[(int)ModuleType::Video], module->getName());
+            inputModule.reset(module);
+        }
+    }
+
     // @todo other modules here (they should not be mandatory as are system and video
 
     assign();
@@ -49,10 +57,11 @@ void Context::assign()
     system = systemModule.get();
     video  = videoModule.get();
 
+    if (inputModule) {
+        input = inputModule.get();
+    }
+
     // @todo assign other modules
-    //    if (...Module) {
-    //        ... = ...Module.get();
-    //    }
 }
 
 void Context::initialize()
@@ -63,6 +72,10 @@ void Context::initialize()
 
     if (video) {
         video->initialize(*this);
+    }
+
+    if (input) {
+        input->initialize(*this);
     }
 
     // @todo init other modules

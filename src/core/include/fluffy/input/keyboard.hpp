@@ -133,8 +133,5 @@ public:
         RightSuper     = 347,
         MENU           = 348,
     };
-
-    // @todo implementation platform specific
-    //    const char* getKeyName(Key key);
 };
 }

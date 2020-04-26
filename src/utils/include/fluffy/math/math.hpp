@@ -1,8 +1,8 @@
 #pragma once
 
+#include <fmt/format.h>
 #include <glm/ext.hpp>
 #include <glm/glm.hpp>
-#include <fmt/format.h>
 
 namespace Fluffy {
 typedef glm::vec<2, float>         Vector2f;
