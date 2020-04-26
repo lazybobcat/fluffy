@@ -17,15 +17,11 @@ set(SOURCE_FILES
         include/fluffy/api/modules.hpp src/api/modules.cpp
         include/fluffy/api/context.hpp src/api/context.cpp
         include/fluffy/graphics/renderer.hpp src/graphics/renderer.cpp
-        include/fluffy/graphics/window.hpp src/graphics/window.cpp
-        include/fluffy/graphics/platform/glfw_window.hpp src/graphics/platform/glfw_window.cpp
-        include/fluffy/graphics/platform/opengl.hpp src/graphics/glad.c
+        include/fluffy/graphics/window.hpp
         include/fluffy/graphics/color.hpp src/graphics/color.cpp
         include/fluffy/graphics/vertex.hpp
-        include/fluffy/graphics/shader.hpp src/graphics/shader.cpp
-        include/fluffy/graphics/texture.hpp src/graphics/texture.cpp
-        include/fluffy/graphics/platform/opengl_shader.hpp src/graphics/platform/opengl_shader.cpp
-        include/fluffy/graphics/platform/opengl_texture.hpp src/graphics/platform/opengl_texture.cpp
+        include/fluffy/graphics/shader.hpp
+        include/fluffy/graphics/texture.hpp
         src/graphics/vertex.cpp include/fluffy/graphics/vertex_array.hpp src/graphics/vertex_array.cpp
         include/fluffy/graphics/transform.hpp src/graphics/transform.cpp
         include/fluffy/graphics/transformable.hpp

@@ -1,11 +1,19 @@
-#include <fluffy/graphics/platform/opengl.hpp>
-#include <fluffy/graphics/platform/opengl_texture.hpp>
+#include "opengl_texture.hpp"
+#include "opengl.hpp"
+#include <fluffy/graphics/renderer.hpp>
 #include <glad/glad.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image/stb_image.h>
 
 using namespace Fluffy;
+
+Ref<Texture2D> Texture2D::create(const Path& path, const IntRect& area)
+{
+    return CreateRef<OpenglTexture2D>(path, area);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 OpenglTexture2D::OpenglTexture2D()
 {

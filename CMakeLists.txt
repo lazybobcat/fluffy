@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.8.2)
 project(fluffy VERSION 0.1.0)
 
-if (WIN32)
+if(WIN32)
     set(FLUFFY_EXTERNAL_LIBS pthread opengl32 glfw)
 elseif(UNIX)
     set(FLUFFY_EXTERNAL_LIBS pthread GL glfw X11 Xrandr Xi)
@@ -10,6 +10,13 @@ else()
 endif()
 set(FLUFFY_INTERNAL_LIBS fmt fluffy-utils fluffy-core fluffy-ecs)
 
+# Platorm depndencies
+set(FLUFFY_USE_OPENGL 1)
+set(FLUFFY_USE_OPENGL_ES2 0)
+set(FLUFFY_USE_OPENGL_ES3 0)
+set(FLUFFY_USE_GLFW 1)
+
+# CMake configurations
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/build)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_SOURCE_DIR}/build)
@@ -48,7 +55,10 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/glm)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/stb)
 
 # Fluffy
-add_subdirectory(src)
+add_subdirectory(src/utils)
+add_subdirectory(src/ecs)
+add_subdirectory(src/core)
+add_subdirectory(src/platform)
 
 # Building libfluffy
 add_library(fluffy SHARED ${CMAKE_CURRENT_SOURCE_DIR}/include/fluffy.hpp)

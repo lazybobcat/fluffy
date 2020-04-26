@@ -1,5 +1,6 @@
-#include <fluffy/graphics/platform/opengl.hpp>
-#include <fluffy/graphics/platform/opengl_shader.hpp>
+#include "opengl_shader.hpp"
+#include "opengl.hpp"
+#include <fluffy/graphics/renderer.hpp>
 
 using namespace Fluffy;
 
@@ -19,6 +20,13 @@ bool getFileContents(const String& filename, std::vector<char>& buffer)
     } else {
         return false;
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Ref<Shader> Shader::create()
+{
+    return CreateRef<OpenglShader>();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

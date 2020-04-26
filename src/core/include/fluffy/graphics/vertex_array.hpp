@@ -1,6 +1,6 @@
 #pragma once
 
-#include <fluffy/graphics/platform/opengl.hpp>
+#include "../../../../platform/opengl/src/opengl.hpp"
 #include <fluffy/graphics/vertex.hpp>
 #include <fluffy/pch.hpp>
 #include <glad/glad.h>

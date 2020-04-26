@@ -4,7 +4,6 @@
 #include <fluffy/game/game_loader.hpp>
 #include <fluffy/game/game_loop.hpp>
 #include <fluffy/game/game_main.hpp>
-#include <fluffy/graphics/platform/glfw_window.hpp>
 #include <fluffy/pch.hpp>
 
 using namespace Fluffy;

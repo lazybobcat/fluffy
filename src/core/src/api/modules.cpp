@@ -1,6 +1,5 @@
 #include <fluffy/api/context.hpp>
 #include <fluffy/api/modules.hpp>
-#include <fluffy/graphics/platform/glfw_window.hpp>
 
 using namespace Fluffy;
 

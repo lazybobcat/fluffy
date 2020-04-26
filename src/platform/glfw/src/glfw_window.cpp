@@ -1,10 +1,17 @@
+#include "glfw_window.hpp"
+#include "../../opengl/src/opengl.hpp"
 #include <fluffy/assert.hpp>
 #include <fluffy/definitions.hpp>
-#include <fluffy/graphics/platform/glfw_window.hpp>
-#include <fluffy/graphics/platform/opengl.hpp>
 #include <fluffy/pch.hpp>
 
 using namespace Fluffy;
+
+Unique<Window> Window::create(const Window::Definition& definition)
+{
+    return CreateUnique<GlfwWindow>(definition);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void error_callback(int error, const char* description)
 {

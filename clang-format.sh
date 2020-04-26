@@ -2,10 +2,8 @@
 
 # core
 clang-format -style=file -i src/core/include/fluffy/*/*.hpp
-clang-format -style=file -i src/core/include/fluffy/*/*/*.hpp
 clang-format -style=file -i src/core/include/fluffy/*/*.inl
 clang-format -style=file -i src/core/src/*/*.cpp
-clang-format -style=file -i src/core/src/*/*/*.cpp
 
 # ecs
 clang-format -style=file -i src/ecs/include/fluffy/*/*.hpp
@@ -16,5 +14,10 @@ clang-format -style=file -i src/ecs/src/*.cpp
 clang-format -style=file -i src/utils/include/fluffy/*/*.hpp
 clang-format -style=file -i src/utils/include/fluffy/*/*.inl
 clang-format -style=file -i src/utils/src/*/*.cpp
+
+# platform
+clang-format -style=file -i src/platform/*/*/*.hpp
+clang-format -style=file -i src/platform/*/*/*.inl
+clang-format -style=file -i src/platform/*/*/*.cpp
 
 # scripting
