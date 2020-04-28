@@ -19,10 +19,10 @@ set(SOURCE_FILES
         include/fluffy/graphics/renderer.hpp src/graphics/renderer.cpp
         include/fluffy/graphics/window.hpp
         include/fluffy/graphics/color.hpp src/graphics/color.cpp
-        include/fluffy/graphics/vertex.hpp
         include/fluffy/graphics/shader.hpp
         include/fluffy/graphics/texture.hpp
-        src/graphics/vertex.cpp include/fluffy/graphics/vertex_array.hpp src/graphics/vertex_array.cpp
+        include/fluffy/graphics/vertex.hpp src/graphics/vertex.cpp
+        include/fluffy/graphics/vertex_array.hpp src/graphics/vertex_array.cpp
         include/fluffy/graphics/transform.hpp src/graphics/transform.cpp
         include/fluffy/graphics/transformable.hpp
         include/fluffy/input/mouse.hpp

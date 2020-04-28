@@ -71,7 +71,8 @@ public:
             FLUFFY_LOG_DEBUG("key pressed: {} (ctrl: {}, alt: {}, shift: {})", event.key.code, event.key.control, event.key.alt, event.key.shift);
         }
         if (event.type == Fluffy::Event::MouseButtonPressed) {
-            FLUFFY_LOG_DEBUG("Mouse button pressed: {}", EnumNames::MouseButton[(int)event.mouseButton.button]);
+            auto position = Input::getMousePosition();
+            FLUFFY_LOG_DEBUG("Mouse button pressed: {} (at {})", EnumNames::MouseButton[(int)event.mouseButton.button], position);
         }
     }
 

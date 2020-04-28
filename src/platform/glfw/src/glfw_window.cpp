@@ -1,5 +1,6 @@
 #include "glfw_window.hpp"
 #include "../../opengl/src/opengl.hpp"
+#include "glfw_functions.hpp"
 #include <fluffy/assert.hpp>
 #include <fluffy/definitions.hpp>
 #include <fluffy/pch.hpp>
@@ -126,28 +127,7 @@ void GlfwWindow::initializeGLFWEvents()
     });
 
     glfwSetMouseButtonCallback(mWindow, [](GLFWwindow* window, int button, int action, int mods) {
-        auto* glfwWindow     = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
-        auto  toFluffyButton = [](int button) -> Mouse::Button {
-            switch (button) {
-                case GLFW_MOUSE_BUTTON_LEFT:
-                    return Mouse::ButtonLeft;
-
-                case GLFW_MOUSE_BUTTON_RIGHT:
-                    return Mouse::ButtonRight;
-
-                case GLFW_MOUSE_BUTTON_MIDDLE:
-                    return Mouse::ButtonMiddle;
-
-                case GLFW_MOUSE_BUTTON_4:
-                    return Mouse::XButton1;
-
-                case GLFW_MOUSE_BUTTON_5:
-                    return Mouse::XButton2;
-
-                default:
-                    return Mouse::ButtonLeft;
-            }
-        };
+        auto* glfwWindow = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
 
         switch (action) {
             case GLFW_PRESS:

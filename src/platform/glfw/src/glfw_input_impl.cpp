@@ -1,4 +1,4 @@
-#include "glfw.hpp"
+#include "glfw_functions.hpp"
 #include "glfw_window.hpp"
 #include <fluffy/input/input.hpp>
 
@@ -18,4 +18,21 @@ const char* Input::getKeyName(Keyboard::Key key)
     auto name = glfwGetKeyName((int)key, 0);
 
     return name ? name : "";
+}
+
+bool Input::isMouseButtonPressed(Mouse::Button button)
+{
+    auto* window = dynamic_cast<GlfwWindow*>(mWindow);
+    auto  state  = glfwGetMouseButton((GLFWwindow*)window->getNativeWindow(), toGlfwButton(button));
+
+    return state == GLFW_PRESS;
+}
+
+Vector2f Input::getMousePosition()
+{
+    auto*  window = dynamic_cast<GlfwWindow*>(mWindow);
+    double xpos = 0, ypos = 0;
+    glfwGetCursorPos((GLFWwindow*)window->getNativeWindow(), &xpos, &ypos);
+
+    return { xpos, ypos };
 }

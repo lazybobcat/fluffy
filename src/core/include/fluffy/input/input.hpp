@@ -10,8 +10,13 @@ class InputModule;
 class Input
 {
 public:
+    /** Keyboard keys */
     static bool        isKeyPressed(Keyboard::Key key);
     static const char* getKeyName(Keyboard::Key key);
+
+    /** Mouse / Mouse buttons */
+    static bool     isMouseButtonPressed(Mouse::Button button);
+    static Vector2f getMousePosition();
 
 private:
     friend class InputModule;
