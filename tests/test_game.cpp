@@ -1,12 +1,15 @@
 #include <fluffy/api/modules.hpp>
 #include <fluffy/fluffy_core.hpp>
 #include <fluffy/fluffy_ecs.hpp>
-#include <iostream>
 #include <fluffy/graphics/transform.hpp>
 #include <fluffy/graphics/vertex_array.hpp>
 #include <fluffy/graphics/shader.hpp>
 #include <fluffy/graphics/texture.hpp>
 #include <fluffy/input/input.hpp>
+#include <imgui.h>
+#include <imgui_impl_opengl3.h>
+#include <iostream>
+#include "../src/platform/glfw/src/imgui_impl_glfw.h"
 
 struct MyComponent : public Component<MyComponent>
 {
@@ -41,11 +44,91 @@ public:
         // My texture
         texture = Texture2D::create("assets/textures/tile.png");
         texture->setRepeat(RepeatType::Repeat);
+
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGui::StyleColorsDark();
+
+        ImGuiIO& io = ImGui::GetIO();
+        io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
+        io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
+        io.KeyMap[ImGuiKey_Tab] = (int)Keyboard::Key::Tab;
+        io.KeyMap[ImGuiKey_LeftArrow] = (int)Keyboard::Key::Left;
+        io.KeyMap[ImGuiKey_RightArrow] = (int)Keyboard::Key::Right;
+        io.KeyMap[ImGuiKey_UpArrow] = (int)Keyboard::Key::Up;
+        io.KeyMap[ImGuiKey_DownArrow] = (int)Keyboard::Key::Down;
+        io.KeyMap[ImGuiKey_PageUp] = (int)Keyboard::Key::PageUp;
+        io.KeyMap[ImGuiKey_PageDown] = (int)Keyboard::Key::PageDown;
+        io.KeyMap[ImGuiKey_Home] = (int)Keyboard::Key::Home;
+        io.KeyMap[ImGuiKey_End] = (int)Keyboard::Key::End;
+        io.KeyMap[ImGuiKey_Insert] = (int)Keyboard::Key::Insert;
+        io.KeyMap[ImGuiKey_Delete] = (int)Keyboard::Key::Delete;
+        io.KeyMap[ImGuiKey_Backspace] = (int)Keyboard::Key::Backspace;
+        io.KeyMap[ImGuiKey_Space] = (int)Keyboard::Key::Space;
+        io.KeyMap[ImGuiKey_Enter] = (int)Keyboard::Key::Enter;
+        io.KeyMap[ImGuiKey_Escape] = (int)Keyboard::Key::Escape;
+        io.KeyMap[ImGuiKey_KeyPadEnter] = (int)Keyboard::Key::NumPadEnter;
+        io.KeyMap[ImGuiKey_A] = (int)Keyboard::Key::Q;
+        io.KeyMap[ImGuiKey_C] = (int)Keyboard::Key::C;
+        io.KeyMap[ImGuiKey_V] = (int)Keyboard::Key::V;
+        io.KeyMap[ImGuiKey_X] = (int)Keyboard::Key::X;
+        io.KeyMap[ImGuiKey_Y] = (int)Keyboard::Key::Y;
+        io.KeyMap[ImGuiKey_Z] = (int)Keyboard::Key::W;
+
+        ImGui_ImplGlfw_InitForOpenGL((GLFWwindow*)getContext()->video->getWindow()->getNativeWindow(), true);
+        ImGui_ImplOpenGL3_Init("#version 130");
+
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+    }
+
+    void terminate() override
+    {
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
     }
 
     void fixUpdate(Time dt) override
     {
         transform.rotate(1, { 0, 0, 0 }, { 1, 0, 1 });
+
+        auto definition = getContext()->video->getWindow()->getDefinition();
+        ImGuiIO& io = ImGui::GetIO();
+        io.DeltaTime = dt.seconds();
+        io.DisplaySize = {definition.width * 1.f, definition.height * 1.f};
+
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        static bool showOther = false;
+        if (demoWindow) {
+            ImGui::ShowDemoWindow(&demoWindow);
+        }
+
+        {
+            static float f = 0.0f;
+            static int counter = 0;
+
+            ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+
+            ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+            ImGui::Checkbox("Demo Window", &demoWindow);      // Edit bools storing our window open/close state
+            ImGui::Checkbox("Another Window", &showOther);
+
+            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+//            ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+
+            if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+                counter++;
+            ImGui::SameLine();
+            ImGui::Text("counter = %d", counter);
+
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+            ImGui::End();
+        }
     }
 
     void render(Time dt) override
@@ -63,6 +146,9 @@ public:
 
         /* Test triangle */
         va.draw();
+
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
     void onEvent(Event& event) override
@@ -81,6 +167,8 @@ private:
     Ref<Shader> shader;
     Ref<Texture2D> texture;
     VertexArray va = VertexArray(PrimitiveType::TriangleStrip, 4);
+
+    bool demoWindow = true;
 };
 
 

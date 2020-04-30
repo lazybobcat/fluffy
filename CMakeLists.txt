@@ -8,7 +8,7 @@ elseif(UNIX)
 else()
     message(FATAL_ERROR "Your platform is not supported! (yet?)")
 endif()
-set(FLUFFY_INTERNAL_LIBS fmt fluffy-utils fluffy-core fluffy-ecs)
+set(FLUFFY_INTERNAL_LIBS fmt imgui fluffy-utils fluffy-core fluffy-ecs)
 
 # Platorm depndencies
 set(FLUFFY_USE_OPENGL 1)
@@ -48,6 +48,10 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/glfw/include)
 # FMT
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/fmt)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/fmt/include)
+
+# ImGUI
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/imgui)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/imgui)
 
 # Contrib libraries
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/glad/include)

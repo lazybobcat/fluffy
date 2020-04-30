@@ -39,6 +39,7 @@ but the goal is to make the user write as little code as possible and instead us
 * GLAD To bind to OpenGL
 * GLFW For window handling
 * GLM For graphic maths
+* [ImGUI](https://github.com/ocornut/imgui) Because it's awesome
 * [STB](http://nothings.org/stb) For image loading
 * [scottt/debugbreak](https://github.com/scottt/debugbreak) For breakpoints
 
