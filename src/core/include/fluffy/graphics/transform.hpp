@@ -4,6 +4,8 @@
 
 namespace Fluffy {
 
+#define TRANSFORM_NB_COMPONENTS 16
+
 class Transform
 {
 public:

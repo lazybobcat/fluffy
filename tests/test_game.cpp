@@ -1,15 +1,16 @@
+#include "../src/platform/glfw/src/imgui_impl_glfw.h"
 #include <fluffy/api/modules.hpp>
 #include <fluffy/fluffy_core.hpp>
 #include <fluffy/fluffy_ecs.hpp>
-#include <fluffy/graphics/transform.hpp>
-#include <fluffy/graphics/vertex_array.hpp>
 #include <fluffy/graphics/shader.hpp>
 #include <fluffy/graphics/texture.hpp>
+#include <fluffy/graphics/transform.hpp>
+#include <fluffy/graphics/vertex.hpp>
 #include <fluffy/input/input.hpp>
 #include <imgui.h>
 #include <imgui_impl_opengl3.h>
 #include <iostream>
-#include "../src/platform/glfw/src/imgui_impl_glfw.h"
+#include <opengl.hpp>
 
 struct MyComponent : public Component<MyComponent>
 {
@@ -28,21 +29,48 @@ public:
 
         // Shader
         shader = Shader::create();
-        shader->loadFromFile("assets/shaders/sprite.vertex.shader", "assets/shaders/sprite.fragment.shader");
+        shader->loadFromFile("assets/shaders/base.vertex.shader", "assets/shaders/base.fragment.shader");
+//        shader->loadFromFile("assets/shaders/sprite.vertex.shader", "assets/shaders/sprite.fragment.shader");
         shader->enable();
 
         // set up vertex data (and buffer(s)) and configure vertex attributes
         // ------------------------------------------------------------------
-        va.setVertex(0, { { 0.5f, -0.5f, 0.0f }, { 0, 255, 0 }, { 1.0f, 1.0f } });
-        va.setVertex(1, { { 0.5f, 0.5f, 0.0f }, { 255, 0, 0 }, { 1.0f, 0.0f } });
-        va.setVertex(2, { { -0.5f, -0.5f, 0.0f }, { 0, 0, 255 }, { 0.0f, 1.0f } });
-        va.setVertex(3, { { -0.5f, 0.5f, 0.0f }, { 255, 255, 0 }, { 0.0f, 0.0f } });
+        vaTriangle = VertexArray::create();
+        float vertices[3*7] = {
+            0.5f, -0.5f, 0.0f, 1.f, 0.f, 1.f, 1.f,
+            0.5f, 0.5f, 0.0f, 0.f, 0.f, 1.f, 1.f,
+            -0.5f, -0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f,
+        };
+        Ref<VertexBuffer> vbTriangle = VertexBuffer::create(vertices, sizeof(vertices));
+        vbTriangle->setLayout({
+            { ShaderDataType::Vector3f, "aPos" },
+            { ShaderDataType::Vector4f, "aColor" },
+        });
+        std::uint32_t indices[3] = { 0, 1, 2 };
+        Ref<IndexBuffer> ibTriangle = IndexBuffer::create(indices, 3);
+        vaTriangle->addVertexBuffer(vbTriangle);
+        vaTriangle->setIndexBuffer(ibTriangle);
 
-        // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-        va.bind();
+
+        vaSquare = VertexArray::create();
+        float verticesSquare[4*7] = {
+          0.75f, -0.75f, 0.0f, 0.2f, 0.2f, 0.9f, 1.f,
+          0.75f, 0.75f, 0.0f, 0.2f, 0.2f, 0.9f, 1.f,
+          -0.75f, -0.75f, 0.0f, 0.2f, 0.2f, 0.9f, 1.f,
+          -0.75f, 0.75f, 1.0f, 0.2f, 0.2f, 0.9f, 1.f,
+        };
+        Ref<VertexBuffer> vbSquare = VertexBuffer::create(verticesSquare, sizeof(verticesSquare));
+        vbSquare->setLayout({
+            { ShaderDataType::Vector3f, "aPos" },
+            { ShaderDataType::Vector4f, "aColor" },
+        });
+        std::uint32_t indicesSquare[6] = { 0, 1, 2, 2, 3, 1 };
+        Ref<IndexBuffer> ibSquare = IndexBuffer::create(indicesSquare, 6);
+        vaSquare->addVertexBuffer(vbSquare);
+        vaSquare->setIndexBuffer(ibSquare);
 
         // My texture
-        texture = Texture2D::create("assets/textures/tile.png");
+        texture = Texture2D::create("assets/textures/alpaca.png");
         texture->setRepeat(RepeatType::Repeat);
 
         IMGUI_CHECKVERSION();
@@ -138,14 +166,19 @@ public:
         glClear(GL_COLOR_BUFFER_BIT);
 
         /* Textures */
-        texture->bind();
+//        texture->bind();
 
         /* Shader */
         shader->enable();
-        shader->bindUniform("transform", transform);
+//        shader->bindUniform("transform", transform);
+
+        /* Test square */
+        vaSquare->bind();
+        glDrawElements(GL_TRIANGLES, vaSquare->getIndexBuffer()->count(), GL_UNSIGNED_INT, nullptr);
 
         /* Test triangle */
-        va.draw();
+        vaTriangle->bind();
+        glDrawElements(GL_TRIANGLES, vaTriangle->getIndexBuffer()->count(), GL_UNSIGNED_INT, nullptr);
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -166,7 +199,8 @@ private:
     Transform transform;
     Ref<Shader> shader;
     Ref<Texture2D> texture;
-    VertexArray va = VertexArray(PrimitiveType::TriangleStrip, 4);
+    Ref<VertexArray> vaTriangle;
+    Ref<VertexArray> vaSquare;
 
     bool demoWindow = true;
 };

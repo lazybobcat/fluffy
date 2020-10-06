@@ -14,6 +14,24 @@ enum class ShaderType
     Fragment,
 };
 
+enum class ShaderDataType
+{
+    None = 0,
+    Int,
+    Float,
+    Bool,
+    Transform,
+    Vector2f,
+    Vector3f,
+    Vector4f,
+    Vector2i,
+    Vector3i,
+    Vector4i,
+    Vector2u,
+    Vector3u,
+    Vector4u,
+};
+
 namespace EnumNames {
 const std::array<const char*, 3> ShaderType({ { "vertex", "geometry", "fragment" } });
 }
