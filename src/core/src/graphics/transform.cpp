@@ -15,9 +15,19 @@ Transform::Transform(float aa, float ab, float ac, float ad, float ba, float bb,
 {
 }
 
+Transform::Transform(const glm::mat4& matrix)
+  : mMatrix(matrix)
+{
+}
+
 const float* Transform::getData() const
 {
     return glm::value_ptr(mMatrix);
+}
+
+const glm::mat4& Transform::getMatrix() const
+{
+    return mMatrix;
 }
 
 Vector3f Transform::transformPoint(const Vector3f& point)

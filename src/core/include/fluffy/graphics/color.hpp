@@ -9,6 +9,8 @@ struct Color
     Color() = default;
     Color(std::uint8_t r, std::uint8_t g, std::uint8_t b, std::uint8_t a = 255);
 
+    void getFloatValues(float* r, float* g, float* b, float* a) const;
+
     static const Color Black;
     static const Color White;
     static const Color Red;

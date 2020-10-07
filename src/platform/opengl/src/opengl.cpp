@@ -1,5 +1,3 @@
-#include <fluffy/graphics/renderer.hpp>
+#include <fluffy/graphics/renderer_api.hpp>
 
 using namespace Fluffy;
-
-RenderAPIList Renderer::RenderAPI = RenderAPIList::OpenGL;

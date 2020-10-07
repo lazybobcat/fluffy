@@ -125,3 +125,15 @@ struct fmt::formatter<Fluffy::Vector4u>
         return format_to(ctx.out(), "Vec4u{{{}, {}, {}, {}}}", v.r, v.g, v.b, v.a);
     }
 };
+
+template<>
+struct fmt::formatter<glm::mat4>
+{
+    constexpr auto parse(format_parse_context& ctx) { return ctx.begin(); }
+
+    template<typename FormatContext>
+    auto format(const glm::mat4& m, FormatContext& ctx)
+    {
+        return format_to(ctx.out(), "mat4{{\n{}\n{}\n{}\n{}\n}}", m[0], m[1], m[2], m[3]);
+    }
+};

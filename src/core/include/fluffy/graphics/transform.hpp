@@ -10,8 +10,10 @@ class Transform
 {
 public:
     Transform();
+    Transform(const glm::mat4& matrix);
 
-    const float* getData() const;
+    [[nodiscard]] const float*     getData() const;
+    [[nodiscard]] const glm::mat4& getMatrix() const;
 
     Vector3f transformPoint(const Vector3f& point);
 

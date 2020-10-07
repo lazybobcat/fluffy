@@ -2,6 +2,9 @@
 #include <fluffy/api/modules.hpp>
 #include <fluffy/fluffy_core.hpp>
 #include <fluffy/fluffy_ecs.hpp>
+#include <fluffy/graphics/camera.hpp>
+#include <fluffy/graphics/render_command.hpp>
+#include <fluffy/graphics/renderer.hpp>
 #include <fluffy/graphics/shader.hpp>
 #include <fluffy/graphics/texture.hpp>
 #include <fluffy/graphics/transform.hpp>
@@ -21,8 +24,12 @@ struct MyComponent : public Component<MyComponent>
 class TestState : public State<TestState>
 {
 public:
+    TestState() : camera({-1.6f, 0.9f, 2*1.6f, 2*0.9f}) {}
+
     void initialize() override
     {
+        RenderCommand::setClearColor({204, 51, 204, 255});
+
         // Enable blending @todo move into the renderer init function
         GlCall(glEnable(GL_BLEND));
         GlCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
@@ -37,9 +44,9 @@ public:
         // ------------------------------------------------------------------
         vaTriangle = VertexArray::create();
         float vertices[3*7] = {
-            0.5f, -0.5f, 0.0f, 1.f, 0.f, 1.f, 1.f,
-            0.5f, 0.5f, 0.0f, 0.f, 0.f, 1.f, 1.f,
-            -0.5f, -0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f,
+            0.f, 0.5f, -0.90f, 0.8f, 0.1f, 0.1f, 1.f,
+            0.5f, -0.5f, -0.90f, 0.1f, 0.8f, 0.1f, 1.f,
+            -0.5f, -0.5f, -0.90f, 0.1f, 0.1f, 0.8f, 1.f,
         };
         Ref<VertexBuffer> vbTriangle = VertexBuffer::create(vertices, sizeof(vertices));
         vbTriangle->setLayout({
@@ -57,7 +64,7 @@ public:
           0.75f, -0.75f, 0.0f, 0.2f, 0.2f, 0.9f, 1.f,
           0.75f, 0.75f, 0.0f, 0.2f, 0.2f, 0.9f, 1.f,
           -0.75f, -0.75f, 0.0f, 0.2f, 0.2f, 0.9f, 1.f,
-          -0.75f, 0.75f, 1.0f, 0.2f, 0.2f, 0.9f, 1.f,
+          -0.75f, 0.75f, 0.0f, 0.2f, 0.2f, 0.9f, 1.f,
         };
         Ref<VertexBuffer> vbSquare = VertexBuffer::create(verticesSquare, sizeof(verticesSquare));
         vbSquare->setLayout({
@@ -120,8 +127,6 @@ public:
 
     void fixUpdate(Time dt) override
     {
-        transform.rotate(1, { 0, 0, 0 }, { 1, 0, 1 });
-
         auto definition = getContext()->video->getWindow()->getDefinition();
         ImGuiIO& io = ImGui::GetIO();
         io.DeltaTime = dt.seconds();
@@ -162,23 +167,15 @@ public:
     void render(Time dt) override
     {
         /* Render here */
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        RenderCommand::clear();
 
-        /* Textures */
-//        texture->bind();
+        Renderer::beginScene(camera);
 
-        /* Shader */
-        shader->enable();
-//        shader->bindUniform("transform", transform);
+        Renderer::draw(vaSquare, shader);
+        Renderer::draw(vaTriangle, shader);
 
-        /* Test square */
-        vaSquare->bind();
-        glDrawElements(GL_TRIANGLES, vaSquare->getIndexBuffer()->count(), GL_UNSIGNED_INT, nullptr);
-
-        /* Test triangle */
-        vaTriangle->bind();
-        glDrawElements(GL_TRIANGLES, vaTriangle->getIndexBuffer()->count(), GL_UNSIGNED_INT, nullptr);
+        Renderer::endScene();
+//        Renderer::flush();
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -188,6 +185,22 @@ public:
     {
         if (event.type == Fluffy::Event::KeyPressed) {
             FLUFFY_LOG_DEBUG("key pressed: {} (ctrl: {}, alt: {}, shift: {})", event.key.code, event.key.control, event.key.alt, event.key.shift);
+            if (Keyboard::Key::Up == event.key.code) {
+                camera.move({0.f, 0.1f});
+            } else if (Keyboard::Key::Down == event.key.code) {
+                camera.move({0.f, -0.1f});
+            } else if (Keyboard::Key::Left == event.key.code) {
+                camera.move({-0.1f, 0.f});
+            } else if (Keyboard::Key::Right == event.key.code) {
+                camera.move({0.1f, 0.f});
+            } else if (Keyboard::Key::R == event.key.code) {
+                camera.rotateZ(1.f);
+            } else if (Keyboard::Key::NumPadSubtract == event.key.code) {
+                // If the camera "scales" up, we see a larger portion of the scene so everything is actually scaled down
+                camera.setScale({2.f, 2.f});
+            } else if (Keyboard::Key::NumPadAdd == event.key.code) {
+                camera.setScale({1.f, 1.f});
+            }
         }
         if (event.type == Fluffy::Event::MouseButtonPressed) {
             auto position = Input::getMousePosition();
@@ -196,7 +209,7 @@ public:
     }
 
 private:
-    Transform transform;
+    OrthographicCamera camera;
     Ref<Shader> shader;
     Ref<Texture2D> texture;
     Ref<VertexArray> vaTriangle;
@@ -237,7 +250,7 @@ public:
     void initializeModules(ModuleRegistry& registry) override
     {
         registry.registerModule(new SystemModule());
-        registry.registerModule(new VideoModule({getTitle(), WindowType::Windowed, 720, 720}));
+        registry.registerModule(new VideoModule({getTitle(), WindowType::Windowed, 1280, 720}));
         registry.registerModule(new InputModule());
     }
 

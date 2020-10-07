@@ -20,6 +20,14 @@ Color::Color(std::uint8_t r, std::uint8_t g, std::uint8_t b, std::uint8_t a)
 {
 }
 
+void Color::getFloatValues(float* r, float* g, float* b, float* a) const
+{
+    *r = (float)(this->r / 255.f);
+    *g = (float)(this->g / 255.f);
+    *b = (float)(this->b / 255.f);
+    *a = (float)(this->a / 255.f);
+}
+
 bool Fluffy::operator==(const Color& lhs, const Color& rhs)
 {
     return lhs.r == rhs.r &&

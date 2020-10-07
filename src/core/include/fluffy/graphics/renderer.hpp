@@ -1,22 +1,25 @@
 #pragma once
 
+#include <fluffy/graphics/camera.hpp>
+#include <fluffy/graphics/vertex.hpp>
 #include <fluffy/pch.hpp>
 
 namespace Fluffy {
 
-enum class RenderAPIList
-{
-    None   = 0,
-    OpenGL = 1,
-};
-
-namespace EnumNames {
-const std::array<const char*, 2> RenderAPI({ { "none", "OpenGL" } });
-}
-
 class Renderer
 {
 public:
-    static RenderAPIList RenderAPI;
+    static void beginScene(const Camera& camera);
+    static void endScene();
+
+    static void draw(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader);
+
+private:
+    struct SceneData
+    {
+        glm::mat4 viewProjectionMatrix;
+    };
+
+    static SceneData* mSceneData;
 };
 }

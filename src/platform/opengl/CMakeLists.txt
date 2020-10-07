@@ -4,6 +4,7 @@ set(SOURCE_FILES
         src/opengl_shader.hpp src/opengl_shader.cpp
         src/opengl_texture.hpp src/opengl_texture.cpp
         src/opengl_vertex.hpp src/opengl_vertex.cpp
+        src/opengl_renderer_api.cpp src/opengl_renderer_api.hpp
         src/imgui_impl_opengl3.h src/imgui_impl_opengl3.cpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)

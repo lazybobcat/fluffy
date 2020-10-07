@@ -17,13 +17,16 @@ set(SOURCE_FILES
         include/fluffy/api/modules.hpp src/api/modules.cpp
         include/fluffy/api/context.hpp src/api/context.cpp
         include/fluffy/graphics/renderer.hpp src/graphics/renderer.cpp
+        include/fluffy/graphics/renderer_api.hpp
+        include/fluffy/graphics/render_command.hpp
         include/fluffy/graphics/window.hpp
         include/fluffy/graphics/color.hpp src/graphics/color.cpp
         include/fluffy/graphics/shader.hpp
         include/fluffy/graphics/texture.hpp
         include/fluffy/graphics/vertex.hpp src/graphics/vertex.cpp
         include/fluffy/graphics/transform.hpp src/graphics/transform.cpp
-        include/fluffy/graphics/transformable.hpp
+        include/fluffy/graphics/transformable.hpp src/graphics/transformable.cpp
+        include/fluffy/graphics/camera.hpp src/graphics/camera.cpp
         include/fluffy/input/mouse.hpp
         include/fluffy/input/keyboard.hpp
         include/fluffy/input/input.hpp src/input/input.cpp

@@ -18,6 +18,7 @@ public:
     void bindUniform(const String& name, int value) override;
     void bindUniform(const String& name, bool value) override;
     void bindUniform(const String& name, Transform value) override;
+    void bindUniform(const String& name, glm::mat4 value) override;
     void bindUniform(const String& name, Vector2f value) override;
     void bindUniform(const String& name, Vector3f value) override;
     void bindUniform(const String& name, Vector4f value) override;

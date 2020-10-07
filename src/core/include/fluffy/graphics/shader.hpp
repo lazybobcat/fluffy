@@ -51,6 +51,7 @@ public:
     virtual void bindUniform(const String& name, float value)     = 0;
     virtual void bindUniform(const String& name, int value)       = 0;
     virtual void bindUniform(const String& name, bool value)      = 0;
+    virtual void bindUniform(const String& name, glm::mat4 value) = 0;
     virtual void bindUniform(const String& name, Transform value) = 0;
     virtual void bindUniform(const String& name, Vector2f value)  = 0;
     virtual void bindUniform(const String& name, Vector3f value)  = 0;
