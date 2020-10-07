@@ -14,11 +14,14 @@ void Renderer::endScene()
 {
 }
 
-void Renderer::draw(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader)
+void Renderer::draw(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader, const glm::mat4& transform)
 {
     shader->enable();
     shader->bindUniform("u_ViewProjection", mSceneData->viewProjectionMatrix);
+    shader->bindUniform("u_Transform", transform);
+
     vertexArray->bind();
     RenderCommand::drawIndexed(vertexArray);
+
     shader->disable();
 }

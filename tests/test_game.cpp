@@ -127,6 +127,20 @@ public:
 
     void fixUpdate(Time dt) override
     {
+        if (Input::isKeyPressed(Keyboard::Key::W)) {
+            transformSquare.translate({0.f, 1.f * dt.seconds(), 0.f});
+        } else if (Input::isKeyPressed(Keyboard::Key::S)) {
+            transformSquare.translate({0.f, -1.f * dt.seconds(), 0.f});
+        }
+
+        if (Input::isKeyPressed(Keyboard::Key::A)) {
+            transformSquare.translate({-1.f * dt.seconds(), 0.f, 0.f});
+        } else if (Input::isKeyPressed(Keyboard::Key::D)) {
+            transformSquare.translate({ 1.f * dt.seconds(), 0.f, 0.f});
+        }
+
+
+        // ImGUI Stuff
         auto definition = getContext()->video->getWindow()->getDefinition();
         ImGuiIO& io = ImGui::GetIO();
         io.DeltaTime = dt.seconds();
@@ -171,7 +185,7 @@ public:
 
         Renderer::beginScene(camera);
 
-        Renderer::draw(vaSquare, shader);
+        Renderer::draw(vaSquare, shader, transformSquare.getMatrix());
         Renderer::draw(vaTriangle, shader);
 
         Renderer::endScene();
@@ -214,6 +228,7 @@ private:
     Ref<Texture2D> texture;
     Ref<VertexArray> vaTriangle;
     Ref<VertexArray> vaSquare;
+    Transform transformSquare;
 
     bool demoWindow = true;
 };
