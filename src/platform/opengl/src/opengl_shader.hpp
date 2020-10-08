@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fluffy/graphics/color.hpp>
 #include <fluffy/graphics/shader.hpp>
 
 namespace Fluffy {
@@ -18,6 +19,7 @@ public:
     void bindUniform(const String& name, int value) override;
     void bindUniform(const String& name, bool value) override;
     void bindUniform(const String& name, Transform value) override;
+    void bindUniform(const String& name, Color value) override;
     void bindUniform(const String& name, glm::mat4 value) override;
     void bindUniform(const String& name, Vector2f value) override;
     void bindUniform(const String& name, Vector3f value) override;

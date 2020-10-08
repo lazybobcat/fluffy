@@ -38,7 +38,9 @@ public:
         shader = Shader::create();
         shader->loadFromFile("assets/shaders/base.vertex.shader", "assets/shaders/base.fragment.shader");
 //        shader->loadFromFile("assets/shaders/sprite.vertex.shader", "assets/shaders/sprite.fragment.shader");
-        shader->enable();
+
+        flatColorShader = Shader::create();
+        flatColorShader->loadFromFile("assets/shaders/flat_color.vertex.shader", "assets/shaders/base.fragment.shader");
 
         // set up vertex data (and buffer(s)) and configure vertex attributes
         // ------------------------------------------------------------------
@@ -60,16 +62,15 @@ public:
 
 
         vaSquare = VertexArray::create();
-        float verticesSquare[4*7] = {
-          0.75f, -0.75f, 0.0f, 0.2f, 0.2f, 0.9f, 1.f,
-          0.75f, 0.75f, 0.0f, 0.2f, 0.2f, 0.9f, 1.f,
-          -0.75f, -0.75f, 0.0f, 0.2f, 0.2f, 0.9f, 1.f,
-          -0.75f, 0.75f, 0.0f, 0.2f, 0.2f, 0.9f, 1.f,
+        float verticesSquare[4*3] = {
+          0.75f, -0.75f, 0.0f,
+          0.75f, 0.75f, 0.0f,
+          -0.75f, -0.75f, 0.0f,
+          -0.75f, 0.75f, 0.0f,
         };
         Ref<VertexBuffer> vbSquare = VertexBuffer::create(verticesSquare, sizeof(verticesSquare));
         vbSquare->setLayout({
             { ShaderDataType::Vector3f, "aPos" },
-            { ShaderDataType::Vector4f, "aColor" },
         });
         std::uint32_t indicesSquare[6] = { 0, 1, 2, 2, 3, 1 };
         Ref<IndexBuffer> ibSquare = IndexBuffer::create(indicesSquare, 6);
@@ -150,30 +151,9 @@ public:
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        static bool showOther = false;
-        if (demoWindow) {
-            ImGui::ShowDemoWindow(&demoWindow);
-        }
-
         {
-            static float f = 0.0f;
-            static int counter = 0;
-
-            ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-            ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-            ImGui::Checkbox("Demo Window", &demoWindow);      // Edit bools storing our window open/close state
-            ImGui::Checkbox("Another Window", &showOther);
-
-            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-//            ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-            if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-                counter++;
-            ImGui::SameLine();
-            ImGui::Text("counter = %d", counter);
-
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+            ImGui::Begin("Settings");
+            ImGui::ColorEdit4("Square color", glm::value_ptr(squareColor));
             ImGui::End();
         }
     }
@@ -185,7 +165,9 @@ public:
 
         Renderer::beginScene(camera);
 
-        Renderer::draw(vaSquare, shader, transformSquare.getMatrix());
+        flatColorShader->enable();
+        flatColorShader->bindUniform("u_Color", squareColor);
+        Renderer::draw(vaSquare, flatColorShader, transformSquare.getMatrix());
         Renderer::draw(vaTriangle, shader);
 
         Renderer::endScene();
@@ -225,12 +207,12 @@ public:
 private:
     OrthographicCamera camera;
     Ref<Shader> shader;
+    Ref<Shader> flatColorShader;
     Ref<Texture2D> texture;
     Ref<VertexArray> vaTriangle;
     Ref<VertexArray> vaSquare;
     Transform transformSquare;
-
-    bool demoWindow = true;
+    Vector4f squareColor = {.2f, .8f, .43f, 1.f};
 };
 
 
