@@ -2,6 +2,7 @@
 #include <fluffy/api/modules.hpp>
 #include <fluffy/fluffy_core.hpp>
 #include <fluffy/fluffy_ecs.hpp>
+#include <fluffy/game/camera_controller.hpp>
 #include <fluffy/graphics/camera.hpp>
 #include <fluffy/graphics/render_command.hpp>
 #include <fluffy/graphics/renderer.hpp>
@@ -24,7 +25,7 @@ struct MyComponent : public Component<MyComponent>
 class TestState : public State<TestState>
 {
 public:
-    TestState() : camera({-1.6f, 0.9f, 2*1.6f, 2*0.9f}) {}
+    TestState() : cameraController(1280.f / 720.f) {}
 
     void initialize() override
     {
@@ -42,9 +43,9 @@ public:
         // ------------------------------------------------------------------
         vaTriangle = VertexArray::create();
         float vertices[3*7] = {
-            0.f, 0.5f, -0.90f, 0.8f, 0.1f, 0.1f, 1.f,
-            0.5f, -0.5f, -0.90f, 0.1f, 0.8f, 0.1f, 1.f,
-            -0.5f, -0.5f, -0.90f, 0.1f, 0.1f, 0.8f, 1.f,
+            0.f, 0.5f, -0.10f, 0.8f, 0.1f, 0.1f, 1.f,
+            0.5f, -0.5f, -0.10f, 0.1f, 0.8f, 0.1f, 1.f,
+            -0.5f, -0.5f, -0.10f, 0.1f, 0.1f, 0.8f, 1.f,
         };
         Ref<VertexBuffer> vbTriangle = VertexBuffer::create(vertices, sizeof(vertices));
         vbTriangle->setLayout({
@@ -124,18 +125,20 @@ public:
 
     void fixUpdate(Time dt) override
     {
-        if (Input::isKeyPressed(Keyboard::Key::W)) {
-            transformSquare.translate({0.f, 1.f * dt.seconds(), 0.f});
-        } else if (Input::isKeyPressed(Keyboard::Key::S)) {
-            transformSquare.translate({0.f, -1.f * dt.seconds(), 0.f});
-        }
+//        if (Input::isKeyPressed(Keyboard::Key::W)) {
+//            transformSquare.translate({0.f, 1.f * dt.seconds(), 0.f});
+//        } else if (Input::isKeyPressed(Keyboard::Key::S)) {
+//            transformSquare.translate({0.f, -1.f * dt.seconds(), 0.f});
+//        }
+//
+//        if (Input::isKeyPressed(Keyboard::Key::A)) {
+//            transformSquare.translate({-1.f * dt.seconds(), 0.f, 0.f});
+//        } else if (Input::isKeyPressed(Keyboard::Key::D)) {
+//            transformSquare.translate({ 1.f * dt.seconds(), 0.f, 0.f});
+//        }
 
-        if (Input::isKeyPressed(Keyboard::Key::A)) {
-            transformSquare.translate({-1.f * dt.seconds(), 0.f, 0.f});
-        } else if (Input::isKeyPressed(Keyboard::Key::D)) {
-            transformSquare.translate({ 1.f * dt.seconds(), 0.f, 0.f});
-        }
-
+        // Update camera
+        cameraController.update(dt);
 
         // ImGUI Stuff
         auto definition = getContext()->video->getWindow()->getDefinition();
@@ -159,7 +162,7 @@ public:
         /* Render here */
         RenderCommand::clear();
 
-        Renderer::beginScene(camera);
+        Renderer::beginScene(cameraController.getCamera());
 
         flatColorShader->enable();
         flatColorShader->bindUniform("u_Color", squareColor);
@@ -175,25 +178,9 @@ public:
 
     void onEvent(Event& event) override
     {
-        if (event.type == Fluffy::Event::KeyPressed) {
-            FLUFFY_LOG_DEBUG("key pressed: {} (ctrl: {}, alt: {}, shift: {})", event.key.code, event.key.control, event.key.alt, event.key.shift);
-            if (Keyboard::Key::Up == event.key.code) {
-                camera.move({0.f, 0.1f});
-            } else if (Keyboard::Key::Down == event.key.code) {
-                camera.move({0.f, -0.1f});
-            } else if (Keyboard::Key::Left == event.key.code) {
-                camera.move({-0.1f, 0.f});
-            } else if (Keyboard::Key::Right == event.key.code) {
-                camera.move({0.1f, 0.f});
-            } else if (Keyboard::Key::R == event.key.code) {
-                camera.rotateZ(1.f);
-            } else if (Keyboard::Key::NumPadSubtract == event.key.code) {
-                // If the camera "scales" up, we see a larger portion of the scene so everything is actually scaled down
-                camera.setScale({2.f, 2.f});
-            } else if (Keyboard::Key::NumPadAdd == event.key.code) {
-                camera.setScale({1.f, 1.f});
-            }
-        }
+        // Update camera
+        cameraController.onEvent(event);
+
         if (event.type == Fluffy::Event::MouseButtonPressed) {
             auto position = Input::getMousePosition();
             FLUFFY_LOG_DEBUG("Mouse button pressed: {} (at {})", EnumNames::MouseButton[(int)event.mouseButton.button], position);
@@ -201,7 +188,7 @@ public:
     }
 
 private:
-    OrthographicCamera camera;
+    OrthographicCameraController cameraController;
     Ref<Shader> shader;
     Ref<Shader> flatColorShader;
     Ref<Texture2D> texture;
@@ -254,7 +241,7 @@ public:
 
     std::string getTitle() const override
     {
-        return std::string("TestGame");
+        return std::string("Fluffy Test");
     }
 
     int getTargetFPS() const override

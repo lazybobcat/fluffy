@@ -16,7 +16,15 @@ public:
 class OrthographicCamera : public Camera
 {
 public:
-    OrthographicCamera(FloatRect bounds);
+    explicit OrthographicCamera(FloatRect bounds);
+
+    /**
+     * A factor > 1 will zoom out (the camera will move back)
+     * A factor < 1 will zoom in
+     */
+    void zoom(float factor);
+
+    void setProjectionMatrix(FloatRect bounds);
 
     const glm::mat4& getProjectionMatrix() const { return mProjectionMatrix; }
     const glm::mat4& getViewMatrix() const;
