@@ -1,4 +1,6 @@
-#include "../src/platform/glfw/src/imgui_impl_glfw.h"
+#pragma once
+
+#include "../../src/platform/glfw/src/imgui_impl_glfw.h"
 #include <fluffy/api/modules.hpp>
 #include <fluffy/fluffy_core.hpp>
 #include <fluffy/fluffy_ecs.hpp>
@@ -15,12 +17,6 @@
 #include <imgui_impl_opengl3.h>
 #include <iostream>
 #include <opengl.hpp>
-
-struct MyComponent : public Component<MyComponent>
-{
-    int a = 2;
-};
-
 
 class TestState : public State<TestState>
 {
@@ -43,15 +39,15 @@ public:
         // ------------------------------------------------------------------
         vaTriangle = VertexArray::create();
         float vertices[3*7] = {
-            0.f, 0.5f, -0.10f, 0.8f, 0.1f, 0.1f, 1.f,
-            0.5f, -0.5f, -0.10f, 0.1f, 0.8f, 0.1f, 1.f,
-            -0.5f, -0.5f, -0.10f, 0.1f, 0.1f, 0.8f, 1.f,
+          0.f, 0.5f, -0.10f, 0.8f, 0.1f, 0.1f, 1.f,
+          0.5f, -0.5f, -0.10f, 0.1f, 0.8f, 0.1f, 1.f,
+          -0.5f, -0.5f, -0.10f, 0.1f, 0.1f, 0.8f, 1.f,
         };
         Ref<VertexBuffer> vbTriangle = VertexBuffer::create(vertices, sizeof(vertices));
         vbTriangle->setLayout({
-            { ShaderDataType::Vector3f, "aPos" },
-            { ShaderDataType::Vector4f, "aColor" },
-        });
+                                { ShaderDataType::Vector3f, "aPos" },
+                                { ShaderDataType::Vector4f, "aColor" },
+                              });
         std::uint32_t indices[3] = { 0, 1, 2 };
         Ref<IndexBuffer> ibTriangle = IndexBuffer::create(indices, 3);
         vaTriangle->addVertexBuffer(vbTriangle);
@@ -67,8 +63,8 @@ public:
         };
         Ref<VertexBuffer> vbSquare = VertexBuffer::create(verticesSquare, sizeof(verticesSquare));
         vbSquare->setLayout({
-            { ShaderDataType::Vector3f, "aPos" },
-        });
+                              { ShaderDataType::Vector3f, "aPos" },
+                            });
         std::uint32_t indicesSquare[6] = { 0, 1, 2, 2, 3, 1 };
         Ref<IndexBuffer> ibSquare = IndexBuffer::create(indicesSquare, 6);
         vaSquare->addVertexBuffer(vbSquare);
@@ -110,10 +106,6 @@ public:
 
         ImGui_ImplGlfw_InitForOpenGL((GLFWwindow*)getContext()->video->getWindow()->getNativeWindow(), true);
         ImGui_ImplOpenGL3_Init("#version 130");
-
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
     }
 
     void terminate() override
@@ -197,57 +189,3 @@ private:
     Transform transformSquare;
     Vector4f squareColor = {.2f, .8f, .43f, 1.f};
 };
-
-
-class EntityTestState : public State<EntityTestState>
-{
-public:
-    void initialize() override
-    {
-        EntityManager em(getContext()->events);
-        auto e = em.createEntity();
-        e.assign<MyComponent>();
-    }
-
-    void fixUpdate(Time dt) override
-    {
-        requestStackPop();
-        requestStackPush(CreateUnique<TestState>());
-    }
-
-    void render(Time dt) override
-    {
-    }
-
-    void onEvent(Event& event) override
-    {
-    }
-};
-
-class TestGame : public Fluffy::Game
-{
-public:
-    void initializeModules(ModuleRegistry& registry) override
-    {
-        registry.registerModule(new SystemModule());
-        registry.registerModule(new VideoModule({getTitle(), WindowType::Windowed, 1280, 720}));
-        registry.registerModule(new InputModule());
-    }
-
-    Unique<BaseState> start() override
-    {
-        return CreateUnique<EntityTestState>();
-    }
-
-    std::string getTitle() const override
-    {
-        return std::string("Fluffy Test");
-    }
-
-    int getTargetFPS() const override
-    {
-        return 120;
-    }
-};
-
-FluffyGame(TestGame)

@@ -74,3 +74,6 @@ target_link_libraries(fluffy ${FLUFFY_INTERNAL_LIBS} ${FLUFFY_EXTERNAL_LIBS})
 
 # Tests
 add_subdirectory(tests)
+
+# Sandbox
+add_subdirectory(sandbox)
