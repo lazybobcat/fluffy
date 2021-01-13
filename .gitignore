@@ -1,5 +1,6 @@
 # IDE
 .idea/
+.vs/
 # Project
 build/
 cmake-build-*

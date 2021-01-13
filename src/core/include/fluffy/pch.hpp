@@ -2,6 +2,7 @@
 #ifdef __cplusplus
 // STL includes
 #include <algorithm>
+#include <array>
 #include <bitset>
 #include <cassert>
 #include <chrono>

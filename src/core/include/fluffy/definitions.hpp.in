@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <string>
 
 // General configurations
 #define FLUFFY_VERSION "@PROJECT_VERSION@"

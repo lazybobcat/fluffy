@@ -35,6 +35,11 @@ set(SOURCE_FILES
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_library(fluffy-core ${SOURCE_FILES})
-add_precompiled_header(fluffy-core include/fluffy/pch.hpp FORCEINCLUDE)
+if(WIN32)
+    # Need to fix an issue with this @todo
+    #add_precompiled_header(fluffy-core fluffy/pch.hpp FORCEINCLUDE SOURCE_CXX src/pch.cpp)
+elseif(UNIX)
+    add_precompiled_header(fluffy-core include/fluffy/pch.hpp FORCEINCLUDE)
+endif()
 target_include_directories(fluffy-core PUBLIC "include")
 target_link_libraries(fluffy-core fluffy-utils)

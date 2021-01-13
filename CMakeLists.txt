@@ -2,12 +2,17 @@ cmake_minimum_required(VERSION 3.8.2)
 project(fluffy VERSION 0.1.0)
 
 if(WIN32)
-    set(FLUFFY_EXTERNAL_LIBS pthread opengl32 glfw)
+    message("Making for windows environment...")
+    set(FLUFFY_EXTERNAL_LIBS opengl32 glfw)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std:c++17")
 elseif(UNIX)
+    message("Making for unix environment...")
     set(FLUFFY_EXTERNAL_LIBS pthread GL glfw X11 Xrandr Xi)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fPIC")
 else()
     message(FATAL_ERROR "Your platform is not supported! (yet?)")
 endif()
+
 set(FLUFFY_INTERNAL_LIBS fmt imgui fluffy-utils fluffy-core fluffy-ecs)
 
 # Platorm depndencies
@@ -27,7 +32,6 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/build)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_SOURCE_DIR}/build)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_CURRENT_SOURCE_DIR}/build)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fPIC")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG} -DFLUFFY_DEBUG")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

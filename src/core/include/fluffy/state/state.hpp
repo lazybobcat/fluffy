@@ -46,9 +46,10 @@ protected:
 
     Ref<Context> getContext();
 
-private:
+protected:
     static Family mFamilyCounter;
 
+private:
     StateStack*  mStateStack = nullptr;
     Ref<Context> mContext    = nullptr;
     bool         mPaused     = false;
