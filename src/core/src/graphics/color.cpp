@@ -2,38 +2,29 @@
 
 using namespace Fluffy;
 
-const Color Color::Black(0, 0, 0);
-const Color Color::White(255, 255, 255);
-const Color Color::Red(255, 0, 0);
-const Color Color::Green(0, 255, 0);
-const Color Color::Blue(0, 0, 255);
-const Color Color::Yellow(255, 255, 0);
-const Color Color::Magenta(255, 0, 255);
-const Color Color::Cyan(0, 255, 255);
-const Color Color::Transparent(0, 0, 0, 0);
+const Color Color::Black(0.f, 0.f, 0.f);
+const Color Color::White(1.f, 1.f, 1.f);
+const Color Color::Red(1.f, 0.f, 0.f);
+const Color Color::Green(0.f, 1.f, 0.f);
+const Color Color::Blue(0.f, 0.f, 1.f);
+const Color Color::Yellow(1.f, 1.f, 0.f);
+const Color Color::Magenta(1.f, 0.f, 1.f);
+const Color Color::Cyan(0.f, 1.f, 1.f);
+const Color Color::Transparent(0.f, 0.f, 0.f, 0.f);
 
-Color::Color(std::uint8_t r, std::uint8_t g, std::uint8_t b, std::uint8_t a)
-  : r(r)
-  , g(g)
-  , b(b)
-  , a(a)
+Color::Color(float r, float g, float b, float a)
+  : value(r, g, b, a)
 {
 }
 
-void Color::getFloatValues(float* r, float* g, float* b, float* a) const
+Color Color::fromInt8(std::uint8_t r, std::uint8_t g, std::uint8_t b, std::uint8_t a)
 {
-    *r = (float)(this->r / 255.f);
-    *g = (float)(this->g / 255.f);
-    *b = (float)(this->b / 255.f);
-    *a = (float)(this->a / 255.f);
+    return Color((float)r / 255.f, (float)g / 255.f, (float)b / 255.f, (float)a / 255.f);
 }
 
 bool Fluffy::operator==(const Color& lhs, const Color& rhs)
 {
-    return lhs.r == rhs.r &&
-           lhs.g == rhs.g &&
-           lhs.b == rhs.b &&
-           lhs.a == rhs.a;
+    return lhs.value == rhs.value;
 }
 
 bool Fluffy::operator!=(const Color& lhs, const Color& rhs)
@@ -43,31 +34,31 @@ bool Fluffy::operator!=(const Color& lhs, const Color& rhs)
 
 Color Fluffy::operator+(const Color& lhs, const Color& rhs)
 {
-    return Color(std::min(lhs.r + rhs.r, 255),
-                 std::min(lhs.g + rhs.g, 255),
-                 std::min(lhs.b + rhs.b, 255),
-                 std::min(lhs.a + rhs.a, 255));
+    return Color(std::min(lhs.value.r + rhs.value.r, 1.f),
+                 std::min(lhs.value.g + rhs.value.g, 1.f),
+                 std::min(lhs.value.b + rhs.value.b, 1.f),
+                 std::min(lhs.value.a + rhs.value.a, 1.f));
 }
 
 Color Fluffy::operator-(const Color& lhs, const Color& rhs)
 {
-    return Color(std::max(lhs.r - rhs.r, 0),
-                 std::max(lhs.g - rhs.g, 0),
-                 std::max(lhs.b - rhs.b, 0),
-                 std::max(lhs.a - rhs.a, 0));
+    return Color(std::max(lhs.value.r - rhs.value.r, 0.f),
+                 std::max(lhs.value.g - rhs.value.g, 0.f),
+                 std::max(lhs.value.b - rhs.value.b, 0.f),
+                 std::max(lhs.value.a - rhs.value.a, 0.f));
 }
 
 Color Fluffy::operator*(const Color& lhs, const Color& rhs)
 {
-    return Color(lhs.r * rhs.r / 255,
-                 lhs.g * rhs.g / 255,
-                 lhs.b * rhs.b / 255,
-                 lhs.a * rhs.a / 255);
+    return Color(lhs.value.r * rhs.value.r,
+                 lhs.value.g * rhs.value.g,
+                 lhs.value.b * rhs.value.b,
+                 lhs.value.a * rhs.value.a);
 }
 
 std::ostream& Fluffy::operator<<(std::ostream& os, const Color& color)
 {
-    os << "{" << (int)color.r << ", " << (int)color.g << ", " << (int)color.b << ", " << (int)color.a << "}";
+    os << "{" << color.value.r << ", " << color.value.g << ", " << color.value.b << ", " << color.value.a << "}";
 
     return os;
 }

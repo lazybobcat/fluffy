@@ -139,11 +139,9 @@ void OpenglShader::bindUniform(const String& name, Transform value)
     glUniformMatrix4fv(glGetUniformLocation(mProgramId, name.c_str()), 1, GL_FALSE, value.getData());
 }
 
-void OpenglShader::bindUniform(const String& name, Color value)
+void OpenglShader::bindUniform(const String& name, Color color)
 {
-    float red, green, blue, alpha;
-    value.getFloatValues(&red, &green, &blue, &alpha);
-    glUniform4f(glGetUniformLocation(mProgramId, name.c_str()), red, green, blue, alpha);
+    glUniform4f(glGetUniformLocation(mProgramId, name.c_str()), color.value.r, color.value.g, color.value.b, color.value.a);
 }
 
 void OpenglShader::bindUniform(const String& name, glm::mat4 value)

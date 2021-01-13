@@ -1,6 +1,6 @@
+#include "layers/sandbox2d_state.hpp"
 #include "layers/test_state.hpp"
 #include <iostream>
-
 
 class TestGame : public Fluffy::Game
 {
@@ -14,7 +14,8 @@ public:
 
     Unique<BaseState> start() override
     {
-        return CreateUnique<TestState>();
+//        return CreateUnique<TestState>();
+        return CreateUnique<Sandbox2DState>();
     }
 
     [[nodiscard]] std::string getTitle() const override

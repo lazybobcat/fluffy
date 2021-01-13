@@ -16,9 +16,7 @@ void OpenGLRendererAPI::init()
 
 void OpenGLRendererAPI::setClearColor(const Color& color)
 {
-    float red, green, blue, alpha = 0;
-    color.getFloatValues(&red, &green, &blue, &alpha);
-    glClearColor(red, green, blue, alpha);
+    glClearColor(color.value.r, color.value.g, color.value.b, color.value.a);
 }
 
 void OpenGLRendererAPI::clear()

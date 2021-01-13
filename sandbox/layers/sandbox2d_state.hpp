@@ -18,10 +18,10 @@
 #include <iostream>
 #include <opengl.hpp>
 
-class TestState : public State<TestState>
+class Sandbox2DState : public State<Sandbox2DState>
 {
 public:
-    TestState() : cameraController(1280.f / 720.f) {}
+    Sandbox2DState() : cameraController(1280.f / 720.f) {}
 
     void initialize() override
     {
@@ -30,28 +30,9 @@ public:
         // Shader
         shader = Shader::create();
         shader->loadFromFile("assets/shaders/base.vertex.shader", "assets/shaders/base.fragment.shader");
-//        shader->loadFromFile("assets/shaders/sprite.vertex.shader", "assets/shaders/sprite.fragment.shader");
 
         flatColorShader = Shader::create();
         flatColorShader->loadFromFile("assets/shaders/flat_color.vertex.shader", "assets/shaders/base.fragment.shader");
-
-        // set up vertex data (and buffer(s)) and configure vertex attributes
-        // ------------------------------------------------------------------
-        vaTriangle = VertexArray::create();
-        float vertices[3*7] = {
-          0.f, 0.5f, -0.10f, 0.8f, 0.1f, 0.1f, 1.f,
-          0.5f, -0.5f, -0.10f, 0.1f, 0.8f, 0.1f, 1.f,
-          -0.5f, -0.5f, -0.10f, 0.1f, 0.1f, 0.8f, 1.f,
-        };
-        Ref<VertexBuffer> vbTriangle = VertexBuffer::create(vertices, sizeof(vertices));
-        vbTriangle->setLayout({
-                                { ShaderDataType::Vector3f, "aPos" },
-                                { ShaderDataType::Vector4f, "aColor" },
-                              });
-        std::uint32_t indices[3] = { 0, 1, 2 };
-        Ref<IndexBuffer> ibTriangle = IndexBuffer::create(indices, 3);
-        vaTriangle->addVertexBuffer(vbTriangle);
-        vaTriangle->setIndexBuffer(ibTriangle);
 
 
         vaSquare = VertexArray::create();
@@ -63,8 +44,8 @@ public:
         };
         Ref<VertexBuffer> vbSquare = VertexBuffer::create(verticesSquare, sizeof(verticesSquare));
         vbSquare->setLayout({
-                              { ShaderDataType::Vector3f, "aPos" },
-                            });
+          { ShaderDataType::Vector3f, "aPos" },
+        });
         std::uint32_t indicesSquare[6] = { 0, 1, 2, 2, 3, 1 };
         Ref<IndexBuffer> ibSquare = IndexBuffer::create(indicesSquare, 6);
         vaSquare->addVertexBuffer(vbSquare);
@@ -117,18 +98,6 @@ public:
 
     void fixUpdate(Time dt) override
     {
-//        if (Input::isKeyPressed(Keyboard::Key::W)) {
-//            transformSquare.translate({0.f, 1.f * dt.seconds(), 0.f});
-//        } else if (Input::isKeyPressed(Keyboard::Key::S)) {
-//            transformSquare.translate({0.f, -1.f * dt.seconds(), 0.f});
-//        }
-//
-//        if (Input::isKeyPressed(Keyboard::Key::A)) {
-//            transformSquare.translate({-1.f * dt.seconds(), 0.f, 0.f});
-//        } else if (Input::isKeyPressed(Keyboard::Key::D)) {
-//            transformSquare.translate({ 1.f * dt.seconds(), 0.f, 0.f});
-//        }
-
         // Update camera
         cameraController.update(dt);
 
@@ -144,7 +113,7 @@ public:
 
         {
             ImGui::Begin("Settings");
-            ImGui::ColorEdit4("Square color", glm::value_ptr(squareColor));
+            ImGui::ColorEdit4("Square color", glm::value_ptr(squareColor.value));
             ImGui::End();
         }
     }
@@ -159,7 +128,6 @@ public:
         flatColorShader->enable();
         flatColorShader->bindUniform("u_Color", squareColor);
         Renderer::draw(vaSquare, flatColorShader, transformSquare.getMatrix());
-        Renderer::draw(vaTriangle, shader);
 
         Renderer::endScene();
 //        Renderer::flush();
@@ -184,8 +152,7 @@ private:
     Ref<Shader> shader;
     Ref<Shader> flatColorShader;
     Ref<Texture2D> texture;
-    Ref<VertexArray> vaTriangle;
     Ref<VertexArray> vaSquare;
     Transform transformSquare;
-    Vector4f squareColor = {.2f, .8f, .43f, 1.f};
+    Color squareColor = {.2f, .8f, .43f, 1.f};
 };
