@@ -7,6 +7,11 @@ namespace Fluffy {
 class RenderCommand
 {
 public:
+    inline static void init()
+    {
+        mRendererAPI->init();
+    }
+
     inline static void setClearColor(const Color& color = Color::Magenta)
     {
         mRendererAPI->setClearColor(color);

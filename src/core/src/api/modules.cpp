@@ -1,5 +1,6 @@
 #include <fluffy/api/context.hpp>
 #include <fluffy/api/modules.hpp>
+#include <fluffy/graphics/renderer.hpp>
 #include <fluffy/input/input.hpp>
 
 using namespace Fluffy;
@@ -51,6 +52,7 @@ VideoModule::VideoModule(Window::Definition&& windowDefinition)
 void VideoModule::initialize(const Context& context)
 {
     mWindow = Window::create(mWindowDefinition);
+    Renderer::init();
 }
 
 void VideoModule::terminate()

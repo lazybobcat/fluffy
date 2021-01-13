@@ -9,6 +9,7 @@ namespace Fluffy {
 class Renderer
 {
 public:
+    static void init();
     static void beginScene(const Camera& camera);
     static void endScene();
 

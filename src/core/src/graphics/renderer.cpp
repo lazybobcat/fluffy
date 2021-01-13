@@ -5,6 +5,11 @@ using namespace Fluffy;
 
 Renderer::SceneData* Renderer::mSceneData = new Renderer::SceneData();
 
+void Renderer::init()
+{
+    RenderCommand::init();
+}
+
 void Renderer::beginScene(const Camera& camera)
 {
     mSceneData->viewProjectionMatrix = camera.getViewProjection();

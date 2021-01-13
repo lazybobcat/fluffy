@@ -9,6 +9,7 @@ namespace Fluffy {
 class RendererAPI
 {
 public:
+    virtual void init()                                             = 0;
     virtual void setClearColor(const Color& color = Color::Magenta) = 0;
     virtual void clear()                                            = 0;
     virtual void drawIndexed(const Ref<VertexArray>& vertexArray)   = 0;

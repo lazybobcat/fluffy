@@ -30,10 +30,6 @@ public:
     {
         RenderCommand::setClearColor({204, 51, 204, 255});
 
-        // Enable blending @todo move into the renderer init function
-        GlCall(glEnable(GL_BLEND));
-        GlCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
-
         // Shader
         shader = Shader::create();
         shader->loadFromFile("assets/shaders/base.vertex.shader", "assets/shaders/base.fragment.shader");
