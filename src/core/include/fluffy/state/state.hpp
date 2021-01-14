@@ -25,16 +25,19 @@ public:
     virtual void initialize();
     virtual void terminate();
 
-    // If false, States that are further in the StateStack will be updated/drawn until a shielding state is found
-    virtual bool isShielding() const;
     virtual void fixUpdate(Time dt) = 0;
     virtual void variableUpdate(Time dt);
-    virtual void render(Time dt)       = 0;
+    virtual void begin();
+    virtual void render(Time dt) = 0;
+    virtual void end();
     virtual void onEvent(Event& event) = 0;
 
     void pause();
     void resume();
-    bool isPaused() const;
+
+    // If false, States that are further in the StateStack will be updated/drawn until a shielding state is found
+    [[nodiscard]] virtual bool isShielding() const;
+    [[nodiscard]] bool         isPaused() const;
 
 private:
     friend StateStack;

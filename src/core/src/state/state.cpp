@@ -15,6 +15,14 @@ void BaseState::terminate()
 {
 }
 
+void BaseState::begin()
+{
+}
+
+void BaseState::end()
+{
+}
+
 void BaseState::variableUpdate(Time dt)
 {
 }

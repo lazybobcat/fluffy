@@ -75,7 +75,15 @@ void StateStack::variableUpdate(Time dt)
 void StateStack::render(Time dt)
 {
     for (Unique<BaseState>& state : mStack) {
+        state->begin();
+    }
+
+    for (Unique<BaseState>& state : mStack) {
         state->render(dt);
+    }
+
+    for (Unique<BaseState>& state : mStack) {
+        state->end();
     }
 }
 
