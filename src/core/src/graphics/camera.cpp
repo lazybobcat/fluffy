@@ -14,7 +14,7 @@ void OrthographicCamera::setProjectionMatrix(FloatRect bounds)
 
 const glm::mat4& OrthographicCamera::getViewMatrix() const
 {
-    return getInverseTransform().getMatrix();
+    return getInverseTransform();
 }
 
 glm::mat4 OrthographicCamera::getViewProjection() const

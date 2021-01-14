@@ -18,8 +18,6 @@ inline std::uint32_t ShaderDataTypeSize(ShaderDataType type)
             return sizeof(float);
         case ShaderDataType::Bool:
             return sizeof(bool);
-        case ShaderDataType::Transform:
-            return TRANSFORM_NB_COMPONENTS * sizeof(float);
         case ShaderDataType::Vector2f:
             return 2 * sizeof(float);
         case ShaderDataType::Vector3f:
@@ -73,8 +71,6 @@ struct BufferElement
                 return 1;
             case ShaderDataType::Bool:
                 return 1;
-            case ShaderDataType::Transform:
-                return TRANSFORM_NB_COMPONENTS;
             case ShaderDataType::Vector2f:
                 return 2;
             case ShaderDataType::Vector3f:

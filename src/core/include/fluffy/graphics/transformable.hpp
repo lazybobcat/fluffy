@@ -1,6 +1,7 @@
 #pragma once
 
-#include <fluffy/graphics/transform.hpp>
+#include <fluffy/math/math.hpp>
+#include <fluffy/pch.hpp>
 
 namespace Fluffy {
 
@@ -30,16 +31,16 @@ public:
     void     rotateZ(float degrees);
     Vector3f getEulerAngles() const;
 
-    const Transform& getTransform() const;
-    const Transform& getInverseTransform() const;
+    const glm::mat4& getTransformMatrix() const;
+    const glm::mat4& getInverseTransform() const;
 
 private:
     Vector3f          mOrigin;
     Vector3f          mPosition;
     Vector3f          mEulerAngles;
     Vector3f          mScale;
-    mutable Transform mTransform;
-    mutable Transform mInverseTransform;
+    mutable glm::mat4 mTransform;
+    mutable glm::mat4 mInverseTransform;
     mutable bool      mNeedToUpdate        = true;
     mutable bool      mNeedToUpdateInverse = true;
 };

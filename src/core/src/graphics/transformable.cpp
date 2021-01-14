@@ -7,6 +7,8 @@ Transformable::Transformable()
   , mPosition({ 0.f, 0.f, 0.f })
   , mEulerAngles({ 0.f, 0.f, 0.f })
   , mScale({ 1.f, 1.f, 1.f })
+  , mTransform(glm::mat4(1.0f))
+  , mInverseTransform(glm::mat4(1.0f))
 {
 }
 
@@ -101,17 +103,16 @@ Vector3f Transformable::getEulerAngles() const
 {
     return mEulerAngles;
 }
-const Transform& Transformable::getTransform() const
+const glm::mat4& Transformable::getTransformMatrix() const
 {
     if (mNeedToUpdate) {
-        mTransform = Transform::Identity;
-
-        // @todo : maybe use quaternion instead
-        mTransform.rotate(mEulerAngles.y, mOrigin, { 0, 1, 0 });
-        mTransform.rotate(mEulerAngles.z, mOrigin, { 0, 0, 1 });
-        mTransform.rotate(mEulerAngles.x, mOrigin, { 1, 0, 0 });
-        mTransform.translate(mPosition - mOrigin);
-        mTransform.scale(mScale, mOrigin);
+        mTransform = glm::translate(glm::mat4(1.f), mOrigin + mPosition) *
+                     glm::rotate(glm::mat4(1.f), glm::radians(mEulerAngles.x), { 1, 0, 0 }) *
+                     glm::rotate(glm::mat4(1.f), glm::radians(mEulerAngles.y), { 0, 1, 0 }) *
+                     glm::rotate(glm::mat4(1.f), glm::radians(mEulerAngles.z), { 0, 0, 1 }) *
+                     glm::scale(glm::mat4(1.f), mScale) *
+                     glm::translate(glm::mat4(1.0f), -mOrigin - mPosition) *
+                     glm::translate(glm::mat4(1.0f), mPosition);
 
         mNeedToUpdate        = false;
         mNeedToUpdateInverse = true;
@@ -120,10 +121,10 @@ const Transform& Transformable::getTransform() const
     return mTransform;
 }
 
-const Transform& Transformable::getInverseTransform() const
+const glm::mat4& Transformable::getInverseTransform() const
 {
     if (mNeedToUpdate || mNeedToUpdateInverse) {
-        mInverseTransform    = glm::inverse(getTransform().getMatrix());
+        mInverseTransform    = glm::inverse(getTransformMatrix());
         mNeedToUpdateInverse = false;
     }
 

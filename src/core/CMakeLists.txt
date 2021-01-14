@@ -25,7 +25,6 @@ set(SOURCE_FILES
         include/fluffy/graphics/shader.hpp
         include/fluffy/graphics/texture.hpp
         include/fluffy/graphics/vertex.hpp src/graphics/vertex.cpp
-        include/fluffy/graphics/transform.hpp src/graphics/transform.cpp
         include/fluffy/graphics/transformable.hpp src/graphics/transformable.cpp
         include/fluffy/graphics/camera.hpp src/graphics/camera.cpp
         include/fluffy/input/mouse.hpp
