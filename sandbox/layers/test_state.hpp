@@ -10,7 +10,7 @@
 #include <fluffy/graphics/renderer.hpp>
 #include <fluffy/graphics/shader.hpp>
 #include <fluffy/graphics/texture.hpp>
-#include <fluffy/graphics/transform.hpp>
+#include <fluffy/graphics/transformable.hpp>
 #include <fluffy/graphics/vertex.hpp>
 #include <fluffy/input/input.hpp>
 #include <imgui.h>
@@ -45,9 +45,9 @@ public:
         };
         Ref<VertexBuffer> vbTriangle = VertexBuffer::create(vertices, sizeof(vertices));
         vbTriangle->setLayout({
-                                { ShaderDataType::Vector3f, "aPos" },
-                                { ShaderDataType::Vector4f, "aColor" },
-                              });
+            { ShaderDataType::Vector3f, "aPos" },
+            { ShaderDataType::Vector4f, "aColor" },
+        });
         std::uint32_t indices[3] = { 0, 1, 2 };
         Ref<IndexBuffer> ibTriangle = IndexBuffer::create(indices, 3);
         vaTriangle->addVertexBuffer(vbTriangle);
@@ -118,15 +118,15 @@ public:
     void fixUpdate(Time dt) override
     {
 //        if (Input::isKeyPressed(Keyboard::Key::W)) {
-//            transformSquare.translate({0.f, 1.f * dt.seconds(), 0.f});
+//            squareTransform.translate({0.f, 1.f * dt.seconds(), 0.f});
 //        } else if (Input::isKeyPressed(Keyboard::Key::S)) {
-//            transformSquare.translate({0.f, -1.f * dt.seconds(), 0.f});
+//            squareTransform.translate({0.f, -1.f * dt.seconds(), 0.f});
 //        }
 //
 //        if (Input::isKeyPressed(Keyboard::Key::A)) {
-//            transformSquare.translate({-1.f * dt.seconds(), 0.f, 0.f});
+//            squareTransform.translate({-1.f * dt.seconds(), 0.f, 0.f});
 //        } else if (Input::isKeyPressed(Keyboard::Key::D)) {
-//            transformSquare.translate({ 1.f * dt.seconds(), 0.f, 0.f});
+//            squareTransform.translate({ 1.f * dt.seconds(), 0.f, 0.f});
 //        }
 
         // Update camera
@@ -151,14 +151,11 @@ public:
 
     void render(Time dt) override
     {
-        /* Render here */
-        RenderCommand::clear();
-
         Renderer::beginScene(cameraController.getCamera());
 
         flatColorShader->enable();
         flatColorShader->bindUniform("u_Color", squareColor);
-        Renderer::draw(vaSquare, flatColorShader, transformSquare.getMatrix());
+        Renderer::draw(vaSquare, flatColorShader, transformSquare.getTransformMatrix());
         Renderer::draw(vaTriangle, shader);
 
         Renderer::endScene();
@@ -186,6 +183,6 @@ private:
     Ref<Texture2D> texture;
     Ref<VertexArray> vaTriangle;
     Ref<VertexArray> vaSquare;
-    Transform transformSquare;
+    Transformable transformSquare;
     Vector4f squareColor = {.2f, .8f, .43f, 1.f};
 };

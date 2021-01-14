@@ -52,11 +52,14 @@ VideoModule::VideoModule(Window::Definition&& windowDefinition)
 void VideoModule::initialize(const Context& context)
 {
     mWindow = Window::create(mWindowDefinition);
-    Renderer::init();
+    Renderer::initialize();
+    Renderer2D::initialize();
 }
 
 void VideoModule::terminate()
 {
+    Renderer::terminate();
+    Renderer2D::terminate();
 }
 
 /**********************************************************************************************************************/

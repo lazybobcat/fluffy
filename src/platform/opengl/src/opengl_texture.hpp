@@ -1,6 +1,7 @@
 #pragma once
 
 #include <fluffy/graphics/texture.hpp>
+#include <glad/glad.h>
 
 namespace Fluffy {
 
@@ -9,12 +10,15 @@ class OpenglTexture2D : public Resource
 {
 public:
     OpenglTexture2D();
+    OpenglTexture2D(std::uint32_t width, std::uint32_t height);
     OpenglTexture2D(const Path& path, const IntRect& area = IntRect());
     ~OpenglTexture2D();
 
     bool loadFromFile(const Path& path) override;
+    void setData(void* data, std::size_t size) override;
 
     void bind() override;
+    void unbind() override;
 
     void setRepeat(RepeatType type) override;
     void setSmooth(bool smooth) override;
@@ -34,5 +38,6 @@ private:
     bool          mHasMipMaps = false;
     RepeatType    mRepeat     = RepeatType::None;
     IntRect       mArea;
+    GLenum        mInternalFormat, mDataFormat;
 };
 }

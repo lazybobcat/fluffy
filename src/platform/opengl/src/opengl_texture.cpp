@@ -1,7 +1,6 @@
 #include "opengl_texture.hpp"
 #include "opengl.hpp"
 #include <fluffy/graphics/renderer.hpp>
-#include <glad/glad.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image/stb_image.h>
@@ -11,6 +10,11 @@ using namespace Fluffy;
 Ref<Texture2D> Texture2D::create(const Path& path, const IntRect& area)
 {
     return CreateRef<OpenglTexture2D>(path, area);
+}
+
+Ref<Texture2D> Texture2D::create(std::uint32_t width, std::uint32_t height)
+{
+    return CreateRef<OpenglTexture2D>(width, height);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,6 +29,12 @@ OpenglTexture2D::OpenglTexture2D(const Path& path, const IntRect& area)
     loadFromFile(path);
 }
 
+OpenglTexture2D::OpenglTexture2D(std::uint32_t width, std::uint32_t height)
+  : mSize(width, height)
+{
+    create(width, height, GL_RGBA8, GL_RGBA);
+}
+
 OpenglTexture2D::~OpenglTexture2D()
 {
     if (mTextureId) {
@@ -34,16 +44,24 @@ OpenglTexture2D::~OpenglTexture2D()
 
 void OpenglTexture2D::create(unsigned int width, unsigned int height, unsigned int internalFormat, unsigned int dataFormat)
 {
+    mInternalFormat = internalFormat;
+    mDataFormat = dataFormat;
+    mSize = {width, height};
+
     if (!mTextureId) {
         glGenTextures(1, &mTextureId);
     }
 
     bind();
-    GlCall(glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, dataFormat, GL_UNSIGNED_BYTE, nullptr));
+    GlCall(glTexImage2D(GL_TEXTURE_2D, 0, mInternalFormat, width, height, 0, mDataFormat, GL_UNSIGNED_BYTE, nullptr));
+
+    updateRepeatability();
 }
 
 bool OpenglTexture2D::loadFromFile(const Path& path)
 {
+    stbi_set_flip_vertically_on_load(true);
+
     // Load image
     int            width, height, channels;
     unsigned char* data = stbi_load(path.toString().c_str(), &width, &height, &channels, 0);
@@ -102,9 +120,23 @@ bool OpenglTexture2D::loadFromFile(const Path& path)
     return true;
 }
 
+void OpenglTexture2D::setData(void* data, std::size_t size)
+{
+    bind();
+
+    std::uint32_t bpp = mDataFormat == GL_RGBA ? 4 : 3;
+    FLUFFY_ASSERT(size == (mSize.x * mSize.y * bpp), "The size of the data does not match the texture size!");
+    GlCall(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, mSize.x, mSize.y, mDataFormat, GL_UNSIGNED_BYTE, data));
+}
+
 void OpenglTexture2D::bind()
 {
     glBindTexture(GL_TEXTURE_2D, mTextureId);
+}
+
+void OpenglTexture2D::unbind()
+{
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void OpenglTexture2D::setRepeat(RepeatType type)

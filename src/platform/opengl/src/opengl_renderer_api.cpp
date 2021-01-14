@@ -8,10 +8,14 @@ RendererAPI* RenderCommand::mRendererAPI = new OpenGLRendererAPI();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void OpenGLRendererAPI::init()
+void OpenGLRendererAPI::initialize()
 {
     GlCall(glEnable(GL_BLEND));
     GlCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+}
+
+void OpenGLRendererAPI::terminate()
+{
 }
 
 void OpenGLRendererAPI::setClearColor(const Color& color)

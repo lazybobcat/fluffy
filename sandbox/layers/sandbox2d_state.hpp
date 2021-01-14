@@ -10,7 +10,7 @@
 #include <fluffy/graphics/renderer.hpp>
 #include <fluffy/graphics/shader.hpp>
 #include <fluffy/graphics/texture.hpp>
-#include <fluffy/graphics/transform.hpp>
+#include <fluffy/graphics/transformable.hpp>
 #include <fluffy/graphics/vertex.hpp>
 #include <fluffy/input/input.hpp>
 #include <imgui.h>
@@ -27,29 +27,8 @@ public:
     {
         RenderCommand::setClearColor(Color::fromInt8(204, 51, 204, 255));
 
-        // Shader
-        shader = Shader::create();
-        shader->loadFromFile("assets/shaders/base.vertex.shader", "assets/shaders/base.fragment.shader");
-
-        flatColorShader = Shader::create();
-        flatColorShader->loadFromFile("assets/shaders/flat_color.vertex.shader", "assets/shaders/base.fragment.shader");
-
-
-        vaSquare = VertexArray::create();
-        float verticesSquare[4*3] = {
-          0.75f, -0.75f, 0.0f,
-          0.75f, 0.75f, 0.0f,
-          -0.75f, -0.75f, 0.0f,
-          -0.75f, 0.75f, 0.0f,
-        };
-        Ref<VertexBuffer> vbSquare = VertexBuffer::create(verticesSquare, sizeof(verticesSquare));
-        vbSquare->setLayout({
-          { ShaderDataType::Vector3f, "aPos" },
-        });
-        std::uint32_t indicesSquare[6] = { 0, 1, 2, 2, 3, 1 };
-        Ref<IndexBuffer> ibSquare = IndexBuffer::create(indicesSquare, 6);
-        vaSquare->addVertexBuffer(vbSquare);
-        vaSquare->setIndexBuffer(ibSquare);
+        squareTransform.setScale({.5f, 0.5f, 1.f});
+        squareTransform.move({0.f, 0.f, 0.1f});
 
         // My texture
         texture = Texture2D::create("assets/textures/alpaca.png");
@@ -101,6 +80,22 @@ public:
         // Update camera
         cameraController.update(dt);
 
+        if (Input::isKeyPressed(Keyboard::Key::J)) {
+            squareTransform.rotateZ(10.f * dt.seconds());
+        }
+        if (Input::isKeyPressed(Keyboard::Key::Right)) {
+            squareTransform.move({ 5.f * dt.seconds(), 0.f});
+        }
+        if (Input::isKeyPressed(Keyboard::Key::Left)) {
+            squareTransform.move({ -5.f * dt.seconds(), 0.f});
+        }
+        if (Input::isKeyPressed(Keyboard::Key::Up)) {
+            squareTransform.move({ 0.f, 5.f * dt.seconds()});
+        }
+        if (Input::isKeyPressed(Keyboard::Key::Down)) {
+            squareTransform.move({ 0.f, -5.f * dt.seconds()});
+        }
+
         // ImGUI Stuff
         auto definition = getContext()->video->getWindow()->getDefinition();
         ImGuiIO& io = ImGui::GetIO();
@@ -114,23 +109,19 @@ public:
         {
             ImGui::Begin("Settings");
             ImGui::ColorEdit4("Square color", glm::value_ptr(squareColor.value));
+            ImGui::ColorEdit4("Alpaca color", glm::value_ptr(alpacaColor.value));
             ImGui::End();
         }
     }
 
     void render(Time dt) override
     {
-        /* Render here */
-        RenderCommand::clear();
+        Renderer2D::beginScene(cameraController.getCamera());
 
-        Renderer::beginScene(cameraController.getCamera());
+        Renderer2D::drawQuad(squareColor, glm::mat4(1.f));
+        Renderer2D::drawQuad(texture, alpacaColor, squareTransform.getTransformMatrix());
 
-        flatColorShader->enable();
-        flatColorShader->bindUniform("u_Color", squareColor);
-        Renderer::draw(vaSquare, flatColorShader, transformSquare.getMatrix());
-
-        Renderer::endScene();
-//        Renderer::flush();
+        Renderer2D::endScene();
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -149,10 +140,8 @@ public:
 
 private:
     OrthographicCameraController cameraController;
-    Ref<Shader> shader;
-    Ref<Shader> flatColorShader;
     Ref<Texture2D> texture;
-    Ref<VertexArray> vaSquare;
-    Transform transformSquare;
+    Transformable squareTransform;
     Color squareColor = {.2f, .8f, .43f, 1.f};
+    Color alpacaColor = {1.f, 1.f, 1.f, 1.f};
 };

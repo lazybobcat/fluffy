@@ -9,7 +9,12 @@ class RenderCommand
 public:
     inline static void init()
     {
-        mRendererAPI->init();
+        mRendererAPI->initialize();
+    }
+
+    inline static void terminate()
+    {
+        mRendererAPI->terminate();
     }
 
     inline static void setClearColor(const Color& color = Color::Magenta)
