@@ -15,7 +15,7 @@ endif()
 
 set(FLUFFY_INTERNAL_LIBS fmt imgui fluffy-utils fluffy-core fluffy-ecs)
 
-# Platorm depndencies
+# Platform dependencies
 set(FLUFFY_USE_OPENGL 1)
 set(FLUFFY_USE_OPENGL_ES2 0)
 set(FLUFFY_USE_OPENGL_ES3 0)
