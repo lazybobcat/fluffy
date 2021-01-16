@@ -1,8 +1,8 @@
 #pragma once
 
-#include <fluffy/pch.hpp>
-#include <fluffy/definitions.hpp>
 #include <debugbreak.h>
+#include <fluffy/definitions.hpp>
+#include <fluffy/pch.hpp>
 
 #ifdef FLUFFY_DEBUG
 #define FLUFFY_ASSERT(condition, message) FluffyAssert(condition, message, __FILE__, __LINE__)
