@@ -14,6 +14,7 @@
 #include <fluffy/graphics/vertex.hpp>
 #include <fluffy/imgui/imgui_container.hpp>
 #include <fluffy/imgui/windows/about_window.hpp>
+#include <fluffy/imgui/windows/log_window.hpp>
 #include <fluffy/imgui/windows/profiling_window.hpp>
 #include <fluffy/imgui/windows/toolbar_window.hpp>
 #include <fluffy/input/input.hpp>
@@ -41,13 +42,21 @@ public:
 
         // ImGui
         container.pack(CreateRef<ToolbarWindow>(openedWindows));
+        {
+            ImGuiWindowDefinition logDefinition;
+            logDefinition.title       = "Logs";
+            logDefinition.openControl = &openedWindows.logsWindowOpened;
+            container.pack(CreateRef<LogWindow>(logDefinition));
+        }
 #ifdef FLUFFY_PROFILING_ACTIVE
         container.pack(CreateRef<ProfilingWindow>(ProfilingWindowDefinition("Profiling", &openedWindows.profilingWindowOpened)));
 #endif
-        ImGuiWindowDefinition aboutDefinition;
-        aboutDefinition.title = "About";
-        aboutDefinition.openControl = &openedWindows.aboutWindowOpened;
-        container.pack(CreateRef<AboutWindow>(aboutDefinition));
+        {
+            ImGuiWindowDefinition aboutDefinition;
+            aboutDefinition.title       = "About";
+            aboutDefinition.openControl = &openedWindows.aboutWindowOpened;
+            container.pack(CreateRef<AboutWindow>(aboutDefinition));
+        }
     }
 
     void terminate() override

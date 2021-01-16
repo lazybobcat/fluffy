@@ -5,19 +5,6 @@
 
 using namespace Fluffy;
 
-String currentDateTime()
-{
-    time_t    now = time(0);
-    struct tm tstruct;
-    char      buf[80];
-    tstruct = *localtime(&now);
-    // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
-    // for more information about date/time format
-    strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
-
-    return String(buf);
-}
-
 std::ostream& operator<<(std::ostream& os, LogLevel level)
 {
     switch (level) {
@@ -123,4 +110,11 @@ void Logger::log(LogLevel level, const String& message)
             sink->log(level, message);
         }
     }
+}
+
+void Logger::addSink(BaseLoggerSink* sink)
+{
+    FLUFFY_ASSERT(sInstance, "No Logger instance has been created, use Logger::Init()");
+
+    sInstance->mSinks.insert(sink);
 }

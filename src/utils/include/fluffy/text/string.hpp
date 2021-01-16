@@ -24,4 +24,5 @@ inline String printString(const String& base, Args... args)
 }
 
 String fromUTF32(String32 string);
+String currentDateTime();
 }

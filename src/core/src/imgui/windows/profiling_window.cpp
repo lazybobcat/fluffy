@@ -43,9 +43,6 @@ void ProfilingWindow::begin()
         ImVec2         work_area_pos  = viewport->GetWorkPos(); // Instead of using viewport->Pos we use GetWorkPos() to avoid menu bars, if any!
         ImVec2         work_area_size = viewport->GetWorkSize();
         ImVec2         window_pos     = ImVec2((mCorner & 1) ? (work_area_pos.x + work_area_size.x - DISTANCE) : (work_area_pos.x + DISTANCE), (mCorner & 2) ? (work_area_pos.y + work_area_size.y - DISTANCE) : (work_area_pos.y + DISTANCE));
-        if (mCorner == 0 || mCorner == 1) {
-            window_pos.y += DISTANCE;
-        }
         ImVec2 window_pos_pivot = ImVec2((mCorner & 1) ? 1.0f : 0.0f, (mCorner & 2) ? 1.0f : 0.0f);
         ImGui::SetNextWindowPos(window_pos, ImGuiCond_Always, window_pos_pivot);
         ImGui::SetNextWindowViewport(viewport->ID);

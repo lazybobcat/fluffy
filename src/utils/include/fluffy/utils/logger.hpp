@@ -53,6 +53,7 @@ class Logger
 public:
     static void init(bool testMode = false);
     static void clear();
+    static void addSink(BaseLoggerSink* sink); // Logger takes ownership of the pointer
 
     template<typename... Args>
     static void debug(const String& message, Args... args)

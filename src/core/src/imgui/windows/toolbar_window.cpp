@@ -21,6 +21,7 @@ void ToolbarWindow::customRender()
 #ifdef FLUFFY_PROFILING_ACTIVE
             ImGui::MenuItem("Profiling", nullptr, &mWindowTracker.profilingWindowOpened);
 #endif
+            ImGui::MenuItem("Logs", nullptr, &mWindowTracker.logsWindowOpened);
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Help")) {
