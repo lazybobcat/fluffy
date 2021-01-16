@@ -35,16 +35,16 @@ but the goal is to make the user write as little code as possible and instead us
 
 ## Fluffy uses
 
+* GLFW For window handling
+* GLM For graphic maths
+* [ImGui](https://github.com/ocornut/imgui) Because it's awesome
+* [STB](http://nothings.org/stb) For image loading
+* [FMT](https://fmt.dev/) For text and log formatting
+* [JustasMasiulis/circular_buffer](https://github.com/JustasMasiulis/circular_buffer) For the useful header-only circular_buffer class
 * [Bandit/Bandit](https://github.com/banditcpp/) For unit testing
 * [open-source-parsers/jsoncpp](https://github.com/open-source-parsers/jsoncpp) For serialization stuff and loading data
 * GLAD To bind to OpenGL
-* GLFW For window handling
-* GLM For graphic maths
-* [ImGUI](https://github.com/ocornut/imgui) Because it's awesome
-* [STB](http://nothings.org/stb) For image loading
-* [FMT](https://fmt.dev/) For text and log formatting
 * [scottt/debugbreak](https://github.com/scottt/debugbreak) For breakpoints
-* [JustasMasiulis/circular_buffer](https://github.com/JustasMasiulis/circular_buffer) For the useful header-only circular_buffer class
 
 ## How to compile
 
