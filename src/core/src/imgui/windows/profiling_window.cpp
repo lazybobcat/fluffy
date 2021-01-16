@@ -2,9 +2,11 @@
 
 using namespace Fluffy;
 
+#ifdef FLUFFY_PROFILING_ACTIVE
+
 constexpr Vector2f SMALL_SIZE = Vector2f(300, 90);
-constexpr Vector2f BIG_SIZE = Vector2f(390, 240);
-constexpr float DISTANCE = 10.f;
+constexpr Vector2f BIG_SIZE   = Vector2f(390, 240);
+constexpr float    DISTANCE   = 10.f;
 
 ProfilingWindowDefinition::ProfilingWindowDefinition(const char* title, bool* openControl, ImGuiWindowFlags flags)
   : ImGuiWindowDefinition{ title, openControl, flags }
@@ -33,15 +35,14 @@ void ProfilingWindow::update(Time dt)
 
 void ProfilingWindow::begin()
 {
-    ImGuiIO& io = ImGui::GetIO();
+    ImGuiIO& io  = ImGui::GetIO();
     mWindowFlags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
-    if (mCorner != -1)
-    {
+    if (mCorner != -1) {
         mWindowFlags |= ImGuiWindowFlags_NoMove;
-        ImGuiViewport* viewport = ImGui::GetMainViewport();
-        ImVec2 work_area_pos = viewport->GetWorkPos();   // Instead of using viewport->Pos we use GetWorkPos() to avoid menu bars, if any!
-        ImVec2 work_area_size = viewport->GetWorkSize();
-        ImVec2 window_pos = ImVec2((mCorner & 1) ? (work_area_pos.x + work_area_size.x - DISTANCE) : (work_area_pos.x + DISTANCE), (mCorner & 2) ? (work_area_pos.y + work_area_size.y - DISTANCE) : (work_area_pos.y + DISTANCE));
+        ImGuiViewport* viewport       = ImGui::GetMainViewport();
+        ImVec2         work_area_pos  = viewport->GetWorkPos(); // Instead of using viewport->Pos we use GetWorkPos() to avoid menu bars, if any!
+        ImVec2         work_area_size = viewport->GetWorkSize();
+        ImVec2         window_pos     = ImVec2((mCorner & 1) ? (work_area_pos.x + work_area_size.x - DISTANCE) : (work_area_pos.x + DISTANCE), (mCorner & 2) ? (work_area_pos.y + work_area_size.y - DISTANCE) : (work_area_pos.y + DISTANCE));
         if (mCorner == 0 || mCorner == 1) {
             window_pos.y += DISTANCE;
         }
@@ -57,7 +58,7 @@ void ProfilingWindow::customRender()
 {
     FLUFFY_PROFILE_SCOPE("ImGui Profiling rendering");
 
-//    renderFpsChart();
+    //    renderFpsChart();
     renderStats();
     ImGui::Separator();
     renderScopeChart();
@@ -116,14 +117,19 @@ void ProfilingWindow::renderScopeChart()
 
 void ProfilingWindow::renderContextMenu()
 {
-    if (ImGui::BeginPopupContextWindow())
-    {
-        if (ImGui::MenuItem("Custom",       nullptr, mCorner == -1)) mCorner = -1;
-        if (ImGui::MenuItem("Top-left",     nullptr, mCorner == 0)) mCorner = 0;
-        if (ImGui::MenuItem("Top-right",    nullptr, mCorner == 1)) mCorner = 1;
-        if (ImGui::MenuItem("Bottom-left",  nullptr, mCorner == 2)) mCorner = 2;
-        if (ImGui::MenuItem("Bottom-right", nullptr, mCorner == 3)) mCorner = 3;
-        if (ImGui::MenuItem("Close")) *mWindowOpenControl = false;
+    if (ImGui::BeginPopupContextWindow()) {
+        if (ImGui::MenuItem("Custom", nullptr, mCorner == -1))
+            mCorner = -1;
+        if (ImGui::MenuItem("Top-left", nullptr, mCorner == 0))
+            mCorner = 0;
+        if (ImGui::MenuItem("Top-right", nullptr, mCorner == 1))
+            mCorner = 1;
+        if (ImGui::MenuItem("Bottom-left", nullptr, mCorner == 2))
+            mCorner = 2;
+        if (ImGui::MenuItem("Bottom-right", nullptr, mCorner == 3))
+            mCorner = 3;
+        if (ImGui::MenuItem("Close"))
+            *mWindowOpenControl = false;
         ImGui::EndPopup();
     }
 }
@@ -158,3 +164,4 @@ void ProfilingWindow::scopeValueGetter(float* startTimestamp, float* endTimestam
     }
 }
 
+#endif

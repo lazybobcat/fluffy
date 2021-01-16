@@ -41,8 +41,13 @@ public:
 
         // ImGui
         container.pack(CreateRef<ToolbarWindow>(openedWindows));
+#ifdef FLUFFY_PROFILING_ACTIVE
         container.pack(CreateRef<ProfilingWindow>(ProfilingWindowDefinition("Profiling", &openedWindows.profilingWindowOpened)));
-        container.pack(CreateRef<AboutWindow>(ProfilingWindowDefinition("About", &openedWindows.aboutWindowOpened)));
+#endif
+        ImGuiWindowDefinition aboutDefinition;
+        aboutDefinition.title = "About";
+        aboutDefinition.openControl = &openedWindows.aboutWindowOpened;
+        container.pack(CreateRef<AboutWindow>(aboutDefinition));
     }
 
     void terminate() override
