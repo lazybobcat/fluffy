@@ -26,11 +26,6 @@ void Game::fixUpdate(Time dt)
     mStateStack->fixUpdate(dt);
 }
 
-void Game::variableUpdate(Time dt)
-{
-    mStateStack->variableUpdate(dt);
-}
-
 void Game::render(Time dt)
 {
     mStateStack->render(dt);

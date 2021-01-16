@@ -5,6 +5,7 @@
 #include <fluffy/game/game_loop.hpp>
 #include <fluffy/game/game_main.hpp>
 #include <fluffy/pch.hpp>
+#include <fluffy/profiling/profiler.hpp>
 
 using namespace Fluffy;
 
@@ -12,6 +13,7 @@ template<typename T>
 int GameMain::main(int argc, char* argv[])
 {
     Logger::init(false);
+    FLUFFY_PROFILE_START_SESSION(ScopeProfiler::SessionType::MainThread);
 
     std::vector<String> args;
     for (int i = 0; i < argc; ++i) {
@@ -34,6 +36,7 @@ int GameMain::main(int argc, char* argv[])
         return 1;
     }
 
+    FLUFFY_PROFILE_END_SESSION(ScopeProfiler::SessionType::MainThread);
     Logger::clear();
 
     return 0;

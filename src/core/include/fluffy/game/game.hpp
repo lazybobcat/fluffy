@@ -37,7 +37,6 @@ private:
     Ref<Context> getContext() const;
 
     void fixUpdate(Time dt);
-    void variableUpdate(Time dt);
     void render(Time dt);
     void onEvent(Event& event);
 

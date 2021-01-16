@@ -60,18 +60,6 @@ void StateStack::fixUpdate(Time dt)
     applyPendingChanges();
 }
 
-void StateStack::variableUpdate(Time dt)
-{
-    for (auto it = mStack.rbegin(); it != mStack.rend(); ++it) {
-        (*it)->variableUpdate(dt);
-        if ((*it)->isShielding()) {
-            break;
-        }
-    }
-
-    applyPendingChanges();
-}
-
 void StateStack::render(Time dt)
 {
     for (Unique<BaseState>& state : mStack) {

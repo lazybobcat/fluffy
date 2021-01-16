@@ -1,7 +1,6 @@
 #include <fluffy/event/event.hpp>
 #include <fluffy/game/game_loop.hpp>
-#include <fluffy/pch.hpp>
-#include <fluffy/time/clock.hpp>
+#include <fluffy/profiling/profiler.hpp>
 
 using namespace Fluffy;
 
@@ -31,31 +30,41 @@ void GameLoop::runLoop()
         timeSinceLastUpdate = clock.elapsedTime();
 
         while (timeSinceLastUpdate >= timePerFrame) {
+            FLUFFY_PROFILE_FRAME();
             timeSinceLastUpdate -= timePerFrame;
 
             // Events
-            window->update();
-            while (window->pollEvents(event)) {
-                game.onEvent(event);
+            {
+                FLUFFY_PROFILE_SCOPE("Events");
+                window->update();
+                while (window->pollEvents(event)) {
+                    game.onEvent(event);
+                }
+                processInput();
             }
-            processInput();
 
             // Update
-            game.fixUpdate(timePerFrame);
+            {
+                FLUFFY_PROFILE_SCOPE("Update");
+                game.fixUpdate(timePerFrame);
+            }
 
             // Draw
-            game.render(timePerFrame);
-            window->swapBuffers();
+            {
+                FLUFFY_PROFILE_SCOPE("Rendering");
+                game.render(timePerFrame);
+                window->swapBuffers();
+            }
 
             restartClock = true;
+            FLUFFY_PROFILE_END_FRAME();
         }
 
         if (restartClock) {
-            clock.restart();
+            auto elapsed = clock.restart();
+            FLUFFY_PROFILE_FRAME_TIME(elapsed);
             restartClock = false;
         }
-
-        game.variableUpdate(timeSinceLastUpdate);
     }
 }
 

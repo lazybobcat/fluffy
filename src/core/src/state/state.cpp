@@ -23,10 +23,6 @@ void BaseState::end()
 {
 }
 
-void BaseState::variableUpdate(Time dt)
-{
-}
-
 bool BaseState::isShielding() const
 {
     return true;

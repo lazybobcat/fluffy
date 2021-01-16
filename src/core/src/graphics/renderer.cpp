@@ -1,5 +1,6 @@
 #include <fluffy/graphics/render_command.hpp>
 #include <fluffy/graphics/renderer.hpp>
+#include <fluffy/profiling/profiler.hpp>
 
 using namespace Fluffy;
 
@@ -106,6 +107,7 @@ void Renderer2D::drawQuad(const Color& color, const glm::mat4& transform)
     RenderingData->blankTexture->bind();
 
     RenderingData->vertexArray->bind();
+    FLUFFY_PROFILE_DRAW_CALL();
     RenderCommand::drawIndexed(RenderingData->vertexArray);
 
     RenderingData->blankTexture->unbind();
@@ -119,6 +121,7 @@ void Renderer2D::drawQuad(const Ref<Texture2D>& texture, const Color& color, con
     texture->bind();
 
     RenderingData->vertexArray->bind();
+    FLUFFY_PROFILE_DRAW_CALL();
     RenderCommand::drawIndexed(RenderingData->vertexArray);
 
     texture->unbind();

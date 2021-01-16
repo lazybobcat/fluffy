@@ -26,7 +26,6 @@ public:
     virtual void terminate();
 
     virtual void fixUpdate(Time dt) = 0;
-    virtual void variableUpdate(Time dt);
     virtual void begin();
     virtual void render(Time dt) = 0;
     virtual void end();
