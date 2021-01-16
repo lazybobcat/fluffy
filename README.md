@@ -21,6 +21,7 @@ but the goal is to make the user write as little code as possible and instead us
 * Resource managers
 * States (screens/layers)
 * Useful utility classes like Time, Signals/slots, Path, etc.
+* ImGui windows to help the game development and display useful information
 
 ## Fluffy will contain (probably)
 
@@ -43,6 +44,7 @@ but the goal is to make the user write as little code as possible and instead us
 * [STB](http://nothings.org/stb) For image loading
 * [FMT](https://fmt.dev/) For text and log formatting
 * [scottt/debugbreak](https://github.com/scottt/debugbreak) For breakpoints
+* [JustasMasiulis/circular_buffer](https://github.com/JustasMasiulis/circular_buffer) For the useful header-only circular_buffer class
 
 ## How to compile
 

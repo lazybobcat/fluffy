@@ -30,6 +30,11 @@ set(SOURCE_FILES
         include/fluffy/input/mouse.hpp
         include/fluffy/input/keyboard.hpp
         include/fluffy/input/input.hpp src/input/input.cpp
+        include/fluffy/profiling/profiler.hpp src/profiling/profiler.cpp
+        include/fluffy/profiling/scope_profiling.hpp src/profiling/scope_profiling.cpp
+        include/fluffy/profiling/frame_profiling.hpp src/profiling/frame_profiling.cpp
+        include/fluffy/profiling/memory_profiling.hpp src/profiling/memory_profiling.cpp
+        include/fluffy/profiling/rendering_profiling.hpp src/profiling/rendering_profiling.cpp
         include/fluffy/fluffy_core.hpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)

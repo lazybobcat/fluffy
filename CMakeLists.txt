@@ -13,7 +13,7 @@ else()
     message(FATAL_ERROR "Your platform is not supported! (yet?)")
 endif()
 
-set(FLUFFY_INTERNAL_LIBS fmt imgui fluffy-utils fluffy-core fluffy-ecs)
+set(FLUFFY_INTERNAL_LIBS fmt imgui imgui-flame-graph fluffy-utils fluffy-core fluffy-ecs)
 
 # Platform dependencies
 set(FLUFFY_USE_OPENGL 1)
@@ -56,11 +56,14 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/fmt/include)
 # ImGUI
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/imgui)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/imgui)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/imgui-flame-graph)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/imgui-flame-graph)
 
 # Contrib libraries
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/glad/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/glm)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/stb)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/circular_buffer)
 
 # Fluffy
 add_subdirectory(src/utils)

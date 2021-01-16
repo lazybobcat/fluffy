@@ -16,7 +16,7 @@ public:
     Time() = default;
 
     float        seconds() const;
-    std::int32_t milliseconds() const;
+    float        milliseconds() const;
     std::int64_t microseconds() const;
 
 private:
@@ -25,7 +25,7 @@ private:
 
     friend Time seconds(float);
     friend Time seconds(std::chrono::seconds);
-    friend Time milliseconds(std::int32_t);
+    friend Time milliseconds(float);
     friend Time milliseconds(std::chrono::milliseconds);
     friend Time microseconds(std::int64_t);
     friend Time microseconds(std::chrono::microseconds);
