@@ -25,10 +25,12 @@ void ProfilingWindow::update(Time dt)
 
     mLastReportTime += dt;
     if (mLastReportTime > seconds(1.f)) {
-        mLastReportTime         = Time::Zero;
-        auto profiler           = Profiler::get();
-        mLastReport.frameTime   = profiler->getLastFrameTime();
-        mLastReport.sessions    = profiler->getSessions();
+        mLastReportTime       = Time::Zero;
+        auto profiler         = Profiler::get();
+        mLastReport.frameTime = profiler->getLastFrameTime();
+        if (!mPaused) {
+            mLastReport.sessions = profiler->getSessions();
+        }
         mLastReport.drawCalls   = profiler->getDrawCalls();
         mLastReport.memoryUsage = profiler->getMemoryUsage();
     }
@@ -150,6 +152,9 @@ void ProfilingWindow::renderPlotContextMenu(ScopeProfiler::SessionType type)
         if (ImGui::MenuItem("Print in file")) {
             Profiler::get()->saveToFile(type);
         }
+        if (ImGui::MenuItem("Pause", nullptr, mPaused)) {
+            pause();
+        }
         ImGui::EndPopup();
     }
 }
@@ -182,6 +187,16 @@ void ProfilingWindow::scopeValueGetter(float* startTimestamp, float* endTimestam
     if (level) {
         *level = scope.level;
     }
+}
+
+void ProfilingWindow::pause()
+{
+    mPaused = !mPaused;
+}
+
+bool ProfilingWindow::isPaused() const
+{
+    return mPaused;
 }
 
 #endif

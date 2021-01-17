@@ -27,7 +27,9 @@ class ProfilingWindow : public ImGuiWindow
 public:
     explicit ProfilingWindow(const ProfilingWindowDefinition& properties);
 
-    void update(Time dt) override;
+    void               update(Time dt) override;
+    void               pause();
+    [[nodiscard]] bool isPaused() const;
 
 protected:
     void customRender() override;
@@ -46,7 +48,8 @@ private:
 private:
     ProfileReport mLastReport;
     Time          mLastReportTime = Time::Zero;
-    int           mCorner          = 2;
+    int           mCorner         = 2;
+    bool          mPaused         = false;
 };
 }
 
