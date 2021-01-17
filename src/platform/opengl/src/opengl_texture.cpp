@@ -1,6 +1,7 @@
 #include "opengl_texture.hpp"
 #include "opengl.hpp"
 #include <fluffy/graphics/renderer.hpp>
+#include <fluffy/profiling/profiler.hpp>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image/stb_image.h>
@@ -44,6 +45,8 @@ OpenglTexture2D::~OpenglTexture2D()
 
 void OpenglTexture2D::create(unsigned int width, unsigned int height, unsigned int internalFormat, unsigned int dataFormat)
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     mInternalFormat = internalFormat;
     mDataFormat = dataFormat;
     mSize = {width, height};
@@ -60,6 +63,8 @@ void OpenglTexture2D::create(unsigned int width, unsigned int height, unsigned i
 
 bool OpenglTexture2D::loadFromFile(const Path& path)
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     stbi_set_flip_vertically_on_load(true);
 
     // Load image
@@ -122,6 +127,8 @@ bool OpenglTexture2D::loadFromFile(const Path& path)
 
 void OpenglTexture2D::setData(void* data, std::size_t size)
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     bind();
 
     std::uint32_t bpp = mDataFormat == GL_RGBA ? 4 : 3;
@@ -131,11 +138,15 @@ void OpenglTexture2D::setData(void* data, std::size_t size)
 
 void OpenglTexture2D::bind()
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     glBindTexture(GL_TEXTURE_2D, mTextureId);
 }
 
 void OpenglTexture2D::unbind()
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
@@ -155,6 +166,8 @@ void OpenglTexture2D::setSmooth(bool smooth)
 
 void OpenglTexture2D::generateMipmaps()
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     mHasMipMaps = true;
     bind();
     GlCall(glGenerateMipmap(GL_TEXTURE_2D));
@@ -168,6 +181,8 @@ Vector2u OpenglTexture2D::getSize() const
 
 void OpenglTexture2D::updateSmoothness()
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     GlCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mSmoothed ? GL_LINEAR : GL_NEAREST));
 
     if (mHasMipMaps) {
@@ -179,6 +194,8 @@ void OpenglTexture2D::updateSmoothness()
 
 void OpenglTexture2D::updateRepeatability()
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     switch (mRepeat) {
         case RepeatType::None:
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);

@@ -25,6 +25,8 @@ LogWindow::LogWindow(const ImGuiWindowDefinition& properties)
 
 void LogWindow::log(const String& message)
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     int old_size = mBuffer.size();
     mBuffer.append(message.c_str());
     for (int new_size = mBuffer.size(); old_size < new_size; old_size++) {
@@ -43,7 +45,7 @@ void LogWindow::clear()
 
 void LogWindow::customRender()
 {
-    FLUFFY_PROFILE_SCOPE("ImGui Log rendering");
+    FLUFFY_PROFILE_FUNCTION();
 
     mFilter.Draw("Filter");
 

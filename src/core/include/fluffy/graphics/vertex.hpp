@@ -130,7 +130,7 @@ public:
     virtual void                setLayout(const BufferLayout& layout) = 0;
     virtual const BufferLayout& getLayout() const                     = 0;
 
-    virtual void setData(void* data, std::size_t size, std::size_t offset = 0) = 0;
+    virtual void setData(void* data, std::size_t size) = 0;
 
     virtual void bind()   = 0;
     virtual void unbind() = 0;

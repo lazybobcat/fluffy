@@ -61,6 +61,7 @@ private:
 #define FLUFFY_PROFILE_FRAME() Fluffy::Profiler::get()->startFrame()
 #define FLUFFY_PROFILE_END_FRAME() Fluffy::Profiler::get()->endFrame()
 #define FLUFFY_PROFILE_SCOPE(name) auto COMBINE(scope, __LINE__) = Fluffy::Profiler::get()->scope(name)
+#define FLUFFY_PROFILE_FUNCTION() FLUFFY_PROFILE_SCOPE(__FUNCSIG__)
 #define FLUFFY_PROFILE_FRAME_TIME(time) Fluffy::Profiler::get()->frameTime(time)
 #define FLUFFY_PROFILE_DRAW_CALL() Fluffy::Profiler::get()->drawCall()
 
@@ -71,6 +72,7 @@ private:
 #define FLUFFY_PROFILE_FRAME()
 #define FLUFFY_PROFILE_END_FRAME()
 #define FLUFFY_PROFILE_SCOPE(name)
+#define FLUFFY_PROFILE_FUNCTION()
 #define FLUFFY_PROFILE_FRAME_TIME(time)
 #define FLUFFY_PROFILE_DRAW_CALL()
 

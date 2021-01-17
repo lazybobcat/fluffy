@@ -21,7 +21,8 @@ ProfilingWindow::ProfilingWindow(const ProfilingWindowDefinition& properties)
 
 void ProfilingWindow::update(Time dt)
 {
-    FLUFFY_PROFILE_SCOPE("ImGUI Profiling update");
+    FLUFFY_PROFILE_FUNCTION();
+
     mLastReportTime += dt;
     if (mLastReportTime > seconds(1.f)) {
         mLastReportTime         = Time::Zero;
@@ -35,6 +36,8 @@ void ProfilingWindow::update(Time dt)
 
 void ProfilingWindow::begin()
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     ImGuiIO& io  = ImGui::GetIO();
     mWindowFlags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
     if (mCorner != -1) {

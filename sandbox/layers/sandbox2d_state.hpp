@@ -31,6 +31,7 @@ public:
 
     void initialize() override
     {
+        FLUFFY_PROFILE_FUNCTION();
         RenderCommand::setClearColor(Color::fromInt8(204, 51, 204, 255));
 
         squareTransform.setScale({ .5f, 0.5f, 1.f });
@@ -61,11 +62,12 @@ public:
 
     void terminate() override
     {
+        FLUFFY_PROFILE_FUNCTION();
     }
 
     void fixUpdate(Time dt) override
     {
-        FLUFFY_PROFILE_SCOPE("Sandbox2DState::fixUpdate");
+        FLUFFY_PROFILE_FUNCTION();
 
         // Update camera
         cameraController.update(dt);
@@ -91,7 +93,7 @@ public:
 
     void render(Time dt) override
     {
-        FLUFFY_PROFILE_SCOPE("Sandbox2DState::render");
+        FLUFFY_PROFILE_FUNCTION();
 
         {
             FLUFFY_PROFILE_SCOPE("Scene");
@@ -136,7 +138,7 @@ public:
 
     void onEvent(Event& event) override
     {
-        FLUFFY_PROFILE_SCOPE("Sandbox2DState::onEvent");
+        FLUFFY_PROFILE_FUNCTION();
 
         // Update camera
         cameraController.onEvent(event);

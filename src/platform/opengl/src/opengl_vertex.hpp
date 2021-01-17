@@ -14,7 +14,7 @@ public:
     void                setLayout(const BufferLayout& layout) override;
     const BufferLayout& getLayout() const override;
 
-    void setData(void* vertices, std::size_t size, std::size_t offset) override;
+    void setData(void* vertices, std::size_t size) override;
 
     void bind() override;
     void unbind() override;

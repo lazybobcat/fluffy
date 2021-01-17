@@ -12,7 +12,8 @@ ToolbarWindow::ToolbarWindow(OpenedWindowTracker& tracker)
 
 void ToolbarWindow::customRender()
 {
-    FLUFFY_PROFILE_SCOPE("ImGui Toolbar rendering");
+    FLUFFY_PROFILE_FUNCTION();
+
     if (ImGui::BeginMainMenuBar()) {
         if (ImGui::BeginMenu("Tools")) {
             ImGui::EndMenu();

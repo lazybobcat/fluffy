@@ -1,6 +1,7 @@
 #include "opengl_shader.hpp"
 #include "opengl.hpp"
 #include <fluffy/graphics/renderer.hpp>
+#include <fluffy/profiling/profiler.hpp>
 
 using namespace Fluffy;
 
@@ -33,16 +34,22 @@ Ref<Shader> Shader::create()
 
 OpenglShader::OpenglShader()
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     mProgramId = glCreateProgram();
 }
 
 OpenglShader::~OpenglShader()
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     glDeleteProgram(mProgramId);
 }
 
 void OpenglShader::loadFromFile(const Path& vextexFile, const Path& fragmentFile)
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     std::vector<char> vertexShader, fragmentShader;
 
     if (!getFileContents(vextexFile.toString(), vertexShader)) {
@@ -64,6 +71,8 @@ void OpenglShader::loadFromFile(const Path& vextexFile, const Path& fragmentFile
 
 void OpenglShader::compile(const char* vertexShader, const char* fragmentShader)
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     std::uint32_t vertexId, fragmentId;
 
     vertexId = glCreateShader(GL_VERTEX_SHADER);
@@ -94,6 +103,8 @@ void OpenglShader::compile(const char* vertexShader, const char* fragmentShader)
 
 bool OpenglShader::compileShaderCode(std::uint32_t shaderId, const char* code, ShaderType type) const
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     int  success;
     char infoLog[512];
     glShaderSource(shaderId, 1, &code, nullptr);
@@ -111,80 +122,98 @@ bool OpenglShader::compileShaderCode(std::uint32_t shaderId, const char* code, S
 
 void OpenglShader::enable()
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     glUseProgram(mProgramId);
 }
 
 void OpenglShader::disable()
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     glUseProgram(0);
 }
 
 void OpenglShader::bindUniform(const String& name, float value)
 {
+    FLUFFY_PROFILE_FUNCTION();
     glUniform1f(glGetUniformLocation(mProgramId, name.c_str()), value);
 }
 
 void OpenglShader::bindUniform(const String& name, int value)
 {
+    FLUFFY_PROFILE_FUNCTION();
     glUniform1i(glGetUniformLocation(mProgramId, name.c_str()), value);
 }
 
 void OpenglShader::bindUniform(const String& name, bool value)
 {
+    FLUFFY_PROFILE_FUNCTION();
     glUniform1i(glGetUniformLocation(mProgramId, name.c_str()), (int)value);
 }
 
 void OpenglShader::bindUniform(const String& name, Color color)
 {
+    FLUFFY_PROFILE_FUNCTION();
     glUniform4f(glGetUniformLocation(mProgramId, name.c_str()), color.value.r, color.value.g, color.value.b, color.value.a);
 }
 
 void OpenglShader::bindUniform(const String& name, glm::mat4 value)
 {
+    FLUFFY_PROFILE_FUNCTION();
     glUniformMatrix4fv(glGetUniformLocation(mProgramId, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 }
 
 void OpenglShader::bindUniform(const String& name, Vector2f value)
 {
+    FLUFFY_PROFILE_FUNCTION();
     glUniform2f(glGetUniformLocation(mProgramId, name.c_str()), value.x, value.y);
 }
 
 void OpenglShader::bindUniform(const String& name, Vector3f value)
 {
+    FLUFFY_PROFILE_FUNCTION();
     glUniform3f(glGetUniformLocation(mProgramId, name.c_str()), value.x, value.y, value.z);
 }
 
 void OpenglShader::bindUniform(const String& name, Vector4f value)
 {
+    FLUFFY_PROFILE_FUNCTION();
     glUniform4f(glGetUniformLocation(mProgramId, name.c_str()), value.r, value.g, value.b, value.a);
 }
 
 void OpenglShader::bindUniform(const String& name, Vector2i value)
 {
+    FLUFFY_PROFILE_FUNCTION();
     glUniform2i(glGetUniformLocation(mProgramId, name.c_str()), value.x, value.y);
 }
 
 void OpenglShader::bindUniform(const String& name, Vector3i value)
 {
+    FLUFFY_PROFILE_FUNCTION();
     glUniform3i(glGetUniformLocation(mProgramId, name.c_str()), value.x, value.y, value.z);
 }
 
 void OpenglShader::bindUniform(const String& name, Vector4i value)
 {
+    FLUFFY_PROFILE_FUNCTION();
     glUniform4i(glGetUniformLocation(mProgramId, name.c_str()), value.r, value.g, value.b, value.a);
 }
 
 void OpenglShader::bindUniform(const String& name, Vector2u value)
 {
+    FLUFFY_PROFILE_FUNCTION();
     glUniform2ui(glGetUniformLocation(mProgramId, name.c_str()), value.x, value.y);
 }
 
 void OpenglShader::bindUniform(const String& name, Vector3u value)
 {
+    FLUFFY_PROFILE_FUNCTION();
     glUniform3ui(glGetUniformLocation(mProgramId, name.c_str()), value.x, value.y, value.z);
 }
 
 void OpenglShader::bindUniform(const String& name, Vector4u value)
 {
+    FLUFFY_PROFILE_FUNCTION();
     glUniform4ui(glGetUniformLocation(mProgramId, name.c_str()), value.r, value.g, value.b, value.a);
 }

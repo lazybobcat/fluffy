@@ -1,5 +1,6 @@
 #include "opengl_vertex.hpp"
 #include "opengl.hpp"
+#include <fluffy/profiling/profiler.hpp>
 
 using namespace Fluffy;
 
@@ -52,6 +53,8 @@ Ref<VertexArray> VertexArray::create()
 
 OpenGLVertexBuffer::OpenGLVertexBuffer(void* vertices, std::size_t size)
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     GlCall(glGenBuffers(1, &mBufferId));
     GlCall(glBindBuffer(GL_ARRAY_BUFFER, mBufferId));
     GlCall(glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW));
@@ -72,11 +75,10 @@ const BufferLayout& OpenGLVertexBuffer::getLayout() const
     return mLayout;
 }
 
-void OpenGLVertexBuffer::setData(void* vertices, std::size_t size, std::size_t offset)
+void OpenGLVertexBuffer::setData(void* vertices, std::size_t size)
 {
-    //    GlCall(glGenBuffers(1, &mBufferId));
-    //    GlCall(glBindBuffer(GL_ARRAY_BUFFER, mBufferId));
-    //    GlCall(glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW));
+    GlCall(glBindBuffer(GL_ARRAY_BUFFER, mBufferId));
+    GlCall(glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW));
 }
 
 void OpenGLVertexBuffer::bind()
@@ -94,6 +96,8 @@ void OpenGLVertexBuffer::unbind()
 OpenGLIndexBuffer::OpenGLIndexBuffer(std::uint32_t* indices, std::size_t count)
   : mCount(count)
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     GlCall(glGenBuffers(1, &mBufferId));
     GlCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mBufferId));
     GlCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(std::uint32_t), indices, GL_STATIC_DRAW));
@@ -106,11 +110,15 @@ OpenGLIndexBuffer::~OpenGLIndexBuffer()
 
 void OpenGLIndexBuffer::bind()
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     GlCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mBufferId));
 }
 
 void OpenGLIndexBuffer::unbind()
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     GlCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 }
 
@@ -123,6 +131,8 @@ std::size_t OpenGLIndexBuffer::count() const
 
 OpenGLVertexArray::OpenGLVertexArray()
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     GlCall(glGenVertexArrays(1, &mArrayId));
 }
 
@@ -133,16 +143,22 @@ OpenGLVertexArray::~OpenGLVertexArray()
 
 void OpenGLVertexArray::bind()
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     GlCall(glBindVertexArray(mArrayId));
 }
 
 void OpenGLVertexArray::unbind()
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     GlCall(glBindVertexArray(0));
 }
 
 void OpenGLVertexArray::addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     FLUFFY_ASSERT(!vertexBuffer->getLayout().getElements().empty(), "VertexBuffer has no layout associated!");
 
     GlCall(glBindVertexArray(mArrayId));
@@ -160,6 +176,8 @@ void OpenGLVertexArray::addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 
 void OpenGLVertexArray::setIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
 {
+    FLUFFY_PROFILE_FUNCTION();
+
     GlCall(glBindVertexArray(mArrayId));
     indexBuffer->bind();
 

@@ -4,6 +4,7 @@
 #include <fluffy/assert.hpp>
 #include <fluffy/definitions.hpp>
 #include <fluffy/pch.hpp>
+#include <fluffy/profiling/profiler.hpp>
 
 using namespace Fluffy;
 
@@ -22,6 +23,7 @@ void error_callback(int error, const char* description)
 GlfwWindow::GlfwWindow(Window::Definition definition)
   : mDefinition(std::move(definition))
 {
+    FLUFFY_PROFILE_FUNCTION();
     glfwSetErrorCallback(error_callback);
     FLUFFY_LOG_INFO("Creating window {} ({}x{})", mDefinition.title, mDefinition.width, mDefinition.height);
 
@@ -61,6 +63,7 @@ GlfwWindow::~GlfwWindow()
 
 void GlfwWindow::initializeGLFWEvents()
 {
+    FLUFFY_PROFILE_FUNCTION();
     glfwSetFramebufferSizeCallback(mWindow, [](GLFWwindow* window, int width, int height) {
         auto* glfwWindow = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
         glfwWindow->resize(width, height);
@@ -177,6 +180,7 @@ void* GlfwWindow::getNativeWindow()
 
 void GlfwWindow::resize(int w, int h)
 {
+    FLUFFY_PROFILE_FUNCTION();
     glViewport(0, 0, w, h);
     mDefinition.width  = w;
     mDefinition.height = h;
@@ -189,6 +193,7 @@ void GlfwWindow::update()
 
 void GlfwWindow::swapBuffers()
 {
+    FLUFFY_PROFILE_FUNCTION();
     glfwSwapBuffers(mWindow);
 }
 
@@ -199,6 +204,7 @@ bool GlfwWindow::shouldClose() const
 
 bool GlfwWindow::pollEvents(Event& event)
 {
+    FLUFFY_PROFILE_FUNCTION();
     if (mEvents.isEmpty()) {
         return false;
     }
