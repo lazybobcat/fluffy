@@ -23,6 +23,8 @@ public:
 
     void initialize() override
     {
+        FLUFFY_PROFILE_FUNCTION();
+
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
 //        ImGui::StyleColorsDark();
@@ -105,6 +107,8 @@ public:
 
     void terminate() override
     {
+        FLUFFY_PROFILE_FUNCTION();
+
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
@@ -116,7 +120,8 @@ public:
 
     void begin() override
     {
-        FLUFFY_PROFILE_SCOPE("ImGuiState::begin");
+        FLUFFY_PROFILE_FUNCTION();
+
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
@@ -124,7 +129,8 @@ public:
 
     void render(Time dt) override
     {
-        FLUFFY_PROFILE_SCOPE("ImGuiState::render");
+        FLUFFY_PROFILE_FUNCTION();
+
         auto definition     = getContext()->video->getWindow()->getDefinition();
         ImGuiIO& io         = ImGui::GetIO();
         io.DeltaTime        = dt.seconds();
@@ -133,7 +139,8 @@ public:
 
     void end() override
     {
-        FLUFFY_PROFILE_SCOPE("ImGuiState::end");
+        FLUFFY_PROFILE_FUNCTION();
+
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

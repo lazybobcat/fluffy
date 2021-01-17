@@ -27,6 +27,7 @@ public:
     void endSession(ScopeProfiler::SessionType type);
     void startFrame();
     void endFrame();
+    void saveToFile(ScopeProfiler::SessionType sessionType);
 
     Ref<ScopeProfiler::SelfDestroyingScope> scope(const char* name);
 
@@ -51,6 +52,8 @@ private:
     ScopeProfiler     mScopeProfiler;
     FrameProfiler     mFrameProfiler;
     RenderingProfiler mRenderingProfiler;
+
+    std::mutex mMutex;
 };
 }
 

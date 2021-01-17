@@ -62,6 +62,8 @@ public:
     };
 
 public:
+    ScopeProfiler();
+
     void startSession(SessionType type);
     void endSession(SessionType type);
 

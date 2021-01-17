@@ -6,6 +6,7 @@
 // General configurations
 #define FLUFFY_VERSION "@PROJECT_VERSION@"
 #define FLUFFY_LOG_FILE "logs.txt"
+#define FLUFFY_PROFILE_FILE "scope_profile.json"
 #define FLUFFY_DEBUG_COMPACT_JSON true
 
 #ifdef FLUFFY_DEBUG

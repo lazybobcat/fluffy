@@ -19,6 +19,13 @@ ScopeProfiler::SelfDestroyingScope::~SelfDestroyingScope()
 
 /**********************************************************************************************************************/
 
+ScopeProfiler::ScopeProfiler()
+{
+    for (int i = 0; i < (int)SessionType::TOTAL; ++i) {
+        mSessions[i].type = (SessionType)i;
+    }
+}
+
 void ScopeProfiler::startSession(SessionType type)
 {
     mSessions[type].type   = type;
@@ -69,9 +76,14 @@ Ref<ScopeProfiler::SelfDestroyingScope> ScopeProfiler::scope(const char* name)
             break;
         }
     }
-    Frame& currentFrame = currentSession->currentFrame;
-    Scope  scope;
-    scope.name  = name;
+    Frame&      currentFrame = currentSession->currentFrame;
+    Scope       scope;
+    String      scopeName = name;
+    std::size_t pos       = scopeName.find("__cdecl");
+    if (pos != std::string::npos) {
+        scopeName.erase(pos, 7);
+    }
+    scope.name  = scopeName;
     scope.start = std::chrono::steady_clock::now();
     scope.level = mCurrentLevel++;
     currentFrame.scopes.push_back(scope);

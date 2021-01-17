@@ -37,7 +37,8 @@ private:
     void renderFpsChart() const;
     void renderStats() const;
     void renderScopeChart();
-    void renderContextMenu();
+    void renderWindowContextMenu();
+    void renderPlotContextMenu(ScopeProfiler::SessionType type);
 
     static float fpsValueGetter(void* data, int idx);
     static void  scopeValueGetter(float* startTimestamp, float* endTimestamp, ImU8* level, const char** caption, const void* data, int idx);

@@ -1,5 +1,6 @@
 #include <fluffy/profiling/memory_profiling.hpp>
 #include <fluffy/profiling/profiler.hpp>
+#include <json/json.h>
 
 using namespace Fluffy;
 
@@ -16,16 +17,19 @@ Profiler* Profiler::get()
 
 void Profiler::startSession(ScopeProfiler::SessionType type)
 {
+    std::unique_lock<std::mutex> lock(mMutex);
     mScopeProfiler.startSession(type);
 }
 
 void Profiler::endSession(ScopeProfiler::SessionType type)
 {
+    std::unique_lock<std::mutex> lock(mMutex);
     mScopeProfiler.endSession(type);
 }
 
 void Profiler::startFrame()
 {
+    std::unique_lock<std::mutex> lock(mMutex);
     mRenderingProfiler.reset();
 
     if (Profiler::ScopeProfiling) {
@@ -35,14 +39,46 @@ void Profiler::startFrame()
 
 void Profiler::endFrame()
 {
+    std::unique_lock<std::mutex> lock(mMutex);
     if (Profiler::ScopeProfiling) {
         mScopeProfiler.endFrame();
     }
 }
 
+void Profiler::saveToFile(ScopeProfiler::SessionType sessionType)
+{
+    std::unique_lock<std::mutex> lock(mMutex);
+
+    std::ofstream file;
+    file.open(FLUFFY_PROFILE_FILE, std::ios::trunc);
+    if (file.is_open()) {
+        Json::Value root;
+        auto&       frame = mScopeProfiler.mSessions[(int)sessionType].lastFrame;
+        for (auto& scope : frame.scopes) {
+            auto timeStart = microseconds(std::chrono::duration_cast<std::chrono::microseconds>(scope.start - frame.start));
+            auto timeEnd   = microseconds(std::chrono::duration_cast<std::chrono::microseconds>(scope.end - frame.start));
+
+            Json::Value entry;
+            entry["cat"]  = "function";
+            entry["dur"]  = (timeEnd - timeStart).microseconds();
+            entry["name"] = scope.name;
+            entry["ph"]   = "X";
+            entry["pid"]  = "0";
+            entry["tid"]  = mScopeProfiler.mSessions[(int)sessionType].thread;
+            entry["ts"]   = timeStart.microseconds();
+
+            root["traceEvents"].append(entry);
+        }
+        file << root << std::endl;
+        file.flush();
+    }
+    file.close();
+}
+
 Ref<ScopeProfiler::SelfDestroyingScope> Profiler::scope(const char* name)
 {
     if (Profiler::ScopeProfiling) {
+        std::unique_lock<std::mutex> lock(mMutex);
         return mScopeProfiler.scope(name);
     }
 
@@ -56,6 +92,7 @@ std::array<ScopeProfiler::Session, ScopeProfiler::SessionType::TOTAL> Profiler::
 
 void Profiler::frameTime(Time lastFrameTime)
 {
+    std::unique_lock<std::mutex> lock(mMutex);
     mFrameProfiler.push(lastFrameTime);
 }
 
@@ -81,6 +118,7 @@ std::uint64_t Profiler::getMemoryUsage() const
 
 void Profiler::drawCall()
 {
+    std::unique_lock<std::mutex> lock(mMutex);
     mRenderingProfiler.drawCall();
 }
 

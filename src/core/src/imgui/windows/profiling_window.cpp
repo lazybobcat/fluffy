@@ -5,7 +5,7 @@ using namespace Fluffy;
 #ifdef FLUFFY_PROFILING_ACTIVE
 
 constexpr Vector2f SMALL_SIZE = Vector2f(300, 90);
-constexpr Vector2f BIG_SIZE   = Vector2f(390, 240);
+constexpr Vector2f BIG_SIZE   = Vector2f(1080, 300);
 constexpr float    DISTANCE   = 10.f;
 
 ProfilingWindowDefinition::ProfilingWindowDefinition(const char* title, bool* openControl, ImGuiWindowFlags flags)
@@ -42,11 +42,11 @@ void ProfilingWindow::begin()
     mWindowFlags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
     if (mCorner != -1) {
         mWindowFlags |= ImGuiWindowFlags_NoMove;
-        ImGuiViewport* viewport       = ImGui::GetMainViewport();
-        ImVec2         work_area_pos  = viewport->GetWorkPos(); // Instead of using viewport->Pos we use GetWorkPos() to avoid menu bars, if any!
-        ImVec2         work_area_size = viewport->GetWorkSize();
-        ImVec2         window_pos     = ImVec2((mCorner & 1) ? (work_area_pos.x + work_area_size.x - DISTANCE) : (work_area_pos.x + DISTANCE), (mCorner & 2) ? (work_area_pos.y + work_area_size.y - DISTANCE) : (work_area_pos.y + DISTANCE));
-        ImVec2 window_pos_pivot = ImVec2((mCorner & 1) ? 1.0f : 0.0f, (mCorner & 2) ? 1.0f : 0.0f);
+        ImGuiViewport* viewport         = ImGui::GetMainViewport();
+        ImVec2         work_area_pos    = viewport->GetWorkPos(); // Instead of using viewport->Pos we use GetWorkPos() to avoid menu bars, if any!
+        ImVec2         work_area_size   = viewport->GetWorkSize();
+        ImVec2         window_pos       = ImVec2((mCorner & 1) ? (work_area_pos.x + work_area_size.x - DISTANCE) : (work_area_pos.x + DISTANCE), (mCorner & 2) ? (work_area_pos.y + work_area_size.y - DISTANCE) : (work_area_pos.y + DISTANCE));
+        ImVec2         window_pos_pivot = ImVec2((mCorner & 1) ? 1.0f : 0.0f, (mCorner & 2) ? 1.0f : 0.0f);
         ImGui::SetNextWindowPos(window_pos, ImGuiCond_Always, window_pos_pivot);
         ImGui::SetNextWindowViewport(viewport->ID);
     }
@@ -56,13 +56,13 @@ void ProfilingWindow::begin()
 
 void ProfilingWindow::customRender()
 {
-    FLUFFY_PROFILE_SCOPE("ImGui Profiling rendering");
+    FLUFFY_PROFILE_FUNCTION();
 
     //    renderFpsChart();
     renderStats();
     ImGui::Separator();
     renderScopeChart();
-    renderContextMenu();
+    renderWindowContextMenu();
 }
 
 void ProfilingWindow::renderFpsChart() const
@@ -97,25 +97,34 @@ void ProfilingWindow::renderScopeChart()
 
     if (Profiler::ScopeProfiling) {
         resize(BIG_SIZE);
+
         // Print one graph per session. A session should be tied to a thread.
+        ImGui::BeginChild("Scope Profile Plots", ImVec2(0.f, 176.f), false);
+        ImGui::BeginTabBar("Profiling##Tabs", ImGuiTabBarFlags_None | ImGuiTabBarFlags_NoCloseWithMiddleMouseButton);
         for (const auto& session : mLastReport.sessions) {
-            if (!session.lastFrame.scopes.empty()) {
-                ImGuiWidgetFlameGraph::PlotFlame(&ProfilingWindow::scopeValueGetter,
-                                                 &session.lastFrame,
-                                                 (int)session.lastFrame.scopes.size(),
-                                                 0,
-                                                 EnumNames::SessionType[(int)session.type],
-                                                 FLT_MAX,
-                                                 FLT_MAX,
-                                                 ImVec2(0.f, 150.f));
+            if (ImGui::BeginTabItem(EnumNames::SessionType[(int)session.type])) {
+                renderPlotContextMenu(session.type);
+                if (!session.lastFrame.scopes.empty()) {
+                    ImGuiWidgetFlameGraph::PlotFlame(&ProfilingWindow::scopeValueGetter,
+                                                     &session.lastFrame,
+                                                     (int)session.lastFrame.scopes.size(),
+                                                     0,
+                                                     EnumNames::SessionType[(int)session.type],
+                                                     FLT_MAX,
+                                                     FLT_MAX,
+                                                     ImVec2(0.f, 150.f));
+                }
+                ImGui::EndTabItem();
             }
         }
+        ImGui::EndTabBar();
+        ImGui::EndChild();
     } else {
         resize(SMALL_SIZE);
     }
 }
 
-void ProfilingWindow::renderContextMenu()
+void ProfilingWindow::renderWindowContextMenu()
 {
     if (ImGui::BeginPopupContextWindow()) {
         if (ImGui::MenuItem("Custom", nullptr, mCorner == -1))
@@ -130,6 +139,17 @@ void ProfilingWindow::renderContextMenu()
             mCorner = 3;
         if (ImGui::MenuItem("Close"))
             *mWindowOpenControl = false;
+        ImGui::EndPopup();
+    }
+}
+
+void ProfilingWindow::renderPlotContextMenu(ScopeProfiler::SessionType type)
+{
+    if (ImGui::BeginPopupContextWindow()) {
+        ImGui::MenuItem("(Drag 'scope_tracing.json' to chrome://tracing)", nullptr, false, false);
+        if (ImGui::MenuItem("Print in file")) {
+            Profiler::get()->saveToFile(type);
+        }
         ImGui::EndPopup();
     }
 }
