@@ -29,41 +29,41 @@ void GameLoop::runLoop()
     while (game.isRunning()) {
         timeSinceLastUpdate = clock.elapsedTime();
 
-        while (timeSinceLastUpdate >= timePerFrame) {
-            FLUFFY_PROFILE_FRAME();
-            timeSinceLastUpdate -= timePerFrame;
+        if (timeSinceLastUpdate >= timePerFrame) {
+            FLUFFY_PROFILE_FRAME_TIME(timeSinceLastUpdate);
+            while (timeSinceLastUpdate >= timePerFrame) {
+                FLUFFY_PROFILE_FRAME();
+                timeSinceLastUpdate -= timePerFrame;
 
-            // Events
-            {
-                FLUFFY_PROFILE_SCOPE("Events");
-                window->update();
-                while (window->pollEvents(event)) {
-                    game.onEvent(event);
+                // Events
+                {
+                    FLUFFY_PROFILE_SCOPE("Events");
+                    window->update();
+                    while (window->pollEvents(event)) {
+                        game.onEvent(event);
+                    }
+                    processInput();
                 }
-                processInput();
+
+                // Update
+                {
+                    FLUFFY_PROFILE_SCOPE("Update");
+                    game.fixUpdate(timePerFrame);
+                }
+
+                // Draw
+                {
+                    FLUFFY_PROFILE_SCOPE("Rendering");
+                    game.render(timePerFrame);
+                    window->swapBuffers();
+                }
+
+                FLUFFY_PROFILE_END_FRAME();
             }
 
-            // Update
-            {
-                FLUFFY_PROFILE_SCOPE("Update");
-                game.fixUpdate(timePerFrame);
-            }
-
-            // Draw
-            {
-                FLUFFY_PROFILE_SCOPE("Rendering");
-                game.render(timePerFrame);
-                window->swapBuffers();
-            }
-
-            restartClock = true;
-            FLUFFY_PROFILE_END_FRAME();
-        }
-
-        if (restartClock) {
-            auto elapsed = clock.restart();
-            FLUFFY_PROFILE_FRAME_TIME(elapsed);
-            restartClock = false;
+            clock.restart();
+        } else {
+            std::this_thread::yield();
         }
     }
 }
