@@ -36,7 +36,7 @@ private:
 
 Time seconds(float sec);
 Time seconds(std::chrono::seconds);
-Time milliseconds(std::int32_t ms);
+Time milliseconds(float ms);
 Time milliseconds(std::chrono::milliseconds);
 Time microseconds(std::int64_t);
 Time microseconds(std::chrono::microseconds);

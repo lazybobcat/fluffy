@@ -13,7 +13,7 @@ else()
     message(FATAL_ERROR "Your platform is not supported! (yet?)")
 endif()
 
-set(FLUFFY_INTERNAL_LIBS fmt imgui imgui-flame-graph fluffy-utils fluffy-core fluffy-ecs)
+set(FLUFFY_INTERNAL_LIBS fmt imgui fluffy-utils fluffy-core fluffy-ecs)
 
 # Platform dependencies
 set(FLUFFY_USE_OPENGL 1)

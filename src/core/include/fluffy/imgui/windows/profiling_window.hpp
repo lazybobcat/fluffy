@@ -2,7 +2,6 @@
 
 #include <fluffy/imgui/imgui_window.hpp>
 #include <fluffy/profiling/profiler.hpp>
-#include <imgui_widget_flamegraph.h>
 
 #ifdef FLUFFY_PROFILING_ACTIVE
 

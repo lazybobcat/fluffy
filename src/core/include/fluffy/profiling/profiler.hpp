@@ -57,6 +57,11 @@ private:
 };
 }
 
+#ifdef __GNUG__
+#define PRINT_FUNCTION_MACRO __PRETTY_FUNCTION__
+#else
+#define PRINT_FUNCTION_MACRO __FUNCSIG__
+#endif
 #define COMBINE1(X, Y) X##Y
 #define COMBINE(X, Y) COMBINE1(X, Y)
 #define FLUFFY_PROFILE_START_SESSION(type) Fluffy::Profiler::get()->startSession(type)
@@ -64,7 +69,7 @@ private:
 #define FLUFFY_PROFILE_FRAME() Fluffy::Profiler::get()->startFrame()
 #define FLUFFY_PROFILE_END_FRAME() Fluffy::Profiler::get()->endFrame()
 #define FLUFFY_PROFILE_SCOPE(name) auto COMBINE(scope, __LINE__) = Fluffy::Profiler::get()->scope(name)
-#define FLUFFY_PROFILE_FUNCTION() FLUFFY_PROFILE_SCOPE(__FUNCSIG__)
+#define FLUFFY_PROFILE_FUNCTION() FLUFFY_PROFILE_SCOPE(PRINT_FUNCTION_MACRO)
 #define FLUFFY_PROFILE_FRAME_TIME(time) Fluffy::Profiler::get()->frameTime(time)
 #define FLUFFY_PROFILE_DRAW_CALL() Fluffy::Profiler::get()->drawCall()
 

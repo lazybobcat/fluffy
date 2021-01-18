@@ -1,6 +1,7 @@
 #include <fluffy/event/event.hpp>
 #include <fluffy/game/game_loop.hpp>
 #include <fluffy/profiling/profiler.hpp>
+#include <thread>
 
 using namespace Fluffy;
 

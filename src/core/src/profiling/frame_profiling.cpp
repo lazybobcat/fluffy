@@ -1,4 +1,5 @@
 #include <fluffy/profiling/frame_profiling.hpp>
+#include <fluffy/time/time.hpp>
 
 using namespace Fluffy;
 

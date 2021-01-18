@@ -1,5 +1,6 @@
 #include <fluffy/assert.hpp>
 #include <fluffy/profiling/scope_profiling.hpp>
+#include <thread>
 
 using namespace Fluffy;
 

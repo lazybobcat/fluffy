@@ -60,12 +60,12 @@ void Profiler::saveToFile(ScopeProfiler::SessionType sessionType)
 
             Json::Value entry;
             entry["cat"]  = "function";
-            entry["dur"]  = (timeEnd - timeStart).microseconds();
+            entry["dur"]  = (int)(timeEnd - timeStart).microseconds();
             entry["name"] = scope.name;
             entry["ph"]   = "X";
             entry["pid"]  = "0";
             entry["tid"]  = mScopeProfiler.mSessions[(int)sessionType].thread;
-            entry["ts"]   = timeStart.microseconds();
+            entry["ts"]   = (int)timeStart.microseconds();
 
             root["traceEvents"].append(entry);
         }
