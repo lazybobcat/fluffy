@@ -50,7 +50,7 @@ VideoModule::VideoModule(Window::Definition&& windowDefinition)
 
 void VideoModule::initialize(const Context& context)
 {
-    mWindow = Window::create(mWindowDefinition);
+    mWindow = createWindow(mWindowDefinition);
 
 }
 

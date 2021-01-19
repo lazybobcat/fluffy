@@ -73,6 +73,7 @@ public:
     void initialize(const Context& context) override;
     void terminate() override;
 
+    virtual int getMaxTextureSlots() = 0;
     /*
      * @todo
     virtual Unique<Texture> createTexture(Vector2i size) = 0;
@@ -98,6 +99,9 @@ public:
     {
         return mWindow.get();
     }
+
+protected:
+    virtual Unique<Window> createWindow(const Window::Definition& definition) = 0;
 
 protected:
     Window::Definition mWindowDefinition;

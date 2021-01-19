@@ -40,8 +40,6 @@ public:
 public:
     virtual ~Window() = default;
 
-    static Unique<Window> create(const Definition& definition);
-
     virtual void                            updateDefinition(const Definition& definition) = 0;
     virtual void                            setVsync(bool vsync)                           = 0;
     [[nodiscard]] virtual const Definition& getDefinition() const                          = 0;

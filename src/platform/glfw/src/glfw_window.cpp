@@ -10,13 +10,6 @@
 
 using namespace Fluffy;
 
-Unique<Window> Window::create(const Window::Definition& definition)
-{
-    return CreateUnique<GlfwWindow>(definition);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 void error_callback(int error, const char* description)
 {
     FLUFFY_LOG_ERROR("GLFW error ({}): {}", error, description);
@@ -50,11 +43,6 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
 
     resize(mDefinition.width, mDefinition.height);
     initializeGLFWEvents();
-
-    // @todo move into Context
-    FLUFFY_LOG_INFO("> {}", glGetString(GL_VENDOR));
-    FLUFFY_LOG_INFO("> {}", glGetString(GL_RENDERER));
-    FLUFFY_LOG_INFO("> {}", glGetString(GL_VERSION));
 }
 
 GlfwWindow::~GlfwWindow()

@@ -191,8 +191,8 @@ public:
         cameraController.onEvent(event);
 
         if (event.type == Fluffy::Event::MouseButtonPressed) {
-            auto position = Input::getMousePosition();
-            FLUFFY_LOG_DEBUG("Mouse button pressed: {} (at {})", EnumNames::MouseButton[(int)event.mouseButton.button], position);
+            // auto position = Input::getMousePosition();
+            event.stopPropagation();
         }
     }
 
