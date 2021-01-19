@@ -29,4 +29,28 @@ using IntRect   = Rect<std::int32_t>;
 using FloatRect = Rect<float>;
 }
 
+template<>
+struct fmt::formatter<Fluffy::IntRect>
+{
+    constexpr auto parse(format_parse_context& ctx) { return ctx.begin(); }
+
+    template<typename FormatContext>
+    auto format(const Fluffy::IntRect& r, FormatContext& ctx)
+    {
+        return format_to(ctx.out(), "IntRect{{{}, {}, {}, {}}}", r.left, r.top, r.width, r.height);
+    }
+};
+
+template<>
+struct fmt::formatter<Fluffy::FloatRect>
+{
+    constexpr auto parse(format_parse_context& ctx) { return ctx.begin(); }
+
+    template<typename FormatContext>
+    auto format(const Fluffy::FloatRect& r, FormatContext& ctx)
+    {
+        return format_to(ctx.out(), "IntRect{{{}, {}, {}, {}}}", r.left, r.top, r.width, r.height);
+    }
+};
+
 #include <fluffy/math/rectangle.inl>

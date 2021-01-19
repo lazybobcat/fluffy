@@ -17,16 +17,20 @@ set(SOURCE_FILES
         include/fluffy/resources/resource_holder.hpp
         include/fluffy/api/modules.hpp src/api/modules.cpp
         include/fluffy/api/context.hpp src/api/context.cpp
-        include/fluffy/graphics/renderer.hpp src/graphics/renderer.cpp
-        include/fluffy/graphics/renderer_api.hpp
-        include/fluffy/graphics/render_command.hpp
+        include/fluffy/graphics/vertex.hpp src/graphics/vertex.cpp
         include/fluffy/graphics/window.hpp
+        include/fluffy/graphics/render_target.hpp src/graphics/render_target.cpp
+        include/fluffy/graphics/render_context.hpp src/graphics/render_context.cpp
+        include/fluffy/graphics/render_states.hpp
+        include/fluffy/graphics/painter.hpp src/graphics/painter.cpp
         include/fluffy/graphics/color.hpp src/graphics/color.cpp
         include/fluffy/graphics/shader.hpp
         include/fluffy/graphics/texture.hpp
-        include/fluffy/graphics/vertex.hpp src/graphics/vertex.cpp
+        include/fluffy/graphics/vertex_buffers.hpp src/graphics/vertex_buffers.cpp
         include/fluffy/graphics/transformable.hpp src/graphics/transformable.cpp
         include/fluffy/graphics/camera.hpp src/graphics/camera.cpp
+        include/fluffy/graphics/drawable.hpp
+        include/fluffy/graphics/shape.hpp src/graphics/shape.cpp
         include/fluffy/input/mouse.hpp
         include/fluffy/input/keyboard.hpp
         include/fluffy/input/input.hpp src/input/input.cpp

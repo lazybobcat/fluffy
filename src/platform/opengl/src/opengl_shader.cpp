@@ -1,6 +1,5 @@
 #include "opengl_shader.hpp"
 #include "opengl.hpp"
-#include <fluffy/graphics/renderer.hpp>
 #include <fluffy/profiling/profiler.hpp>
 
 using namespace Fluffy;
@@ -23,14 +22,14 @@ bool getFileContents(const String& filename, std::vector<char>& buffer)
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**********************************************************************************************************************/
 
 Ref<Shader> Shader::create()
 {
     return CreateRef<OpenglShader>();
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**********************************************************************************************************************/
 
 OpenglShader::OpenglShader()
 {

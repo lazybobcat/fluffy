@@ -51,7 +51,8 @@ public:
     virtual void               swapBuffers()            = 0;
     [[nodiscard]] virtual bool shouldClose() const      = 0;
 
-    virtual void  resize(int w, int h) {}
-    virtual void* getNativeWindow() { return nullptr; }
+    virtual void     resize(int w, int h) {}
+    virtual Vector2i getSize() const { return {getDefinition().width, getDefinition().height}; }
+    virtual void*    getNativeWindow() { return nullptr; }
 };
 }

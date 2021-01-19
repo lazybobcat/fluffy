@@ -5,6 +5,8 @@
 #include <fluffy/definitions.hpp>
 #include <fluffy/pch.hpp>
 #include <fluffy/profiling/profiler.hpp>
+#include <fluffy/graphics/window.hpp>
+
 
 using namespace Fluffy;
 

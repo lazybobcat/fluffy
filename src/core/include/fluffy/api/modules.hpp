@@ -1,6 +1,7 @@
 #pragma once
 
 #include <fluffy/graphics/window.hpp>
+#include <fluffy/graphics/render_target.hpp>
 #include <fluffy/pch.hpp>
 
 namespace Fluffy {
@@ -72,6 +73,17 @@ public:
     void initialize(const Context& context) override;
     void terminate() override;
 
+    /*
+     * @todo
+    virtual Unique<Texture> createTexture(Vector2i size) = 0;
+    virtual Unique<Shader> createShader(const ShaderDefinition& definition) = 0;
+     */
+    virtual Unique<ScreenRenderTarget> createScreenRenderTarget() = 0;
+    virtual Unique<Painter> createPainter() = 0;
+
+    virtual void beginRender() = 0;
+    virtual void endRender() = 0;
+
     String getName() const override
     {
         return "video_module";
@@ -87,7 +99,7 @@ public:
         return mWindow.get();
     }
 
-private:
+protected:
     Window::Definition mWindowDefinition;
     Unique<Window>     mWindow = nullptr;
 };

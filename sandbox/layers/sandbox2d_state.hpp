@@ -6,12 +6,11 @@
 #include <fluffy/fluffy_utils.hpp>
 #include <fluffy/game/camera_controller.hpp>
 #include <fluffy/graphics/camera.hpp>
-#include <fluffy/graphics/render_command.hpp>
-#include <fluffy/graphics/renderer.hpp>
 #include <fluffy/graphics/shader.hpp>
+#include <fluffy/graphics/shape.hpp>
 #include <fluffy/graphics/texture.hpp>
 #include <fluffy/graphics/transformable.hpp>
-#include <fluffy/graphics/vertex.hpp>
+#include <fluffy/graphics/vertex_buffers.hpp>
 #include <fluffy/imgui/imgui_container.hpp>
 #include <fluffy/imgui/windows/about_window.hpp>
 #include <fluffy/imgui/windows/log_window.hpp>
@@ -22,17 +21,54 @@
 #include <iostream>
 #include <opengl.hpp>
 
+struct RectangleShape : public Shape
+{
+    explicit RectangleShape(const Vector2f& size)
+      : size(size)
+    {
+        update();
+    }
+
+    size_t getVerticesCount() override
+    {
+        return 4;
+    }
+
+    Vector3f getVertexPosition(std::size_t index) override
+    {
+        switch (index) {
+            case 0:
+                return { 0.f, 0.f, 0.f };
+            case 1:
+                return { size.x, 0.f, 0.f };
+            case 2:
+                return { size.x, size.y, 0.f };
+            case 3:
+                return { 0.f, size.y, 0.f };
+        }
+
+        return { 0.f, 0.f, 0.f };
+    }
+
+    Vector2f size;
+};
+
 class Sandbox2DState : public State<Sandbox2DState>
 {
 public:
     Sandbox2DState()
       : cameraController(1280.f / 720.f)
+      , rectangle1({ 0.5f, 0.75f })
+      , rectangle2({ 0.25f, 0.25f })
     {}
 
     void initialize() override
     {
         FLUFFY_PROFILE_FUNCTION();
-        RenderCommand::setClearColor(Color::fromInt8(204, 51, 204, 255));
+
+        rectangle1.setPosition({ 0.f, 0.f });
+        rectangle2.setPosition({ -0.5f, -0.5f });
+        rectangle2.rotateZ(45.f);
 
         squareTransform.setScale({ .5f, 0.5f, 1.f });
         squareTransform.move({ 0.f, 0.f, 0.1f });
@@ -89,21 +125,32 @@ public:
         }
 
         container.update(dt);
+        rectangle1.setFillColor(squareColor);
+        rectangle2.setFillColor(squareColor);
     }
 
-    void render(Time dt) override
+    void render(RenderContext& context) override
     {
         FLUFFY_PROFILE_FUNCTION();
 
         {
             FLUFFY_PROFILE_SCOPE("Scene");
 
-            Renderer2D::beginScene(cameraController.getCamera());
+            RenderStates states;
 
-            Renderer2D::drawQuad(squareColor, glm::mat4(1.f));
-            Renderer2D::drawQuad(texture, alpacaColor, squareTransform.getTransformMatrix());
+            context.with(cameraController.getCamera()).bind([&](Painter& painter) {
+                painter.clear(Color::fromInt8(204, 51, 204, 255));
 
-            Renderer2D::endScene();
+                // states.transform = rectangle1.getTransformMatrix();
+                // painter.drawQuads(rectangle1.vertices, states);
+                painter.drawShape(rectangle1, states);
+
+                // states.transform = rectangle2.getTransformMatrix();
+                // painter.drawQuads(rectangle2.vertices, states);
+                painter.drawShape(rectangle2, states);
+
+                painter.flush();
+            });
         }
 
         // ImGUI Stuff
@@ -155,6 +202,9 @@ private:
     Transformable                squareTransform;
     Color                        squareColor = { .2f, .8f, .43f, 1.f };
     Color                        alpacaColor = { 1.f, 1.f, 1.f, 1.f };
+
+    RectangleShape rectangle1;
+    RectangleShape rectangle2;
 
     bool settingsOpened = true;
 

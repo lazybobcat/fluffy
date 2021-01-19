@@ -1,4 +1,3 @@
-#include <fluffy/event/event.hpp>
 #include <fluffy/game/game_loop.hpp>
 #include <fluffy/profiling/profiler.hpp>
 #include <thread>
@@ -23,9 +22,6 @@ void GameLoop::runLoop()
     Time    timeSinceLastUpdate = Time::Zero;
     Time    timePerFrame        = seconds(1.f / mGameLoader.getGame().getTargetFPS());
     Game&   game                = mGameLoader.getGame();
-    bool    restartClock        = false;
-    Window* window              = game.getContext()->video->getWindow();
-    Event   event;
 
     while (game.isRunning()) {
         timeSinceLastUpdate = clock.elapsedTime();
@@ -37,27 +33,13 @@ void GameLoop::runLoop()
                 timeSinceLastUpdate -= timePerFrame;
 
                 // Events
-                {
-                    FLUFFY_PROFILE_SCOPE("Events");
-                    window->update();
-                    while (window->pollEvents(event)) {
-                        game.onEvent(event);
-                    }
-                    processInput();
-                }
+                game.doEvents(timePerFrame);
 
                 // Update
-                {
-                    FLUFFY_PROFILE_SCOPE("Update");
-                    game.fixUpdate(timePerFrame);
-                }
+                game.doFixUpdate(timePerFrame);
 
-                // Draw
-                {
-                    FLUFFY_PROFILE_SCOPE("Rendering");
-                    game.render(timePerFrame);
-                    window->swapBuffers();
-                }
+                // Render
+                game.doRender(timePerFrame);
 
                 FLUFFY_PROFILE_END_FRAME();
             }
@@ -78,9 +60,4 @@ bool GameLoop::needToReload()
     }
 
     return false;
-}
-
-void GameLoop::processInput()
-{
-    // @todo input handling
 }

@@ -2,6 +2,7 @@
 
 #include <fluffy/definitions.hpp>
 #include <fluffy/file/path.hpp>
+#include <fluffy/graphics/color.hpp>
 #include <fluffy/pch.hpp>
 
 namespace Fluffy {

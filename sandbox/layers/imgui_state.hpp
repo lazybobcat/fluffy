@@ -116,6 +116,12 @@ public:
 
     void fixUpdate(Time dt) override
     {
+        FLUFFY_PROFILE_FUNCTION();
+
+        auto definition     = getContext()->video->getWindow()->getDefinition();
+        ImGuiIO& io         = ImGui::GetIO();
+        io.DeltaTime        = dt.seconds();
+        io.DisplaySize      = { definition.width * 1.f, definition.height * 1.f };
     }
 
     void begin() override
@@ -127,14 +133,9 @@ public:
         ImGui::NewFrame();
     }
 
-    void render(Time dt) override
+    void render(RenderContext& context) override
     {
         FLUFFY_PROFILE_FUNCTION();
-
-        auto definition     = getContext()->video->getWindow()->getDefinition();
-        ImGuiIO& io         = ImGui::GetIO();
-        io.DeltaTime        = dt.seconds();
-        io.DisplaySize      = { definition.width * 1.f, definition.height * 1.f };
     }
 
     void end() override

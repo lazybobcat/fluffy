@@ -1,6 +1,7 @@
 #pragma once
 
 #include <fluffy/api/context.hpp>
+#include <fluffy/graphics/render_context.hpp>
 #include <fluffy/pch.hpp>
 #include <fluffy/time/time.hpp>
 
@@ -27,7 +28,7 @@ public:
 
     virtual void fixUpdate(Time dt) = 0;
     virtual void begin();
-    virtual void render(Time dt) = 0;
+    virtual void render(RenderContext& context) = 0;
     virtual void end();
     virtual void onEvent(Event& event) = 0;
 

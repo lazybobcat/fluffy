@@ -15,8 +15,6 @@ private:
     void runLoop();
     bool needToReload();
 
-    void processInput();
-
 private:
     GameLoader& mGameLoader;
 };

@@ -9,7 +9,6 @@ GameLoader::GameLoader(std::vector<String>&& args)
 
 GameLoader::~GameLoader()
 {
-    unload();
 }
 
 void GameLoader::load()
@@ -20,6 +19,7 @@ void GameLoader::load()
 
     FLUFFY_LOG_INFO("Starting game {} with Fluffy...", mGame->getTitle());
 
+    mGame->internalInitialize();
     mGame->initialize(mApplicationArgs);
     mGame->initializeModules(registry);
     mContext = Unique<Context>(new Context(registry));
@@ -40,6 +40,7 @@ void GameLoader::unload()
     }
 
     mGame->terminate(*mContext);
+    mGame->internalTerminate();
 }
 
 Game& GameLoader::getGame() const

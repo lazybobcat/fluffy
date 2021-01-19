@@ -60,14 +60,15 @@ void StateStack::fixUpdate(Time dt)
     applyPendingChanges();
 }
 
-void StateStack::render(Time dt)
+void StateStack::render(RenderContext& context)
 {
+    // @todo Should begin() and end() only be called for an ImGui state?
     for (Unique<BaseState>& state : mStack) {
         state->begin();
     }
 
     for (Unique<BaseState>& state : mStack) {
-        state->render(dt);
+        state->render(context);
     }
 
     for (Unique<BaseState>& state : mStack) {

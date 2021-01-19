@@ -1,5 +1,6 @@
 #include "opengl_vertex.hpp"
 #include "opengl.hpp"
+#include <fluffy/graphics/vertex_buffers.hpp>
 #include <fluffy/profiling/profiler.hpp>
 
 using namespace Fluffy;
@@ -32,7 +33,12 @@ GLenum getOpenGLType(ShaderDataType type)
     return 0;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**********************************************************************************************************************/
+
+Ref<VertexBuffer> VertexBuffer::create(std::size_t size)
+{
+    return Fluffy::Ref<VertexBuffer>(new OpenGLVertexBuffer(size));
+}
 
 Ref<VertexBuffer> VertexBuffer::create(void* data, std::size_t size)
 {
@@ -49,7 +55,16 @@ Ref<VertexArray> VertexArray::create()
     return Fluffy::Ref<VertexArray>(new OpenGLVertexArray());
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**********************************************************************************************************************/
+
+OpenGLVertexBuffer::OpenGLVertexBuffer(std::size_t size)
+{
+    FLUFFY_PROFILE_FUNCTION();
+
+    GlCall(glGenBuffers(1, &mBufferId));
+    GlCall(glBindBuffer(GL_ARRAY_BUFFER, mBufferId));
+    GlCall(glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_STATIC_DRAW));
+}
 
 OpenGLVertexBuffer::OpenGLVertexBuffer(void* vertices, std::size_t size)
 {
@@ -78,7 +93,7 @@ const BufferLayout& OpenGLVertexBuffer::getLayout() const
 void OpenGLVertexBuffer::setData(void* vertices, std::size_t size)
 {
     GlCall(glBindBuffer(GL_ARRAY_BUFFER, mBufferId));
-    GlCall(glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW));
+    GlCall(glBufferSubData(GL_ARRAY_BUFFER, 0, size, vertices));
 }
 
 void OpenGLVertexBuffer::bind()
@@ -91,7 +106,7 @@ void OpenGLVertexBuffer::unbind()
     GlCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**********************************************************************************************************************/
 
 OpenGLIndexBuffer::OpenGLIndexBuffer(std::uint32_t* indices, std::size_t count)
   : mCount(count)
@@ -127,7 +142,7 @@ std::size_t OpenGLIndexBuffer::count() const
     return mCount;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**********************************************************************************************************************/
 
 OpenGLVertexArray::OpenGLVertexArray()
 {

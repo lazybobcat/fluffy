@@ -1,6 +1,5 @@
 #include "opengl_texture.hpp"
 #include "opengl.hpp"
-#include <fluffy/graphics/renderer.hpp>
 #include <fluffy/profiling/profiler.hpp>
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -18,7 +17,7 @@ Ref<Texture2D> Texture2D::create(std::uint32_t width, std::uint32_t height)
     return CreateRef<OpenglTexture2D>(width, height);
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**********************************************************************************************************************/
 
 OpenglTexture2D::OpenglTexture2D()
 {
