@@ -23,6 +23,9 @@ inline String printString(const String& base, Args... args)
     return fmt::format(base, args...);
 }
 
-String fromUTF32(String32 string);
+String toString(int value);
+String toString(float value);
+bool   isInteger(const String& value);
+bool   isNumber(const String& value);
 String currentDateTime();
 }
