@@ -5,8 +5,7 @@
 
 namespace Fluffy {
 
-class OpenglTexture2D : public Resource
-  , public Texture2D
+class OpenglTexture2D : public Texture2D
 {
 public:
     OpenglTexture2D();
@@ -14,7 +13,7 @@ public:
     OpenglTexture2D(const Path& path, const IntRect& area = IntRect());
     ~OpenglTexture2D();
 
-    bool loadFromFile(const Path& path) override;
+    bool loadFromFile(const Path& path);
     void setData(void* data, std::size_t size) override;
 
     void bind() override;

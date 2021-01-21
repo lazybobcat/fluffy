@@ -1,6 +1,7 @@
 #include <fluffy/api/context.hpp>
 #include <fluffy/api/modules.hpp>
 #include <fluffy/input/input.hpp>
+#include <fluffy/resources/resource_library.hpp>
 
 using namespace Fluffy;
 
@@ -35,10 +36,17 @@ BaseModule* ModuleRegistry::getModule(ModuleType type) const
 
 void SystemModule::initialize(const Context& context)
 {
+    mResources = CreateUnique<ResourceLibrary>(context);
+    // mResources->init<>();
 }
 
 void SystemModule::terminate()
 {
+}
+
+ResourceLibrary& SystemModule::getResources() const
+{
+    return *mResources;
 }
 
 /**********************************************************************************************************************/
@@ -51,7 +59,6 @@ VideoModule::VideoModule(Window::Definition&& windowDefinition)
 void VideoModule::initialize(const Context& context)
 {
     mWindow = createWindow(mWindowDefinition);
-
 }
 
 void VideoModule::terminate()

@@ -4,6 +4,7 @@
 #include <fluffy/math/math.hpp>
 #include <fluffy/math/rectangle.hpp>
 #include <fluffy/resources/resource.hpp>
+#include <fluffy/file/path.hpp>
 
 namespace Fluffy {
 

@@ -1,8 +1,9 @@
 #pragma once
 
-#include <fluffy/graphics/window.hpp>
 #include <fluffy/graphics/render_target.hpp>
+#include <fluffy/graphics/window.hpp>
 #include <fluffy/pch.hpp>
+#include <fluffy/resources/resource_library.hpp>
 
 namespace Fluffy {
 
@@ -54,6 +55,8 @@ public:
     void initialize(const Context& context) override;
     void terminate() override;
 
+    ResourceLibrary& getResources() const;
+
     String getName() const override
     {
         return "system_module";
@@ -63,6 +66,9 @@ public:
     {
         return ModuleType::System;
     }
+
+private:
+    Unique<ResourceLibrary> mResources;
 };
 
 class VideoModule : public BaseModule
@@ -80,10 +86,10 @@ public:
     virtual Unique<Shader> createShader(const ShaderDefinition& definition) = 0;
      */
     virtual Unique<ScreenRenderTarget> createScreenRenderTarget() = 0;
-    virtual Unique<Painter> createPainter() = 0;
+    virtual Unique<Painter>            createPainter()            = 0;
 
     virtual void beginRender() = 0;
-    virtual void endRender() = 0;
+    virtual void endRender()   = 0;
 
     String getName() const override
     {
