@@ -26,6 +26,7 @@ struct RectangleShape : public Shape
     explicit RectangleShape(const Vector2f& size)
       : size(size)
     {
+        setOrigin({0.5f, 0.5f, 0.f});
         update();
     }
 
@@ -36,15 +37,17 @@ struct RectangleShape : public Shape
 
     Vector3f getVertexPosition(std::size_t index) override
     {
+        auto origin = getOrigin();
+
         switch (index) {
             case 0:
-                return { 0.f, 0.f, 0.f };
+                return { 0.f - origin.x * size.x, 0.f - origin.y * size.y, 0.f };
             case 1:
-                return { size.x, 0.f, 0.f };
+                return { size.x - origin.x * size.x, 0.f - origin.y * size.y, 0.f };
             case 2:
-                return { size.x, size.y, 0.f };
+                return { size.x - origin.x * size.x, size.y - origin.y * size.y, 0.f };
             case 3:
-                return { 0.f, size.y, 0.f };
+                return { 0.f - origin.x * size.x, size.y - origin.y * size.y, 0.f };
         }
 
         return { 0.f, 0.f, 0.f };
@@ -57,9 +60,9 @@ class Sandbox2DState : public State<Sandbox2DState>
 {
 public:
     Sandbox2DState()
-      : cameraController(1280.f / 720.f)
-      , rectangle1({ 0.5f, 0.75f })
-      , rectangle2({ 0.25f, 0.25f })
+      : cameraController({ 1280, 720 })
+      , rectangle1({ 100.f, 200.f })
+      , rectangle2({ 80.f, 80.f })
     {}
 
     void initialize() override
@@ -67,8 +70,8 @@ public:
         FLUFFY_PROFILE_FUNCTION();
 
         rectangle1.setPosition({ 0.f, 0.f });
-        rectangle2.setPosition({ -0.5f, -0.5f });
-        rectangle2.rotateZ(45.f);
+//        rectangle1.setOrigin({0.5f, 0.5f, 0.f});
+        rectangle2.setPosition({ -200.f, 0.f });
 
         squareTransform.setScale({ .5f, 0.5f, 1.f });
         squareTransform.move({ 0.f, 0.f, 0.1f });
@@ -112,19 +115,19 @@ public:
         cameraController.update(dt);
 
         if (Input::isKeyPressed(Keyboard::Key::J)) {
-            squareTransform.rotateZ(10.f * dt.seconds());
+            rectangle2.rotateZ(10.f * dt.seconds());
         }
         if (Input::isKeyPressed(Keyboard::Key::Right)) {
-            squareTransform.move({ 5.f * dt.seconds(), 0.f });
+            rectangle2.move({ 100.f * dt.seconds(), 0.f });
         }
         if (Input::isKeyPressed(Keyboard::Key::Left)) {
-            squareTransform.move({ -5.f * dt.seconds(), 0.f });
+            rectangle2.move({ -100.f * dt.seconds(), 0.f });
         }
         if (Input::isKeyPressed(Keyboard::Key::Up)) {
-            squareTransform.move({ 0.f, 5.f * dt.seconds() });
+            rectangle2.move({ 0.f, -100.f * dt.seconds() });
         }
         if (Input::isKeyPressed(Keyboard::Key::Down)) {
-            squareTransform.move({ 0.f, -5.f * dt.seconds() });
+            rectangle2.move({ 0.f, 100.f * dt.seconds() });
         }
 
         container.update(dt);

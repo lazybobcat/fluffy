@@ -3,11 +3,11 @@
 
 using namespace Fluffy;
 
-OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotationEnabled, bool zoomEnabled)
-  : mAspectRatio(aspectRatio)
+OrthographicCameraController::OrthographicCameraController(Vector2i viewport, bool rotationEnabled, bool zoomEnabled)
+  : mViewport(viewport)
   , mRotationEnabled(rotationEnabled)
   , mZoomEnabled(zoomEnabled)
-  , mCamera({ -mAspectRatio, 1.f, 2 * mAspectRatio, 2 * 1.f })
+  , mCamera({ {-viewport.x / 2.f, viewport.y / 2.f}, {(float)viewport.x, (float)viewport.y} })
 {
 }
 
@@ -20,10 +20,10 @@ void OrthographicCameraController::update(Time dt)
         mCamera.move({ mCameraTranslationSpeed * dt.seconds(), 0.f, 0.f });
     }
     if (Input::isKeyPressed(Keyboard::Key::W)) {
-        mCamera.move({ 0.f, mCameraTranslationSpeed * dt.seconds(), 0.f });
+        mCamera.move({ 0.f, -mCameraTranslationSpeed * dt.seconds(), 0.f });
     }
     if (Input::isKeyPressed(Keyboard::Key::S)) {
-        mCamera.move({ 0.f, -mCameraTranslationSpeed * dt.seconds(), 0.f });
+        mCamera.move({ 0.f, mCameraTranslationSpeed * dt.seconds(), 0.f });
     }
 
     if (mRotationEnabled) {
@@ -57,6 +57,6 @@ void OrthographicCameraController::onEvent(Event& event)
 
 void OrthographicCameraController::onWindowResized(Event& event)
 {
-    mAspectRatio = (float)event.size.size.x / (float)event.size.size.y;
-    mCamera.setProjectionMatrix({ -mAspectRatio, 1.f, 2 * mAspectRatio, 2 * 1.f });
+    mViewport = event.size.size;
+    mCamera.setProjectionMatrix({ { -mViewport.x / 2.f, mViewport.y / 2.f }, { (float)mViewport.x, (float)mViewport.y } });
 }
