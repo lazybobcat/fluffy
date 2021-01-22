@@ -129,6 +129,7 @@ void Painter::flush()
             mRenderingData.textures[i]->bind(i);
         }
         drawIndexed(mRenderingData.quadVertexArray, mRenderingData.quadIndexCount);
+        FLUFFY_PROFILE_DRAW_CALL(dataSize / sizeof(Vertex), mRenderingData.quadIndexCount);
     }
 
     // @todo move into another method resetPending()?

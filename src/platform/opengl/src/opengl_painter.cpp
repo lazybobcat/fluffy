@@ -38,8 +38,6 @@ void OpenGLPainter::doTerminate()
 void OpenGLPainter::drawIndexed(const Ref<VertexArray>& vertexArray, std::uint32_t indexCount)
 {
     FLUFFY_PROFILE_FUNCTION();
-    FLUFFY_PROFILE_DRAW_CALL();
-
     std::uint32_t count = (indexCount > 0) ? indexCount : vertexArray->getIndexBuffer()->count();
     GlCall(glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr));
 }

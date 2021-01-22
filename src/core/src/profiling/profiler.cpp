@@ -116,15 +116,15 @@ std::uint64_t Profiler::getMemoryUsage() const
     return memory_usage;
 }
 
-void Profiler::drawCall()
+void Profiler::drawCall(std::uint32_t nbVertices, std::uint32_t nbIndices)
 {
     std::unique_lock<std::mutex> lock(mMutex);
-    mRenderingProfiler.drawCall();
+    mRenderingProfiler.drawCall(nbVertices, nbIndices);
 }
 
-int Profiler::getDrawCalls() const
+const RenderingStats& Profiler::getRenderingStats() const
 {
-    return mRenderingProfiler.getDrawCalls();
+    return mRenderingProfiler.getRenderingStats();
 }
 
 #endif

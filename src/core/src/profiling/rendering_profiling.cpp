@@ -4,20 +4,24 @@ using namespace Fluffy;
 
 #ifdef FLUFFY_PROFILING_ACTIVE
 
-void RenderingProfiler::drawCall(int count)
+void RenderingProfiler::drawCall(std::uint32_t nbVertices, std::uint32_t nbIndices, int count)
 {
-    mDrawCalls += count;
+    mStats.drawCalls += count;
+    mStats.verticesDrawn += nbVertices;
+    mStats.indicesUsed += nbIndices;
 }
 
 void RenderingProfiler::reset()
 {
-    mLastFrameDrawCalls = mDrawCalls;
-    mDrawCalls          = 0;
+    mLastFrameStats = mStats;
+    mStats.drawCalls = 0;
+    mStats.verticesDrawn = 0;
+    mStats.indicesUsed = 0;
 }
 
-int RenderingProfiler::getDrawCalls() const
+const RenderingStats& RenderingProfiler::getRenderingStats() const
 {
-    return mLastFrameDrawCalls;
+    return mLastFrameStats;
 }
 
 #endif

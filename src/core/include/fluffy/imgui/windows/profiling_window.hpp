@@ -11,7 +11,7 @@ struct ProfileReport
 {
     Time                                                                  frameTime = Time::Zero;
     std::array<ScopeProfiler::Session, ScopeProfiler::SessionType::TOTAL> sessions{};
-    std::uint32_t                                                         drawCalls   = 0;
+    RenderingStats                                                        renderingStats;
     std::uint64_t                                                         memoryUsage = 0;
 };
 

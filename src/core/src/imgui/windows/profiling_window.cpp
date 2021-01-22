@@ -32,7 +32,7 @@ void ProfilingWindow::update(Time dt)
         if (!mPaused) {
             mLastReport.sessions = profiler->getSessions();
         }
-        mLastReport.drawCalls   = profiler->getDrawCalls();
+        mLastReport.renderingStats   = profiler->getRenderingStats();
         mLastReport.memoryUsage = profiler->getMemoryUsage();
     }
 }
@@ -90,7 +90,7 @@ void ProfilingWindow::renderStats() const
     float fps       = 1.f / mLastReport.frameTime.seconds();
     float frameTime = mLastReport.frameTime.milliseconds();
     ImGui::Text("%.1f FPS (%.2fms/frame)", fps, frameTime);
-    ImGui::Text("%d Render API draw calls", mLastReport.drawCalls);
+    ImGui::Text("%d draw calls (%d vertices, %d indices)", mLastReport.renderingStats.drawCalls, mLastReport.renderingStats.verticesDrawn, mLastReport.renderingStats.indicesUsed);
     ImGui::Text("%.2fKB of memory tracked", mLastReport.memoryUsage / 1000.f);
 }
 

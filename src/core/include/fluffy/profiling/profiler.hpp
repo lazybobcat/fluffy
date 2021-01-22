@@ -41,9 +41,9 @@ public:
     [[nodiscard]] std::size_t getFrameTimeCount() const;
 
     // Rendering profiling
-    void drawCall();
+    void drawCall(std::uint32_t nbVertices, std::uint32_t nbIndices);
 
-    [[nodiscard]] int getDrawCalls() const;
+    [[nodiscard]] const RenderingStats& getRenderingStats() const;
 
     // Memory profiling
     [[nodiscard]] std::uint64_t getMemoryUsage() const;
@@ -71,7 +71,7 @@ private:
 #define FLUFFY_PROFILE_SCOPE(name) auto COMBINE(scope, __LINE__) = Fluffy::Profiler::get()->scope(name)
 #define FLUFFY_PROFILE_FUNCTION() FLUFFY_PROFILE_SCOPE(PRINT_FUNCTION_MACRO)
 #define FLUFFY_PROFILE_FRAME_TIME(time) Fluffy::Profiler::get()->frameTime(time)
-#define FLUFFY_PROFILE_DRAW_CALL() Fluffy::Profiler::get()->drawCall()
+#define FLUFFY_PROFILE_DRAW_CALL(vertices, indices) Fluffy::Profiler::get()->drawCall(vertices, indices)
 
 #else
 
@@ -82,6 +82,6 @@ private:
 #define FLUFFY_PROFILE_SCOPE(name)
 #define FLUFFY_PROFILE_FUNCTION()
 #define FLUFFY_PROFILE_FRAME_TIME(time)
-#define FLUFFY_PROFILE_DRAW_CALL()
+#define FLUFFY_PROFILE_DRAW_CALL(vertices, indices)
 
 #endif
