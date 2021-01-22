@@ -49,6 +49,6 @@ void ImGuiWindow::hide()
 
 void ImGuiWindow::resize(const Vector2i& size)
 {
-    mWindowSize = size;
+    mWindowSize   = size;
     mNeedToResize = true;
 }

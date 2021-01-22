@@ -40,8 +40,6 @@ public:
 public:
     virtual ~Window() = default;
 
-    static Unique<Window> create(const Definition& definition);
-
     virtual void                            updateDefinition(const Definition& definition) = 0;
     virtual void                            setVsync(bool vsync)                           = 0;
     [[nodiscard]] virtual const Definition& getDefinition() const                          = 0;
@@ -51,7 +49,8 @@ public:
     virtual void               swapBuffers()            = 0;
     [[nodiscard]] virtual bool shouldClose() const      = 0;
 
-    virtual void  resize(int w, int h) {}
-    virtual void* getNativeWindow() { return nullptr; }
+    virtual void     resize(int w, int h) {}
+    virtual Vector2i getSize() const { return { getDefinition().width, getDefinition().height }; }
+    virtual void*    getNativeWindow() { return nullptr; }
 };
 }

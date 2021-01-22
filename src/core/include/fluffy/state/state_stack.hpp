@@ -2,6 +2,7 @@
 
 #include <fluffy/definitions.hpp>
 #include <fluffy/event/event_manager.hpp>
+#include <fluffy/graphics/render_context.hpp>
 #include <fluffy/pch.hpp>
 #include <fluffy/state/state.hpp>
 
@@ -28,7 +29,7 @@ public:
     bool isEmpty() const;
 
     void fixUpdate(Time dt);
-    void render(Time dt);
+    void render(RenderContext& context);
     void onEvent(Event& event);
 
     /**

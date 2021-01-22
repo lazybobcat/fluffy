@@ -1,6 +1,5 @@
 #include "opengl_shader.hpp"
 #include "opengl.hpp"
-#include <fluffy/graphics/renderer.hpp>
 #include <fluffy/profiling/profiler.hpp>
 
 using namespace Fluffy;
@@ -23,14 +22,14 @@ bool getFileContents(const String& filename, std::vector<char>& buffer)
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**********************************************************************************************************************/
 
 Ref<Shader> Shader::create()
 {
     return CreateRef<OpenglShader>();
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**********************************************************************************************************************/
 
 OpenglShader::OpenglShader()
 {
@@ -144,6 +143,12 @@ void OpenglShader::bindUniform(const String& name, int value)
 {
     FLUFFY_PROFILE_FUNCTION();
     glUniform1i(glGetUniformLocation(mProgramId, name.c_str()), value);
+}
+
+void OpenglShader::bindUniform(const String& name, int* value, std::size_t count)
+{
+    FLUFFY_PROFILE_FUNCTION();
+    glUniform1iv(glGetUniformLocation(mProgramId, name.c_str()), (GLsizei)count, value);
 }
 
 void OpenglShader::bindUniform(const String& name, bool value)

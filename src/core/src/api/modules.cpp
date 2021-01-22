@@ -1,7 +1,9 @@
 #include <fluffy/api/context.hpp>
 #include <fluffy/api/modules.hpp>
-#include <fluffy/graphics/renderer.hpp>
+#include <fluffy/graphics/shader.hpp>
+#include <fluffy/graphics/texture.hpp>
 #include <fluffy/input/input.hpp>
+#include <fluffy/resources/resource_library.hpp>
 
 using namespace Fluffy;
 
@@ -36,10 +38,18 @@ BaseModule* ModuleRegistry::getModule(ModuleType type) const
 
 void SystemModule::initialize(const Context& context)
 {
+    mResources = CreateUnique<ResourceLibrary>(context);
+    mResources->init<Texture2D>();
+    // mResources->init<Shader>();
 }
 
 void SystemModule::terminate()
 {
+}
+
+ResourceLibrary& SystemModule::getResources() const
+{
+    return *mResources;
 }
 
 /**********************************************************************************************************************/
@@ -51,15 +61,11 @@ VideoModule::VideoModule(Window::Definition&& windowDefinition)
 
 void VideoModule::initialize(const Context& context)
 {
-    mWindow = Window::create(mWindowDefinition);
-    Renderer::initialize();
-    Renderer2D::initialize();
+    mWindow = createWindow(mWindowDefinition);
 }
 
 void VideoModule::terminate()
 {
-    Renderer::terminate();
-    Renderer2D::terminate();
 }
 
 /**********************************************************************************************************************/

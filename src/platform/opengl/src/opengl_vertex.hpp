@@ -1,6 +1,6 @@
 #pragma once
 
-#include <fluffy/graphics/vertex.hpp>
+#include <fluffy/graphics/vertex_buffers.hpp>
 #include <glad/glad.h>
 
 namespace Fluffy {
@@ -8,6 +8,7 @@ namespace Fluffy {
 class OpenGLVertexBuffer : public VertexBuffer
 {
 public:
+    explicit OpenGLVertexBuffer(std::size_t size);
     OpenGLVertexBuffer(void* vertices, std::size_t size);
     ~OpenGLVertexBuffer() override;
 

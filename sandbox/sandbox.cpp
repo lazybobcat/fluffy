@@ -1,6 +1,6 @@
 #include "layers/imgui_state.hpp"
 #include "layers/sandbox2d_state.hpp"
-#include "layers/test_state.hpp"
+#include <opengl_video_module.hpp>
 #include <iostream>
 
 class EditorState : public State<EditorState>
@@ -16,7 +16,7 @@ public:
             requestStackPush(CreateUnique<Sandbox2DState>());
         }
     }
-    void render(Time dt) override
+    void render(RenderContext& context) override
     {
     }
     void onEvent(Event& event) override
@@ -32,7 +32,7 @@ public:
     void initializeModules(ModuleRegistry& registry) override
     {
         registry.registerModule(new SystemModule());
-        registry.registerModule(new VideoModule({getTitle(), WindowType::Windowed, 1280, 720}));
+        registry.registerModule(new OpenGLVideoModule({getTitle(), WindowType::Windowed, 1280, 720}));
         registry.registerModule(new InputModule());
     }
 
@@ -49,6 +49,11 @@ public:
     [[nodiscard]] int getTargetFPS() const override
     {
         return 120;
+    }
+
+    [[nodiscard]] bool fixedTimesteps() const override
+    {
+        return false;
     }
 };
 

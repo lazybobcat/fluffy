@@ -13,6 +13,7 @@ set(SOURCE_FILES
         include/fluffy/math/math.hpp
         include/fluffy/math/rectangle.hpp include/fluffy/math/rectangle.inl
         include/fluffy/file/path.hpp src/file/path.cpp
+        include/fluffy/file/filesystem.hpp src/file/filesystem.cpp
         include/fluffy/fluffy_utils.hpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)

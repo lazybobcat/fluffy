@@ -3,11 +3,30 @@
 
 using namespace Fluffy;
 
-String Fluffy::fromUTF32(String32 string)
+String Fluffy::toString(int value)
 {
-    std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> cv;
+    std::stringstream ss;
+    ss << value;
 
-    return cv.to_bytes(string);
+    return ss.str();
+}
+
+String Fluffy::toString(float value)
+{
+    std::stringstream ss;
+    ss << value;
+
+    return ss.str();
+}
+
+bool Fluffy::isInteger(const String& value)
+{
+    return !value.empty() && value.find_first_not_of("-0123456789") == String::npos;
+}
+
+bool Fluffy::isNumber(const String& value)
+{
+    return !value.empty() && value.find_first_not_of(".-0123456789") == String::npos;
 }
 
 String Fluffy::currentDateTime()

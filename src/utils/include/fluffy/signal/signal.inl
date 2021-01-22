@@ -9,7 +9,7 @@ Slot Signal<Args...>::connect(std::function<void(Args...)> callback)
     Slot::Id id(++mNextId);
     mCallbacks.insert(std::make_pair(id, callback));
 
-    Slot slot(std::move([=](Slot::Id slot_id) {
+    Slot slot(std::move([=, this](Slot::Id slot_id) {
                   this->disconnect(slot_id);
               }),
               id);

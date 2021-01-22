@@ -9,7 +9,7 @@ namespace Fluffy {
 class OrthographicCameraController
 {
 public:
-    explicit OrthographicCameraController(float aspectRatio, bool rotationEnabled = true, bool zoomEnabled = true);
+    explicit OrthographicCameraController(Vector2i viewport, bool rotationEnabled = true, bool zoomEnabled = true);
 
     OrthographicCamera&       getCamera() { return mCamera; }
     const OrthographicCamera& getCamera() const { return mCamera; }
@@ -21,10 +21,10 @@ private:
     void onWindowResized(Event& event);
 
 private:
-    float              mAspectRatio;
+    Vector2i           mViewport;
     bool               mRotationEnabled;
     bool               mZoomEnabled;
-    float              mCameraTranslationSpeed = 1.f;
+    float              mCameraTranslationSpeed = 200.f;
     float              mCameraRotationSpeed    = 20.f;
     float              mCameraZoomFactor       = 1.05f;
     OrthographicCamera mCamera;

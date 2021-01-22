@@ -8,7 +8,7 @@ namespace Fluffy {
 struct Color
 {
     Color() = default;
-    Color(float r, float g, float b, float a = 255);
+    Color(float r, float g, float b, float a = 1.f);
 
     static Color fromInt8(std::uint8_t r, std::uint8_t g, std::uint8_t b, std::uint8_t a = 255);
 

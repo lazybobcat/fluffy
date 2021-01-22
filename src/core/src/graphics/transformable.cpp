@@ -106,13 +106,11 @@ Vector3f Transformable::getEulerAngles() const
 const glm::mat4& Transformable::getTransformMatrix() const
 {
     if (mNeedToUpdate) {
-        mTransform = glm::translate(glm::mat4(1.f), mOrigin + mPosition) *
+        mTransform = glm::translate(glm::mat4(1.f), mPosition) *
                      glm::rotate(glm::mat4(1.f), glm::radians(mEulerAngles.x), { 1, 0, 0 }) *
                      glm::rotate(glm::mat4(1.f), glm::radians(mEulerAngles.y), { 0, 1, 0 }) *
                      glm::rotate(glm::mat4(1.f), glm::radians(mEulerAngles.z), { 0, 0, 1 }) *
-                     glm::scale(glm::mat4(1.f), mScale) *
-                     glm::translate(glm::mat4(1.0f), -mOrigin - mPosition) *
-                     glm::translate(glm::mat4(1.0f), mPosition);
+                     glm::scale(glm::mat4(1.f), mScale);
 
         mNeedToUpdate        = false;
         mNeedToUpdateInverse = true;

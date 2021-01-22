@@ -90,41 +90,20 @@ std::array<ScopeProfiler::Session, ScopeProfiler::SessionType::TOTAL> Profiler::
     return mScopeProfiler.mSessions;
 }
 
-void Profiler::frameTime(Time lastFrameTime)
-{
-    std::unique_lock<std::mutex> lock(mMutex);
-    mFrameProfiler.push(lastFrameTime);
-}
-
-Time Profiler::getLastFrameTime() const
-{
-    return mFrameProfiler.getAverage();
-}
-
-const Time* Profiler::getFrameTimeData() const
-{
-    return mFrameProfiler.getData();
-}
-
-std::size_t Profiler::getFrameTimeCount() const
-{
-    return mFrameProfiler.count();
-}
-
 std::uint64_t Profiler::getMemoryUsage() const
 {
     return memory_usage;
 }
 
-void Profiler::drawCall()
+void Profiler::drawCall(std::uint32_t nbVertices, std::uint32_t nbIndices)
 {
     std::unique_lock<std::mutex> lock(mMutex);
-    mRenderingProfiler.drawCall();
+    mRenderingProfiler.drawCall(nbVertices, nbIndices);
 }
 
-int Profiler::getDrawCalls() const
+const RenderingStats& Profiler::getRenderingStats() const
 {
-    return mRenderingProfiler.getDrawCalls();
+    return mRenderingProfiler.getRenderingStats();
 }
 
 #endif
