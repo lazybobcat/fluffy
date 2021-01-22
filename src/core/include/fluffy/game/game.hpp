@@ -27,6 +27,7 @@ public:
 
     bool isRunning() const;
 
+    virtual bool fixedTimesteps() const { return true; }
     virtual int  getTargetFPS() const { return 60; }
     virtual bool infiniteReload() const { return false; }
 

@@ -43,6 +43,8 @@ public:
      */
     FloatRect getGlobalBounds() const;
 
+    const VertexVector& getVertices() const;
+
 protected:
     Shape();
 

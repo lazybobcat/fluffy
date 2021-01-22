@@ -98,10 +98,8 @@ void Painter::unbind(RenderContext& context)
 void Painter::beginRender()
 {
     FLUFFY_PROFILE_FUNCTION();
-    // @todo stats
 
     mRenderingData.quadVertexBufferPtr = mRenderingData.quadVertexBufferBase;
-    mRenderingData.quadIndexCount      = 0;
 
     // Reset pending draw
     doBeginRender();
@@ -127,13 +125,27 @@ void Painter::flush()
         for (std::uint32_t i = 0; i < mRenderingData.textures.size(); ++i) {
             mRenderingData.textures[i]->bind(i);
         }
+        mRenderingData.quadVertexArray->bind();
         drawIndexed(mRenderingData.quadVertexArray, mRenderingData.quadIndexCount);
-        FLUFFY_PROFILE_DRAW_CALL(dataSize / sizeof(Vertex), mRenderingData.quadIndexCount);
+        FLUFFY_PROFILE_DRAW_CALL(mRenderingData.quadVerticesCount, mRenderingData.quadIndexCount);
     }
 
-    // @todo move into another method resetPending()?
+    resetRenderingData();
+}
+
+void Painter::resetRenderingData()
+{
     mRenderingData.quadVertexBufferPtr = mRenderingData.quadVertexBufferBase;
+    mRenderingData.quadIndexCount = 0;
+    mRenderingData.quadVerticesCount = 0;
     mRenderingData.textures.erase(++mRenderingData.textures.begin(), mRenderingData.textures.end()); // keep the first texture (blank)
+}
+
+void Painter::draw(const Ref<VertexArray>& vertexArray, std::uint32_t indexCount)
+{
+    vertexArray->bind();
+    drawIndexed(vertexArray, indexCount);
+    FLUFFY_PROFILE_DRAW_CALL(indexCount / 6 * 4, indexCount);
 }
 
 void Painter::draw(const VertexVector& vertices, const IndexBuffer& indices, const RenderStates& states)
@@ -141,12 +153,18 @@ void Painter::draw(const VertexVector& vertices, const IndexBuffer& indices, con
     FLUFFY_PROFILE_FUNCTION();
 }
 
-void Painter::drawQuads(const VertexVector& vertices, const RenderStates& states)
+void Painter::drawQuad(const VertexVector& vertices, const RenderStates& states)
 {
     FLUFFY_PROFILE_FUNCTION();
 
     if (0 == vertices.getVerticesCount()) {
         return;
+    }
+
+    FLUFFY_ASSERT(4 == vertices.getVerticesCount(), "drawQuad only draws a quad, which have 4 vertices");
+
+    if ((vertices.getVerticesCount() + mRenderingData.quadVerticesCount) > mRenderingData.maxVertices) {
+        flush();
     }
 
     float textureIndex = 0.f;
@@ -178,6 +196,7 @@ void Painter::drawQuads(const VertexVector& vertices, const RenderStates& states
     }
 
     mRenderingData.quadIndexCount += 6;
+    mRenderingData.quadVerticesCount += vertices.getVerticesCount();
 }
 
 void Painter::drawShape(Shape& shape, const RenderStates& states)

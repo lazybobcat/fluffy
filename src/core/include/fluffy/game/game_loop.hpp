@@ -13,6 +13,7 @@ public:
 
 private:
     void runLoop();
+    void doFrame(Time& timePerFrame, Game& game) const;
     bool needToReload();
 
 private:

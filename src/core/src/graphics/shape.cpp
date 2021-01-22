@@ -106,7 +106,7 @@ void Shape::update()
 void Shape::draw(Painter& painter, RenderStates states) const
 {
     states.transform *= getTransformMatrix();
-    painter.drawQuads(mVertices, states);
+    painter.drawQuad(mVertices, states);
 }
 
 void Shape::updateFillColors()
@@ -129,4 +129,9 @@ void Shape::updateOutline()
 
     updateOutlineColors();
     mBounds = mOutlineVertices.getBounds();
+}
+
+const VertexVector& Shape::getVertices() const
+{
+    return mVertices;
 }

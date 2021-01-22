@@ -9,7 +9,6 @@ namespace Fluffy {
 
 struct ProfileReport
 {
-    Time                                                                  frameTime = Time::Zero;
     std::array<ScopeProfiler::Session, ScopeProfiler::SessionType::TOTAL> sessions{};
     RenderingStats                                                        renderingStats;
     std::uint64_t                                                         memoryUsage = 0;
@@ -35,7 +34,6 @@ protected:
     void begin() override;
 
 private:
-    void renderFpsChart() const;
     void renderStats() const;
     void renderScopeChart();
     void renderWindowContextMenu();

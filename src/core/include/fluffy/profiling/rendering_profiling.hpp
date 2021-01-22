@@ -1,6 +1,7 @@
 #pragma once
 
 #include <fluffy/definitions.hpp>
+#include <fluffy/time/clock.hpp>
 
 #ifdef FLUFFY_PROFILING_ACTIVE
 
@@ -11,6 +12,7 @@ struct RenderingStats
     std::uint32_t drawCalls     = 0;
     std::uint32_t verticesDrawn = 0;
     std::uint32_t indicesUsed   = 0;
+    Time          frameTime     = Time::Zero;
 };
 
 class RenderingProfiler
@@ -24,6 +26,7 @@ public:
 private:
     mutable RenderingStats mStats;
     RenderingStats         mLastFrameStats;
+    Clock                  mClock;
 };
 }
 

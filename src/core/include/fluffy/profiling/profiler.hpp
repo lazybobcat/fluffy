@@ -1,7 +1,6 @@
 #pragma once
 
 #include <fluffy/definitions.hpp>
-#include <fluffy/profiling/frame_profiling.hpp>
 #include <fluffy/profiling/rendering_profiling.hpp>
 #include <fluffy/profiling/scope_profiling.hpp>
 #include <fluffy/time/clock.hpp>
@@ -33,13 +32,6 @@ public:
 
     [[nodiscard]] std::array<ScopeProfiler::Session, ScopeProfiler::SessionType::TOTAL> getSessions() const;
 
-    // FPS profiling
-    void frameTime(Time lastFrameTime);
-
-    [[nodiscard]] Time        getLastFrameTime() const;
-    [[nodiscard]] const Time* getFrameTimeData() const;
-    [[nodiscard]] std::size_t getFrameTimeCount() const;
-
     // Rendering profiling
     void drawCall(std::uint32_t nbVertices, std::uint32_t nbIndices);
 
@@ -50,7 +42,6 @@ public:
 
 private:
     ScopeProfiler     mScopeProfiler;
-    FrameProfiler     mFrameProfiler;
     RenderingProfiler mRenderingProfiler;
 
     std::mutex mMutex;
@@ -70,7 +61,6 @@ private:
 #define FLUFFY_PROFILE_END_FRAME() Fluffy::Profiler::get()->endFrame()
 #define FLUFFY_PROFILE_SCOPE(name) auto COMBINE(scope, __LINE__) = Fluffy::Profiler::get()->scope(name)
 #define FLUFFY_PROFILE_FUNCTION() FLUFFY_PROFILE_SCOPE(PRINT_FUNCTION_MACRO)
-#define FLUFFY_PROFILE_FRAME_TIME(time) Fluffy::Profiler::get()->frameTime(time)
 #define FLUFFY_PROFILE_DRAW_CALL(vertices, indices) Fluffy::Profiler::get()->drawCall(vertices, indices)
 
 #else
@@ -81,7 +71,6 @@ private:
 #define FLUFFY_PROFILE_END_FRAME()
 #define FLUFFY_PROFILE_SCOPE(name)
 #define FLUFFY_PROFILE_FUNCTION()
-#define FLUFFY_PROFILE_FRAME_TIME(time)
 #define FLUFFY_PROFILE_DRAW_CALL(vertices, indices)
 
 #endif

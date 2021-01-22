@@ -15,7 +15,7 @@ class Shape;
 
 struct PainterData
 {
-    const std::uint32_t maxQuads        = 10000;
+    const std::uint32_t maxQuads        = 1000;
     const std::uint32_t maxVertices     = maxQuads * 4;
     const std::uint32_t maxIndices      = maxQuads * 6;
     int                 maxTextureSlots = 2;
@@ -26,6 +26,7 @@ struct PainterData
     std::vector<Ref<Texture2D>> textures;
 
     std::uint32_t quadIndexCount       = 0;
+    std::uint32_t quadVerticesCount    = 0;
     Vertex*       quadVertexBufferBase = nullptr;
     Vertex*       quadVertexBufferPtr  = nullptr;
 };
@@ -40,8 +41,9 @@ public:
     void flush();
 
     // Draw methods
+    void draw(const Ref<VertexArray>& vertexArray, std::uint32_t indexCount /*, Ref<Material> material*/); // Assumes that the primitive type is always TRIANGLES
     void draw(const VertexVector& vertices, const IndexBuffer& indices /*, Ref<Material> material*/, const RenderStates& states); // Assumes that the primitive type is always TRIANGLES
-    void drawQuads(const VertexVector& vertices /*, Ref<Material> material*/, const RenderStates& states);
+    void drawQuad(const VertexVector& vertices /*, Ref<Material> material*/, const RenderStates& states);
     // void drawSprite(...); // @todo
     void drawLine(const std::vector<Vector2f>& points, const Color& color, float thickness /*, Ref<Material> material*/);
     void drawRectangle();
@@ -60,6 +62,8 @@ private:
 
     void beginRender();
     void endRender();
+
+    void resetRenderingData();
 
 protected:
     Painter() = default;

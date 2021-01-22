@@ -26,29 +26,37 @@ void GameLoop::runLoop()
     while (game.isRunning()) {
         timeSinceLastUpdate = clock.elapsedTime();
 
-        if (timeSinceLastUpdate >= timePerFrame) {
-            FLUFFY_PROFILE_FRAME_TIME(timeSinceLastUpdate);
-            while (timeSinceLastUpdate >= timePerFrame) {
-                FLUFFY_PROFILE_FRAME();
-                timeSinceLastUpdate -= timePerFrame;
+        if (game.fixedTimesteps()) {
+            if (timeSinceLastUpdate >= timePerFrame) {
+                while (timeSinceLastUpdate >= timePerFrame) {
+                    timeSinceLastUpdate -= timePerFrame;
+                    doFrame(timePerFrame, game);
+                }
 
-                // Events
-                game.doEvents(timePerFrame);
-
-                // Update
-                game.doFixUpdate(timePerFrame);
-
-                // Render
-                game.doRender(timePerFrame);
-
-                FLUFFY_PROFILE_END_FRAME();
+                clock.restart();
+            } else {
+                std::this_thread::yield();
             }
-
-            clock.restart();
         } else {
-            std::this_thread::yield();
+            doFrame(timePerFrame, game);
         }
     }
+}
+void GameLoop::doFrame(Time& timePerFrame, Game& game) const
+{
+    FLUFFY_PROFILE_FRAME();
+
+
+    // Events
+    game.doEvents(timePerFrame);
+
+    // Update
+    game.doFixUpdate(timePerFrame);
+
+    // Render
+    game.doRender(timePerFrame);
+
+    FLUFFY_PROFILE_END_FRAME();
 }
 
 bool GameLoop::needToReload()

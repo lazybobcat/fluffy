@@ -50,6 +50,11 @@ public:
     {
         return 120;
     }
+
+    [[nodiscard]] bool fixedTimesteps() const override
+    {
+        return false;
+    }
 };
 
 FluffyGame(TestGame)
