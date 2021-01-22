@@ -48,19 +48,20 @@ public:
     virtual void enable()                                                       = 0;
     virtual void disable()                                                      = 0;
 
-    virtual void bindUniform(const String& name, float value)     = 0;
-    virtual void bindUniform(const String& name, int value)       = 0;
-    virtual void bindUniform(const String& name, bool value)      = 0;
-    virtual void bindUniform(const String& name, glm::mat4 value) = 0;
-    virtual void bindUniform(const String& name, Color value)     = 0;
-    virtual void bindUniform(const String& name, Vector2f value)  = 0;
-    virtual void bindUniform(const String& name, Vector3f value)  = 0;
-    virtual void bindUniform(const String& name, Vector4f value)  = 0;
-    virtual void bindUniform(const String& name, Vector2i value)  = 0;
-    virtual void bindUniform(const String& name, Vector3i value)  = 0;
-    virtual void bindUniform(const String& name, Vector4i value)  = 0;
-    virtual void bindUniform(const String& name, Vector2u value)  = 0;
-    virtual void bindUniform(const String& name, Vector3u value)  = 0;
-    virtual void bindUniform(const String& name, Vector4u value)  = 0;
+    virtual void bindUniform(const String& name, float value)                   = 0;
+    virtual void bindUniform(const String& name, int value)                     = 0;
+    virtual void bindUniform(const String& name, int* value, std::size_t count) = 0;
+    virtual void bindUniform(const String& name, bool value)                    = 0;
+    virtual void bindUniform(const String& name, glm::mat4 value)               = 0;
+    virtual void bindUniform(const String& name, Color value)                   = 0;
+    virtual void bindUniform(const String& name, Vector2f value)                = 0;
+    virtual void bindUniform(const String& name, Vector3f value)                = 0;
+    virtual void bindUniform(const String& name, Vector4f value)                = 0;
+    virtual void bindUniform(const String& name, Vector2i value)                = 0;
+    virtual void bindUniform(const String& name, Vector3i value)                = 0;
+    virtual void bindUniform(const String& name, Vector4i value)                = 0;
+    virtual void bindUniform(const String& name, Vector2u value)                = 0;
+    virtual void bindUniform(const String& name, Vector3u value)                = 0;
+    virtual void bindUniform(const String& name, Vector4u value)                = 0;
 };
 }

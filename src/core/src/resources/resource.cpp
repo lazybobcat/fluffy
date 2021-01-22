@@ -103,6 +103,11 @@ const void* StaticResourceData::getData() const
     return mData.get();
 }
 
+std::span<const Byte> StaticResourceData::getBytes() const
+{
+    return std::span<const Byte>(reinterpret_cast<const Byte*>(getData()), getSize());
+}
+
 String StaticResourceData::getString() const
 {
     return String(static_cast<const char*>(getData()), getSize());

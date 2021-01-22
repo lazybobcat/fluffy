@@ -74,8 +74,11 @@ public:
         squareTransform.move({ 0.f, 0.f, 0.1f });
 
         // My texture
-        texture = Texture2D::create("assets/textures/alpaca.png");
+        texture = getContext()->system->getResources().get<Texture2D>("assets/textures/alpaca.png");
         texture->setRepeat(RepeatType::Repeat);
+
+        tile = getContext()->system->getResources().get<Texture2D>("assets/textures/tile.png");
+        tile->setRepeat(RepeatType::Repeat);
 
         // ImGui
         container.pack(CreateRef<ToolbarWindow>(openedWindows));
@@ -136,18 +139,22 @@ public:
         {
             FLUFFY_PROFILE_SCOPE("Scene");
 
-            RenderStates states;
+            RenderStates states1;
+            //states1.texture = texture;
+
+            RenderStates states2;
+            //states2.texture = tile;
 
             context.with(cameraController.getCamera()).bind([&](Painter& painter) {
                 painter.clear(Color::fromInt8(204, 51, 204, 255));
 
-                // states.transform = rectangle1.getTransformMatrix();
-                // painter.drawQuads(rectangle1.vertices, states);
-                painter.drawShape(rectangle1, states);
+                // states1.transform = rectangle1.getTransformMatrix();
+                // painter.drawQuads(rectangle1.vertices, states1);
+                painter.drawShape(rectangle1, states1);
 
-                // states.transform = rectangle2.getTransformMatrix();
-                // painter.drawQuads(rectangle2.vertices, states);
-                painter.drawShape(rectangle2, states);
+                // states2.transform = rectangle2.getTransformMatrix();
+                // painter.drawQuads(rectangle2.vertices, states2);
+                painter.drawShape(rectangle2, states2);
 
                 painter.flush();
             });
@@ -198,6 +205,7 @@ public:
 
 private:
     OrthographicCameraController cameraController;
+    Ref<Texture2D>               tile;
     Ref<Texture2D>               texture;
     Transformable                squareTransform;
     Color                        squareColor = { .2f, .8f, .43f, 1.f };

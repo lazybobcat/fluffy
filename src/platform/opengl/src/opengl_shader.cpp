@@ -145,6 +145,12 @@ void OpenglShader::bindUniform(const String& name, int value)
     glUniform1i(glGetUniformLocation(mProgramId, name.c_str()), value);
 }
 
+void OpenglShader::bindUniform(const String& name, int* value, std::size_t count)
+{
+    FLUFFY_PROFILE_FUNCTION();
+    glUniform1iv(glGetUniformLocation(mProgramId, name.c_str()), (GLsizei)count, value);
+}
+
 void OpenglShader::bindUniform(const String& name, bool value)
 {
     FLUFFY_PROFILE_FUNCTION();

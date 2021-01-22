@@ -12,8 +12,8 @@ struct RenderStates
 {
     static const RenderStates Default;
 
-    glm::mat4            transform = glm::mat4(1.f);
-    const Ref<Texture2D> texture   = nullptr;
-    const Ref<Shader>    shader    = nullptr;
+    glm::mat4      transform = glm::mat4(1.f);
+    Ref<Texture2D> texture   = nullptr;
+    Ref<Shader>    shader    = nullptr;
 };
 }

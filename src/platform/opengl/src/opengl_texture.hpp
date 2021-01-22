@@ -16,7 +16,7 @@ public:
     bool loadFromFile(const Path& path);
     void setData(void* data, std::size_t size) override;
 
-    void bind() override;
+    void bind(std::uint32_t slot = 0) override;
     void unbind() override;
 
     void setRepeat(RepeatType type) override;
@@ -27,6 +27,7 @@ public:
 
 private:
     void create(unsigned int width, unsigned int height, unsigned int internalFormat, unsigned int dataFormat);
+    bool doLoad(int width, int height, int channels, unsigned char* data);
     void updateSmoothness();
     void updateRepeatability();
 

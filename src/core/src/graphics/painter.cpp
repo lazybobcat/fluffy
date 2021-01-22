@@ -5,7 +5,9 @@
 
 using namespace Fluffy;
 
-void Painter::initialize()
+constexpr int MAX_TEXTURES_SLOTS_IN_SHADER = 32;
+
+void Painter::initialize(VideoModule* video)
 {
     FLUFFY_PROFILE_FUNCTION();
 
@@ -13,7 +15,6 @@ void Painter::initialize()
     mRenderingData.shader = Shader::create();
     mRenderingData.shader->loadFromFile("assets/shaders/sprite.vertex.shader", "assets/shaders/sprite.fragment.shader");
     mRenderingData.shader->enable();
-    mRenderingData.shader->bindUniform("spriteTexture", 0);
 
     mRenderingData.quadVertexArray = VertexArray::create();
     mRenderingData.quadVertexBuffer = VertexBuffer::create(mRenderingData.maxVertices * sizeof(Vertex));
@@ -21,6 +22,7 @@ void Painter::initialize()
                                                  { ShaderDataType::Vector3f, "aPos" },
                                                  { ShaderDataType::Vector2f, "aTexCoord" },
                                                  { ShaderDataType::Vector4f, "aColor" },
+                                                 { ShaderDataType::Float, "aTexSlot" },
                                                });
     mRenderingData.quadVertexArray->addVertexBuffer(mRenderingData.quadVertexBuffer);
 
@@ -45,9 +47,18 @@ void Painter::initialize()
     delete[] quadIndices;
 
     std::uint32_t white = 0xffffffff;
-    mRenderingData.blankTexture = Texture2D::create(1, 1);
-    mRenderingData.blankTexture->setRepeat(RepeatType::Repeat);
-    mRenderingData.blankTexture->setData(&white, sizeof(std::uint32_t));
+    auto blankTexture = Texture2D::create(1, 1);
+    blankTexture->setRepeat(RepeatType::Repeat);
+    blankTexture->setData(&white, sizeof(std::uint32_t));
+    mRenderingData.textures.push_back(blankTexture);
+
+    // Texture slots
+    mRenderingData.maxTextureSlots = std::min(video->getMaxTextureSlots(), MAX_TEXTURES_SLOTS_IN_SHADER);
+    int samplers[MAX_TEXTURES_SLOTS_IN_SHADER];
+    for (int i = 0; i < mRenderingData.maxTextureSlots; ++i) {
+        samplers[i] = i;
+    }
+    mRenderingData.shader->bindUniform("u_Textures", samplers, mRenderingData.maxTextureSlots);
 
     doInitialize();
 }
@@ -114,13 +125,15 @@ void Painter::flush()
     mRenderingData.quadVertexBuffer->setData(mRenderingData.quadVertexBufferBase, dataSize);
 
     if (dataSize > 0) {
-        mRenderingData.blankTexture->bind(); // @todo remove this ASAP this is just for testing, should be part of Material
+        for (std::uint32_t i = 0; i < mRenderingData.textures.size(); ++i) {
+            mRenderingData.textures[i]->bind(i);
+        }
         drawIndexed(mRenderingData.quadVertexArray, mRenderingData.quadIndexCount);
-        mRenderingData.blankTexture->unbind();// @todo same
     }
 
     // @todo move into another method resetPending()?
     mRenderingData.quadVertexBufferPtr = mRenderingData.quadVertexBufferBase;
+    mRenderingData.textures.erase(++mRenderingData.textures.begin(), mRenderingData.textures.end()); // keep the first texture (blank)
 }
 
 void Painter::draw(const VertexVector& vertices, const IndexBuffer& indices, const RenderStates& states)
@@ -136,10 +149,31 @@ void Painter::drawQuads(const VertexVector& vertices, const RenderStates& states
         return;
     }
 
+    float textureIndex = 0.f;
+    if (states.texture) {
+        // check if texture is already in array
+        for (int i = 1; i < mRenderingData.textures.size(); ++i) {
+            if (states.texture->getAssetId() == mRenderingData.textures[i]->getAssetId()) {
+                textureIndex = (float)i;
+                break;
+            }
+        }
+
+        // otherwise insert it
+        if (textureIndex == 0.f) {
+            if (mRenderingData.textures.size() >= mRenderingData.maxTextureSlots) {
+                flush();
+            }
+            textureIndex = (float)mRenderingData.textures.size();
+            mRenderingData.textures.push_back(states.texture);
+        }
+    }
+
     for (std::size_t i = 0; i < vertices.getVerticesCount(); ++i) {
         mRenderingData.quadVertexBufferPtr->position = states.transform * Vector4f(vertices[i].position, 1.f);
         mRenderingData.quadVertexBufferPtr->color = vertices[i].color;
         mRenderingData.quadVertexBufferPtr->texCoords = vertices[i].texCoords;
+        mRenderingData.quadVertexBufferPtr->ts = textureIndex;
         mRenderingData.quadVertexBufferPtr++;
     }
 

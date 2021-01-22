@@ -34,7 +34,6 @@ private:
     ResourceLibrary&                mResourceLibrary;
     std::map<String, Ref<Resource>> mResources;
     ResourceType                    mType;
-    std::mutex                      mMutex;
 };
 
 template<typename T = Fluffy::Resource>
@@ -51,7 +50,7 @@ public:
     }
 
 protected:
-    Ref<T> loadResource(ResourceLoader& loader) override
+    Ref<Resource> loadResource(ResourceLoader& loader) override
     {
         return T::loadResource(loader);
     }

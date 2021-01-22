@@ -31,7 +31,7 @@ void Game::setStartingState(Unique<BaseState> state, const Ref<Context>& context
 
     if (mContext->video) {
         mPainter = mContext->video->createPainter();
-        mPainter->initialize();
+        mPainter->initialize(mContext->video);
     }
 
     if (!mStateStack) {

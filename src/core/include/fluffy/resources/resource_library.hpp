@@ -30,7 +30,7 @@ public:
     template<typename T = Fluffy::Resource>
     ResourceCollection<T>& of() const
     {
-        return static_cast<ResourceCollection<T>&>(ofType(T::getAssetType()));
+        return static_cast<ResourceCollection<T>&>(ofType(T::getResourceType()));
     }
 
     template<typename T = Fluffy::Resource>

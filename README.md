@@ -1,6 +1,6 @@
 [![Generic badge](https://img.shields.io/badge/licence-MIT-brightgreen.svg)](https://en.wikipedia.org/wiki/MIT_License)
 [![Build Status](https://travis-ci.org/Lo-X/fluffy.svg?branch=master)](https://travis-ci.org/Lo-X/fluffy)
-[![Generic badge](https://img.shields.io/badge/C++-17-brightgreen.svg)](https://en.wikipedia.org/wiki/C%2B%2B17)
+[![Generic badge](https://img.shields.io/badge/C++-20-brightgreen.svg)](https://en.wikipedia.org/wiki/C%2B%2B20)
 
 Fluffy is still a work in progress.
 
@@ -30,7 +30,7 @@ but the goal is to make the user write as little code as possible and instead us
 
 ## Fluffy needs
 
-* A compiler that supports C++17 at least
+* A compiler that supports C++20
 * OpenGL 3.3+ compatible GPU
 
 ## Fluffy uses

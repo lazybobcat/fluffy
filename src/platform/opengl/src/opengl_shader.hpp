@@ -17,6 +17,7 @@ public:
 
     void bindUniform(const String& name, float value) override;
     void bindUniform(const String& name, int value) override;
+    void bindUniform(const String& name, int* value, std::size_t count) override;
     void bindUniform(const String& name, bool value) override;
     void bindUniform(const String& name, Color value) override;
     void bindUniform(const String& name, glm::mat4 value) override;

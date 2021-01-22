@@ -42,5 +42,4 @@ void OpenGLPainter::drawIndexed(const Ref<VertexArray>& vertexArray, std::uint32
 
     std::uint32_t count = (indexCount > 0) ? indexCount : vertexArray->getIndexBuffer()->count();
     GlCall(glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr));
-    GlCall(glBindTexture(GL_TEXTURE_2D, 0));
 }

@@ -15,14 +15,15 @@ class Shape;
 
 struct PainterData
 {
-    const std::uint32_t maxQuads    = 10000;
-    const std::uint32_t maxVertices = maxQuads * 4;
-    const std::uint32_t maxIndices  = maxQuads * 6;
+    const std::uint32_t maxQuads        = 10000;
+    const std::uint32_t maxVertices     = maxQuads * 4;
+    const std::uint32_t maxIndices      = maxQuads * 6;
+    int                 maxTextureSlots = 2;
 
-    Ref<VertexArray>  quadVertexArray;
-    Ref<VertexBuffer> quadVertexBuffer;
-    Ref<Shader>       shader;
-    Ref<Texture2D>    blankTexture;
+    Ref<VertexArray>            quadVertexArray;
+    Ref<VertexBuffer>           quadVertexBuffer;
+    Ref<Shader>                 shader;
+    std::vector<Ref<Texture2D>> textures;
 
     std::uint32_t quadIndexCount       = 0;
     Vertex*       quadVertexBufferBase = nullptr;
@@ -51,7 +52,7 @@ private:
     friend class RenderContext;
     friend class Game;
 
-    void initialize();
+    void initialize(VideoModule* video);
     void terminate();
 
     void bind(RenderContext& context);

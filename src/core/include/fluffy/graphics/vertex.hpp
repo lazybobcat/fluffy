@@ -28,6 +28,7 @@ struct Vertex
     Vector3f position  = Vector3f(0.f, 0.f, 0.f);
     Vector2f texCoords = Vector2f(0.f, 0.f);
     Color    color     = Color::White;
+    float    ts        = 0.f; // texture slot
 };
 
 class VertexVector
@@ -40,8 +41,8 @@ public:
     void clear();
     void resize(std::size_t count);
 
-    std::size_t   getVerticesCount() const;
-    FloatRect     getBounds() const;
+    std::size_t getVerticesCount() const;
+    FloatRect   getBounds() const;
 
     Vertex&       operator[](std::size_t index);
     const Vertex& operator[](std::size_t index) const;

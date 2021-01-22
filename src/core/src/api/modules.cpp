@@ -1,5 +1,7 @@
 #include <fluffy/api/context.hpp>
 #include <fluffy/api/modules.hpp>
+#include <fluffy/graphics/texture.hpp>
+#include <fluffy/graphics/shader.hpp>
 #include <fluffy/input/input.hpp>
 #include <fluffy/resources/resource_library.hpp>
 
@@ -37,7 +39,8 @@ BaseModule* ModuleRegistry::getModule(ModuleType type) const
 void SystemModule::initialize(const Context& context)
 {
     mResources = CreateUnique<ResourceLibrary>(context);
-    // mResources->init<>();
+    mResources->init<Texture2D>();
+    // mResources->init<Shader>();
 }
 
 void SystemModule::terminate()

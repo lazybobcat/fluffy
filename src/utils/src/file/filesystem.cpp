@@ -15,7 +15,6 @@ Bytes Filesystem::read(const Path& path)
     fp.seekg(0, std::ios::end);
     size_t size = fp.tellg();
     fp.seekg(0, std::ios::beg);
-    contents.resize(size);
 
     fp.read(reinterpret_cast<char*>(contents.data()), size);
     fp.close();

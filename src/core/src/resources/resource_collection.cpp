@@ -28,19 +28,16 @@ bool BaseResourceCollection::has(const String& assetId) const
 
 void BaseResourceCollection::add(const String& assetId, Ref<Resource> resource)
 {
-    std::lock_guard<std::mutex> lock(mMutex);
     mResources.emplace(assetId, resource);
 }
 
 void BaseResourceCollection::remove(const String& assetId)
 {
-    std::lock_guard<std::mutex> lock(mMutex);
     mResources.erase(assetId);
 }
 
 void BaseResourceCollection::clear()
 {
-    std::lock_guard<std::mutex> lock(mMutex);
     mResources.clear();
 }
 
@@ -48,7 +45,6 @@ void BaseResourceCollection::reload(const String& assetId)
 {
     auto it = mResources.find(assetId);
     if (it != mResources.end()) {
-        std::lock_guard<std::mutex> lock(mMutex);
         auto newResource = doLoadResource(assetId);
         newResource->setAssetId(assetId);
         newResource->onLoaded(mResourceLibrary);
@@ -66,7 +62,6 @@ Ref<Resource> BaseResourceCollection::getBase(const String& assetId)
     }
 
     // If not we load it and add it to the collection
-    std::lock_guard<std::mutex> lock(mMutex);
     auto newResource = doLoadResource(assetId);
     newResource->setAssetId(assetId);
     add(assetId, newResource);

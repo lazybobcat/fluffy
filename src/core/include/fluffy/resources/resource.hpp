@@ -54,9 +54,8 @@ public:
     /**
      * You want to implement these methods in your resources :
      */
-    /// static ResourceType getResourceType() const;
+    /// static constexpr ResourceType getResourceType();
     /// static Ref<T> loadResource(ResourceLoader& loader);
-
 protected:
     virtual void onLoaded(const ResourceLibrary& resourceLibrary);
     virtual void onReload(Ref<Resource> resource);
@@ -95,9 +94,10 @@ public:
 
     static Unique<StaticResourceData> loadFromFile(const Path& filepath);
 
-    [[nodiscard]] const void* getData() const;
-    [[nodiscard]] String      getString() const;
-    [[nodiscard]] std::size_t getSize() const;
+    [[nodiscard]] const void*           getData() const;
+    [[nodiscard]] std::span<const Byte> getBytes() const;
+    [[nodiscard]] String                getString() const;
+    [[nodiscard]] std::size_t           getSize() const;
 
     void writeToFile(const Path& path) const;
 

@@ -6,8 +6,8 @@
 
 namespace Fluffy {
 
-using Byte  = unsigned char;
-using Bytes = std::vector<Byte>;
+using Byte  = std::byte;
+using Bytes = std::span<Byte>;
 
 class Filesystem
 {
