@@ -49,7 +49,7 @@ int OpenGLVideoModule::getMaxTextureSlots()
 
 Unique<Window> OpenGLVideoModule::createWindow(const Window::Definition& definition)
 {
-    auto window =  CreateUnique<GlfwWindow>(definition);
+    auto window = CreateUnique<GlfwWindow>(definition);
 
     FLUFFY_LOG_INFO("GPU information:");
     FLUFFY_LOG_INFO("> Vendor: {}", glGetString(GL_VENDOR));

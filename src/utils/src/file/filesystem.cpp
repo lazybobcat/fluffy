@@ -1,5 +1,5 @@
-#include <fluffy/file/filesystem.hpp>
 #include <filesystem>
+#include <fluffy/file/filesystem.hpp>
 
 using namespace Fluffy;
 
@@ -19,7 +19,7 @@ Bytes Filesystem::read(const Path& path)
     fp.read(reinterpret_cast<char*>(contents.data()), size);
     fp.close();
 
-    return std::move(contents);
+    return contents;
 }
 
 bool Filesystem::read(char** buffer, size_t* size, const Path& path)

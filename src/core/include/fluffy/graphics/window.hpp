@@ -50,7 +50,7 @@ public:
     [[nodiscard]] virtual bool shouldClose() const      = 0;
 
     virtual void     resize(int w, int h) {}
-    virtual Vector2i getSize() const { return {getDefinition().width, getDefinition().height}; }
+    virtual Vector2i getSize() const { return { getDefinition().width, getDefinition().height }; }
     virtual void*    getNativeWindow() { return nullptr; }
 };
 }

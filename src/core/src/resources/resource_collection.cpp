@@ -18,7 +18,7 @@ std::vector<String> BaseResourceCollection::list() const
         list.push_back(it.first);
     }
 
-    return std::move(list);
+    return list;
 }
 
 bool BaseResourceCollection::has(const String& assetId) const

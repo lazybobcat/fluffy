@@ -4,9 +4,8 @@
 #include <fluffy/resources/resource_loader.hpp>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include <stb_image/stb_image.h>
 #include <fluffy/graphics/texture.hpp>
-
+#include <stb_image/stb_image.h>
 
 using namespace Fluffy;
 
@@ -55,8 +54,8 @@ void OpenglTexture2D::create(unsigned int width, unsigned int height, unsigned i
     FLUFFY_PROFILE_FUNCTION();
 
     mInternalFormat = internalFormat;
-    mDataFormat = dataFormat;
-    mSize = {width, height};
+    mDataFormat     = dataFormat;
+    mSize           = { width, height };
 
     if (!mTextureId) {
         glGenTextures(1, &mTextureId);
@@ -188,10 +187,9 @@ void OpenglTexture2D::setData(void* data, std::size_t size)
 
     glBindTexture(GL_TEXTURE_2D, mTextureId);
 
-    std::uint32_t bpp =( mDataFormat == GL_RGBA) ? 4 : 3;
+    std::uint32_t bpp = (mDataFormat == GL_RGBA) ? 4 : 3;
     FLUFFY_ASSERT(size == (mSize.x * mSize.y * bpp), "The size of the data does not match the texture size!");
     GlCall(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, mSize.x, mSize.y, mDataFormat, GL_UNSIGNED_BYTE, data));
-
 }
 
 void OpenglTexture2D::bind(std::uint32_t slot)

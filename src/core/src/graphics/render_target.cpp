@@ -3,7 +3,8 @@
 
 using namespace Fluffy;
 
-ScreenRenderTarget::ScreenRenderTarget(const IntRect& viewport) : mViewport(viewport)
+ScreenRenderTarget::ScreenRenderTarget(const IntRect& viewport)
+  : mViewport(viewport)
 {
     FLUFFY_LOG_INFO("A new screen render target has been created with viewport={}", viewport);
 }

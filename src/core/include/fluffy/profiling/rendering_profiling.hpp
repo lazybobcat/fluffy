@@ -8,9 +8,9 @@ namespace Fluffy {
 
 struct RenderingStats
 {
-    std::uint32_t drawCalls          = 0;
-    std::uint32_t verticesDrawn      = 0;
-    std::uint32_t indicesUsed        = 0;
+    std::uint32_t drawCalls     = 0;
+    std::uint32_t verticesDrawn = 0;
+    std::uint32_t indicesUsed   = 0;
 };
 
 class RenderingProfiler
@@ -23,7 +23,7 @@ public:
 
 private:
     mutable RenderingStats mStats;
-    RenderingStats mLastFrameStats;
+    RenderingStats         mLastFrameStats;
 };
 }
 

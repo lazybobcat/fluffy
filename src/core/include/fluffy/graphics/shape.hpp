@@ -9,7 +9,8 @@
 
 namespace Fluffy {
 
-class Shape : public Transformable, public Drawable
+class Shape : public Transformable
+  , public Drawable
 {
 public:
     virtual ~Shape() = default;
@@ -62,8 +63,8 @@ private:
 private:
     VertexVector mVertices;
     VertexVector mOutlineVertices;
-    Color        mFillColor = Color::White;
-    Color        mOutlineColor = Color::White;
+    Color        mFillColor        = Color::White;
+    Color        mOutlineColor     = Color::White;
     float        mOutlineThickness = 0.f;
     FloatRect    mInsideBounds;
     FloatRect    mBounds;

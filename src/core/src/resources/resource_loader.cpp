@@ -4,9 +4,9 @@
 using namespace Fluffy;
 
 ResourceLoader::ResourceLoader(const String& assetId, ResourceType type, const ResourceLibrary& resources)
-  : mAssetId(assetId)
+  : mResources(resources)
+  , mAssetId(assetId)
   , mType(type)
-  , mResources(resources)
 {
     auto path = Path(assetId + ".meta");
 
@@ -17,7 +17,7 @@ ResourceLoader::ResourceLoader(const String& assetId, ResourceType type, const R
 
 Unique<StaticResourceData> ResourceLoader::getStaticData()
 {
-    return std::move(StaticResourceData::loadFromFile(mAssetId));
+    return StaticResourceData::loadFromFile(mAssetId);
 }
 const String& ResourceLoader::getAssetId() const
 {

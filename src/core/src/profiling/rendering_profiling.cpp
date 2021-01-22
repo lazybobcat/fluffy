@@ -13,10 +13,10 @@ void RenderingProfiler::drawCall(std::uint32_t nbVertices, std::uint32_t nbIndic
 
 void RenderingProfiler::reset()
 {
-    mLastFrameStats = mStats;
-    mStats.drawCalls = 0;
+    mLastFrameStats      = mStats;
+    mStats.drawCalls     = 0;
     mStats.verticesDrawn = 0;
-    mStats.indicesUsed = 0;
+    mStats.indicesUsed   = 0;
 }
 
 const RenderingStats& RenderingProfiler::getRenderingStats() const

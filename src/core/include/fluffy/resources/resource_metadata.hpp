@@ -39,6 +39,6 @@ public:
 
 private:
     std::map<String, String> mConfigurations;
-    bool mLoaded = false;
+    bool                     mLoaded = false;
 };
 }

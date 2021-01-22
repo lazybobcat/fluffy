@@ -28,6 +28,6 @@ public:
     [[nodiscard]] IntRect getViewport() const override;
 
 protected:
-    IntRect  mViewport;
+    IntRect mViewport;
 };
 }

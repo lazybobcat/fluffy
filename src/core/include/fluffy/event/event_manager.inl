@@ -11,7 +11,7 @@ Slot EventManager::connect(std::function<void(const E&)> callback)
         mConnections[family] = GameEventSignal();
     }
 
-    auto slot = mConnections[family].connect([=](const BaseGameEvent& event) {
+    auto slot = mConnections[family].connect([=, this](const BaseGameEvent& event) {
         callback(static_cast<const E&>(event));
     });
 

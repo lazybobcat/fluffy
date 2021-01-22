@@ -76,8 +76,8 @@ void Game::doRender(Time dt)
 
     auto windowSize = video->getWindow()->getSize();
     if (windowSize != mPreviousWindowSize) {
-        mScreenTarget = video->createScreenRenderTarget();
-        mCamera = CreateUnique<OrthographicCamera>(FloatRect(windowSize/2, windowSize));
+        mScreenTarget       = video->createScreenRenderTarget();
+        mCamera             = CreateUnique<OrthographicCamera>(FloatRect(windowSize / 2, windowSize));
         mPreviousWindowSize = windowSize;
     }
 

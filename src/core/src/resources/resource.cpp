@@ -1,7 +1,7 @@
 #include <fluffy/assert.hpp>
 #include <fluffy/resources/resource.hpp>
-#include <fluffy/resources/resource_library.hpp>
 #include <fluffy/resources/resource_collection.hpp>
+#include <fluffy/resources/resource_library.hpp>
 #include <utility>
 
 using namespace Fluffy;

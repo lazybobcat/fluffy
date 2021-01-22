@@ -7,7 +7,7 @@ namespace Fluffy {
 class OpenGLPainter : public Painter
 {
 public:
-    OpenGLPainter() = default;
+    OpenGLPainter()           = default;
     ~OpenGLPainter() override = default;
 
     void clear(const Color& color) override;

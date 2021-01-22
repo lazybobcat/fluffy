@@ -1,7 +1,7 @@
 #include <fluffy/api/context.hpp>
 #include <fluffy/api/modules.hpp>
-#include <fluffy/graphics/texture.hpp>
 #include <fluffy/graphics/shader.hpp>
+#include <fluffy/graphics/texture.hpp>
 #include <fluffy/input/input.hpp>
 #include <fluffy/resources/resource_library.hpp>
 

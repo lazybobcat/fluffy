@@ -12,7 +12,7 @@ void FrameProfiler::push(Time time)
 Time FrameProfiler::getAverage() const
 {
     float totalMs = 0.f;
-    int n = 0;
+    int   n       = 0;
 
     for (const Time& time : mFrameTimes) {
         totalMs += time.milliseconds();

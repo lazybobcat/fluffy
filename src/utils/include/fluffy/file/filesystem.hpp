@@ -19,7 +19,7 @@ public:
     //static bool isDirectory(const Path& path);
 
     static Json::Value readJson(const Path& path);
-    static Bytes read(const Path& path);
+    static Bytes       read(const Path& path);
 
     /**
      * Reads data from a file and put its content in a buffer

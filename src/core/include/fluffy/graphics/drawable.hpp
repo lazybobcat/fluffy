@@ -1,7 +1,6 @@
 #pragma once
 
-namespace Fluffy
-{
+namespace Fluffy {
 
 class Painter;
 

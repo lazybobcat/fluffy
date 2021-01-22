@@ -3,10 +3,9 @@
 #include "glfw_functions.hpp"
 #include <fluffy/assert.hpp>
 #include <fluffy/definitions.hpp>
+#include <fluffy/graphics/window.hpp>
 #include <fluffy/pch.hpp>
 #include <fluffy/profiling/profiler.hpp>
-#include <fluffy/graphics/window.hpp>
-
 
 using namespace Fluffy;
 

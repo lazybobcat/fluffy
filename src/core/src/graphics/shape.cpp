@@ -1,5 +1,5 @@
-#include <fluffy/graphics/shape.hpp>
 #include <fluffy/graphics/painter.hpp>
+#include <fluffy/graphics/shape.hpp>
 
 using namespace Fluffy;
 

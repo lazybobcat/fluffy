@@ -7,7 +7,7 @@ OrthographicCameraController::OrthographicCameraController(Vector2i viewport, bo
   : mViewport(viewport)
   , mRotationEnabled(rotationEnabled)
   , mZoomEnabled(zoomEnabled)
-  , mCamera({ {-viewport.x / 2.f, viewport.y / 2.f}, {(float)viewport.x, (float)viewport.y} })
+  , mCamera({ { -viewport.x / 2.f, viewport.y / 2.f }, { (float)viewport.x, (float)viewport.y } })
 {
 }
 

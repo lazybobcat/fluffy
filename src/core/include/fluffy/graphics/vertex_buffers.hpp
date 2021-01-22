@@ -43,8 +43,6 @@ inline std::uint32_t ShaderDataTypeSize(ShaderDataType type)
     return 0;
 }
 
-
-
 struct BufferElement
 {
     String         name;
@@ -71,6 +69,8 @@ struct BufferElement
                 return 1;
             case ShaderDataType::Bool:
                 return 1;
+            case ShaderDataType::Transform:
+                return 16;
             case ShaderDataType::Vector2f:
                 return 2;
             case ShaderDataType::Vector3f:

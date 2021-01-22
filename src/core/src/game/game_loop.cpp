@@ -18,10 +18,10 @@ void GameLoop::run()
 
 void GameLoop::runLoop()
 {
-    Clock   clock;
-    Time    timeSinceLastUpdate = Time::Zero;
-    Time    timePerFrame        = seconds(1.f / mGameLoader.getGame().getTargetFPS());
-    Game&   game                = mGameLoader.getGame();
+    Clock clock;
+    Time  timeSinceLastUpdate = Time::Zero;
+    Time  timePerFrame        = seconds(1.f / mGameLoader.getGame().getTargetFPS());
+    Game& game                = mGameLoader.getGame();
 
     while (game.isRunning()) {
         timeSinceLastUpdate = clock.elapsedTime();
