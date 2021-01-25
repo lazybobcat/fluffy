@@ -6,8 +6,8 @@
 #include <fluffy/fluffy_utils.hpp>
 #include <fluffy/game/camera_controller.hpp>
 #include <fluffy/graphics/camera.hpp>
+#include <fluffy/graphics/rectangle_shape.hpp>
 #include <fluffy/graphics/shader.hpp>
-#include <fluffy/graphics/shape.hpp>
 #include <fluffy/graphics/texture.hpp>
 #include <fluffy/graphics/transformable.hpp>
 #include <fluffy/graphics/vertex_buffers.hpp>
@@ -15,41 +15,6 @@
 #include <imgui.h>
 #include <iostream>
 #include <opengl.hpp>
-
-struct RectangleShape : public Shape
-{
-    explicit RectangleShape(const Vector2f& size)
-      : size(size)
-    {
-        setOrigin({ 0.5f, 0.5f, 0.f });
-        update();
-    }
-
-    size_t getVerticesCount() override
-    {
-        return 4;
-    }
-
-    Vector3f getVertexPosition(std::size_t index) override
-    {
-        auto origin = getOrigin();
-
-        switch (index) {
-            case 0:
-                return { 0.f - origin.x * size.x, 0.f - origin.y * size.y, 0.f };
-            case 1:
-                return { size.x - origin.x * size.x, 0.f - origin.y * size.y, 0.f };
-            case 2:
-                return { size.x - origin.x * size.x, size.y - origin.y * size.y, 0.f };
-            case 3:
-                return { 0.f - origin.x * size.x, size.y - origin.y * size.y, 0.f };
-        }
-
-        return { 0.f, 0.f, 0.f };
-    }
-
-    Vector2f size;
-};
 
 class Tilemap
 {

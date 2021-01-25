@@ -27,6 +27,9 @@ public:
 
 using IntRect   = Rect<std::int32_t>;
 using FloatRect = Rect<float>;
+
+extern Vector2f transformPoint(const glm::mat4& transform, const Vector2f& point);
+extern FloatRect transformRect(const glm::mat4& transform, const FloatRect& rect);
 }
 
 template<>
