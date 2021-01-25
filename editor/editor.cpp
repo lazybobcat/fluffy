@@ -53,7 +53,7 @@ public:
 
     [[nodiscard]] bool fixedTimesteps() const override
     {
-        return false;
+        return true;
     }
 };
 }
