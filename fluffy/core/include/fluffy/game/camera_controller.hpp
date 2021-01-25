@@ -17,6 +17,8 @@ public:
     void update(Time dt);
     void onEvent(Event& event);
 
+    void resize(Vector2i size);
+
 private:
     void onWindowResized(Event& event);
 

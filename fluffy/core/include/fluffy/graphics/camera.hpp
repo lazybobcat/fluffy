@@ -26,11 +26,15 @@ public:
 
     void setProjectionMatrix(FloatRect bounds);
 
+    FloatRect getLocalBounds() const;
+    FloatRect getGlobalBounds() const;
+
     const glm::mat4& getProjectionMatrix() const { return mProjectionMatrix; }
     const glm::mat4& getViewMatrix() const;
     glm::mat4        getViewProjection() const override;
 
 private:
+    FloatRect mBounds;
     glm::mat4 mProjectionMatrix;
 };
 }

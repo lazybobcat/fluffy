@@ -48,15 +48,30 @@ void OrthographicCameraController::update(Time dt)
     }
 }
 
+void OrthographicCameraController::resize(Vector2i size)
+{
+    mViewport = size;
+    mCamera.setProjectionMatrix({ { -mViewport.x / 2.f, mViewport.y / 2.f }, { (float)mViewport.x, (float)mViewport.y } });
+}
+
 void OrthographicCameraController::onEvent(Event& event)
 {
     if (Event::WindowResized == event.type) {
         onWindowResized(event);
     }
+    if (Event::MouseWheelScrolled == event.type) {
+        if (event.mouseWheel.delta.y > 0) {
+            float factor = 1.f / mCameraZoomFactor;
+            mCamera.zoom(factor);
+            mCameraTranslationSpeed *= factor;
+        } else if (event.mouseWheel.delta.y < 0) {
+            mCamera.zoom(mCameraZoomFactor);
+            mCameraTranslationSpeed *= mCameraZoomFactor;
+        }
+    }
 }
 
 void OrthographicCameraController::onWindowResized(Event& event)
 {
-    mViewport = event.size.size;
-    mCamera.setProjectionMatrix({ { -mViewport.x / 2.f, mViewport.y / 2.f }, { (float)mViewport.x, (float)mViewport.y } });
+    resize(event.size.size);
 }

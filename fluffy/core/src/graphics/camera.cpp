@@ -8,12 +8,14 @@ using namespace Fluffy;
  */
 
 OrthographicCamera::OrthographicCamera(FloatRect bounds)
-  : mProjectionMatrix(glm::ortho(bounds.left, bounds.left + bounds.width, bounds.top, bounds.top - bounds.height, -1.f, 1.f))
+  : mBounds(bounds)
+  , mProjectionMatrix(glm::ortho(bounds.left, bounds.left + bounds.width, bounds.top, bounds.top - bounds.height, -1.f, 1.f))
 {
 }
 
 void OrthographicCamera::setProjectionMatrix(FloatRect bounds)
 {
+    mBounds = bounds;
     mProjectionMatrix = glm::ortho(bounds.left, bounds.left + bounds.width, bounds.top, bounds.top - bounds.height, -1.f, 1.f);
 }
 
@@ -30,4 +32,14 @@ glm::mat4 OrthographicCamera::getViewProjection() const
 void OrthographicCamera::zoom(float factor)
 {
     setScale(getScale() * factor);
+}
+
+FloatRect OrthographicCamera::getLocalBounds() const
+{
+    return mBounds;
+}
+
+FloatRect OrthographicCamera::getGlobalBounds() const
+{
+    return transformRect(getTransformMatrix(), mBounds);
 }
