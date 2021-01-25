@@ -7,7 +7,12 @@ set(SOURCE_FILES
         src/imgui_impl_opengl3.h src/imgui_impl_opengl3.cpp
         src/opengl_screen_render_target.hpp src/opengl_screen_render_target.cpp
         src/opengl_video_module.hpp src/opengl_video_module.cpp
-        src/opengl_painter.hpp src/opengl_painter.cpp)
+        src/opengl_painter.hpp src/opengl_painter.cpp
+        src/glfw.hpp
+        src/glfw_functions.hpp src/glfw_functions.cpp
+        src/glfw_window.hpp src/glfw_window.cpp
+        src/glfw_input_impl.cpp
+        src/imgui_impl_glfw.h src/imgui_impl_glfw.cpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 

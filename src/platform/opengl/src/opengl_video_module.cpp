@@ -1,5 +1,5 @@
 #include "opengl_video_module.hpp"
-#include "../../glfw/src/glfw_window.hpp"
+#include "glfw_window.hpp"
 #include "opengl_painter.hpp"
 #include "opengl_screen_render_target.hpp"
 #include <fluffy/assert.hpp>

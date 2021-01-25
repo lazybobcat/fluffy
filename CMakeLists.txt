@@ -19,7 +19,6 @@ set(FLUFFY_INTERNAL_LIBS fmt imgui fluffy-utils fluffy-core fluffy-ecs)
 set(FLUFFY_USE_OPENGL 1)
 set(FLUFFY_USE_OPENGL_ES2 0)
 set(FLUFFY_USE_OPENGL_ES3 0)
-set(FLUFFY_USE_GLFW 1)
 
 # CMake configurations
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build)
@@ -42,7 +41,7 @@ include(cmake/PrecompiledHeader.cmake) # If CMake < 3.16, precompiled headers ar
 # Debug libs
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/debug)
 
-# GLFW
+# OpenGL + GLFW
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)

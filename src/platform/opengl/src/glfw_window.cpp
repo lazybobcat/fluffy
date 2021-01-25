@@ -1,6 +1,6 @@
 #include "glfw_window.hpp"
-#include "../../opengl/src/opengl.hpp"
 #include "glfw_functions.hpp"
+#include "opengl.hpp"
 #include <fluffy/assert.hpp>
 #include <fluffy/definitions.hpp>
 #include <fluffy/graphics/window.hpp>
