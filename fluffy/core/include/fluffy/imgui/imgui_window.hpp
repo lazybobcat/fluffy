@@ -19,7 +19,7 @@ public:
     explicit ImGuiWindow(const ImGuiWindowDefinition& properties);
     virtual ~ImGuiWindow() = default;
 
-    void render() override;
+    void render(RenderContext& context) override;
     void show() override;
     void hide() override;
     void resize(const Vector2i& size);

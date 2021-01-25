@@ -28,7 +28,7 @@ public:
     void clear();
 
 protected:
-    void customRender() override;
+    void customRender(RenderContext& context) override;
 
 private:
     void renderContextMenu();

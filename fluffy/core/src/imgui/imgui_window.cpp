@@ -27,11 +27,11 @@ void ImGuiWindow::end()
     ImGui::End();
 }
 
-void ImGuiWindow::render()
+void ImGuiWindow::render(RenderContext& context)
 {
     if (*mWindowOpenControl) {
         begin();
-        customRender();
+        customRender(context);
         end();
     }
 }

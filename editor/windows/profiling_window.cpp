@@ -56,7 +56,7 @@ void ProfilingWindow::begin()
     ImGuiWindow::begin();
 }
 
-void ProfilingWindow::customRender()
+void ProfilingWindow::customRender(RenderContext&)
 {
     FLUFFY_PROFILE_FUNCTION();
 

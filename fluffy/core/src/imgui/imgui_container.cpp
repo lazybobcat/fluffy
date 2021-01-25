@@ -8,12 +8,12 @@ void ImGuiContainer::pack(const Ref<ImGuiElement>& element)
     mChildren.push_back(element);
 }
 
-void ImGuiContainer::render()
+void ImGuiContainer::render(RenderContext& context)
 {
     FLUFFY_PROFILE_FUNCTION();
 
     for (const auto& child : mChildren) {
-        child->render();
+        child->render(context);
     }
 }
 
@@ -26,6 +26,15 @@ void ImGuiContainer::update(Time dt)
     }
 }
 
-void ImGuiContainer::customRender()
+void ImGuiContainer::onEvent(Event& event)
+{
+    FLUFFY_PROFILE_FUNCTION();
+
+    for (const auto& child : mChildren) {
+        child->onEvent(event);
+    }
+}
+
+void ImGuiContainer::customRender(RenderContext&)
 {
 }

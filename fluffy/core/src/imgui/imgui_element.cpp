@@ -2,16 +2,20 @@
 
 using namespace Fluffy;
 
-void ImGuiElement::render()
+void ImGuiElement::render(RenderContext& context)
 {
     if (isVisible()) {
         begin();
-        customRender();
+        customRender(context);
         end();
     }
 }
 
 void ImGuiElement::update(Time dt)
+{
+}
+
+void ImGuiElement::onEvent(Event& event)
 {
 }
 

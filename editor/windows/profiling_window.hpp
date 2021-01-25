@@ -30,7 +30,7 @@ public:
     [[nodiscard]] bool isPaused() const;
 
 protected:
-    void customRender() override;
+    void customRender(RenderContext&) override;
     void begin() override;
 
 private:

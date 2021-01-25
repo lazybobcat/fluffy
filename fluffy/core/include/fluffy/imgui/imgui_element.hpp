@@ -1,6 +1,8 @@
 #pragma once
 
 #include <fluffy/time/time.hpp>
+#include <fluffy/event/event.hpp>
+#include <fluffy/graphics/render_context.hpp>
 
 namespace Fluffy {
 
@@ -10,8 +12,9 @@ public:
     ImGuiElement()          = default;
     virtual ~ImGuiElement() = default;
 
-    virtual void render();
+    virtual void render(RenderContext& context);
     virtual void update(Time dt);
+    virtual void onEvent(Event& event);
 
     virtual void       show() { mShow = true; }
     virtual void       hide() { mShow = false; }
@@ -19,7 +22,7 @@ public:
 
 protected:
     virtual void begin();
-    virtual void customRender() = 0;
+    virtual void customRender(RenderContext& context) = 0;
     virtual void end();
 
 private:

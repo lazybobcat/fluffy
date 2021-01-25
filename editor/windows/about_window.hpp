@@ -16,7 +16,7 @@ public:
     }
 
 protected:
-    void customRender() override
+    void customRender(RenderContext&) override
     {
         FLUFFY_PROFILE_SCOPE("ImGui About rendering");
         ImGui::TextColored(ImVec4(0.82f, 0.63f, 0.19f, 1.f), "Fluffy");

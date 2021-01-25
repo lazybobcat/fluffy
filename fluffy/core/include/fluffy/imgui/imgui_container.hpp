@@ -13,11 +13,12 @@ public:
 
     void pack(const Ref<ImGuiElement>& element);
 
-    void render() override;
+    void render(RenderContext& context) override;
     void update(Time dt) override;
+    void onEvent(Event& event) override;
 
 protected:
-    void customRender() override;
+    void customRender(RenderContext& context) override;
 
 private:
     std::vector<Ref<ImGuiElement>> mChildren;

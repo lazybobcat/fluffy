@@ -10,7 +10,7 @@ ToolbarWindow::ToolbarWindow(OpenedWindowTracker& tracker)
 {
 }
 
-void ToolbarWindow::customRender()
+void ToolbarWindow::customRender(RenderContext&)
 {
     FLUFFY_PROFILE_FUNCTION();
 
@@ -22,6 +22,7 @@ void ToolbarWindow::customRender()
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("View")) {
+            ImGui::MenuItem("Viewport", nullptr, &mWindowTracker.viewportWindowOpened);
 #ifdef FLUFFY_PROFILING_ACTIVE
             ImGui::MenuItem("Profiling", nullptr, &mWindowTracker.profilingWindowOpened);
 #endif

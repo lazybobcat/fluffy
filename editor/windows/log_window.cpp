@@ -1,4 +1,5 @@
 #include "log_window.hpp"
+#include <fluffy/utils/logger.hpp>
 
 using namespace Fluffy;
 
@@ -43,7 +44,7 @@ void LogWindow::clear()
     mLineOffsets.push_back(0);
 }
 
-void LogWindow::customRender()
+void LogWindow::customRender(RenderContext&)
 {
     FLUFFY_PROFILE_FUNCTION();
 
