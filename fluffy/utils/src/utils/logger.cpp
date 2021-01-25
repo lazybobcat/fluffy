@@ -5,7 +5,7 @@
 
 using namespace Fluffy;
 
-std::ostream& operator<<(std::ostream& os, LogLevel level)
+std::ostream& Fluffy::operator<<(std::ostream& os, Fluffy::LogLevel level)
 {
     switch (level) {
         case LogLevel::Error:
@@ -18,6 +18,7 @@ std::ostream& operator<<(std::ostream& os, LogLevel level)
             return os << "info";
 
         case LogLevel::Debug:
+        default:
             return os << "debug";
     }
 

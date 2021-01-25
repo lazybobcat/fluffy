@@ -88,6 +88,8 @@ private:
 
     std::set<BaseLoggerSink*> mSinks;
 };
+
+std::ostream& operator<<(std::ostream& os, Fluffy::LogLevel level);
 }
 
 // Fluffy core log macros
@@ -96,4 +98,3 @@ private:
 #define FLUFFY_LOG_WARN(...) Fluffy::Logger::warn(__VA_ARGS__)
 #define FLUFFY_LOG_ERROR(...) Fluffy::Logger::error(__VA_ARGS__)
 
-std::ostream& operator<<(std::ostream& os, Fluffy::LogLevel level);
