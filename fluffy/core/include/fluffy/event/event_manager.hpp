@@ -9,7 +9,7 @@ class EventManager
 {
 public:
     template<typename E>
-    Slot connect(std::function<void(const E&)> callback);
+    Ref<Slot> connect(std::function<void(const E&)> callback);
 
     /**
      * You should prefer to use slot.disconnect() directly

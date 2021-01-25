@@ -11,20 +11,7 @@ class Signal;
 class Slot
 {
 public:
-    struct Id
-    {
-        Id() = default;
-        Id(std::uint64_t id);
-
-        std::uint64_t id();
-
-        bool operator==(const Id& other) const;
-        bool operator!=(const Id& other) const;
-        bool operator<(const Id& other) const;
-
-    private:
-        std::uint64_t mId = 0;
-    };
+    using Id = std::uint64_t;
 
 public:
     Slot() = default;
@@ -32,6 +19,8 @@ public:
 
     void disconnect();
     Id   id();
+
+    operator Id() const;
 
 private:
     template<typename... Args>
@@ -41,7 +30,7 @@ private:
     Slot(std::function<void(Id)>&& disconnectCallback, Id id);
 
 private:
-    Id                      mId;
+    Id                      mId = 0;
     std::function<void(Id)> mDisconnectCallback;
     bool                    mInitialized = false;
 };

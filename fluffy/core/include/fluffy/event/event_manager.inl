@@ -3,7 +3,7 @@
 using namespace Fluffy;
 
 template<typename E>
-Slot EventManager::connect(std::function<void(const E&)> callback)
+Ref<Slot> EventManager::connect(std::function<void(const E&)> callback)
 {
     const BaseGameEvent::Family family = eventFamily<E>();
 
