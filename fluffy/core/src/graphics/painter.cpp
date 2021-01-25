@@ -78,6 +78,7 @@ void Painter::bind(RenderContext& context)
     mActiveContext      = &context;
     mActiveCamera       = &context.getCamera();
     mActiveRenderTarget = &context.getDefaultRenderTarget();
+    mActiveRenderTarget->onBind(*this);
 
     // @todo move this?
     mRenderingData.shader->enable();
@@ -89,6 +90,8 @@ void Painter::unbind(RenderContext& context)
     FLUFFY_PROFILE_FUNCTION();
 
     flush();
+
+    mActiveRenderTarget->onUnbind(*this);
 
     mActiveContext      = nullptr;
     mActiveCamera       = nullptr;
@@ -118,6 +121,8 @@ void Painter::flush()
 {
     FLUFFY_PROFILE_FUNCTION();
 
+    if (mActiveRenderTarget) mActiveRenderTarget->onStartDraw(*this);
+
     std::uint32_t dataSize = (std::uint8_t*)mRenderingData.quadVertexBufferPtr - (std::uint8_t*)mRenderingData.quadVertexBufferBase;
     mRenderingData.quadVertexBuffer->setData(mRenderingData.quadVertexBufferBase, dataSize);
 
@@ -129,6 +134,8 @@ void Painter::flush()
         drawIndexed(mRenderingData.quadVertexArray, mRenderingData.quadIndexCount);
         FLUFFY_PROFILE_DRAW_CALL(mRenderingData.quadVerticesCount, mRenderingData.quadIndexCount);
     }
+
+    if (mActiveRenderTarget) mActiveRenderTarget->onEndDraw(*this);
 
     resetRenderingData();
 }
