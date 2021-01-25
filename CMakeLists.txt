@@ -13,7 +13,7 @@ else()
     message(FATAL_ERROR "Your platform is not supported! (yet?)")
 endif()
 
-set(FLUFFY_INTERNAL_LIBS fmt imgui fluffy-utils fluffy-core fluffy-ecs)
+set(FLUFFY_INTERNAL_LIBS fmt imgui fluffy-utils fluffy-core)
 
 # Platform dependencies
 set(FLUFFY_USE_OPENGL 1)
@@ -66,7 +66,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/circular_buffer)
 
 # Fluffy
 add_subdirectory(fluffy/utils)
-add_subdirectory(fluffy/ecs)
 add_subdirectory(fluffy/core)
 add_subdirectory(fluffy/platform)
 

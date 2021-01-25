@@ -4,10 +4,6 @@
 #include <fluffy/event/event.hpp>
 #include <fluffy/pch.hpp>
 
-#if FLUFFY_DEBUG
-#include <fluffy/pch.hpp>
-#endif
-
 namespace Fluffy {
 
 constexpr std::size_t MAX_COMPONENTS = FLUFFY_ECS_MAX_COMPONENTS;
