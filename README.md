@@ -1,4 +1,4 @@
-[![Generic badge](https://img.shields.io/badge/licence-MIT-brightgreen.svg)](https://en.wikipedia.org/wiki/MIT_License)
+[![Generic badge](https://img.shields.io/badge/licence-WTFPL-brightgreen.svg)](https://en.wikipedia.org/wiki/WTFPL)
 [![Build Status](https://travis-ci.org/Lo-X/fluffy.svg?branch=master)](https://travis-ci.org/Lo-X/fluffy)
 [![Generic badge](https://img.shields.io/badge/C++-20-brightgreen.svg)](https://en.wikipedia.org/wiki/C%2B%2B20)
 
