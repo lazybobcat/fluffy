@@ -3,7 +3,7 @@
 #include <opengl_video_module.hpp>
 #include <iostream>
 
-class InitialState : public State<InitialState>
+class InitialState : public Layer<InitialState>
 {
 public:
     void initialize() override
@@ -12,8 +12,8 @@ public:
     void fixUpdate(Time dt) override
     {
         if (!launched) {
-            requestStackPush(CreateUnique<ImGuiState>());
-            requestStackPush(CreateUnique<Sandbox2DState>());
+            requestPushLayer(CreateUnique<ImGuiState>());
+            requestPushLayer(CreateUnique<Sandbox2DState>());
         }
     }
     void render(RenderContext& context) override
@@ -36,7 +36,7 @@ public:
         registry.registerModule(new InputModule());
     }
 
-    Unique<BaseState> start() override
+    Unique<BaseLayer> start() override
     {
         return CreateUnique<InitialState>();
     }

@@ -7,16 +7,16 @@
 
 namespace Fluffy {
 
-class InitialState : public State<InitialState>
+class InitialState : public Layer<InitialState>
 {
 public:
     void initialize() override {}
     void fixUpdate(Time dt) override
     {
         if (!launched) {
-            requestStackPop();
-            requestStackPush(CreateUnique<ImGuiState>());
-            requestStackPush(CreateUnique<EditorState>());
+            requestPopLayer();
+            requestPushOverlay(CreateUnique<ImGuiState>());
+            requestPushLayer(CreateUnique<EditorState>());
             launched = true;
         }
     }
@@ -36,7 +36,7 @@ public:
         registry.registerModule(new InputModule());
     }
 
-    Unique<BaseState> start() override
+    Unique<BaseLayer> start() override
     {
         return CreateUnique<InitialState>();
     }

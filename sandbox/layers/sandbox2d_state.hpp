@@ -86,7 +86,7 @@ public:
     std::vector<RectangleShape> rectangles;
 };
 
-class Sandbox2DState : public State<Sandbox2DState>
+class Sandbox2DState : public Layer<Sandbox2DState>
 {
 public:
     Sandbox2DState()

@@ -6,8 +6,8 @@ set(SOURCE_FILES
         include/fluffy/assert.hpp
         include/fluffy/event/event.hpp src/event/event.cpp
         include/fluffy/event/event_manager.hpp src/event/event_manager.cpp
-        include/fluffy/state/state.hpp src/state/state.cpp
-        include/fluffy/state/state_stack.hpp src/state/state_stack.cpp
+        include/fluffy/layer/layer.hpp src/layer/layer.cpp
+        include/fluffy/layer/layer_stack.hpp src/layer/layer_stack.cpp
         include/fluffy/game/game.hpp src/game/game.cpp
         include/fluffy/game/game_loader.hpp src/game/game_loader.cpp
         include/fluffy/game/game_main.hpp include/fluffy/game/game_main.inl src/game/game_main.cpp

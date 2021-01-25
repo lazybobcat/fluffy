@@ -25,7 +25,7 @@ bool Game::isRunning() const
     return mStateStack && !mStateStack->isEmpty() && !shouldClose;
 }
 
-void Game::setStartingState(Unique<BaseState> state, const Ref<Context>& context)
+void Game::setStartingState(Unique<BaseLayer> state, const Ref<Context>& context)
 {
     mContext = context;
 
@@ -35,7 +35,7 @@ void Game::setStartingState(Unique<BaseState> state, const Ref<Context>& context
     }
 
     if (!mStateStack) {
-        mStateStack = Unique<StateStack>(new StateStack(context));
+        mStateStack = Unique<LayerStack>(new LayerStack(context));
     }
 
     mStateStack->push(std::move(state));

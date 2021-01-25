@@ -1,7 +1,7 @@
 #pragma once
 
-#include <fluffy/state/state.hpp>
 #include <fluffy/profiling/profiler.hpp>
+#include <fluffy/layer/layer.hpp>
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
@@ -11,7 +11,7 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
-class ImGuiState : public State<ImGuiState>
+class ImGuiState : public Layer<ImGuiState>
 {
 public:
     bool isShielding() const override

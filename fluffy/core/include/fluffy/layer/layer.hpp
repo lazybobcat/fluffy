@@ -7,12 +7,12 @@
 
 namespace Fluffy {
 
-class StateStack;
+class LayerStack;
 
 /**
  * Internal class, you should use State to create your game states.
  */
-class BaseState
+class BaseLayer
 {
 public:
     typedef std::size_t Family;
@@ -20,8 +20,8 @@ public:
     static const Family INVALID;
 
 public:
-    BaseState()          = default;
-    virtual ~BaseState() = default;
+    BaseLayer(const String& name = "Layer");
+    virtual ~BaseLayer() = default;
 
     virtual void initialize();
     virtual void terminate();
@@ -38,13 +38,19 @@ public:
     // If false, States that are further in the StateStack will be updated/drawn until a shielding state is found
     [[nodiscard]] virtual bool isShielding() const;
     [[nodiscard]] bool         isPaused() const;
+    [[nodiscard]] String       getName() const;
 
 private:
-    friend StateStack;
+    friend LayerStack;
+
+    void setOverlay(bool flag);
+    bool isOverlay() const;
 
 protected:
-    void requestStackPush(Unique<BaseState> state);
-    void requestStackPop();
+    void requestPushLayer(Unique<BaseLayer> state);
+    void requestPushOverlay(Unique<BaseLayer> state);
+    void requestPopLayer();
+    void requestPopOverlay();
     void requestStackClear();
 
     Ref<Context> getContext();
@@ -53,23 +59,25 @@ protected:
     static Family mFamilyCounter;
 
 private:
-    StateStack*  mStateStack = nullptr;
+    String       mName;
+    LayerStack*  mLayerStack = nullptr;
     Ref<Context> mContext    = nullptr;
     bool         mPaused     = false;
+    bool         mIsOverlay  = false;
 };
 
 /**
  * The class to inherit from to create game states.
  *
- * struct TitleState : public State<TitleState> {
+ * struct TitleLayer : public State<TitleLayer> {
  *
  * };
  */
 template<typename Derived>
-class State : public BaseState
+class Layer : public BaseLayer
 {
 public:
-    virtual ~State() = default;
+    virtual ~Layer() = default;
 
     static Family family()
     {
@@ -79,10 +87,10 @@ public:
     }
 
 protected:
-    friend StateStack;
+    friend LayerStack;
 };
 
-struct InvalidState : public State<InvalidState>
+struct InvalidLayer : public Layer<InvalidLayer>
 {
 };
 }

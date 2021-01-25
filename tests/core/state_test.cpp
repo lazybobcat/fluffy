@@ -7,13 +7,13 @@
 //
 
 #include <bandit/bandit.h>
-#include <fluffy/state/state.hpp>
-#include <fluffy/state/state_stack.hpp>
+#include <fluffy/state/layer.hpp>
+#include <fluffy/state/layer_stack.hpp>
 
 using namespace bandit;
 using namespace snowhouse;
 
-class TestState : public Fluffy::State<TestState>
+class TestState : public Fluffy::Layer<TestState>
 {
 
 };

@@ -9,5 +9,5 @@
 #include <fluffy/game/game_loop.hpp>
 #include <fluffy/game/game_main.hpp>
 #include <fluffy/graphics/window.hpp>
-#include <fluffy/state/state.hpp>
-#include <fluffy/state/state_stack.hpp>
+#include <fluffy/layer/layer.hpp>
+#include <fluffy/layer/layer_stack.hpp>

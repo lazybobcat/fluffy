@@ -7,8 +7,8 @@
 #include <fluffy/graphics/render_context.hpp>
 #include <fluffy/graphics/render_target.hpp>
 #include <fluffy/pch.hpp>
-#include <fluffy/state/state.hpp>
-#include <fluffy/state/state_stack.hpp>
+#include <fluffy/layer/layer.hpp>
+#include <fluffy/layer/layer_stack.hpp>
 #include <fluffy/time/time.hpp>
 
 namespace Fluffy {
@@ -31,7 +31,7 @@ public:
     virtual int  getTargetFPS() const { return 60; }
     virtual bool infiniteReload() const { return false; }
 
-    virtual Unique<BaseState> start()          = 0;
+    virtual Unique<BaseLayer> start()          = 0;
     virtual String            getTitle() const = 0;
 
 private:
@@ -41,7 +41,7 @@ private:
     void internalInitialize();
     void internalTerminate();
 
-    void         setStartingState(Unique<BaseState> state, const Ref<Context>& context);
+    void         setStartingState(Unique<BaseLayer> state, const Ref<Context>& context);
     Ref<Context> getContext() const;
 
     void doFixUpdate(Time dt);
@@ -50,7 +50,7 @@ private:
     void onEvent(Event& event);
 
 private:
-    Unique<StateStack> mStateStack;
+    Unique<LayerStack> mStateStack;
     Ref<Context>       mContext = nullptr;
 
     Unique<Painter>      mPainter;

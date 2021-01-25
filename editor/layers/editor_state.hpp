@@ -11,10 +11,10 @@
 #include <fluffy/graphics/texture.hpp>
 #include <fluffy/imgui/imgui_container.hpp>
 #include <fluffy/input/input.hpp>
-#include <fluffy/state/state.hpp>
+#include <fluffy/layer/layer.hpp>
 #include <imgui.h>
 
-class EditorState : public State<EditorState>
+class EditorState : public Layer<EditorState>
 {
 public:
     EditorState() {}

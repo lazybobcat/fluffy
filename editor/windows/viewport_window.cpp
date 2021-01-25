@@ -1,6 +1,5 @@
 #include "viewport_window.hpp"
 #include <opengl_texture.hpp>
-#include <utility>
 
 using namespace Fluffy;
 
