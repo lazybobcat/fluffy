@@ -1,10 +1,10 @@
 [submodule "extlibs/bandit"]
 	path = tests/contrib/bandit
 	url = https://github.com/banditcpp/bandit.git
-[submodule "src/contrib/glfw"]
-	path = src/contrib/glfw
+[submodule "fluffy/contrib/glfw"]
+	path = fluffy/contrib/glfw
 	url = https://github.com/glfw/glfw.git
 	branch = 3.3-stable
-[submodule "src/contrib/fmt"]
-	path = src/contrib/fmt
+[submodule "fluffy/contrib/fmt"]
+	path = fluffy/contrib/fmt
 	url = https://github.com/fmtlib/fmt

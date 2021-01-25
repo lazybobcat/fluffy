@@ -39,39 +39,39 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(cmake/PrecompiledHeader.cmake) # If CMake < 3.16, precompiled headers are not supported out of the box
 
 # Debug libs
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/debug)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/debug)
 
 # OpenGL + GLFW
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/glfw)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/glfw/include)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/glfw)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/glfw/include)
 
 # FMT
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/fmt)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/fmt/include)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/fmt)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/fmt/include)
 
 # ImGUI
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/imgui)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/imgui)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/imgui-flame-graph)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/imgui-flame-graph)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/imgui)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/imgui)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/imgui-flame-graph)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/imgui-flame-graph)
 
 # Contrib libraries
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/glad/include)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/glm)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/stb)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/contrib/circular_buffer)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/glad/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/glm)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/stb)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/circular_buffer)
 
 # Fluffy
-add_subdirectory(src/utils)
-add_subdirectory(src/ecs)
-add_subdirectory(src/core)
-add_subdirectory(src/platform)
+add_subdirectory(fluffy/utils)
+add_subdirectory(fluffy/ecs)
+add_subdirectory(fluffy/core)
+add_subdirectory(fluffy/platform)
 
 # Building libfluffy
-add_library(fluffy SHARED ${CMAKE_CURRENT_SOURCE_DIR}/include/fluffy.hpp)
+add_library(fluffy ${CMAKE_CURRENT_SOURCE_DIR}/include/fluffy.hpp)
 target_link_libraries(fluffy ${FLUFFY_INTERNAL_LIBS} ${FLUFFY_EXTERNAL_LIBS})
 
 # Tests
