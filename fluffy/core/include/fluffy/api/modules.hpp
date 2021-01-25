@@ -85,8 +85,9 @@ public:
     virtual Unique<Texture> createTexture(Vector2i size) = 0;
     virtual Unique<Shader> createShader(const ShaderDefinition& definition) = 0;
      */
-    virtual Unique<ScreenRenderTarget> createScreenRenderTarget() = 0;
-    virtual Unique<Painter>            createPainter()            = 0;
+    virtual Unique<ScreenRenderTarget>  createScreenRenderTarget()  = 0;
+    virtual Unique<TextureRenderTarget> createTextureRenderTarget() = 0;
+    virtual Unique<Painter>             createPainter()             = 0;
 
     virtual void beginRender() = 0;
     virtual void endRender()   = 0;

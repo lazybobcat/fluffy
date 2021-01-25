@@ -52,6 +52,7 @@ OpenglTexture2D::~OpenglTexture2D()
 void OpenglTexture2D::create(unsigned int width, unsigned int height, unsigned int internalFormat, unsigned int dataFormat)
 {
     FLUFFY_PROFILE_FUNCTION();
+    FLUFFY_LOG_DEBUG("Create texture of {}x{}", width, height);
 
     mInternalFormat = internalFormat;
     mDataFormat     = dataFormat;
@@ -65,6 +66,7 @@ void OpenglTexture2D::create(unsigned int width, unsigned int height, unsigned i
     GlCall(glTexImage2D(GL_TEXTURE_2D, 0, mInternalFormat, width, height, 0, mDataFormat, GL_UNSIGNED_BYTE, nullptr));
 
     updateRepeatability();
+    updateSmoothness();
 }
 
 bool OpenglTexture2D::loadFromFile(const Path& path)
@@ -269,4 +271,9 @@ void OpenglTexture2D::updateRepeatability()
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
             break;
     }
+}
+
+std::uint32_t OpenglTexture2D::getRendererId() const
+{
+    return mTextureId;
 }

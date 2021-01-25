@@ -23,7 +23,8 @@ public:
     void setSmooth(bool smooth) override;
     void generateMipmaps() override;
 
-    [[nodiscard]] Vector2u getSize() const override;
+    [[nodiscard]] Vector2u      getSize() const override;
+    [[nodiscard]] std::uint32_t getRendererId() const;
 
 private:
     void create(unsigned int width, unsigned int height, unsigned int internalFormat, unsigned int dataFormat);

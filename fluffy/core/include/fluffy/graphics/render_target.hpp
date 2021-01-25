@@ -1,10 +1,12 @@
 #pragma once
 
+#include <fluffy/definitions.hpp>
 #include <fluffy/math/rectangle.hpp>
 
 namespace Fluffy {
 
 class Painter;
+class Texture2D;
 
 class RenderTarget
 {
@@ -29,5 +31,25 @@ public:
 
 protected:
     IntRect mViewport;
+};
+
+class TextureRenderTarget : public RenderTarget
+{
+public:
+    virtual ~TextureRenderTarget() = default;
+
+    void                  setTarget(const Ref<Texture2D>& texture);
+    const Ref<Texture2D>& getTexture();
+
+    void                  setDepth(Ref<Texture2D> texture);
+    const Ref<Texture2D>& getDepth();
+
+    void                  setViewPort(IntRect viewport);
+    [[nodiscard]] IntRect getViewport() const override;
+
+protected:
+    Ref<Texture2D> mTexture      = nullptr;
+    Ref<Texture2D> mDepthTexture = nullptr;
+    IntRect        mViewport     = { 0, 0, 0, 0 };
 };
 }

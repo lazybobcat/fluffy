@@ -14,6 +14,7 @@ public:
     int getMaxTextureSlots() override;
 
     Unique<ScreenRenderTarget> createScreenRenderTarget() override;
+    Unique<TextureRenderTarget> createTextureRenderTarget() override;
     Unique<Painter>            createPainter() override;
 
     void beginRender() override;

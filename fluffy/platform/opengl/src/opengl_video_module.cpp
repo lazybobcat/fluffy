@@ -1,7 +1,7 @@
 #include "opengl_video_module.hpp"
 #include "glfw_window.hpp"
 #include "opengl_painter.hpp"
-#include "opengl_screen_render_target.hpp"
+#include "opengl_render_target.hpp"
 #include <fluffy/assert.hpp>
 #include <fluffy/profiling/profiler.hpp>
 #include <opengl.hpp>
@@ -21,6 +21,11 @@ Unique<ScreenRenderTarget> OpenGLVideoModule::createScreenRenderTarget()
     IntRect viewport = { size / 2, size };
 
     return CreateUnique<OpenGLScreenRenderTarget>(viewport);
+}
+
+Unique<TextureRenderTarget> OpenGLVideoModule::createTextureRenderTarget()
+{
+    return CreateUnique<OpenGLTextureRenderTarget>();
 }
 
 Unique<Painter> OpenGLVideoModule::createPainter()

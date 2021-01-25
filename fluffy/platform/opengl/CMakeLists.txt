@@ -5,7 +5,7 @@ set(SOURCE_FILES
         src/opengl_texture.hpp src/opengl_texture.cpp
         src/opengl_vertex.hpp src/opengl_vertex.cpp
         src/imgui_impl_opengl3.h src/imgui_impl_opengl3.cpp
-        src/opengl_screen_render_target.hpp src/opengl_screen_render_target.cpp
+        src/opengl_render_target.hpp src/opengl_render_target.cpp
         src/opengl_video_module.hpp src/opengl_video_module.cpp
         src/opengl_painter.hpp src/opengl_painter.cpp
         src/glfw.hpp
