@@ -1,4 +1,4 @@
-#include <fluffy/imgui/windows/profiling_window.hpp>
+#include "profiling_window.hpp"
 #include <imgui_widget_flamegraph.h>
 
 using namespace Fluffy;

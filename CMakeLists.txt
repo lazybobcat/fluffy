@@ -79,3 +79,6 @@ add_subdirectory(tests)
 
 # Sandbox
 add_subdirectory(sandbox)
+
+# Editor
+add_subdirectory(editor)

@@ -7,7 +7,7 @@ namespace Fluffy {
 
 struct OpenedWindowTracker
 {
-    bool profilingWindowOpened = true;
+    bool profilingWindowOpened = false;
     bool logsWindowOpened      = false;
     bool aboutWindowOpened     = false;
 };

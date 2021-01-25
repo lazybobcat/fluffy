@@ -1,4 +1,4 @@
-#include <fluffy/imgui/windows/toolbar_window.hpp>
+#include "toolbar_window.hpp"
 #include <fluffy/profiling/profiler.hpp>
 #include <imgui.h>
 
@@ -15,6 +15,9 @@ void ToolbarWindow::customRender()
     FLUFFY_PROFILE_FUNCTION();
 
     if (ImGui::BeginMainMenuBar()) {
+        if (ImGui::BeginMenu("File")) {
+            ImGui::EndMenu();
+        }
         if (ImGui::BeginMenu("Tools")) {
             ImGui::EndMenu();
         }

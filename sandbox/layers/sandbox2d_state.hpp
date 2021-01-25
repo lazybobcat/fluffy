@@ -11,11 +11,6 @@
 #include <fluffy/graphics/texture.hpp>
 #include <fluffy/graphics/transformable.hpp>
 #include <fluffy/graphics/vertex_buffers.hpp>
-#include <fluffy/imgui/imgui_container.hpp>
-#include <fluffy/imgui/windows/about_window.hpp>
-#include <fluffy/imgui/windows/log_window.hpp>
-#include <fluffy/imgui/windows/profiling_window.hpp>
-#include <fluffy/imgui/windows/toolbar_window.hpp>
 #include <fluffy/input/input.hpp>
 #include <imgui.h>
 #include <iostream>
@@ -152,24 +147,6 @@ public:
 
         tile = getContext()->system->getResources().get<Texture2D>("assets/textures/tile.png");
         tile->setRepeat(RepeatType::Repeat);
-
-        // ImGui
-        container.pack(CreateRef<ToolbarWindow>(openedWindows));
-        {
-            ImGuiWindowDefinition logDefinition;
-            logDefinition.title       = "Logs";
-            logDefinition.openControl = &openedWindows.logsWindowOpened;
-            container.pack(CreateRef<LogWindow>(logDefinition));
-        }
-#ifdef FLUFFY_PROFILING_ACTIVE
-        container.pack(CreateRef<ProfilingWindow>(ProfilingWindowDefinition("Profiling", &openedWindows.profilingWindowOpened)));
-#endif
-        {
-            ImGuiWindowDefinition aboutDefinition;
-            aboutDefinition.title       = "About";
-            aboutDefinition.openControl = &openedWindows.aboutWindowOpened;
-            container.pack(CreateRef<AboutWindow>(aboutDefinition));
-        }
     }
 
     void terminate() override
@@ -200,7 +177,6 @@ public:
             rectangle2.move({ 0.f, 100.f * dt.seconds() });
         }
 
-        container.update(dt);
         rectangle1.setFillColor(squareColor);
         rectangle2.setFillColor(squareColor);
     }
@@ -234,11 +210,6 @@ public:
         }
 
         // ImGUI Stuff
-        FLUFFY_PROFILE_SCOPE("ImGui");
-        {
-            container.render();
-            // ImGui::ShowDemoWindow();
-        }
         {
             FLUFFY_PROFILE_SCOPE("ImGUI Settings");
             if (settingsOpened) {
@@ -247,18 +218,6 @@ public:
                 ImGui::ColorEdit4("Square color", glm::value_ptr(squareColor.value));
                 ImGui::ColorEdit4("Alpaca color", glm::value_ptr(alpacaColor.value));
                 ImGui::End();
-            }
-
-            // This actually appends to the existing main menu bar. AWESOME ImGui!!
-            // Will be useful to add windows depending on the current state to pre-existing/default UI
-            if (ImGui::BeginMainMenuBar()) {
-                if (ImGui::BeginMenu("View")) {
-                    ImGui::Separator();
-                    ImGui::MenuItem("(Sandbox2D)", nullptr, false, false);
-                    ImGui::MenuItem("Settings", nullptr, &settingsOpened);
-                    ImGui::EndMenu();
-                }
-                ImGui::EndMainMenuBar();
             }
         }
     }
@@ -319,7 +278,4 @@ private:
     Tilemap        tilemap;
 
     bool settingsOpened = true;
-
-    OpenedWindowTracker openedWindows;
-    ImGuiContainer      container;
 };

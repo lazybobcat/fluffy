@@ -1,4 +1,4 @@
-#include <fluffy/imgui/windows/log_window.hpp>
+#include "log_window.hpp"
 
 using namespace Fluffy;
 

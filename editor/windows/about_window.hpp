@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fluffy/profiling/profiler.hpp>
 #include <fluffy/definitions.hpp>
 #include <fluffy/imgui/imgui_window.hpp>
 

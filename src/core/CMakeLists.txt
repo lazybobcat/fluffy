@@ -44,10 +44,6 @@ set(SOURCE_FILES
         include/fluffy/imgui/imgui_element.hpp src/imgui/imgui_element.cpp
         include/fluffy/imgui/imgui_container.hpp src/imgui/imgui_container.cpp
         include/fluffy/imgui/imgui_window.hpp src/imgui/imgui_window.cpp
-        include/fluffy/imgui/windows/toolbar_window.hpp src/imgui/windows/toolbar_window.cpp
-        include/fluffy/imgui/windows/profiling_window.hpp src/imgui/windows/profiling_window.cpp
-        include/fluffy/imgui/windows/log_window.hpp src/imgui/windows/log_window.cpp
-        include/fluffy/imgui/windows/about_window.hpp
         include/fluffy/fluffy_core.hpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
