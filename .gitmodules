@@ -8,3 +8,6 @@
 [submodule "fluffy/contrib/fmt"]
 	path = fluffy/contrib/fmt
 	url = https://github.com/fmtlib/fmt
+[submodule "doc"]
+	path = doc
+	url = https://github.com/Lo-X/fluffy.wiki.git
