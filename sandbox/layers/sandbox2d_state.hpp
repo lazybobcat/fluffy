@@ -2,9 +2,7 @@
 
 #include <fluffy/api/modules.hpp>
 #include <fluffy/fluffy_core.hpp>
-#include <fluffy/fluffy_ecs.hpp>
 #include <fluffy/fluffy_utils.hpp>
-#include <fluffy/game/camera_controller.hpp>
 #include <fluffy/graphics/camera.hpp>
 #include <fluffy/graphics/rectangle_shape.hpp>
 #include <fluffy/graphics/shader.hpp>
@@ -90,8 +88,7 @@ class Sandbox2DState : public Layer<Sandbox2DState>
 {
 public:
     Sandbox2DState()
-      : cameraController({ 1280, 720 })
-      , rectangle1({ 10.f, 10.f })
+      : rectangle1({ 10.f, 10.f })
       , rectangle2({ 10.f, 10.f })
     {}
 
@@ -122,9 +119,6 @@ public:
     void fixUpdate(Time dt) override
     {
         FLUFFY_PROFILE_FUNCTION();
-
-        // Update camera
-        cameraController.update(dt);
 
         if (Input::isKeyPressed(Keyboard::Key::J)) {
             rectangle2.rotateZ(10.f * dt.seconds());
@@ -159,7 +153,7 @@ public:
             RenderStates states2;
             //states2.texture = tile;
 
-            context.with(cameraController.getCamera()).bind([&](Painter& painter) {
+            context.with(testCamera).bind([&](Painter& painter) {
                 painter.clear(Color::fromInt8(43, 43, 43, 255));
 
                 painter.draw(tilemap.va, tilemap.va->getIndexBuffer()->count());
@@ -192,10 +186,24 @@ public:
         FLUFFY_PROFILE_FUNCTION();
 
         // Update camera
-        cameraController.onEvent(event);
+        if (event.type == Fluffy::Event::WindowResized) {
+            testCamera.setViewportSize(event.size.size);
+        }
 
         if (event.type == Fluffy::Event::KeyPressed) {
             switch (event.key.code) {
+                case Keyboard::Key::W:
+                    testCamera.move({ 0, -10 });
+                    break;
+                case Keyboard::Key::S:
+                    testCamera.move({ 0, 10 });
+                    break;
+                case Keyboard::Key::A:
+                    testCamera.move({ -10, 0 });
+                    break;
+                case Keyboard::Key::D:
+                    testCamera.move({ 10, 0 });
+                    break;
                 case Keyboard::Key::NumPad0:
                     rectangle2.setPosition({ 0.f, 0.f });
                     break;
@@ -231,7 +239,7 @@ public:
     }
 
 private:
-    OrthographicCameraController cameraController;
+    Camera                       testCamera;
     Ref<Texture2D>               tile;
     Ref<Texture2D>               texture;
     Transformable                squareTransform;

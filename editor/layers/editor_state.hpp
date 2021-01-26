@@ -7,7 +7,6 @@
 #include "../windows/viewport_window.hpp"
 #include <fluffy/api/modules.hpp>
 #include <fluffy/ecs/components.hpp>
-#include <fluffy/game/camera_controller.hpp>
 #include <fluffy/graphics/rectangle_shape.hpp>
 #include <fluffy/graphics/texture.hpp>
 #include <fluffy/imgui/imgui_container.hpp>
@@ -28,7 +27,8 @@ public:
         scene       = CreateUnique<Scene>(*getContext());
         auto entity = scene->createEntity("Test");
         entity.assign<TransformComponent>();
-        entity.assign<SpriteComponent>();
+        auto sc = entity.assign<SpriteComponent>();
+        sc->rectangle.setSize({100.f, 100.f});
         std::cout << "Entity tag=" << entity.component<TagComponent>()->tag << std::endl;
 
         auto [tag, transform] = entity.components<TagComponent, TransformComponent>();

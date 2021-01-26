@@ -1,7 +1,6 @@
 #pragma once
 
 #include <fluffy/definitions.hpp>
-#include <fluffy/game/camera_controller.hpp>
 #include <fluffy/graphics/render_target.hpp>
 #include <fluffy/graphics/texture.hpp>
 #include <fluffy/imgui/imgui_window.hpp>
@@ -27,11 +26,11 @@ protected:
     void customRender(RenderContext& context) override;
 
 private:
-    Context&                     mContext;
-    OrthographicCameraController mCameraController;
-    Ref<Texture2D>               mRenderTexture;
-    Unique<TextureRenderTarget>  mRenderTarget;
-    Vector2f                     mViewportSize    = { 1280.f, 720.f };
-    bool                         mViewportFocused = false;
+    Context&                    mContext;
+    Camera                      mCamera;
+    Ref<Texture2D>              mRenderTexture;
+    Unique<TextureRenderTarget> mRenderTarget;
+    Vector2f                    mViewportSize    = { 1280.f, 720.f };
+    bool                        mViewportFocused = false;
 };
 }

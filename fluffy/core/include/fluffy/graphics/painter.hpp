@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fluffy/graphics/camera.hpp>
 #include <fluffy/graphics/color.hpp>
 #include <fluffy/graphics/render_states.hpp>
 #include <fluffy/graphics/vertex.hpp>
@@ -41,7 +42,7 @@ public:
     void flush();
 
     // Draw methods
-    void draw(const Ref<VertexArray>& vertexArray, std::uint32_t indexCount /*, Ref<Material> material*/); // Assumes that the primitive type is always TRIANGLES
+    void draw(const Ref<VertexArray>& vertexArray, std::uint32_t indexCount /*, Ref<Material> material*/);                        // Assumes that the primitive type is always TRIANGLES
     void draw(const VertexVector& vertices, const IndexBuffer& indices /*, Ref<Material> material*/, const RenderStates& states); // Assumes that the primitive type is always TRIANGLES
     void drawQuad(const VertexVector& vertices /*, Ref<Material> material*/, const RenderStates& states);
     // void drawSprite(...); // @todo

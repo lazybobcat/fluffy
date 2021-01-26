@@ -81,6 +81,7 @@ void Painter::bind(RenderContext& context)
     mActiveRenderTarget->onBind(*this);
 
     // @todo move this?
+    mActiveCamera->updateProjection();
     mRenderingData.shader->enable();
     mRenderingData.shader->bindUniform("u_ViewProjection", mActiveCamera->getViewProjection());
 }
@@ -123,7 +124,7 @@ void Painter::flush()
 
     if (mActiveRenderTarget) mActiveRenderTarget->onStartDraw(*this);
 
-    std::uint32_t dataSize = (std::uint8_t*)mRenderingData.quadVertexBufferPtr - (std::uint8_t*)mRenderingData.quadVertexBufferBase;
+    std::uint32_t dataSize = (uint32_t)((std::uint8_t*)mRenderingData.quadVertexBufferPtr - (std::uint8_t*)mRenderingData.quadVertexBufferBase);
     mRenderingData.quadVertexBuffer->setData(mRenderingData.quadVertexBufferBase, dataSize);
 
     if (dataSize > 0) {
@@ -203,7 +204,7 @@ void Painter::drawQuad(const VertexVector& vertices, const RenderStates& states)
     }
 
     mRenderingData.quadIndexCount += 6;
-    mRenderingData.quadVerticesCount += vertices.getVerticesCount();
+    mRenderingData.quadVerticesCount += (std::uint32_t)vertices.getVerticesCount();
 }
 
 void Painter::drawShape(Shape& shape, const RenderStates& states)
