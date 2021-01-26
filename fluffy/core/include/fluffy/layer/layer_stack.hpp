@@ -63,7 +63,7 @@ private:
     std::vector<PendingChange>  mPendingList;
     std::uint32_t               mLayerInsertIndex = 0;
 
-#if FLUFFY_DEBUG
+#if FLUFFY_UNIT_TESTING
 public:
     std::size_t pendingListSize() const { return mPendingList.size(); };
 #endif
