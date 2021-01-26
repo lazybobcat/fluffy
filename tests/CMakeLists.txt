@@ -7,4 +7,5 @@ set(SOURCE_FILES
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/contrib/bandit)
 add_executable(unittests ${SOURCE_FILES})
+target_compile_definitions(unittests PUBLIC FLUFFY_UNIT_TESTING)
 target_link_libraries(unittests ${FLUFFY_INTERNAL_LIBS} ${FLUFFY_EXTERNAL_LIBS})

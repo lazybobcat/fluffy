@@ -26,6 +26,10 @@ public:
     // network
     // ...
 
+#ifdef FLUFFY_UNIT_TESTING
+    Context() = default;
+#endif
+
 private:
     friend class GameMain;
     friend class GameLoader;

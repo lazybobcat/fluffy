@@ -1,5 +1,6 @@
 #include <bandit/bandit.h>
-#include <fluffy/fluffy_ecs.hpp>
+#include <fluffy/ecs/component.hpp>
+#include <fluffy/ecs/entity_manager.hpp>
 
 using namespace bandit;
 using namespace snowhouse;
