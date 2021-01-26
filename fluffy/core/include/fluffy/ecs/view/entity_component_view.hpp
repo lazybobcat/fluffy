@@ -16,11 +16,11 @@ public:
     class Iterator
     {
     public:
-        Iterator(EntityManager* manager, std::size_t index, ComponentMask mask);
+        Iterator(EntityManager* manager, std::uint32_t index, ComponentMask mask);
 
-        std::size_t    index() const;
+        std::uint32_t  index() const;
         bool           isEnd() const;
-        bool           test(std::size_t index) const;
+        bool           test(std::uint32_t index) const;
         EntityManager* entityManager() const;
         Entity         get() const;
         Entity         operator*() const;
@@ -32,7 +32,7 @@ public:
         friend class EntityComponentView;
 
         EntityManager* mEntityManager;
-        std::size_t    mIndex;
+        std::uint32_t  mIndex;
         ComponentMask  mMask;
     };
 

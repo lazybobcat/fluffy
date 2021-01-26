@@ -89,7 +89,7 @@ EntityComponentView<Components...> EntityManager::each()
     ComponentMask mask = getComponentMask<Components...>();
 
     typename EntityComponentView<Components...>::Iterator first(this, 0, mask);
-    typename EntityComponentView<Components...>::Iterator last(this, size(), mask);
+    typename EntityComponentView<Components...>::Iterator last(this, (std::uint32_t)size(), mask);
 
     return EntityComponentView<Components...>(first, last);
 }

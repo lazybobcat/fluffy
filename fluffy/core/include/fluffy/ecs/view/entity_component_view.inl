@@ -5,7 +5,7 @@ using namespace Fluffy;
 
 template<typename... Types>
 EntityComponentView<Types...>::Iterator::Iterator(EntityManager* manager,
-                                                  std::size_t    index,
+                                                  std::uint32_t  index,
                                                   ComponentMask  mask)
   : mEntityManager(manager)
   , mIndex(index)
@@ -14,7 +14,7 @@ EntityComponentView<Types...>::Iterator::Iterator(EntityManager* manager,
 }
 
 template<typename... Types>
-std::size_t EntityComponentView<Types...>::Iterator::index() const
+std::uint32_t EntityComponentView<Types...>::Iterator::index() const
 {
     return mIndex;
 }
@@ -71,7 +71,7 @@ typename EntityComponentView<Types...>::Iterator& EntityComponentView<Types...>:
 }
 
 template<typename... Types>
-bool EntityComponentView<Types...>::Iterator::test(std::size_t index) const
+bool EntityComponentView<Types...>::Iterator::test(std::uint32_t index) const
 {
     return (mEntityManager->mEntityComponentMask[index] & mMask) == mMask;
 }
