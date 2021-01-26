@@ -101,8 +101,8 @@ go_bandit([]() {
                 entity1.assign<Position>();
                 entity1.assign<Speed>();
 
-                AssertThat(entity1.hasComponent<Speed>(), Equals(true));
-                AssertThat(entity1.hasComponent<Position>(), Equals(true));
+                AssertThat(entity1.has<Speed>(), Equals(true));
+                AssertThat(entity1.has<Position>(), Equals(true));
             });
 
             // @todo test component data persistence

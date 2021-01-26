@@ -27,7 +27,7 @@ ComponentHandle<C> Entity::replace(Args&&... args)
 }
 
 template<typename C>
-bool Entity::hasComponent() const
+bool Entity::has() const
 {
     FLUFFY_ASSERT(isValid(), "Entity is not valid");
 
@@ -55,7 +55,7 @@ void Entity::remove()
 {
     FLUFFY_ASSERT(isValid(), "Entity is not valid");
 
-    if (!hasComponent<C>()) {
+    if (!has<C>()) {
         FLUFFY_LOG_ERROR("Trying to remove unassigned component '{}' from entity #{}", typeid(C).name(), mId.index());
     }
 

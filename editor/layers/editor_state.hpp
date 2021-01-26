@@ -6,21 +6,34 @@
 #include "../windows/toolbar_window.hpp"
 #include "../windows/viewport_window.hpp"
 #include <fluffy/api/modules.hpp>
+#include <fluffy/ecs/components.hpp>
 #include <fluffy/game/camera_controller.hpp>
 #include <fluffy/graphics/rectangle_shape.hpp>
 #include <fluffy/graphics/texture.hpp>
 #include <fluffy/imgui/imgui_container.hpp>
 #include <fluffy/input/input.hpp>
 #include <fluffy/layer/layer.hpp>
+#include <fluffy/scene/scene.hpp>
+#include <fluffy/text/string.hpp>
 #include <imgui.h>
 
 class EditorState : public Layer<EditorState>
 {
 public:
-    EditorState() {}
+    EditorState() = default;
 
     void initialize() override
     {
+        // Scene
+        scene       = CreateUnique<Scene>(*getContext());
+        auto entity = scene->createEntity("Test");
+        entity.assign<TransformComponent>();
+        entity.assign<SpriteComponent>();
+        std::cout << "Entity tag=" << entity.component<TagComponent>()->tag << std::endl;
+
+        auto [tag, transform] = entity.components<TagComponent, TransformComponent>();
+        std::cout << "Entity tag=" << tag->tag << " and position=" << printString("{}", transform->getPosition()) << std::endl;
+
         // Top toolbar
         container.pack(CreateRef<ToolbarWindow>(openedWindows));
         {
@@ -59,17 +72,27 @@ public:
 
     void fixUpdate(Time dt) override
     {
+        scene->update(dt);
         container.update(dt);
     }
 
     void renderViewport(Painter& painter)
     {
         painter.clear(Color::fromInt8(43, 43, 43, 255));
+        // draw scene
+        auto view = scene->each<TransformComponent, SpriteComponent>();
+        for (auto e : view) {
+            auto [transform, sprite] = e.components<TransformComponent, SpriteComponent>();
+            RenderStates states;
+            states.transform = transform->getTransformMatrix();
+            painter.drawShape(sprite->rectangle, states);
+        }
     }
 
     void render(RenderContext& context) override
     {
         {
+            scene->render(context);
             container.render(context);
         }
     }
@@ -85,13 +108,16 @@ public:
         if (!event.isStopped()) {
             container.onEvent(event);
         }
+
+        scene->onEvent(event);
     }
 
 private:
     OpenedWindowTracker openedWindows;
     ImGuiContainer      container;
+    Unique<Scene>       scene = nullptr;
 
+    // Viewport panel
     Ref<ViewportWindow> viewportWindow;
-
     Ref<Slot> onRenderSlot;
 };

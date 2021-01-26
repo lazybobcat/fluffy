@@ -2,7 +2,6 @@
 #include "layers/imgui_state.hpp"
 #include <fluffy/game/game.hpp>
 #include <fluffy/game/game_main.hpp>
-#include <iostream>
 #include <opengl_video_module.hpp>
 
 namespace Fluffy {
@@ -15,7 +14,7 @@ public:
     {
         if (!launched) {
             requestPopLayer();
-            requestPushOverlay(CreateUnique<ImGuiState>());
+            requestPushLayer(CreateUnique<ImGuiState>());
             requestPushLayer(CreateUnique<EditorState>());
             launched = true;
         }

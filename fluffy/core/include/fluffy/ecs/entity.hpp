@@ -49,6 +49,7 @@ public:
 
     bool isValid() const;
     operator bool() const;
+    operator Id() const;
     bool operator==(const Entity& other) const;
     bool operator!=(const Entity& other) const;
     bool operator<(const Entity& other) const;
@@ -85,7 +86,7 @@ public:
     std::tuple<ComponentHandle<Components>...> components();
 
     template<typename C>
-    bool hasComponent() const;
+    bool has() const;
 
 private:
     EntityManager* mManager;

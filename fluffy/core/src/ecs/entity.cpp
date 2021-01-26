@@ -93,6 +93,11 @@ Entity::operator bool() const
     return isValid();
 }
 
+Entity::operator Id() const
+{
+    return mId;
+}
+
 bool Entity::operator==(const Entity& other) const
 {
     return mManager == other.mManager && mId == other.mId;

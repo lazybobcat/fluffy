@@ -52,6 +52,7 @@ set(SOURCE_FILES
         include/fluffy/ecs/entity_manager.hpp src/ecs/entity_manager.cpp
         include/fluffy/ecs/system.hpp src/ecs/system.cpp
         include/fluffy/ecs/system_manager.hpp src/ecs/system_manager.cpp
+        include/fluffy/ecs/components.hpp
         include/fluffy/scene/scene.hpp src/scene/scene.cpp
         include/fluffy/fluffy_core.hpp)
 
