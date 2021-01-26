@@ -14,6 +14,7 @@ public:
 
 protected:
     void drawIndexed(const Ref<VertexArray>& vertexArray, std::uint32_t indexCount) override;
+    void setViewport(const FloatRect& relativeViewport, const RenderTarget& target) override;
 
 protected:
     void doInitialize() override;

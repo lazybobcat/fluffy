@@ -1,3 +1,4 @@
+#include <fluffy/assert.hpp>
 #include <fluffy/graphics/camera.hpp>
 
 using namespace Fluffy;
@@ -26,7 +27,7 @@ void Camera::updateProjection()
         // Orthographic camera
         if (mType == CameraType::Orthographic) {
             float AR         = mSize.x / mSize.y;
-            float viewportAR = mViewportSize.x / mViewportSize.y;
+            float viewportAR = mTargetSize.x / mTargetSize.y;
 
             if (viewportAR >= AR) {
                 float coeff = viewportAR / AR;
@@ -80,9 +81,9 @@ void Camera::setSize(const Vector2f& size)
     mRecomputeProjection = true;
 }
 
-void Camera::setViewportSize(const Vector2f& size)
+void Camera::setTargetSize(const Vector2f& size)
 {
-    mViewportSize        = size;
+    mTargetSize          = size;
     mRecomputeProjection = true;
 }
 
@@ -119,7 +120,16 @@ void Camera::setZoom(float zoom)
 void Camera::setCameraType(Camera::CameraType type)
 {
     mType                = type;
+}
 
+void Camera::setViewport(const FloatRect& viewport)
+{
+    FLUFFY_ASSERT(viewport.left >=0 && viewport.left <= 1, "Camera viewport left coordinate must be between 0 and 1");
+    FLUFFY_ASSERT(viewport.top >=0 && viewport.top <= 1, "Camera viewport top coordinate must be between 0 and 1");
+    FLUFFY_ASSERT(viewport.width >=0 && viewport.width <= 1, "Camera viewport width must be between 0 and 1");
+    FLUFFY_ASSERT(viewport.height >=0 && viewport.height <= 1, "Camera viewport height must be between 0 and 1");
+
+    mViewport = viewport;
 }
 
 Vector3f Camera::getPosition() const
@@ -145,4 +155,9 @@ Camera::CameraType Camera::getCameraType() const
 float Camera::getZoom() const
 {
     return mZoom;
+}
+
+FloatRect Camera::getViewport() const
+{
+    return mViewport;
 }

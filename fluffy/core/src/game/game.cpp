@@ -79,7 +79,9 @@ void Game::doRender(Time dt)
     auto windowSize = video->getWindow()->getSize();
     if (windowSize != mPreviousWindowSize) {
         mScreenTarget = video->createScreenRenderTarget();
-        mCamera->setViewportSize(windowSize);
+        mCamera->setSize(windowSize);
+        mCamera->setPosition(windowSize / 2);
+        mCamera->setTargetSize(windowSize);
         mPreviousWindowSize = windowSize;
     }
 

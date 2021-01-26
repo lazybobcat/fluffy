@@ -37,6 +37,8 @@ class Painter
 public:
     virtual ~Painter() = default;
 
+    static void setClearColor(const Color& color);
+
     virtual void clear(const Color& color) = 0;
 
     void flush();
@@ -74,10 +76,12 @@ protected:
     virtual void doBeginRender() = 0;
     virtual void doEndRender()   = 0;
 
+    virtual void setViewport(const FloatRect& relativeViewport, const RenderTarget& target) = 0;
     virtual void drawIndexed(const Ref<VertexArray>& vertexArray, std::uint32_t indexCount) = 0;
 
 private:
-    PainterData mRenderingData;
+    PainterData  mRenderingData;
+    static Color sClearColor;
 
     RenderContext* mActiveContext      = nullptr;
     RenderTarget*  mActiveRenderTarget = nullptr;

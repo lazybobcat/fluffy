@@ -96,9 +96,13 @@ public:
     {
         FLUFFY_PROFILE_FUNCTION();
 
+        Painter::setClearColor(Color::fromInt8(43, 43, 43, 255));
+        // testCamera.setViewport({0.f, 0.f, 0.5f, 1.f});
+        // testCamera.setTargetSize({640.f, 720.f});
+
         rectangle1.setPosition({ 0.f, 0.f });
-        //        rectangle1.setOrigin({0.5f, 0.5f, 0.f});
-        rectangle2.setPosition({ -100.f, -100.f });
+        // rectangle1.setOrigin({0.5f, 0.5f, 0.f});
+        // rectangle2.setPosition({ -100.f, -100.f });
 
         squareTransform.setScale({ .5f, 0.5f, 1.f });
         squareTransform.move({ 0.f, 0.f, 0.1f });
@@ -154,14 +158,14 @@ public:
             //states2.texture = tile;
 
             context.with(testCamera).bind([&](Painter& painter) {
-                painter.clear(Color::fromInt8(43, 43, 43, 255));
-
                 painter.draw(tilemap.va, tilemap.va->getIndexBuffer()->count());
 
                 // states1.transform = rectangle1.getTransformMatrix();
                 // painter.drawQuads(rectangle1.vertices, states1);
                 painter.drawShape(rectangle1, states1);
+            });
 
+            context.bind([&](Painter& painter) {
                 // states2.transform = rectangle2.getTransformMatrix();
                 // painter.drawQuads(rectangle2.vertices, states2);
                 painter.drawShape(rectangle2, states2);
@@ -187,7 +191,7 @@ public:
 
         // Update camera
         if (event.type == Fluffy::Event::WindowResized) {
-            testCamera.setViewportSize(event.size.size);
+            testCamera.setTargetSize(event.size.size);
         }
 
         if (event.type == Fluffy::Event::KeyPressed) {
@@ -239,12 +243,12 @@ public:
     }
 
 private:
-    Camera                       testCamera;
-    Ref<Texture2D>               tile;
-    Ref<Texture2D>               texture;
-    Transformable                squareTransform;
-    Color                        squareColor = { .2f, .8f, .43f, 1.f };
-    Color                        alpacaColor = { 1.f, 1.f, 1.f, 1.f };
+    Camera         testCamera;
+    Ref<Texture2D> tile;
+    Ref<Texture2D> texture;
+    Transformable  squareTransform;
+    Color          squareColor = { .2f, .8f, .43f, 1.f };
+    Color          alpacaColor = { 1.f, 1.f, 1.f, 1.f };
 
     RectangleShape rectangle1;
     RectangleShape rectangle2;

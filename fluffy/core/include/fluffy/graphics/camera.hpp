@@ -30,20 +30,23 @@ public:
     void setPosition(const Vector3f& position);
     void move(const Vector2f& delta);
     void setSize(const Vector2f& size);
-    void setViewportSize(const Vector2f& size);
     void setRotation(float degrees);
     void rotate(float degrees);
     void zoom(float factor);
     void setZoom(float zoom);
+    void setViewport(const FloatRect& viewport); // Relative coordinates [0, 1]
     // @todo 3D rotations
     void setFOV(float fov);
     void setCameraType(CameraType type);
+
+    void setTargetSize(const Vector2f& size);
 
     [[nodiscard]] Vector3f   getPosition() const;
     [[nodiscard]] Vector2f   getSize() const;
     [[nodiscard]] float      getFOV() const;
     [[nodiscard]] float      getZoom() const;
     [[nodiscard]] CameraType getCameraType() const;
+    [[nodiscard]] FloatRect  getViewport() const;
     [[nodiscard]] glm::mat4  getViewProjection() const;
 
 private:
@@ -56,7 +59,8 @@ private:
     glm::mat4  mProjection          = glm::mat4(1.f);
     Vector3f   mPosition            = { 0.f, 0.f, 0.f };
     Vector2f   mSize                = { 1280.f, 720.f };
-    Vector2f   mViewportSize        = { 1280.f, 720.f };
+    Vector2f   mTargetSize          = { 1280.f, 720.f };
+    FloatRect  mViewport            = { 0.f, 0.f, 1.f, 1.f };
     float      mZoom                = 1.f;
     float      mRotation            = 0.f;
     float      mFOV                 = 30.f;

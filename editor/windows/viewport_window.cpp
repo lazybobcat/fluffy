@@ -30,15 +30,8 @@ void ViewportWindow::customRender(RenderContext& context)
     ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
     if (mViewportSize != Vector2f(viewportPanelSize.x, viewportPanelSize.y) && viewportPanelSize.x > 0 && viewportPanelSize.y > 0) {
         mViewportSize = Vector2f(viewportPanelSize.x, viewportPanelSize.y);
-        mCamera.setViewportSize(mViewportSize);
+        mCamera.setTargetSize(mViewportSize);
     }
-
-    /**
-     * There is an issue when we resize the main window without resizing the viewport window:
-     * the viewport doesn't keep the proper aspect ratio and gets distorted (window gl viewport changes).
-     * This line fixes it but it may not be the prettiest thing.
-     */
-    glViewport(0, 0, mRenderTexture->getSize().x, mRenderTexture->getSize().y);
 
     // render scene
     context.with(*mRenderTarget).with(mCamera).bind([&](Painter& painter) {

@@ -7,6 +7,8 @@ using namespace Fluffy;
 
 constexpr int MAX_TEXTURES_SLOTS_IN_SHADER = 32;
 
+Fluffy::Color Painter::sClearColor = Color::Black;
+
 void Painter::initialize(VideoModule* video)
 {
     FLUFFY_PROFILE_FUNCTION();
@@ -82,6 +84,7 @@ void Painter::bind(RenderContext& context)
 
     // @todo move this?
     mActiveCamera->updateProjection();
+    setViewport(mActiveCamera->getViewport(), *mActiveRenderTarget);
     mRenderingData.shader->enable();
     mRenderingData.shader->bindUniform("u_ViewProjection", mActiveCamera->getViewProjection());
 }
@@ -106,6 +109,7 @@ void Painter::beginRender()
     mRenderingData.quadVertexBufferPtr = mRenderingData.quadVertexBufferBase;
 
     // Reset pending draw
+    clear(sClearColor);
     doBeginRender();
 }
 
@@ -210,4 +214,9 @@ void Painter::drawQuad(const VertexVector& vertices, const RenderStates& states)
 void Painter::drawShape(Shape& shape, const RenderStates& states)
 {
     shape.draw(*this, states);
+}
+
+void Painter::setClearColor(const Color& color)
+{
+    sClearColor = color;
 }
