@@ -24,6 +24,7 @@ jobs:
     steps:
     - name: clang-format
       shell: bash
+      working-directory: ${{ github.workspace }}
       run: ./clang-format.sh
       continue-on-error: true
     
@@ -41,11 +42,12 @@ jobs:
 
     - name: Build
       shell: bash
+      working-directory: ${{ github.workspace }}
       env:
        CC:   gcc-10
        CXX:  g++-10
       run: |
-        cmake --target unittests --config $BUILD_TYPE .
+        cmake --target unittests .
         make -j 4
 
   tests:
@@ -54,4 +56,5 @@ jobs:
     steps:
     - name: Test
       shell: bash
+      working-directory: ${{ github.workspace }}
       run: ./build/unittests
