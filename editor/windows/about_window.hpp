@@ -1,8 +1,8 @@
 #pragma once
 
-#include <fluffy/profiling/profiler.hpp>
 #include <fluffy/definitions.hpp>
 #include <fluffy/imgui/imgui_window.hpp>
+#include <fluffy/profiling/profiler.hpp>
 
 namespace Fluffy {
 
@@ -26,7 +26,7 @@ protected:
         ImGui::Separator();
         ImGui::NewLine();
         ImGui::TextWrapped("Thank you for using Fluffy! This project would not have been possible without "
-                    "awesome projects like Omar Cornut's Dear ImGui, STB, FMT and many others. Check them out!");
+                           "awesome projects like Omar Cornut's Dear ImGui, STB, FMT and many others. Check them out!");
 
         ImGui::NewLine();
         ImGui::Separator();

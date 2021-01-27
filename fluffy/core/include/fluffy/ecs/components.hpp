@@ -9,7 +9,9 @@ namespace Fluffy {
 struct TagComponent : public Component<TagComponent>
 {
     TagComponent() = default;
-    explicit TagComponent(const String& tag): tag(tag) {}
+    explicit TagComponent(const String& tag)
+      : tag(tag)
+    {}
 
     String tag;
 
@@ -21,7 +23,8 @@ struct TagComponent : public Component<TagComponent>
 #endif
 };
 
-struct TransformComponent : public Component<TransformComponent>, public Transformable
+struct TransformComponent : public Component<TransformComponent>
+  , public Transformable
 {
     TransformComponent() = default;
 
@@ -35,7 +38,9 @@ struct TransformComponent : public Component<TransformComponent>, public Transfo
 
 struct SpriteComponent : public Component<SpriteComponent>
 {
-    SpriteComponent() : rectangle({10.f, 10.f}) {}
+    SpriteComponent()
+      : rectangle({ 10.f, 10.f })
+    {}
 
     RectangleShape rectangle;
 

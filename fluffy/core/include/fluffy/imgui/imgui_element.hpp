@@ -1,8 +1,8 @@
 #pragma once
 
-#include <fluffy/time/time.hpp>
 #include <fluffy/event/event.hpp>
 #include <fluffy/graphics/render_context.hpp>
+#include <fluffy/time/time.hpp>
 
 namespace Fluffy {
 

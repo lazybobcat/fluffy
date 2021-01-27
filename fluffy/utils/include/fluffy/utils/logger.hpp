@@ -97,4 +97,3 @@ std::ostream& operator<<(std::ostream& os, Fluffy::LogLevel level);
 #define FLUFFY_LOG_INFO(...) Fluffy::Logger::info(__VA_ARGS__)
 #define FLUFFY_LOG_WARN(...) Fluffy::Logger::warn(__VA_ARGS__)
 #define FLUFFY_LOG_ERROR(...) Fluffy::Logger::error(__VA_ARGS__)
-

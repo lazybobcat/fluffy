@@ -5,7 +5,7 @@ using namespace Fluffy;
 
 #ifdef FLUFFY_PROFILING_ACTIVE
 
-constexpr Vector2f SMALL_SIZE = Vector2f(300, 90);
+constexpr Vector2f SMALL_SIZE = Vector2f(300, 100);
 constexpr Vector2f BIG_SIZE   = Vector2f(1080, 300);
 constexpr float    DISTANCE   = 10.f;
 
@@ -26,13 +26,13 @@ void ProfilingWindow::update(Time dt)
 
     mLastReportTime += dt;
     if (mLastReportTime > seconds(1.f)) {
-        mLastReportTime       = Time::Zero;
-        auto profiler         = Profiler::get();
+        mLastReportTime = Time::Zero;
+        auto profiler   = Profiler::get();
         if (!mPaused) {
             mLastReport.sessions = profiler->getSessions();
         }
-        mLastReport.renderingStats   = profiler->getRenderingStats();
-        mLastReport.memoryUsage = profiler->getMemoryUsage();
+        mLastReport.renderingStats = profiler->getRenderingStats();
+        mLastReport.memoryUsage    = profiler->getMemoryUsage();
     }
 }
 
@@ -69,7 +69,7 @@ void ProfilingWindow::customRender(RenderContext&)
 
 void ProfilingWindow::renderStats() const
 {
-    float fps       = 1.f / mLastReport.renderingStats.frameTime.seconds();
+    float fps = 1.f / mLastReport.renderingStats.frameTime.seconds();
     ImGui::Text("%.1f FPS (%.2fms/frame)", fps, mLastReport.renderingStats.frameTime.milliseconds());
     ImGui::Text("%d draw calls (%d vertices, %d indices)", mLastReport.renderingStats.drawCalls, mLastReport.renderingStats.verticesDrawn, mLastReport.renderingStats.indicesUsed);
     ImGui::Text("%.2fKB of memory tracked", mLastReport.memoryUsage / 1000.f);
