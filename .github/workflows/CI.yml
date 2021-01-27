@@ -19,17 +19,7 @@ jobs:
       shell: bash
       run: |
         sudo apt-get update
-        sudo apt-get install gcc-10 g++-10 libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libgl1-mesa-dev clang-format
-
-    - name: clang-format
-      shell: bash
-      working-directory: ${{github.workspace}}
-      run: |
-        ls -al
-        clang-format -h
-        chmod +x clang-format.sh
-        bash clang-format.sh -xe
-      continue-on-error: true
+        sudo apt-get install gcc-10 g++-10 libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libgl1-mesa-dev
 
     - name: Check GCC versions
       shell: bash
@@ -67,6 +57,4 @@ jobs:
     - name: Tests
       shell: bash
       working-directory: ${{ github.workspace }}
-      run: |
-        ls -al
-        ./build/unittests
+      run: ./build/unittests

@@ -1,17 +1,17 @@
 #!/bin/sh
 
 # core
-clang-format --dry-run -style=file -i fluffy/core/include/fluffy/*/*.hpp
-clang-format --dry-run -style=file -i fluffy/core/include/fluffy/*/*.inl
-clang-format --dry-run -style=file -i fluffy/core/fluffy/*/*.cpp
+clang-format -style=file fluffy/core/include/fluffy/*/*.hpp
+clang-format -style=file fluffy/core/include/fluffy/*/*.inl
+clang-format -style=file fluffy/core/fluffy/*/*.cpp
 
 # utils
-clang-format --dry-run -style=file -i fluffy/utils/include/fluffy/*/*.hpp
-clang-format --dry-run -style=file -i fluffy/utils/include/fluffy/*/*.inl
-clang-format --dry-run -style=file -i fluffy/utils/fluffy/*/*.cpp
+clang-format -style=file fluffy/utils/include/fluffy/*/*.hpp
+clang-format -style=file fluffy/utils/include/fluffy/*/*.inl
+clang-format -style=file fluffy/utils/fluffy/*/*.cpp
 
 # platform
-#clang-format --dry-run -style=file -i fluffy/platform/*/*/*.hpp
-#clang-format --dry-run -style=file -i fluffy/platform/*/*/*.inl
-#clang-format --dry-run -style=file -i fluffy/platform/*/*/*.cpp
+#clang-format -style=file fluffy/platform/*/*/*.hpp
+#clang-format -style=file fluffy/platform/*/*/*.inl
+#clang-format -style=file fluffy/platform/*/*/*.cpp
 
