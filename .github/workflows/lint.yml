@@ -13,10 +13,12 @@ jobs:
       shell: bash
       run: |
         sudo apt-get update
-        sudo apt-get install clang-format clang-tidy
+        sudo apt-get install clang-format-10 clang-tidy-10
 
     - name: clang-format
       shell: bash
       run: |
+        clang-format --version
+        clang-format -h
         chmod +x clang-format.sh
         bash clang-format.sh -xe
