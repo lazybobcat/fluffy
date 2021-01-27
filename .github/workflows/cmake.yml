@@ -24,8 +24,11 @@ jobs:
     steps:
     - name: clang-format
       shell: bash
-      working-directory: ${{ github.workspace }}
-      run: ./clang-format.sh
+      working-directory: ${{github.workspace}}
+      run: |
+        ls -al
+        chmod +x clang-format.sh
+        ./clang-format.sh
       continue-on-error: true
     
   build:
@@ -39,15 +42,30 @@ jobs:
         export CXX=g++-10
         gcc -v
         g++ -v
-
-    - name: Build
+        
+    - name: Configure CMake
+      # Use a bash shell so we can use the same syntax for environment variable
+      # access regardless of the host operating system
       shell: bash
-      working-directory: ${{ github.workspace }}
+      working-directory: ${{github.workspace}}
       env:
        CC:   gcc-10
        CXX:  g++-10
+      # Note the current convention is to use the -S and -B options here to specify source 
+      # and build directories, but this is only available with CMake 3.13 and higher.  
+      # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+
+    - name: Build
+      working-directory: ${{github.workspace}}
+      env:
+       CC:   gcc-10
+       CXX:  g++-10
+      shell: bash
+      # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: |
-        cmake --target unittests .
+        ls -al
+        cmake --build . --config $BUILD_TYPE --target unittests
         make -j 4
 
   tests:
@@ -57,4 +75,6 @@ jobs:
     - name: Test
       shell: bash
       working-directory: ${{ github.workspace }}
-      run: ./build/unittests
+      run: |
+        ls -al
+        ./build/unittests
