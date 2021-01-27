@@ -2,28 +2,27 @@
 [![Generic badge](https://img.shields.io/badge/C++-20-brightgreen.svg)](https://en.wikipedia.org/wiki/C%2B%2B20)
 [![Build Status](https://github.com/lo-x/fluffy/workflows/CI/badge.svg?branch=master)](https://travis-ci.org/Lo-X/fluffy)
 
+![Fluffy](https://repository-images.githubusercontent.com/48647997/05dba980-6089-11eb-8388-4e33838b6bf0)
+
 Fluffy is still a work in progress.
 
 # Fluffy
 
-Fluffy is a basic video game engine. Its objective is not to be the better and the fastest out there, but simply to
-help prototyping games.
-
-Its objective is to highly reduce the amount of code needed to build a game. Of course there will still be some code,
-but the goal is to make the user write as little code as possible and instead use scripting and an asset pipe. 
+Fluffy is a (wip) video game engine. Its objective is to help making or prototyping small games by provinding useful tools, an editor, scripting and a programming framework.
 
 ## Fluffy contains
 
+* A visual editor based on ImGui
 * A fully working Entity-Component-System (ECS)
-* Logging
+* Scene management
 * Window handling
 * Graphics handling
 * Resource managers
-* States (screens/layers)
+* Layers (screens/states)
 * Useful utility classes like Time, Signals/slots, Path, etc.
-* ImGui windows to help the game development and display useful information
+* Logging
 
-## Fluffy will contain (probably)
+## Fluffy will contain (in the future)
 
 * Scripting
 * Asset pipe
@@ -144,5 +143,5 @@ public:
 }
 ```
 
-### States
+### Layers
 
