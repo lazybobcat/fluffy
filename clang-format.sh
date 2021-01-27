@@ -1,23 +1,17 @@
 #!/bin/sh
 
 # core
-clang-format -style=file -i src/core/include/fluffy/*/*.hpp
-clang-format -style=file -i src/core/include/fluffy/*/*.inl
-clang-format -style=file -i src/core/src/*/*.cpp
-
-# ecs
-clang-format -style=file -i src/ecs/include/fluffy/*/*.hpp
-clang-format -style=file -i src/ecs/include/fluffy/*/*.inl
-clang-format -style=file -i src/ecs/src/*.cpp
+clang-format --dry-run -style=file -i fluffy/core/include/fluffy/*/*.hpp
+clang-format --dry-run -style=file -i fluffy/core/include/fluffy/*/*.inl
+clang-format --dry-run -style=file -i fluffy/core/fluffy/*/*.cpp
 
 # utils
-clang-format -style=file -i src/utils/include/fluffy/*/*.hpp
-clang-format -style=file -i src/utils/include/fluffy/*/*.inl
-clang-format -style=file -i src/utils/src/*/*.cpp
+clang-format --dry-run -style=file -i fluffy/utils/include/fluffy/*/*.hpp
+clang-format --dry-run -style=file -i fluffy/utils/include/fluffy/*/*.inl
+clang-format --dry-run -style=file -i fluffy/utils/fluffy/*/*.cpp
 
 # platform
-clang-format -style=file -i src/platform/*/*/*.hpp
-clang-format -style=file -i src/platform/*/*/*.inl
-clang-format -style=file -i src/platform/*/*/*.cpp
+#clang-format --dry-run -style=file -i fluffy/platform/*/*/*.hpp
+#clang-format --dry-run -style=file -i fluffy/platform/*/*/*.inl
+#clang-format --dry-run -style=file -i fluffy/platform/*/*/*.cpp
 
-# scripting
