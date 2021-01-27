@@ -1,0 +1,20 @@
+name: Linting
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clone
+      uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install pythonpy clang-format-10 clang-tidy-10
+
+    - name: clang-format
+      shell: bash
+      run: python3 .github/check-linting.py -r --exclude fluffy/contrib --exclude fluffy/platform fluffy sandbox editor

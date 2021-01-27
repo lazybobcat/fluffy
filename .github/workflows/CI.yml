@@ -1,0 +1,60 @@
+name: CI
+
+on: [push, pull_request]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clone
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+      
+    - name: Install Dependencies
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install gcc-10 g++-10 libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libgl1-mesa-dev
+
+    - name: Check GCC versions
+      shell: bash
+      run: |
+        export CC=gcc-10
+        export CXX=g++-10
+        gcc -v
+        g++ -v
+
+    - name: Configure CMake
+      # Use a bash shell so we can use the same syntax for environment variable
+      # access regardless of the host operating system
+      shell: bash
+      working-directory: ${{github.workspace}}
+      env:
+       CC:   gcc-10
+       CXX:  g++-10
+      # Note the current convention is to use the -S and -B options here to specify source 
+      # and build directories, but this is only available with CMake 3.13 and higher.  
+      # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+
+    - name: Build
+      working-directory: ${{github.workspace}}
+      env:
+       CC:   gcc-10
+       CXX:  g++-10
+      shell: bash
+      # Execute the build.  You can specify a specific target with "--target <NAME>"
+      run: |
+        ls -al
+        cmake --build . --config $BUILD_TYPE --target unittests
+        make -j 4
+
+    - name: Tests
+      shell: bash
+      working-directory: ${{ github.workspace }}
+      run: ./build/unittests
