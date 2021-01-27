@@ -126,7 +126,8 @@ void Painter::flush()
 {
     FLUFFY_PROFILE_FUNCTION();
 
-    if (mActiveRenderTarget) mActiveRenderTarget->onStartDraw(*this);
+    if (mActiveRenderTarget)
+        mActiveRenderTarget->onStartDraw(*this);
 
     std::uint32_t dataSize = (uint32_t)((std::uint8_t*)mRenderingData.quadVertexBufferPtr - (std::uint8_t*)mRenderingData.quadVertexBufferBase);
     mRenderingData.quadVertexBuffer->setData(mRenderingData.quadVertexBufferBase, dataSize);
@@ -140,7 +141,8 @@ void Painter::flush()
         FLUFFY_PROFILE_DRAW_CALL(mRenderingData.quadVerticesCount, mRenderingData.quadIndexCount);
     }
 
-    if (mActiveRenderTarget) mActiveRenderTarget->onEndDraw(*this);
+    if (mActiveRenderTarget)
+        mActiveRenderTarget->onEndDraw(*this);
 
     resetRenderingData();
 }
@@ -148,8 +150,8 @@ void Painter::flush()
 void Painter::resetRenderingData()
 {
     mRenderingData.quadVertexBufferPtr = mRenderingData.quadVertexBufferBase;
-    mRenderingData.quadIndexCount = 0;
-    mRenderingData.quadVerticesCount = 0;
+    mRenderingData.quadIndexCount      = 0;
+    mRenderingData.quadVerticesCount   = 0;
     mRenderingData.textures.erase(++mRenderingData.textures.begin(), mRenderingData.textures.end()); // keep the first texture (blank)
 }
 

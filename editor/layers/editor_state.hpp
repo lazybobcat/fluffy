@@ -28,7 +28,7 @@ public:
         auto entity = scene->createEntity("Test");
         entity.assign<TransformComponent>();
         auto sc = entity.assign<SpriteComponent>();
-        sc->rectangle.setSize({100.f, 100.f});
+        sc->rectangle.setSize({ 100.f, 100.f });
         std::cout << "Entity tag=" << entity.component<TagComponent>()->tag << std::endl;
 
         auto [tag, transform] = entity.components<TagComponent, TransformComponent>();
@@ -119,5 +119,5 @@ private:
 
     // Viewport panel
     Ref<ViewportWindow> viewportWindow;
-    Ref<Slot> onRenderSlot;
+    Ref<Slot>           onRenderSlot;
 };

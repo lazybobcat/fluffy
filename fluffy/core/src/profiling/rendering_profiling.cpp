@@ -16,8 +16,8 @@ void RenderingProfiler::reset()
     // fps
     mStats.frameTime = mClock.restart();
 
-    mLastFrameStats = mStats;
-    mStats.drawCalls = 0;
+    mLastFrameStats      = mStats;
+    mStats.drawCalls     = 0;
     mStats.verticesDrawn = 0;
     mStats.indicesUsed   = 0;
 }

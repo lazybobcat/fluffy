@@ -46,7 +46,6 @@ void GameLoop::doFrame(Time& timePerFrame, Game& game) const
 {
     FLUFFY_PROFILE_FRAME();
 
-
     // Events
     game.doEvents(timePerFrame);
 

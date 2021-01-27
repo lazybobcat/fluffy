@@ -1,6 +1,6 @@
 [![Generic badge](https://img.shields.io/badge/licence-WTFPL-brightgreen.svg)](https://en.wikipedia.org/wiki/WTFPL)
-[![Build Status](https://travis-ci.org/Lo-X/fluffy.svg?branch=master)](https://travis-ci.org/Lo-X/fluffy)
 [![Generic badge](https://img.shields.io/badge/C++-20-brightgreen.svg)](https://en.wikipedia.org/wiki/C%2B%2B20)
+[![Build Status](https://github.com/lo-x/fluffy/workflows/CI/badge.svg?branch=master)](https://travis-ci.org/Lo-X/fluffy)
 
 Fluffy is still a work in progress.
 

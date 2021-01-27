@@ -113,21 +113,21 @@ void Camera::zoom(float factor)
 
 void Camera::setZoom(float zoom)
 {
-    mZoom = zoom;
+    mZoom                = zoom;
     mRecomputeProjection = true;
 }
 
 void Camera::setCameraType(Camera::CameraType type)
 {
-    mType                = type;
+    mType = type;
 }
 
 void Camera::setViewport(const FloatRect& viewport)
 {
-    FLUFFY_ASSERT(viewport.left >=0 && viewport.left <= 1, "Camera viewport left coordinate must be between 0 and 1");
-    FLUFFY_ASSERT(viewport.top >=0 && viewport.top <= 1, "Camera viewport top coordinate must be between 0 and 1");
-    FLUFFY_ASSERT(viewport.width >=0 && viewport.width <= 1, "Camera viewport width must be between 0 and 1");
-    FLUFFY_ASSERT(viewport.height >=0 && viewport.height <= 1, "Camera viewport height must be between 0 and 1");
+    FLUFFY_ASSERT(viewport.left >= 0 && viewport.left <= 1, "Camera viewport left coordinate must be between 0 and 1");
+    FLUFFY_ASSERT(viewport.top >= 0 && viewport.top <= 1, "Camera viewport top coordinate must be between 0 and 1");
+    FLUFFY_ASSERT(viewport.width >= 0 && viewport.width <= 1, "Camera viewport width must be between 0 and 1");
+    FLUFFY_ASSERT(viewport.height >= 0 && viewport.height <= 1, "Camera viewport height must be between 0 and 1");
 
     mViewport = viewport;
 }
