@@ -3,15 +3,16 @@
 #include "../windows/about_window.hpp"
 #include "../windows/log_window.hpp"
 #include "../windows/profiling_window.hpp"
+#include "../windows/scene_hierarchy_window.hpp"
 #include "../windows/toolbar_window.hpp"
 #include "../windows/viewport_window.hpp"
 #include <fluffy/api/modules.hpp>
-#include <fluffy/ecs/components.hpp>
 #include <fluffy/graphics/rectangle_shape.hpp>
 #include <fluffy/graphics/texture.hpp>
 #include <fluffy/imgui/imgui_container.hpp>
 #include <fluffy/input/input.hpp>
 #include <fluffy/layer/layer.hpp>
+#include <fluffy/scene/components.hpp>
 #include <fluffy/scene/scene.hpp>
 #include <fluffy/text/string.hpp>
 #include <imgui.h>
@@ -24,15 +25,18 @@ public:
     void initialize() override
     {
         // Scene
-        scene       = CreateUnique<Scene>(*getContext());
-        auto entity = scene->createEntity("Test");
-        entity.assign<TransformComponent>();
-        auto sc = entity.assign<SpriteComponent>();
-        sc->rectangle.setSize({ 100.f, 100.f });
-        std::cout << "Entity tag=" << entity.component<TagComponent>()->tag << std::endl;
+        scene        = CreateRef<Scene>(*getContext());
+        auto  entity = scene->createEntity("Square");
+        auto& t      = entity.add<TransformComponent>();
+        auto& sc     = entity.add<SpriteComponent>();
+        sc.rectangle.setSize({ 100.f, 100.f });
+        std::cout << "Entity tag=" << entity.get<TagComponent>().tag << std::endl;
 
-        auto [tag, transform] = entity.components<TagComponent, TransformComponent>();
-        std::cout << "Entity tag=" << tag->tag << " and position=" << printString("{}", transform->getPosition()) << std::endl;
+        auto [tag, transform] = scene->getEntityRegistry()->get<TagComponent, TransformComponent>(entity);
+        std::cout << "Entity tag=" << tag.tag << " and position=" << printString("{}", transform.getPosition()) << std::endl;
+
+        scene->createEntity("Camera");
+        scene->createEntity();
 
         // Top toolbar
         container.pack(CreateRef<ToolbarWindow>(openedWindows));
@@ -47,12 +51,18 @@ public:
         container.pack(CreateRef<ProfilingWindow>(ProfilingWindowDefinition("Profiling", &openedWindows.profilingWindowOpened)));
 #endif
 
-        // About window
+        // Scene hierarchy window
         {
-            ImGuiWindowDefinition definition;
-            definition.title       = "About";
-            definition.openControl = &openedWindows.aboutWindowOpened;
-            container.pack(CreateRef<AboutWindow>(definition));
+            SceneHierarchyWindowDefinition definition;
+            definition.title         = "Scene";
+            definition.openControl   = &openedWindows.sceneHierarchyOpened;
+            definition.scene         = scene;
+            sceneWindow              = CreateRef<SceneHierarchyWindow>(definition);
+            onEntitySelectionChanged = sceneWindow->OnEntitySelected.connect([](Entity entity) {
+                auto Ctag = entity.get<TagComponent>();
+                std::cout << Ctag.tag << " selected!" << std::endl;
+            });
+            container.pack(sceneWindow);
         }
 
         // Viewport window
@@ -63,6 +73,14 @@ public:
             viewportWindow         = CreateRef<ViewportWindow>(definition, *getContext());
             onRenderSlot           = viewportWindow->OnRender.connect(std::bind(&EditorState::renderViewport, this, std::placeholders::_1));
             container.pack(viewportWindow);
+        }
+
+        // About window
+        {
+            ImGuiWindowDefinition definition;
+            definition.title       = "About";
+            definition.openControl = &openedWindows.aboutWindowOpened;
+            container.pack(CreateRef<AboutWindow>(definition));
         }
     }
 
@@ -80,12 +98,11 @@ public:
     {
         painter.clear(Color::fromInt8(43, 43, 43, 255));
         // draw scene
-        auto view = scene->each<TransformComponent, SpriteComponent>();
-        for (auto e : view) {
-            auto [transform, sprite] = e.components<TransformComponent, SpriteComponent>();
+        auto view = scene->getEntityRegistry()->view<TransformComponent, SpriteComponent>();
+        for (auto [entity, transform, sprite] : view.each()) {
             RenderStates states;
-            states.transform = transform->getTransformMatrix();
-            painter.drawShape(sprite->rectangle, states);
+            states.transform = transform.getTransformMatrix();
+            painter.drawShape(sprite.rectangle, states);
         }
     }
 
@@ -115,9 +132,13 @@ public:
 private:
     OpenedWindowTracker openedWindows;
     ImGuiContainer      container;
-    Unique<Scene>       scene = nullptr;
+    Ref<Scene>          scene = nullptr;
 
     // Viewport panel
     Ref<ViewportWindow> viewportWindow;
     Ref<Slot>           onRenderSlot;
+
+    // Scene hierarchy panel
+    Ref<SceneHierarchyWindow> sceneWindow;
+    Ref<Slot>                 onEntitySelectionChanged;
 };

@@ -8,7 +8,8 @@ set(SOURCE_FILES
         windows/log_window.cpp
         windows/profiling_window.cpp
         windows/toolbar_window.cpp
-        windows/viewport_window.cpp)
+        windows/viewport_window.cpp
+        windows/scene_hierarchy_window.cpp)
 
 add_executable(editor ${SOURCE_FILES})
 target_link_libraries(editor ${FLUFFY_INTERNAL_LIBS} ${FLUFFY_EXTERNAL_LIBS})

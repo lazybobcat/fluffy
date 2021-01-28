@@ -44,14 +44,9 @@ set(SOURCE_FILES
         include/fluffy/imgui/imgui_element.hpp src/imgui/imgui_element.cpp
         include/fluffy/imgui/imgui_container.hpp src/imgui/imgui_container.cpp
         include/fluffy/imgui/imgui_window.hpp src/imgui/imgui_window.cpp
-        include/fluffy/ecs/view/entity_component_view.hpp
-        include/fluffy/ecs/component_handle.hpp
-        include/fluffy/ecs/component.hpp src/ecs/component.cpp
-        include/fluffy/ecs/entity.hpp src/ecs/entity.cpp
-        include/fluffy/ecs/entity_manager.hpp src/ecs/entity_manager.cpp
-        include/fluffy/ecs/system.hpp src/ecs/system.cpp
-        include/fluffy/ecs/system_manager.hpp src/ecs/system_manager.cpp
-        include/fluffy/ecs/components.hpp
+        include/fluffy/scene/entity.hpp src/scene/entity.cpp
+        include/fluffy/scene/entity_registry.hpp src/scene/entity_registry.cpp
+        include/fluffy/scene/components.hpp
         include/fluffy/scene/scene.hpp src/scene/scene.cpp
         include/fluffy/fluffy_core.hpp)
 

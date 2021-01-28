@@ -9,8 +9,9 @@ struct OpenedWindowTracker
 {
     bool profilingWindowOpened = false;
     bool logsWindowOpened      = false;
-    bool aboutWindowOpened     = false;
     bool viewportWindowOpened  = true;
+    bool sceneHierarchyOpened  = true;
+    bool aboutWindowOpened     = false;
 };
 
 class ToolbarWindow : public ImGuiElement
