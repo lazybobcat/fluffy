@@ -18,10 +18,10 @@ jobs:
 
     - name: clang-format
       shell: bash
-      run: python3 .github/check-linting.py -r --exclude fluffy/contrib --exclude fluffy/platform fluffy sandbox editor > "output/$GITHUB_SHA.diff"
+      run: python3 .github/check-linting.py -r --exclude fluffy/contrib --exclude fluffy/platform fluffy sandbox editor > "output/${{ github.run_id }}.diff"
 
     - name: Archive diff
       uses: actions/upload-artifact@v2
       with:
         name: clang-format-diff
-        path: "output/$GITHUB_SHA.diff"
+        path: "output/${{ github.run_id }}.diff"
