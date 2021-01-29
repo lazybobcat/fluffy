@@ -6,7 +6,7 @@ namespace glm
 {
 	// radians
 	template<typename genType>
-	GLM_FUNC_QUALIFIER GLM_CONSTEXPR genType  radians(genType degrees)
+	GLM_FUNC_QUALIFIER GLM_CONSTEXPR genType radians(genType degrees)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<genType>::is_iec559, "'radians' only accept floating-point input");
 
