@@ -14,7 +14,14 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install pythonpy clang-format-10 clang-tidy-10
+        mkdir output
 
     - name: clang-format
       shell: bash
-      run: python3 .github/check-linting.py -r --exclude fluffy/contrib --exclude fluffy/platform fluffy sandbox editor
+      run: python3 .github/check-linting.py -r --exclude fluffy/contrib --exclude fluffy/platform fluffy sandbox editor > "output/$GITHUB_SHA.diff"
+
+    - name: Archive diff
+      uses: actions/upload-artifact@v2
+      with:
+        name: clang-format-diff
+        path: "output/$GITHUB_SHA.diff"
