@@ -37,6 +37,6 @@ private:
 
 private:
     Ref<Scene> mScene;
-    Entity mSelectedEntity = Entity::INVALID;
+    Entity     mSelectedEntity = Entity::INVALID;
 };
 }
