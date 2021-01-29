@@ -79,7 +79,7 @@ void EditorState::fixUpdate(Time dt)
     container.update(dt);
 
     slowUpdateTimer += dt;
-    if (slowUpdateTimer.seconds() >= 1.f) {
+    if (slowUpdateTimer.seconds() >= 0.25f) {
         slowUpdate();
         slowUpdateTimer = Time::Zero;
     }
