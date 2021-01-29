@@ -38,7 +38,7 @@ void GameLoop::runLoop()
                 std::this_thread::yield();
             }
         } else {
-            doFrame(timePerFrame, game);
+            doFrame(timeSinceLastUpdate, game);
         }
     }
 }

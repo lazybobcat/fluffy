@@ -55,8 +55,10 @@ void SceneHierarchyWindow::select(Entity entity)
 
 void SceneHierarchyWindow::unselect()
 {
-    mSelectedEntity = {};
-    OnEntityUnselected.emit();
+    if (mSelectedEntity != Entity::INVALID) {
+        mSelectedEntity = Entity::INVALID;
+        OnEntityUnselected.emit();
+    }
 }
 
 Entity SceneHierarchyWindow::getSelectedEntity() const

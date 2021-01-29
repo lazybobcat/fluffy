@@ -13,11 +13,6 @@ Entity Scene::createEntity(const String& name)
     auto entity = mRegistry->createEntity();
     entity.add<TagComponent>(name);
 
-    // @todo move from here?
-    mRegistry->sort<TagComponent>([](const auto& lhs, const auto& rhs) {
-      return lhs.tag < rhs.tag;
-    });
-
     return entity;
 }
 

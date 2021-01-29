@@ -23,6 +23,8 @@ void ToolbarWindow::customRender(RenderContext&)
         }
         if (ImGui::BeginMenu("View")) {
             ImGui::MenuItem("Viewport", nullptr, &mWindowTracker.viewportWindowOpened);
+            ImGui::MenuItem("Scene", nullptr, &mWindowTracker.sceneHierarchyWindowOpened);
+            ImGui::MenuItem("Inspector", nullptr, &mWindowTracker.inspectorWindowOpened);
 #ifdef FLUFFY_PROFILING_ACTIVE
             ImGui::MenuItem("Profiling", nullptr, &mWindowTracker.profilingWindowOpened);
 #endif

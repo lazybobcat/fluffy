@@ -7,11 +7,12 @@ namespace Fluffy {
 
 struct OpenedWindowTracker
 {
-    bool profilingWindowOpened = false;
-    bool logsWindowOpened      = false;
-    bool viewportWindowOpened  = true;
-    bool sceneHierarchyOpened  = true;
-    bool aboutWindowOpened     = false;
+    bool profilingWindowOpened      = false;
+    bool logsWindowOpened           = false;
+    bool viewportWindowOpened       = true;
+    bool sceneHierarchyWindowOpened = true;
+    bool inspectorWindowOpened      = true;
+    bool aboutWindowOpened          = false;
 };
 
 class ToolbarWindow : public ImGuiElement
