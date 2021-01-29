@@ -22,6 +22,7 @@ jobs:
 
     - name: Archive diff
       uses: actions/upload-artifact@v2
+      if: ${{ failure() }}
       with:
         name: clang-format-diff
         path: "output/${{ github.run_id }}.diff"
