@@ -13,9 +13,6 @@
 #define FLUFFY_PROFILING_ACTIVE
 #endif
 
-// ECS configurations
-#define FLUFFY_ECS_MAX_COMPONENTS 128;
-
 // OpenGL configurations
 #define OPENGL_MAJOR_VERSION 3
 #define OPENGL_MINOR_VERSION 3
@@ -28,6 +25,9 @@ constexpr Ref<T> CreateRef(Args&&... args)
 {
     return std::make_shared<T>(std::forward<Args>(args)...);
 }
+
+template<typename T>
+using WeakRef = std::weak_ptr<T>;
 
 template<typename T>
 using Unique = std::unique_ptr<T>;

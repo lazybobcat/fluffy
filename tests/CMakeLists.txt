@@ -2,8 +2,7 @@ set(SOURCE_FILES
         tests.cpp
         utils/serialization_test.cpp
         utils/random_test.cpp
-        core/state_test.cpp
-        ecs/ecs_test.cpp)
+        core/state_test.cpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/contrib/bandit)
 add_executable(unittests ${SOURCE_FILES})

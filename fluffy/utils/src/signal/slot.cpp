@@ -11,7 +11,7 @@ Slot::Slot(std::function<void(Slot::Id)>&& disconnectCallback, Slot::Id id)
 
 Slot::~Slot()
 {
-    disconnect();
+    // disconnect();
 }
 
 void Slot::disconnect()

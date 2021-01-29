@@ -52,6 +52,9 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/glfw/include)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/fmt)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/fmt/include)
 
+# EnTT
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/entt/include)
+
 # ImGUI
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/imgui)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/fluffy/contrib/imgui)

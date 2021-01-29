@@ -3,24 +3,12 @@
 using namespace Fluffy;
 
 Transformable::Transformable()
-  : mOrigin({ 0.f, 0.f, 0.f })
-  , mPosition({ 0.f, 0.f, 0.f })
+  : mPosition({ 0.f, 0.f, 0.f })
   , mEulerAngles({ 0.f, 0.f, 0.f })
   , mScale({ 1.f, 1.f, 1.f })
   , mTransform(glm::mat4(1.0f))
   , mInverseTransform(glm::mat4(1.0f))
 {
-}
-
-void Transformable::setOrigin(const Vector3f& origin)
-{
-    mOrigin       = origin;
-    mNeedToUpdate = true;
-}
-
-Vector3f Transformable::getOrigin() const
-{
-    return mOrigin;
 }
 
 void Transformable::setPosition(const Vector2f& position)

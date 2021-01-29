@@ -5,7 +5,6 @@ using namespace Fluffy;
 RectangleShape::RectangleShape(const Vector2f& size)
   : mSize(size)
 {
-    setOrigin({ 0.5f, 0.5f, 0.f });
     update();
 }
 
@@ -22,17 +21,17 @@ Vector2f RectangleShape::getSize() const
 
 Vector3f RectangleShape::getVertexPosition(std::size_t index)
 {
-    auto origin = getOrigin();
+    auto scale = getScale();
 
     switch (index) {
         case 0:
-            return { 0.f - origin.x * mSize.x, 0.f - origin.y * mSize.y, 0.f };
+            return { -scale.x * mSize.x / 2.f, -scale.y * mSize.y / 2.f, 0.f };
         case 1:
-            return { mSize.x - origin.x * mSize.x, 0.f - origin.y * mSize.y, 0.f };
+            return { scale.x * mSize.x / 2.f, -scale.y * mSize.y / 2.f, 0.f };
         case 2:
-            return { mSize.x - origin.x * mSize.x, mSize.y - origin.y * mSize.y, 0.f };
+            return { scale.x * mSize.x / 2.f, scale.y * mSize.y / 2.f, 0.f };
         case 3:
-            return { 0.f - origin.x * mSize.x, mSize.y - origin.y * mSize.y, 0.f };
+            return { -scale.x * mSize.x / 2.f, scale.y * mSize.y / 2.f, 0.f };
     }
 
     return { 0.f, 0.f, 0.f };

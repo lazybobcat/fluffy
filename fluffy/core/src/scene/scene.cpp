@@ -1,19 +1,31 @@
-#include <fluffy/ecs/components.hpp>
+#include <fluffy/scene/components.hpp>
 #include <fluffy/scene/scene.hpp>
 
 using namespace Fluffy;
+
 Scene::Scene(Context& context)
-  : mEntityManager(*context.events)
 {
+    mRegistry = CreateRef<EntityRegistry>();
 }
 
 Entity Scene::createEntity(const String& name)
 {
-    auto entity = mEntityManager.createEntity();
-    entity.assign<TagComponent>(name);
+    auto entity = mRegistry->createEntity();
+    entity.add<TagComponent>(name);
 
     return entity;
 }
+
+void Scene::removeEntity(Entity entity)
+{
+    mRegistry->destroy(entity);
+}
+
+EntityRegistry* Scene::getEntityRegistry() const
+{
+    return mRegistry.get();
+}
+
 void Scene::update(Time dt)
 {
 }
