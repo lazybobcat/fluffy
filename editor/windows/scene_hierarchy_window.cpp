@@ -28,9 +28,9 @@ void SceneHierarchyWindow::customRender(RenderContext& context)
 
 void SceneHierarchyWindow::drawEntityNode(Entity entity)
 {
-    auto Ctag = entity.get<TagComponent>();
-    ImGuiTreeNodeFlags flags = ((mSelectedEntity == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
-    bool opened = ImGui::TreeNodeEx((void*)(std::uint64_t)(std::uint32_t)entity, flags, "%s", Ctag.tag.c_str());
+    auto               Ctag   = entity.get<TagComponent>();
+    ImGuiTreeNodeFlags flags  = ((mSelectedEntity == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
+    bool               opened = ImGui::TreeNodeEx((void*)(std::uint64_t)(std::uint32_t)entity, flags, "%s", Ctag.tag.c_str());
     if (ImGui::IsItemClicked()) {
         select(entity);
     }

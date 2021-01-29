@@ -23,6 +23,7 @@ public:
     operator bool() const;
     operator entt::entity() const;
     operator std::uint32_t() const;
+
     bool operator==(const Entity& other) const;
     bool operator!=(const Entity& other) const;
 
@@ -59,7 +60,7 @@ public:
     }
 
 private:
-    entt::entity    mEntity = entt::null;
+    entt::entity    mEntity   = entt::null;
     EntityRegistry* mRegistry = nullptr;
 };
 }

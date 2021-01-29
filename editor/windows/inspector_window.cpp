@@ -53,7 +53,6 @@ void InspectorWindow::customRender(RenderContext& context)
 
             ImGui::TreePop();
         }
-
     }
 }
 

@@ -25,13 +25,13 @@ Vector3f RectangleShape::getVertexPosition(std::size_t index)
 
     switch (index) {
         case 0:
-            return { - scale.x * mSize.x / 2.f, - scale.y * mSize.y / 2.f, 0.f };
+            return { -scale.x * mSize.x / 2.f, -scale.y * mSize.y / 2.f, 0.f };
         case 1:
-            return { scale.x * mSize.x / 2.f, - scale.y * mSize.y / 2.f, 0.f };
+            return { scale.x * mSize.x / 2.f, -scale.y * mSize.y / 2.f, 0.f };
         case 2:
             return { scale.x * mSize.x / 2.f, scale.y * mSize.y / 2.f, 0.f };
         case 3:
-            return { - scale.x * mSize.x /2.f, scale.y * mSize.y / 2.f, 0.f };
+            return { -scale.x * mSize.x / 2.f, scale.y * mSize.y / 2.f, 0.f };
     }
 
     return { 0.f, 0.f, 0.f };
