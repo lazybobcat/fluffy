@@ -1,11 +1,3 @@
-//
-// fluffy
-// @author Lo-X
-// @website http://www.loicboutter.fr
-// @copyright 2016 All rights reserved
-// File created by loic on 17/04/18.
-//
-
 #include <bandit/bandit.h>
 #include <fluffy/fluffy_utils.hpp>
 #include <fstream>
