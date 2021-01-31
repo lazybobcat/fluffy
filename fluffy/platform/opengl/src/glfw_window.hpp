@@ -21,6 +21,7 @@ public:
     bool shouldClose() const override;
     bool pollEvents(Event& event) override;
 
+    void  maximize();
     void  resize(int w, int h) override;
     void* getNativeWindow() override;
 
@@ -28,7 +29,7 @@ public:
 
 private:
     void initializeGLFWEvents();
-
+    Vector2u    getMonitorSize() const;
 private:
     GLFWwindow* mWindow;
     Definition  mDefinition;
