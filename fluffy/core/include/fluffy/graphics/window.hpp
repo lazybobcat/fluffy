@@ -11,11 +11,11 @@ enum class WindowType
 {
     Windowed,
     Fullscreen,
-    Resizable
+    Maximized
 };
 
 namespace EnumNames {
-const std::array<const char*, 3> WindowType({ { "windowed", "fullscreen", "resizable" } });
+const std::array<const char*, 3> WindowType({ { "windowed", "fullscreen", "maximized" } });
 }
 
 class Window

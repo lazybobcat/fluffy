@@ -31,7 +31,7 @@ public:
     void initializeModules(ModuleRegistry& registry) override
     {
         registry.registerModule(new SystemModule());
-        registry.registerModule(new OpenGLVideoModule({ getTitle(), WindowType::Windowed, 1280, 720 }));
+        registry.registerModule(new OpenGLVideoModule({ getTitle(), WindowType::Maximized, 1280, 720 }));
         registry.registerModule(new InputModule());
     }
 

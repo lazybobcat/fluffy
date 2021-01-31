@@ -31,7 +31,29 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, OPENGL_MINOR_VERSION);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    mWindow = glfwCreateWindow((int)mDefinition.width, (int)mDefinition.height, mDefinition.title.c_str(), nullptr, nullptr);
+    bool doMaximize = false;
+
+    switch (mDefinition.type) {
+        case WindowType::Fullscreen: {
+            auto size = getMonitorSize();
+            FLUFFY_LOG_INFO("Fullscreen: Raw size is {}x{}", size.x, size.y);
+            mDefinition.width  = size.x;
+            mDefinition.height = size.y;
+            mWindow            = glfwCreateWindow((int)mDefinition.width, (int)mDefinition.height, mDefinition.title.c_str(), glfwGetPrimaryMonitor(), nullptr);
+        } break;
+        case WindowType::Maximized: {
+            doMaximize = true;
+            auto size = getMonitorSize();
+            FLUFFY_LOG_INFO("Maximized: Raw size is {}x{}", size.x, size.y);
+            mDefinition.width  = size.x;
+            mDefinition.height = size.y;
+        }
+        case WindowType::Windowed:
+        default:
+            mWindow = glfwCreateWindow((int)mDefinition.width, (int)mDefinition.height, mDefinition.title.c_str(), nullptr, nullptr);
+            break;
+    }
+
     FLUFFY_ASSERT(mWindow, "Failed to create GLFW window");
 
     glfwMakeContextCurrent(mWindow);
@@ -41,6 +63,9 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
     FLUFFY_ASSERT(initialized, "Failed to initialize GLAD");
 
     resize(mDefinition.width, mDefinition.height);
+    if (doMaximize) {
+        maximize();
+    }
     initializeGLFWEvents();
 }
 
@@ -48,6 +73,15 @@ GlfwWindow::~GlfwWindow()
 {
     glfwDestroyWindow(mWindow);
     glfwTerminate();
+}
+
+Vector2u GlfwWindow::getMonitorSize() const
+{
+    int posX, posY, width, height;
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    glfwGetMonitorWorkarea(monitor, &posX, &posY, &width, &height);
+
+    return { width, height };
 }
 
 void GlfwWindow::initializeGLFWEvents()
@@ -206,4 +240,9 @@ bool GlfwWindow::pollEvents(Event& event)
 void GlfwWindow::pushEvent(Event&& event)
 {
     mEvents.push(event);
+}
+
+void GlfwWindow::maximize()
+{
+    glfwMaximizeWindow(mWindow);
 }
