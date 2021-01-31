@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../windows/about_window.hpp"
-#include "../windows/inspector_window.hpp"
-#include "../windows/log_window.hpp"
-#include "../windows/profiling_window.hpp"
-#include "../windows/scene_hierarchy_window.hpp"
-#include "../windows/toolbar_window.hpp"
-#include "../windows/viewport_window.hpp"
+#include "ui/windows/about_window.hpp"
+#include "ui/windows/inspector_window.hpp"
+#include "ui/windows/log_window.hpp"
+#include "ui/windows/profiling_window.hpp"
+#include "ui/windows/scene_hierarchy_window.hpp"
+#include "ui/windows/toolbar_window.hpp"
+#include "ui/windows/viewport_window.hpp"
 #include <fluffy/api/modules.hpp>
 #include <fluffy/graphics/rectangle_shape.hpp>
 #include <fluffy/graphics/texture.hpp>
