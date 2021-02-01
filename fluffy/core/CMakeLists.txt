@@ -43,7 +43,7 @@ set(SOURCE_FILES
         include/fluffy/profiling/rendering_profiling.hpp src/profiling/rendering_profiling.cpp
         include/fluffy/imgui/imgui_element.hpp src/imgui/imgui_element.cpp
         include/fluffy/imgui/imgui_container.hpp src/imgui/imgui_container.cpp
-        include/fluffy/imgui/imgui_window.hpp src/imgui/imgui_window.cpp
+        include/fluffy/imgui/imgui_panel.hpp src/imgui/imgui_panel.cpp
         include/fluffy/scene/entity.hpp src/scene/entity.cpp
         include/fluffy/scene/entity_registry.hpp src/scene/entity_registry.cpp
         include/fluffy/scene/components.hpp

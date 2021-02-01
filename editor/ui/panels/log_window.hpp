@@ -1,7 +1,7 @@
 #pragma once
 
 #include <fluffy/definitions.hpp>
-#include <fluffy/imgui/imgui_window.hpp>
+#include <fluffy/imgui/imgui_panel.hpp>
 #include <fluffy/profiling/profiler.hpp>
 
 namespace Fluffy {
@@ -19,10 +19,10 @@ private:
     LogWindow* mWindow;
 };
 
-class LogWindow : public ImGuiWindow
+class LogWindow : public ImGuiPanel
 {
 public:
-    explicit LogWindow(const ImGuiWindowDefinition& properties);
+    explicit LogWindow(const ImGuiPanelDefinition& properties);
 
     void log(const String& message);
     void clear();

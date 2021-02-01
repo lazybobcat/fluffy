@@ -1,12 +1,12 @@
 #pragma once
 
-#include "ui/windows/about_window.hpp"
-#include "ui/windows/inspector_window.hpp"
-#include "ui/windows/log_window.hpp"
-#include "ui/windows/profiling_window.hpp"
-#include "ui/windows/scene_hierarchy_window.hpp"
-#include "ui/windows/toolbar_window.hpp"
-#include "ui/windows/viewport_window.hpp"
+#include "ui/panels/about_window.hpp"
+#include "ui/panels/inspector_panel.hpp"
+#include "ui/panels/log_window.hpp"
+#include "ui/panels/profiling_window.hpp"
+#include "ui/panels/scene_hierarchy_panel.hpp"
+#include "ui/panels/toolbar.hpp"
+#include "ui/panels/viewport_window.hpp"
 #include <fluffy/api/modules.hpp>
 #include <fluffy/graphics/rectangle_shape.hpp>
 #include <fluffy/graphics/texture.hpp>
@@ -43,8 +43,8 @@ private:
     Ref<Slot>           onRenderSlot;
 
     // Scene hierarchy panel
-    Ref<SceneHierarchyWindow> sceneWindow;
+    Ref<SceneHierarchyPanel> sceneWindow;
 
     // Inspector window
-    Ref<InspectorWindow> inspectorWindow;
+    Ref<InspectorPanel> inspectorWindow;
 };

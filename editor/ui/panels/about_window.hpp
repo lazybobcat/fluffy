@@ -1,16 +1,16 @@
 #pragma once
 
 #include <fluffy/definitions.hpp>
-#include <fluffy/imgui/imgui_window.hpp>
+#include <fluffy/imgui/imgui_panel.hpp>
 #include <fluffy/profiling/profiler.hpp>
 
 namespace Fluffy {
 
-class AboutWindow : public ImGuiWindow
+class AboutWindow : public ImGuiPanel
 {
 public:
-    explicit AboutWindow(const ImGuiWindowDefinition& properties)
-      : ImGuiWindow({ properties.title, properties.openControl, properties.flags })
+    explicit AboutWindow(const ImGuiPanelDefinition& properties)
+      : ImGuiPanel({ properties.title, properties.openControl, properties.flags })
     {
         resize({ 250, 240 });
     }

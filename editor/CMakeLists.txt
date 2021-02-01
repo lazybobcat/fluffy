@@ -5,13 +5,14 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_CURRENT_SOURCE_DIR}/bu
 
 set(SOURCE_FILES
         editor.cpp
-        ui/windows/log_window.cpp
-        ui/windows/profiling_window.cpp
-        ui/windows/toolbar_window.cpp
-        ui/windows/viewport_window.cpp
-        ui/windows/scene_hierarchy_window.cpp
-        ui/windows/inspector_window.cpp
-        layers/editor_state.cpp)
+        ui/panels/log_window.cpp
+        ui/panels/profiling_window.cpp
+        ui/panels/toolbar.cpp
+        ui/panels/viewport_window.cpp
+        ui/panels/scene_hierarchy_panel.cpp
+        ui/panels/inspector_panel.cpp
+        ui/layout.hpp
+        layers/editor_state.cpp ui/icons_font_awesome.hpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 

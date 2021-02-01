@@ -17,6 +17,11 @@ Color::Color(float r, float g, float b, float a)
 {
 }
 
+Color::Color(const Vector4f& colors)
+  : value(colors)
+{
+}
+
 Color Color::fromInt8(std::uint8_t r, std::uint8_t g, std::uint8_t b, std::uint8_t a)
 {
     return Color((float)r / 255.f, (float)g / 255.f, (float)b / 255.f, (float)a / 255.f);

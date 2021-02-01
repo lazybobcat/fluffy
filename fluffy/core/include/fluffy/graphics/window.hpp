@@ -47,6 +47,7 @@ public:
     virtual void               update()                 = 0;
     virtual bool               pollEvents(Event& event) = 0;
     virtual void               swapBuffers()            = 0;
+    virtual void               close()                  = 0;
     [[nodiscard]] virtual bool shouldClose() const      = 0;
 
     virtual void     resize(int w, int h) {}

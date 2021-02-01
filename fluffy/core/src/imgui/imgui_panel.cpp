@@ -1,9 +1,9 @@
-#include <fluffy/imgui/imgui_window.hpp>
+#include <fluffy/imgui/imgui_panel.hpp>
 #include <imgui.h>
 
 using namespace Fluffy;
 
-ImGuiWindow::ImGuiWindow(const ImGuiWindowDefinition& properties)
+ImGuiPanel::ImGuiPanel(const ImGuiPanelDefinition& properties)
   : mWindowTitle(properties.title)
   , mWindowOpenControl(properties.openControl)
   , mWindowFlags(properties.flags)
@@ -13,7 +13,7 @@ ImGuiWindow::ImGuiWindow(const ImGuiWindowDefinition& properties)
     }
 }
 
-void ImGuiWindow::begin()
+void ImGuiPanel::begin()
 {
     if (mNeedToResize) {
         ImGui::SetNextWindowSize(ImVec2((float)mWindowSize.x, (float)mWindowSize.y));
@@ -22,12 +22,12 @@ void ImGuiWindow::begin()
     ImGui::Begin(mWindowTitle, mWindowOpenControl, mWindowFlags);
 }
 
-void ImGuiWindow::end()
+void ImGuiPanel::end()
 {
     ImGui::End();
 }
 
-void ImGuiWindow::render(RenderContext& context)
+void ImGuiPanel::render(RenderContext& context)
 {
     if (*mWindowOpenControl) {
         begin();
@@ -35,19 +35,19 @@ void ImGuiWindow::render(RenderContext& context)
         end();
     }
 }
-void ImGuiWindow::show()
+void ImGuiPanel::show()
 {
     ImGuiElement::show();
     *mWindowOpenControl = true;
 }
 
-void ImGuiWindow::hide()
+void ImGuiPanel::hide()
 {
     ImGuiElement::hide();
     *mWindowOpenControl = false;
 }
 
-void ImGuiWindow::resize(const Vector2i& size)
+void ImGuiPanel::resize(const Vector2i& size)
 {
     mWindowSize   = size;
     mNeedToResize = true;

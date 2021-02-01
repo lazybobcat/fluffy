@@ -20,42 +20,50 @@ void EditorState::initialize()
         scene->createEntity();
 
         // Top toolbar
-        container.pack(CreateRef<ToolbarWindow>(openedWindows));
         {
-            ImGuiWindowDefinition definition;
+            auto toolbar = CreateRef<Toolbar>(openedWindows);
+            toolbar->OnExit.connect([&]() {
+                getContext()->video->getWindow()->close();
+            });
+            container.pack(toolbar);
+        }
+
+        // Log window
+        {
+            ImGuiPanelDefinition definition;
             definition.title       = "Logs";
             definition.openControl = &openedWindows.logsWindowOpened;
             container.pack(CreateRef<LogWindow>(definition));
         }
 
 #ifdef FLUFFY_PROFILING_ACTIVE
-        container.pack(CreateRef<ProfilingWindow>(ProfilingWindowDefinition("Profiling", &openedWindows.profilingWindowOpened)));
+        container.pack(CreateRef<ProfilingWindow>(ProfilingPanelDefinition("Profiling", &openedWindows.profilingWindowOpened)));
 #endif
 
         // Scene hierarchy window
         {
-            SceneHierarchyWindowDefinition definition;
+            SceneHierarchyPanelDefinition definition;
             definition.title       = "Scene";
             definition.openControl = &openedWindows.sceneHierarchyWindowOpened;
             definition.scene       = scene;
-            sceneWindow            = CreateRef<SceneHierarchyWindow>(definition);
+            sceneWindow            = CreateRef<SceneHierarchyPanel>(definition);
             container.pack(sceneWindow);
         }
 
         // Inspector window
         {
-            ImGuiWindowDefinition definition;
+            ImGuiPanelDefinition definition;
             definition.title                      = "Inspector";
             definition.openControl                = &openedWindows.inspectorWindowOpened;
-            inspectorWindow                       = CreateRef<InspectorWindow>(definition);
-            inspectorWindow->EntitySelectedSlot   = sceneWindow->OnEntitySelected.connect(std::bind(&InspectorWindow::onEntitySelected, inspectorWindow.get(), std::placeholders::_1));
-            inspectorWindow->EntityUnselectedSlot = sceneWindow->OnEntityUnselected.connect(std::bind(&InspectorWindow::onEntityUnselected, inspectorWindow.get()));
+            inspectorWindow                       = CreateRef<InspectorPanel>(definition);
+            inspectorWindow->EntitySelectedSlot   = sceneWindow->OnEntitySelected.connect(std::bind(&InspectorPanel::onEntitySelected, inspectorWindow.get(), std::placeholders::_1));
+            inspectorWindow->EntityUnselectedSlot = sceneWindow->OnEntityUnselected.connect(std::bind(&InspectorPanel::onEntityUnselected, inspectorWindow.get()));
             container.pack(inspectorWindow);
         }
 
         // Viewport window
         {
-            ImGuiWindowDefinition definition;
+            ImGuiPanelDefinition definition;
             definition.title       = "Viewport";
             definition.openControl = &openedWindows.viewportWindowOpened;
             viewportWindow         = CreateRef<ViewportWindow>(definition, *getContext());
@@ -65,7 +73,7 @@ void EditorState::initialize()
 
         // About window
         {
-            ImGuiWindowDefinition definition;
+            ImGuiPanelDefinition definition;
             definition.title       = "About";
             definition.openControl = &openedWindows.aboutWindowOpened;
             container.pack(CreateRef<AboutWindow>(definition));

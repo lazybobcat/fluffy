@@ -19,6 +19,7 @@ public:
     void update() override;
     void swapBuffers() override;
     bool shouldClose() const override;
+    void close() override;
     bool pollEvents(Event& event) override;
 
     void  maximize();

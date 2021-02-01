@@ -246,3 +246,8 @@ void GlfwWindow::maximize()
 {
     glfwMaximizeWindow(mWindow);
 }
+
+void GlfwWindow::close()
+{
+    glfwSetWindowShouldClose(mWindow, GLFW_TRUE);
+}

@@ -1,12 +1,12 @@
 #pragma once
 
 #include <fluffy/definitions.hpp>
-#include <fluffy/imgui/imgui_window.hpp>
+#include <fluffy/imgui/imgui_panel.hpp>
 #include <fluffy/scene/scene.hpp>
 
 namespace Fluffy {
 
-struct SceneHierarchyWindowDefinition
+struct SceneHierarchyPanelDefinition
 {
     const char*      title       = "";
     bool*            openControl = nullptr;
@@ -14,14 +14,14 @@ struct SceneHierarchyWindowDefinition
     Ref<Scene>       scene;
 };
 
-class SceneHierarchyWindow : public ImGuiWindow
+class SceneHierarchyPanel : public ImGuiPanel
 {
 public:
     Signal<Entity> OnEntitySelected;
     Signal<>       OnEntityUnselected;
 
 public:
-    explicit SceneHierarchyWindow(const SceneHierarchyWindowDefinition& properties);
+    explicit SceneHierarchyPanel(const SceneHierarchyPanelDefinition& properties);
 
     void setScene(const Ref<Scene>& scene);
     void select(Entity entity);

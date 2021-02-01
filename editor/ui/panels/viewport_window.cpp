@@ -3,8 +3,8 @@
 
 using namespace Fluffy;
 
-ViewportWindow::ViewportWindow(const ImGuiWindowDefinition& properties, Context& context)
-  : ImGuiWindow(properties)
+ViewportWindow::ViewportWindow(const ImGuiPanelDefinition& properties, Context& context)
+  : ImGuiPanel(properties)
   , mContext(context)
   , mCamera({ 0.f, 0.f }, { 1280, 720 }) //@todo change editor camera to a perspective camera?
 {
@@ -48,4 +48,16 @@ void ViewportWindow::customRender(RenderContext& context)
 
     // Draw scene
     ImGui::Image((void*)dynamic_cast<OpenglTexture2D&>(*mRenderTexture).getRendererId(), viewportPanelSize, ImVec2(0, 1), ImVec2(1, 0));
+}
+
+void ViewportWindow::begin()
+{
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+    ImGuiPanel::begin();
+}
+
+void ViewportWindow::end()
+{
+    ImGuiPanel::end();
+    ImGui::PopStyleVar();
 }

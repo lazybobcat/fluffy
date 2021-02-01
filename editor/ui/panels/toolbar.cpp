@@ -1,21 +1,26 @@
-#include "toolbar_window.hpp"
+#include "toolbar.hpp"
+#include "ui/layout.hpp"
 #include <fluffy/profiling/profiler.hpp>
 #include <imgui.h>
 
 using namespace Fluffy;
 
-ToolbarWindow::ToolbarWindow(OpenedWindowTracker& tracker)
+Toolbar::Toolbar(OpenedWindowTracker& tracker)
   : ImGuiElement()
   , mWindowTracker(tracker)
 {
 }
 
-void ToolbarWindow::customRender(RenderContext&)
+void Toolbar::customRender(RenderContext&)
 {
     FLUFFY_PROFILE_FUNCTION();
 
     if (ImGui::BeginMainMenuBar()) {
         if (ImGui::BeginMenu("File")) {
+            ImGui::Separator();
+            if (ImGui::MenuItem(ICON_FA_TIMES "  Exit")) {
+                OnExit.emit();
+            }
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Tools")) {

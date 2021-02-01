@@ -1,7 +1,7 @@
 #pragma once
 
 #include <fluffy/definitions.hpp>
-#include <fluffy/imgui/imgui_window.hpp>
+#include <fluffy/imgui/imgui_panel.hpp>
 #include <fluffy/scene/entity.hpp>
 
 namespace Fluffy {

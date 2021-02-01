@@ -1,6 +1,6 @@
 #pragma once
 
-#include <fluffy/imgui/imgui_window.hpp>
+#include <fluffy/imgui/imgui_panel.hpp>
 #include <fluffy/profiling/profiler.hpp>
 
 #ifdef FLUFFY_PROFILING_ACTIVE
@@ -14,16 +14,16 @@ struct ProfileReport
     std::uint64_t                                                         memoryUsage = 0;
 };
 
-struct ProfilingWindowDefinition : public ImGuiWindowDefinition
+struct ProfilingPanelDefinition : public ImGuiPanelDefinition
 {
-    explicit ProfilingWindowDefinition(const char* title, bool* openControl = nullptr, ImGuiWindowFlags flags = 0);
+    explicit ProfilingPanelDefinition(const char* title, bool* openControl = nullptr, ImGuiWindowFlags flags = 0);
     float refreshTimeInSeconds = 1.f;
 };
 
-class ProfilingWindow : public ImGuiWindow
+class ProfilingWindow : public ImGuiPanel
 {
 public:
-    explicit ProfilingWindow(const ProfilingWindowDefinition& properties);
+    explicit ProfilingWindow(const ProfilingPanelDefinition& properties);
 
     void               update(Time dt) override;
     void               pause();

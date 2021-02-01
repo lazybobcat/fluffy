@@ -9,13 +9,13 @@ constexpr Vector2f SMALL_SIZE = Vector2f(300, 100);
 constexpr Vector2f BIG_SIZE   = Vector2f(1080, 300);
 constexpr float    DISTANCE   = 10.f;
 
-ProfilingWindowDefinition::ProfilingWindowDefinition(const char* title, bool* openControl, ImGuiWindowFlags flags)
-  : ImGuiWindowDefinition{ title, openControl, flags }
+ProfilingPanelDefinition::ProfilingPanelDefinition(const char* title, bool* openControl, ImGuiWindowFlags flags)
+  : ImGuiPanelDefinition{ title, openControl, flags }
 {
 }
 
-ProfilingWindow::ProfilingWindow(const ProfilingWindowDefinition& properties)
-  : ImGuiWindow({ properties.title, properties.openControl, properties.flags })
+ProfilingWindow::ProfilingWindow(const ProfilingPanelDefinition& properties)
+  : ImGuiPanel({ properties.title, properties.openControl, properties.flags })
 {
     resize(SMALL_SIZE);
 }
@@ -53,7 +53,7 @@ void ProfilingWindow::begin()
         ImGui::SetNextWindowViewport(viewport->ID);
     }
     ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
-    ImGuiWindow::begin();
+    ImGuiPanel::begin();
 }
 
 void ProfilingWindow::customRender(RenderContext&)

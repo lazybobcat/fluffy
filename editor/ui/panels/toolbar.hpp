@@ -15,10 +15,13 @@ struct OpenedWindowTracker
     bool aboutWindowOpened          = false;
 };
 
-class ToolbarWindow : public ImGuiElement
+class Toolbar : public ImGuiElement
 {
 public:
-    explicit ToolbarWindow(OpenedWindowTracker& tracker);
+    Signal<> OnExit;
+
+public:
+    explicit Toolbar(OpenedWindowTracker& tracker);
 
 protected:
     void customRender(RenderContext&) override;

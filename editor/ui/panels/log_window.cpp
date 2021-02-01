@@ -18,8 +18,8 @@ void LogWindowSink::log(LogLevel level, const String& message)
 
 /**********************************************************************************************************************/
 
-LogWindow::LogWindow(const ImGuiWindowDefinition& properties)
-  : ImGuiWindow({ properties.title, properties.openControl, properties.flags })
+LogWindow::LogWindow(const ImGuiPanelDefinition& properties)
+  : ImGuiPanel({ properties.title, properties.openControl, properties.flags })
 {
     Logger::addSink(new LogWindowSink(this));
 }

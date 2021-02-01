@@ -6,18 +6,18 @@
 
 namespace Fluffy {
 
-struct ImGuiWindowDefinition
+struct ImGuiPanelDefinition
 {
     const char*      title       = "";
     bool*            openControl = nullptr;
     ImGuiWindowFlags flags       = 0;
 };
 
-class ImGuiWindow : public ImGuiElement
+class ImGuiPanel : public ImGuiElement
 {
 public:
-    explicit ImGuiWindow(const ImGuiWindowDefinition& properties);
-    virtual ~ImGuiWindow() = default;
+    explicit ImGuiPanel(const ImGuiPanelDefinition& properties);
+    virtual ~ImGuiPanel() = default;
 
     void render(RenderContext& context) override;
     void show() override;
