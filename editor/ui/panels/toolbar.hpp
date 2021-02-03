@@ -13,6 +13,7 @@ struct OpenedWindowTracker
     bool sceneHierarchyWindowOpened = true;
     bool inspectorWindowOpened      = true;
     bool aboutWindowOpened          = false;
+    bool addComponentWindowOpened   = false;
 };
 
 class Toolbar : public ImGuiElement

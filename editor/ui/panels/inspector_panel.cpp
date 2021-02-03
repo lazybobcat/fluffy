@@ -31,8 +31,9 @@ void InspectorPanel::drawComponents()
         strcpy(buffer, Ctag.tag.c_str());
 #endif
 
+        // Add component button
         if (ImGui::Button(ICON_FA_CUBES)) {
-            // @todo open a window listing all components in components registry
+            OnAddComponentButtonPressed.emit(mSelectedEntity);
         }
         ImGui::SameLine();
         if (ImGui::InputText("##Tag", buffer, sizeof(buffer))) {
@@ -57,6 +58,8 @@ void InspectorPanel::drawComponents()
         auto scale = Ctransform.getScale();
         Layout::drawXYZ("Scale", scale, 1.f, 0.1f);
         Ctransform.setScale(scale);
+
+        ImGui::Dummy(ImVec2(0, 10.f));
     });
 
     Layout::drawComponent<SpriteComponent>(mSelectedEntity, "Sprite", [&]() {
@@ -65,6 +68,8 @@ void InspectorPanel::drawComponents()
         if (Layout::drawColorPicker("Color", color)) {
             Csprite.rectangle.setFillColor(color);
         }
+
+        ImGui::Dummy(ImVec2(0, 10.f));
     });
 }
 

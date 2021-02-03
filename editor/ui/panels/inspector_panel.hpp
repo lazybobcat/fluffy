@@ -9,7 +9,8 @@ namespace Fluffy {
 class InspectorPanel : public ImGuiPanel
 {
 public:
-    Signal<> OnInspectedObjectChanged;
+    Signal<>       OnInspectedObjectChanged;
+    Signal<Entity> OnAddComponentButtonPressed;
 
     Ref<Slot> EntitySelectedSlot;
     Ref<Slot> EntityUnselectedSlot;

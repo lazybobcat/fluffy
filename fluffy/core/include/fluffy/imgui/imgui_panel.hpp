@@ -24,12 +24,15 @@ public:
     void hide() override;
     void resize(const Vector2i& size);
 
+    void setTitle(const char* title);
+    void setTitle(const String& title);
+
 protected:
     void begin() override;
     void end() override;
 
 protected:
-    const char*      mWindowTitle;
+    String           mWindowTitle;
     bool*            mWindowOpenControl;
     ImGuiWindowFlags mWindowFlags;
     Vector2i         mWindowSize;

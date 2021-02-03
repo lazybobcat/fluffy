@@ -19,7 +19,7 @@ void ImGuiPanel::begin()
         ImGui::SetNextWindowSize(ImVec2((float)mWindowSize.x, (float)mWindowSize.y));
         mNeedToResize = false;
     }
-    ImGui::Begin(mWindowTitle, mWindowOpenControl, mWindowFlags);
+    ImGui::Begin(mWindowTitle.c_str(), mWindowOpenControl, mWindowFlags);
 }
 
 void ImGuiPanel::end()
@@ -51,4 +51,14 @@ void ImGuiPanel::resize(const Vector2i& size)
 {
     mWindowSize   = size;
     mNeedToResize = true;
+}
+
+void ImGuiPanel::setTitle(const char* title)
+{
+    mWindowTitle = title;
+}
+
+void ImGuiPanel::setTitle(const String& title)
+{
+    mWindowTitle = title;
 }

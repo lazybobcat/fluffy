@@ -12,7 +12,12 @@ set(SOURCE_FILES
         ui/panels/scene_hierarchy_panel.cpp
         ui/panels/inspector_panel.cpp
         ui/layout.hpp
-        layers/editor_state.cpp ui/icons_font_awesome.hpp)
+        registry/plugin_registry.cpp
+        registry/component_registry.cpp
+        plugins/fluffy_plugin.cpp
+        modules/fluffy_editor_module.cpp
+        ui/panels/add_component_window.cpp
+        layers/editor_state.cpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 

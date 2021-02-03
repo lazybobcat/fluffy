@@ -1,5 +1,7 @@
 #include "layers/editor_state.hpp"
 #include "layers/imgui_state.hpp"
+#include "modules/fluffy_editor_module.hpp"
+#include "plugins/fluffy_plugin.hpp"
 #include <fluffy/game/game.hpp>
 #include <fluffy/game/game_main.hpp>
 #include <opengl_video_module.hpp>
@@ -33,6 +35,7 @@ public:
         registry.registerModule(new SystemModule());
         registry.registerModule(new OpenGLVideoModule({ getTitle(), WindowType::Maximized, 1280, 720 }));
         registry.registerModule(new InputModule());
+        registry.registerModule(new FluffyEditorModule());
     }
 
     Unique<BaseLayer> start() override
@@ -53,6 +56,13 @@ public:
     [[nodiscard]] bool fixedTimesteps() const override
     {
         return true;
+    }
+
+protected:
+    void afterInitialize() override
+    {
+        auto module = dynamic_cast<FluffyEditorModule*>(getContext()->software);
+        module->initializePlugins();
     }
 };
 }

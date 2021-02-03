@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ui/panels/about_window.hpp"
+#include "ui/panels/add_component_window.hpp"
 #include "ui/panels/inspector_panel.hpp"
 #include "ui/panels/log_window.hpp"
 #include "ui/panels/profiling_window.hpp"
@@ -32,6 +33,9 @@ public:
     void onEvent(Event& event) override;
 
 private:
+    void openAddComponentWindow(Entity entity);
+
+private:
     Time slowUpdateTimer = Time::Zero;
 
     OpenedWindowTracker openedWindows;
@@ -47,4 +51,7 @@ private:
 
     // Inspector window
     Ref<InspectorPanel> inspectorWindow;
+
+    // Add component window
+    Ref<AddComponentWindow> addComponentWindow;
 };

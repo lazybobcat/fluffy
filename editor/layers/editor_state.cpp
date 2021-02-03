@@ -1,4 +1,5 @@
 #include "editor_state.hpp"
+#include "modules/fluffy_editor_module.hpp"
 
 using namespace Fluffy;
 
@@ -58,6 +59,7 @@ void EditorState::initialize()
             inspectorWindow                       = CreateRef<InspectorPanel>(definition);
             inspectorWindow->EntitySelectedSlot   = sceneWindow->OnEntitySelected.connect(std::bind(&InspectorPanel::onEntitySelected, inspectorWindow.get(), std::placeholders::_1));
             inspectorWindow->EntityUnselectedSlot = sceneWindow->OnEntityUnselected.connect(std::bind(&InspectorPanel::onEntityUnselected, inspectorWindow.get()));
+            inspectorWindow->OnAddComponentButtonPressed.connect(std::bind(&EditorState::openAddComponentWindow, this, std::placeholders::_1));
             container.pack(inspectorWindow);
         }
 
@@ -77,6 +79,14 @@ void EditorState::initialize()
             definition.title       = "About";
             definition.openControl = &openedWindows.aboutWindowOpened;
             container.pack(CreateRef<AboutWindow>(definition));
+        }
+
+        // Add component window
+        {
+            auto                         module = dynamic_cast<FluffyEditorModule*>(getContext()->software);
+            AddComponentWindowDefinition definition(module->components(), "Add component", &openedWindows.addComponentWindowOpened);
+            addComponentWindow = CreateRef<AddComponentWindow>(definition);
+            container.pack(addComponentWindow);
         }
     }
 }
@@ -138,4 +148,9 @@ void EditorState::render(RenderContext& context)
 
 void EditorState::terminate()
 {
+}
+
+void EditorState::openAddComponentWindow(Entity entity)
+{
+    addComponentWindow->openForEntity(entity);
 }
