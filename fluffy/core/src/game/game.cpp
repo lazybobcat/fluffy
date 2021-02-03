@@ -4,12 +4,12 @@
 
 using namespace Fluffy;
 
-void Game::internalInitialize()
+void Game::afterInitialize()
 {
     FLUFFY_PROFILE_FUNCTION();
 }
 
-void Game::internalTerminate()
+void Game::beforeTerminate()
 {
     FLUFFY_PROFILE_FUNCTION();
     FLUFFY_LOG_INFO("Game is shutting down");

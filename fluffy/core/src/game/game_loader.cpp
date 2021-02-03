@@ -19,12 +19,12 @@ void GameLoader::load()
 
     FLUFFY_LOG_INFO("Starting game {} with Fluffy...", mGame->getTitle());
 
-    mGame->internalInitialize();
     mGame->initialize(mApplicationArgs);
     mGame->initializeModules(registry);
     mContext = Unique<Context>(new Context(registry));
     mContext->initialize();
     mGame->setStartingState(mGame->start(), mContext);
+    mGame->afterInitialize();
 }
 
 void GameLoader::reload()
@@ -39,8 +39,8 @@ void GameLoader::unload()
         throw std::logic_error("The game object is asked while still unloaded");
     }
 
+    mGame->beforeTerminate();
     mGame->terminate(*mContext);
-    mGame->internalTerminate();
 }
 
 Game& GameLoader::getGame() const

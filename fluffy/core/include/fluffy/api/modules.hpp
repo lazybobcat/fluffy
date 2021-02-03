@@ -17,10 +17,11 @@ enum class ModuleType
     Audio,
     Network,
     Platform,
+    Software,
 };
 
 namespace EnumNames {
-const std::array<const char*, 6> ModuleType({ { "system", "video", "input", "audio", "network", "platform" } });
+const std::array<const char*, 7> ModuleType({ { "system", "video", "input", "audio", "network", "platform", "software" } });
 }
 
 class BaseModule
@@ -129,6 +130,23 @@ public:
     ModuleType getType() const override
     {
         return ModuleType::Input;
+    }
+};
+
+class SoftwareModule : public BaseModule
+{
+public:
+    virtual void initialize(const Context& context) override {}
+    virtual void terminate() override {}
+
+    String getName() const override
+    {
+        return "software_module";
+    }
+
+    ModuleType getType() const override
+    {
+        return ModuleType::Software;
     }
 };
 }

@@ -36,8 +36,16 @@ Context::Context(const ModuleRegistry& registry)
     {
         auto module = dynamic_cast<InputModule*>(registry.getModule(ModuleType::Input));
         if (module) {
-            FLUFFY_LOG_INFO("> Loaded {} module: {}", EnumNames::ModuleType[(int)ModuleType::Video], module->getName());
+            FLUFFY_LOG_INFO("> Loaded {} module: {}", EnumNames::ModuleType[(int)ModuleType::Input], module->getName());
             inputModule.reset(module);
+        }
+    }
+
+    {
+        auto module = dynamic_cast<SoftwareModule*>(registry.getModule(ModuleType::Software));
+        if (module) {
+            FLUFFY_LOG_INFO("> Loaded {} module: {}", EnumNames::ModuleType[(int)ModuleType::Software], module->getName());
+            softwareModule.reset(module);
         }
     }
 
@@ -61,6 +69,10 @@ void Context::assign()
         input = inputModule.get();
     }
 
+    if (softwareModule) {
+        software = softwareModule.get();
+    }
+
     // @todo assign other modules
 }
 
@@ -78,6 +90,10 @@ void Context::initialize()
         input->initialize(*this);
     }
 
+    if (software) {
+        software->initialize(*this);
+    }
+
     // @todo init other modules
 }
 
@@ -89,6 +105,14 @@ void Context::terminate()
 
     if (video) {
         video->terminate();
+    }
+
+    if (input) {
+        input->terminate();
+    }
+
+    if (software) {
+        software->terminate();
     }
 
     // @todo terminate other modules

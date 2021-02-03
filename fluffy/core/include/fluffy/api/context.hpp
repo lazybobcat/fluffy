@@ -18,9 +18,10 @@ public:
     EventManager* events = nullptr;
 
     // @todo getters below :
-    SystemModule* system = nullptr;
-    VideoModule*  video  = nullptr;
-    InputModule*  input  = nullptr;
+    SystemModule*   system   = nullptr;
+    VideoModule*    video    = nullptr;
+    InputModule*    input    = nullptr;
+    SoftwareModule* software = nullptr;
     // audio
     // resources
     // network
@@ -44,9 +45,10 @@ private:
     Unique<EventManager> eventManager;
 
     // @todo unique_ptr below :
-    Unique<SystemModule> systemModule;
-    Unique<VideoModule>  videoModule;
-    Unique<InputModule>  inputModule;
+    Unique<SystemModule>   systemModule;
+    Unique<VideoModule>    videoModule;
+    Unique<InputModule>    inputModule;
+    Unique<SoftwareModule> softwareModule;
     // audio
     // resources
     // network

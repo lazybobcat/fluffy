@@ -34,12 +34,9 @@ public:
     virtual Unique<BaseLayer> start()          = 0;
     virtual String            getTitle() const = 0;
 
-private:
-    friend GameLoader;
-    friend GameLoop;
-
-    void internalInitialize();
-    void internalTerminate();
+protected:
+    virtual void afterInitialize();
+    virtual void beforeTerminate();
 
     void         setStartingState(Unique<BaseLayer> state, const Ref<Context>& context);
     Ref<Context> getContext() const;
@@ -48,6 +45,10 @@ private:
     void doEvents(Time dt);
     void doRender(Time dt);
     void onEvent(Event& event);
+
+private:
+    friend GameLoader;
+    friend GameLoop;
 
 private:
     Unique<LayerStack> mStateStack;
