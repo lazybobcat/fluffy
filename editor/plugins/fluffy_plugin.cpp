@@ -18,7 +18,9 @@ void FluffyPlugin::initialize(PluginRegistry* registry)
         data.name = "Transform";
         data.icon = Texture2D::create("assets/textures/components/fluffy.png", {32, 0, 32, 32});
         data.addComponentFct = [](Entity entity) {
-            entity.add<TransformComponent>();
+            if (!entity.has<TransformComponent>()) {
+                entity.add<TransformComponent>();
+            }
         };
         components.addComponentData(data);
     }
@@ -29,20 +31,11 @@ void FluffyPlugin::initialize(PluginRegistry* registry)
         data.name            = "Sprite";
         data.icon = Texture2D::create("assets/textures/components/fluffy.png", {64, 0, 32, 32});
         data.addComponentFct = [](Entity entity) {
-            entity.add<SpriteComponent>();
+            if (!entity.has<SpriteComponent>()) {
+                entity.add<SpriteComponent>();
+            }
         };
         components.addComponentData(data);
-    }
-
-    // DUMMY
-    {
-        for (int i = 0; i < 10; ++i) {
-            ComponentData data;
-            data.name            = printString("Dummy {}", i);
-            data.icon = Texture2D::create("assets/textures/components/fluffy.png", {0, 0, 32, 32});
-            data.addComponentFct = [](Entity entity) {};
-            components.addComponentData(data);
-        }
     }
 }
 
