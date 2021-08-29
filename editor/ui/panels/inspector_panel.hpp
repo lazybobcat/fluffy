@@ -3,8 +3,16 @@
 #include <fluffy/definitions.hpp>
 #include <fluffy/imgui/imgui_panel.hpp>
 #include <fluffy/scene/entity.hpp>
+#include "registry/component_registry.hpp"
 
 namespace Fluffy {
+
+struct InspectorPanelWindowDefinition : public ImGuiPanelDefinition
+{
+    explicit InspectorPanelWindowDefinition(ComponentRegistry& components, const char* title, bool* openControl = nullptr, ImGuiWindowFlags flags = 0);
+
+    ComponentRegistry& components;
+};
 
 class InspectorPanel : public ImGuiPanel
 {
@@ -16,7 +24,7 @@ public:
     Ref<Slot> EntityUnselectedSlot;
 
 public:
-    explicit InspectorPanel(const ImGuiPanelDefinition& properties);
+    explicit InspectorPanel(const InspectorPanelWindowDefinition& properties);
 
     void onEntitySelected(Entity entity);
     void onEntityUnselected();
@@ -27,5 +35,6 @@ protected:
 
 private:
     Entity mSelectedEntity = Entity::INVALID;
+    ComponentRegistry& mComponents;
 };
 }

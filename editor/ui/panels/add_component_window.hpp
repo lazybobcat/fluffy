@@ -15,7 +15,7 @@ struct AddComponentWindowDefinition : public ImGuiPanelDefinition
 class AddComponentWindow : public ImGuiPanel
 {
 public:
-    AddComponentWindow(const AddComponentWindowDefinition& properties);
+    explicit AddComponentWindow(const AddComponentWindowDefinition& properties);
 
     void openForEntity(Entity entity);
 

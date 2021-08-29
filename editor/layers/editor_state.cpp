@@ -5,89 +5,96 @@ using namespace Fluffy;
 
 void EditorState::initialize()
 {
+    auto module = dynamic_cast<FluffyEditorModule*>(getContext()->software);
+
     {
         // Scene
         scene        = CreateRef<Scene>(*getContext());
-        auto  entity = scene->createEntity("Square");
-        auto& t      = entity.add<TransformComponent>();
-        auto& sc     = entity.add<SpriteComponent>();
-        sc.rectangle.setSize({ 100.f, 100.f });
-        std::cout << "Entity tag=" << entity.get<TagComponent>().tag << std::endl;
 
-        auto [tag, transform] = scene->getEntityRegistry()->get<TagComponent, TransformComponent>(entity);
-        std::cout << "Entity tag=" << tag.tag << " and position=" << printString("{}", transform.getPosition()) << std::endl;
+        // Origin
+        {
+            auto  entity = scene->createEntity("Origin");
+            auto& t      = entity.add<TransformComponent>();
+            auto& sc     = entity.add<SpriteComponent>();
+            sc.rectangle.setSize({ 1.f, 1.f });
+            sc.rectangle.setFillColor(Color::Red);
+        }
+
+        // Square
+        {
+            auto  entity = scene->createEntity("Square");
+            auto& t      = entity.add<TransformComponent>();
+            auto& sc     = entity.add<SpriteComponent>();
+            sc.rectangle.setSize({ 100.f, 100.f });
+        }
 
         scene->createEntity("Camera");
-        scene->createEntity();
+    }
 
-        // Top toolbar
-        {
-            auto toolbar = CreateRef<Toolbar>(openedWindows);
-            toolbar->OnExit.connect([&]() {
-                getContext()->video->getWindow()->close();
-            });
-            container.pack(toolbar);
-        }
+    // Top toolbar
+    {
+        auto toolbar = CreateRef<Toolbar>(openedWindows);
+        toolbar->OnExit.connect([&]() {
+            getContext()->video->getWindow()->close();
+        });
+        container.pack(toolbar);
+    }
 
-        // Log window
-        {
-            ImGuiPanelDefinition definition;
-            definition.title       = "Logs";
-            definition.openControl = &openedWindows.logsWindowOpened;
-            container.pack(CreateRef<LogWindow>(definition));
-        }
+    // Log window
+    {
+        ImGuiPanelDefinition definition;
+        definition.title       = "Logs";
+        definition.openControl = &openedWindows.logsWindowOpened;
+        container.pack(CreateRef<LogWindow>(definition));
+    }
 
 #ifdef FLUFFY_PROFILING_ACTIVE
-        container.pack(CreateRef<ProfilingWindow>(ProfilingPanelDefinition("Profiling", &openedWindows.profilingWindowOpened)));
+    container.pack(CreateRef<ProfilingWindow>(ProfilingPanelDefinition("Profiling", &openedWindows.profilingWindowOpened)));
 #endif
 
-        // Scene hierarchy window
-        {
-            SceneHierarchyPanelDefinition definition;
-            definition.title       = "Scene";
-            definition.openControl = &openedWindows.sceneHierarchyWindowOpened;
-            definition.scene       = scene;
-            sceneWindow            = CreateRef<SceneHierarchyPanel>(definition);
-            container.pack(sceneWindow);
-        }
+    // Scene hierarchy window
+    {
+        SceneHierarchyPanelDefinition definition;
+        definition.title       = "Scene";
+        definition.openControl = &openedWindows.sceneHierarchyWindowOpened;
+        definition.scene       = scene;
+        sceneWindow            = CreateRef<SceneHierarchyPanel>(definition);
+        container.pack(sceneWindow);
+    }
 
-        // Inspector window
-        {
-            ImGuiPanelDefinition definition;
-            definition.title                      = "Inspector";
-            definition.openControl                = &openedWindows.inspectorWindowOpened;
-            inspectorWindow                       = CreateRef<InspectorPanel>(definition);
-            inspectorWindow->EntitySelectedSlot   = sceneWindow->OnEntitySelected.connect(std::bind(&InspectorPanel::onEntitySelected, inspectorWindow.get(), std::placeholders::_1));
-            inspectorWindow->EntityUnselectedSlot = sceneWindow->OnEntityUnselected.connect(std::bind(&InspectorPanel::onEntityUnselected, inspectorWindow.get()));
-            inspectorWindow->OnAddComponentButtonPressed.connect(std::bind(&EditorState::openAddComponentWindow, this, std::placeholders::_1));
-            container.pack(inspectorWindow);
-        }
+    // Inspector window
+    {
+        InspectorPanelWindowDefinition definition(module->components(), "Inspector", &openedWindows.inspectorWindowOpened);
+        inspectorWindow                       = CreateRef<InspectorPanel>(definition);
+        inspectorWindow->EntitySelectedSlot   = sceneWindow->OnEntitySelected.connect(std::bind(&InspectorPanel::onEntitySelected, inspectorWindow.get(), std::placeholders::_1));
+        inspectorWindow->EntityUnselectedSlot = sceneWindow->OnEntityUnselected.connect(std::bind(&InspectorPanel::onEntityUnselected, inspectorWindow.get()));
+        inspectorWindow->OnAddComponentButtonPressed.connect(std::bind(&EditorState::openAddComponentWindow, this, std::placeholders::_1));
+        container.pack(inspectorWindow);
+    }
 
-        // Viewport window
-        {
-            ImGuiPanelDefinition definition;
-            definition.title       = "Viewport";
-            definition.openControl = &openedWindows.viewportWindowOpened;
-            viewportWindow         = CreateRef<ViewportWindow>(definition, *getContext());
-            onRenderSlot           = viewportWindow->OnRender.connect(std::bind(&EditorState::renderViewport, this, std::placeholders::_1));
-            container.pack(viewportWindow);
-        }
+    // Viewport window
+    {
+        ImGuiPanelDefinition definition;
+        definition.title       = "Viewport";
+        definition.openControl = &openedWindows.viewportWindowOpened;
+        viewportWindow         = CreateRef<ViewportWindow>(definition, *getContext());
+        onRenderSlot           = viewportWindow->OnRender.connect(std::bind(&EditorState::renderViewport, this, std::placeholders::_1));
+        container.pack(viewportWindow);
+    }
 
-        // About window
-        {
-            ImGuiPanelDefinition definition;
-            definition.title       = "About";
-            definition.openControl = &openedWindows.aboutWindowOpened;
-            container.pack(CreateRef<AboutWindow>(definition));
-        }
+    // About window
+    {
+        ImGuiPanelDefinition definition;
+        definition.title       = "About";
+        definition.openControl = &openedWindows.aboutWindowOpened;
+        container.pack(CreateRef<AboutWindow>(definition));
+    }
 
-        // Add component window
-        {
-            auto                         module = dynamic_cast<FluffyEditorModule*>(getContext()->software);
-            AddComponentWindowDefinition definition(module->components(), "Add component", &openedWindows.addComponentWindowOpened);
-            addComponentWindow = CreateRef<AddComponentWindow>(definition);
-            container.pack(addComponentWindow);
-        }
+    // Add component window
+    {
+        AddComponentWindowDefinition definition(module->components(), "Add component", &openedWindows.addComponentWindowOpened);
+        addComponentWindow = CreateRef<AddComponentWindow>(definition);
+        container.pack(addComponentWindow);
     }
 }
 

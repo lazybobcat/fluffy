@@ -12,6 +12,7 @@ struct ComponentData
     String                      name;
     Ref<Texture2D>              icon;
     std::function<void(Entity)> addComponentFct;
+    std::function<void(Entity)> drawComponentFct;
 
     bool operator<(const ComponentData& other) const
     {

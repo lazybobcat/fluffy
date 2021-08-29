@@ -4,8 +4,15 @@
 
 using namespace Fluffy;
 
-InspectorPanel::InspectorPanel(const ImGuiPanelDefinition& properties)
+InspectorPanelWindowDefinition::InspectorPanelWindowDefinition(ComponentRegistry& components, const char* title, bool* openControl, ImGuiWindowFlags flags)
+  : ImGuiPanelDefinition({ title, openControl, flags })
+  , components(components)
+{
+}
+
+InspectorPanel::InspectorPanel(const InspectorPanelWindowDefinition& properties)
   : ImGuiPanel(properties)
+  , mComponents(properties.components)
 {
 }
 
@@ -41,41 +48,9 @@ void InspectorPanel::drawComponents()
         }
     }
 
-    Layout::drawComponent<TransformComponent>(mSelectedEntity, "Transform", [&]() {
-        auto& Ctransform = mSelectedEntity.get<TransformComponent>();
-
-        // Origin
-        auto origin = Ctransform.getOrigin();
-        Layout::drawXYZ("Origin", origin, 0.f, 0.1f);
-        Ctransform.setOrigin(origin);
-
-        // Position
-        auto pos = Ctransform.getPosition();
-        Layout::drawXYZ("Translation", pos);
-        Ctransform.setPosition(pos);
-
-        // Rotation
-        auto rot = Ctransform.getEulerAngles();
-        Layout::drawXYZ("Rotation", rot, 0.f, 0.5f);
-        Ctransform.setRotation(rot);
-
-        // Scale
-        auto scale = Ctransform.getScale();
-        Layout::drawXYZ("Scale", scale, 1.f, 0.1f);
-        Ctransform.setScale(scale);
-
-        ImGui::Dummy(ImVec2(0, 10.f));
-    });
-
-    Layout::drawComponent<SpriteComponent>(mSelectedEntity, "Sprite", [&]() {
-        auto& Csprite = mSelectedEntity.get<SpriteComponent>();
-        auto  color   = Csprite.rectangle.getFillColor().value;
-        if (Layout::drawColorPicker("Color", color)) {
-            Csprite.rectangle.setFillColor(color);
-        }
-
-        ImGui::Dummy(ImVec2(0, 10.f));
-    });
+    for (auto& component : mComponents) {
+        component.drawComponentFct(mSelectedEntity);
+    }
 }
 
 void InspectorPanel::onEntitySelected(Entity entity)

@@ -40,7 +40,7 @@ static ImVec4 LightGrayColor = ImVec4{ 0.70f, 0.74f, 0.71f, 1.f };
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-inline void drawComponent(Entity entity, const String& title, const std::function<void()>& contents)
+inline void drawComponent(Entity entity, const String& title, const std::function<void(Entity)>& contents)
 {
     if (!entity.has<T>()) {
         return;
@@ -74,7 +74,8 @@ inline void drawComponent(Entity entity, const String& title, const std::functio
     }
 
     if (open) {
-        contents();
+        contents(entity);
+        ImGui::Dummy(ImVec2(0, 10.f));
         ImGui::TreePop();
     }
 
