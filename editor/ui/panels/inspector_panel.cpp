@@ -44,6 +44,11 @@ void InspectorPanel::drawComponents()
     Layout::drawComponent<TransformComponent>(mSelectedEntity, "Transform", [&]() {
         auto& Ctransform = mSelectedEntity.get<TransformComponent>();
 
+        // Origin
+        auto origin = Ctransform.getOrigin();
+        Layout::drawXYZ("Origin", origin, 0.f, 0.1f);
+        Ctransform.setOrigin(origin);
+
         // Position
         auto pos = Ctransform.getPosition();
         Layout::drawXYZ("Translation", pos);

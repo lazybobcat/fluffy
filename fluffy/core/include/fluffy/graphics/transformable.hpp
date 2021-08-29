@@ -11,6 +11,10 @@ public:
     Transformable();
     virtual ~Transformable() = default;
 
+    void     setOrigin(const Vector2f& origin);
+    void     setOrigin(const Vector3f& origin);
+    Vector3f getOrigin() const;
+
     void     setPosition(const Vector2f& position);
     void     setPosition(const Vector3f& position);
     void     move(const Vector2f& delta);
@@ -32,6 +36,7 @@ public:
     const glm::mat4& getInverseTransform() const;
 
 private:
+    Vector3f          mOrigin;
     Vector3f          mPosition;
     Vector3f          mEulerAngles;
     Vector3f          mScale;

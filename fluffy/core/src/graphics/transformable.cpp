@@ -3,12 +3,29 @@
 using namespace Fluffy;
 
 Transformable::Transformable()
-  : mPosition({ 0.f, 0.f, 0.f })
+  : mOrigin({ 0.f, 0.f, 0.f })
+  , mPosition({ 0.f, 0.f, 0.f })
   , mEulerAngles({ 0.f, 0.f, 0.f })
   , mScale({ 1.f, 1.f, 1.f })
   , mTransform(glm::mat4(1.0f))
   , mInverseTransform(glm::mat4(1.0f))
 {
+}
+
+void Transformable::setOrigin(const Vector2f& origin)
+{
+    setOrigin({ origin.x, origin.y, 0.f });
+}
+
+void Transformable::setOrigin(const Vector3f& origin)
+{
+    mOrigin       = origin;
+    mNeedToUpdate = true;
+}
+
+Vector3f Transformable::getOrigin() const
+{
+    return mOrigin;
 }
 
 void Transformable::setPosition(const Vector2f& position)
@@ -98,6 +115,7 @@ const glm::mat4& Transformable::getTransformMatrix() const
                      glm::rotate(glm::mat4(1.f), glm::radians(mEulerAngles.x), { 1, 0, 0 }) *
                      glm::rotate(glm::mat4(1.f), glm::radians(mEulerAngles.y), { 0, 1, 0 }) *
                      glm::rotate(glm::mat4(1.f), glm::radians(mEulerAngles.z), { 0, 0, 1 }) *
+                     glm::translate(glm::mat4(1.f), -mOrigin) *
                      glm::scale(glm::mat4(1.f), mScale);
 
         mNeedToUpdate        = false;

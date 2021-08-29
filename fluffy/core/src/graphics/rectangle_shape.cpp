@@ -22,16 +22,17 @@ Vector2f RectangleShape::getSize() const
 Vector3f RectangleShape::getVertexPosition(std::size_t index)
 {
     auto scale = getScale();
+    auto origin = getOrigin();
 
     switch (index) {
         case 0:
-            return { -scale.x * mSize.x / 2.f, -scale.y * mSize.y / 2.f, 0.f };
+            return { 0.f, 0.f, 0.f };
         case 1:
-            return { scale.x * mSize.x / 2.f, -scale.y * mSize.y / 2.f, 0.f };
+            return { mSize.x, 0.f, 0.f };
         case 2:
-            return { scale.x * mSize.x / 2.f, scale.y * mSize.y / 2.f, 0.f };
+            return { mSize.x, mSize.y, 0.f };
         case 3:
-            return { -scale.x * mSize.x / 2.f, scale.y * mSize.y / 2.f, 0.f };
+            return { 0.f, mSize.y, 0.f };
     }
 
     return { 0.f, 0.f, 0.f };
