@@ -9,23 +9,28 @@ void EditorState::initialize()
 
     {
         // Scene
-        scene        = CreateRef<Scene>(*getContext());
+        scene = CreateRef<EditorScene>(*getContext());
 
-        // Origin
+        // Logo
         {
-            auto  entity = scene->createEntity("Origin");
-            auto& t      = entity.add<TransformComponent>();
+            auto  entity = scene->createEntity("Logo");
             auto& sc     = entity.add<SpriteComponent>();
-            sc.rectangle.setSize({ 1.f, 1.f });
-            sc.rectangle.setFillColor(Color::Red);
+            auto& tc     = entity.add<TransformComponent>();
+            sc.sprite.setTexture(getContext()->system->getResources().get<Texture2D>("assets/textures/logo.png"));
+            tc.setOrigin({ 640.f, 320.f });
         }
 
-        // Square
+        // Background
         {
-            auto  entity = scene->createEntity("Square");
-            auto& t      = entity.add<TransformComponent>();
-            auto& sc     = entity.add<SpriteComponent>();
-            sc.rectangle.setSize({ 100.f, 100.f });
+            auto  entity  = scene->createEntity("Tiles");
+            auto& sc      = entity.add<SpriteComponent>();
+            auto& tc      = entity.add<TransformComponent>();
+            auto  texture = getContext()->system->getResources().get<Texture2D>("assets/textures/tile.png");
+            texture->setRepeat(RepeatType::Repeat);
+            sc.sprite.setTexture(texture);
+            sc.sprite.setSize({ 1920, 1080 });
+            //            tc.setOrigin({ 1920 / 2.f, 1080 / 2.f });
+            tc.setPosition({ -1920 / 2.f, -1080 / 2.f });
         }
 
         scene->createEntity("Camera");
@@ -34,9 +39,11 @@ void EditorState::initialize()
     // Top toolbar
     {
         auto toolbar = CreateRef<Toolbar>(openedWindows);
-        toolbar->OnExit.connect([&]() {
-            getContext()->video->getWindow()->close();
-        });
+        toolbar->OnNewScene.connect([this] { newScene(); });
+        toolbar->OnOpen.connect([this] { openScene(); });
+        toolbar->OnSave.connect([this] { saveScene(); });
+        toolbar->OnSaveAs.connect([this] { saveSceneAs(); });
+        toolbar->OnExit.connect([this] { exit(); });
         container.pack(toolbar);
     }
 
@@ -59,6 +66,7 @@ void EditorState::initialize()
         definition.openControl = &openedWindows.sceneHierarchyWindowOpened;
         definition.scene       = scene;
         sceneWindow            = CreateRef<SceneHierarchyPanel>(definition);
+        onComponentAddSlot = sceneWindow->OnOpenAddComponentDialog.connect([this] (Entity entity) { openAddComponentWindow(entity); });
         container.pack(sceneWindow);
     }
 
@@ -75,10 +83,15 @@ void EditorState::initialize()
     // Viewport window
     {
         ImGuiPanelDefinition definition;
-        definition.title       = "Viewport";
-        definition.openControl = &openedWindows.viewportWindowOpened;
-        viewportWindow         = CreateRef<ViewportWindow>(definition, *getContext());
-        onRenderSlot           = viewportWindow->OnRender.connect(std::bind(&EditorState::renderViewport, this, std::placeholders::_1));
+        definition.title                     = "Viewport";
+        definition.openControl               = &openedWindows.viewportWindowOpened;
+        viewportWindow                       = CreateRef<ViewportWindow>(definition, *getContext());
+        viewportWindow->EntitySelectedSlot   = sceneWindow->OnEntitySelected.connect(std::bind(&ViewportWindow::onEntitySelected, viewportWindow.get(), std::placeholders::_1));
+        viewportWindow->EntityUnselectedSlot = sceneWindow->OnEntityUnselected.connect(std::bind(&ViewportWindow::onEntityUnselected, viewportWindow.get()));
+        viewportWindow->EntityUnselectedSlot = sceneWindow->OnEntityUnselected.connect(std::bind(&ViewportWindow::onEntityUnselected, viewportWindow.get()));
+        onViewportResizeSlot = viewportWindow->OnViewportResized.connect([&] (Vector2f size) {
+            scene->onTargetResize({size.x, size.y});
+        });
         container.pack(viewportWindow);
     }
 
@@ -100,7 +113,12 @@ void EditorState::initialize()
 
 void EditorState::fixUpdate(Time dt)
 {
-    scene->update(dt);
+    if (viewportWindow->isPlaying()) {
+        scene->update(dt);
+    } else {
+        scene->updateEditor(dt);
+    }
+
     container.update(dt);
 
     slowUpdateTimer += dt;
@@ -119,10 +137,32 @@ void EditorState::slowUpdate()
 
 void EditorState::onEvent(Event& event)
 {
-    if (event.type == Fluffy::Event::MouseButtonPressed) {
-        auto position = Input::getMousePosition();
-        std::cout << "MousePosition: " << position.x << "," << position.y << std::endl;
-        event.stopPropagation();
+    if (Event::KeyPressed == event.type) {
+        switch (event.key.code) {
+            case Keyboard::Key::N: {
+                if (event.key.control)
+                    newScene();
+            } break;
+
+            case Keyboard::Key::O: {
+                if (event.key.control)
+                    openScene();
+            } break;
+
+            case Keyboard::Key::S: {
+                if (event.key.control && !event.key.shift)
+                    saveScene();
+                else if (event.key.control && event.key.shift)
+                  saveSceneAs();
+            } break;
+
+            case Keyboard::Key::Q: {
+                if (event.key.control)
+                    exit();
+            } break;
+
+            default:break;
+        }
     }
 
     if (!event.isStopped()) {
@@ -132,25 +172,16 @@ void EditorState::onEvent(Event& event)
     scene->onEvent(event);
 }
 
-void EditorState::renderViewport(Painter& painter)
-{
-    painter.clear(Color::fromInt8(43, 43, 43, 255));
-    // draw scene
-    auto view = scene->getEntityRegistry()->view<TransformComponent, SpriteComponent>();
-    for (auto [entity, transform, sprite] : view.each()) {
-        RenderStates states;
-        states.transform = transform.getTransformMatrix();
-        sprite.rectangle.setScale(transform.getScale());
-        painter.drawShape(sprite.rectangle, states);
-    }
-}
-
 void EditorState::render(RenderContext& context)
 {
-    {
-        scene->render(context);
-        container.render(context);
+    auto target = context.with(*viewportWindow->getRenderTarget());
+    if (viewportWindow->isPlaying()) {
+        scene->render(target);
+    } else {
+        scene->renderEditor(target, viewportWindow->getCamera());
     }
+
+    container.render(context);
 }
 
 void EditorState::terminate()
@@ -160,4 +191,25 @@ void EditorState::terminate()
 void EditorState::openAddComponentWindow(Entity entity)
 {
     addComponentWindow->openForEntity(entity);
+}
+
+void EditorState::newScene()
+{
+}
+
+void EditorState::openScene()
+{
+}
+
+void EditorState::saveScene()
+{
+}
+
+void EditorState::saveSceneAs()
+{
+}
+
+void EditorState::exit()
+{
+    getContext()->video->getWindow()->close();
 }

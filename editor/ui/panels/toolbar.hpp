@@ -19,6 +19,10 @@ struct OpenedWindowTracker
 class Toolbar : public ImGuiElement
 {
 public:
+    Signal<> OnNewScene;
+    Signal<> OnOpen;
+    Signal<> OnSave;
+    Signal<> OnSaveAs;
     Signal<> OnExit;
 
 public:

@@ -1,9 +1,12 @@
 #pragma once
 
 #include <fluffy/math/math.hpp>
+#include <fluffy/math/rectangle.hpp>
 #include <fluffy/pch.hpp>
 
 namespace Fluffy {
+
+FloatRect transformRect(const glm::mat4& transform, const FloatRect& bounds);
 
 class Transformable
 {
@@ -31,6 +34,8 @@ public:
     void     rotateY(float degrees);
     void     rotateZ(float degrees);
     Vector3f getEulerAngles() const;
+
+    void setTransformMatrix(const glm::mat4& transform);
 
     const glm::mat4& getTransformMatrix() const;
     const glm::mat4& getInverseTransform() const;

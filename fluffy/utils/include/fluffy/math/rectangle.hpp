@@ -26,6 +26,7 @@ public:
 };
 
 using IntRect   = Rect<std::int32_t>;
+using UIntRect  = Rect<std::uint32_t>;
 using FloatRect = Rect<float>;
 
 extern Vector2f  transformPoint(const glm::mat4& transform, const Vector2f& point);
@@ -41,6 +42,18 @@ struct fmt::formatter<Fluffy::IntRect>
     auto format(const Fluffy::IntRect& r, FormatContext& ctx)
     {
         return format_to(ctx.out(), "IntRect{{{}, {}, {}, {}}}", r.left, r.top, r.width, r.height);
+    }
+};
+
+template<>
+struct fmt::formatter<Fluffy::UIntRect>
+{
+    constexpr auto parse(format_parse_context& ctx) { return ctx.begin(); }
+
+    template<typename FormatContext>
+    auto format(const Fluffy::UIntRect& r, FormatContext& ctx)
+    {
+        return format_to(ctx.out(), "UIntRect{{{}, {}, {}, {}}}", r.left, r.top, r.width, r.height);
     }
 };
 

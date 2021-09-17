@@ -109,10 +109,16 @@ public:
 
         // My texture
         texture = getContext()->system->getResources().get<Texture2D>("assets/textures/alpaca.png");
-        texture->setRepeat(RepeatType::Repeat);
+        texture->setRepeat(RepeatType::None);
 
         tile = getContext()->system->getResources().get<Texture2D>("assets/textures/tile.png");
         tile->setRepeat(RepeatType::Repeat);
+//        tile->setSmooth(true);
+
+        alpacaSprite.setTexture(tile);
+        alpacaSprite.setSize({200.f, 200.f});
+//        alpacaSprite.setTextureRect({0, 0, 50, 50});
+//        alpacaSprite.setColor({1.f, 0.f, 0.f, 0.3f});
     }
 
     void terminate() override
@@ -158,18 +164,19 @@ public:
             //states2.texture = tile;
 
             context.with(testCamera).bind([&](Painter& painter) {
-                painter.draw(tilemap.va, tilemap.va->getIndexBuffer()->count());
+//                painter.draw(tilemap.va, tilemap.va->getIndexBuffer()->count());
 
                 // states1.transform = rectangle1.getTransformMatrix();
                 // painter.drawQuads(rectangle1.vertices, states1);
-                painter.drawShape(rectangle1, states1);
+//                painter.drawShape(rectangle1, states1);
+                painter.drawSprite(alpacaSprite, states1);
             });
 
-            context.bind([&](Painter& painter) {
-                // states2.transform = rectangle2.getTransformMatrix();
-                // painter.drawQuads(rectangle2.vertices, states2);
-                painter.drawShape(rectangle2, states2);
-            });
+//            context.bind([&](Painter& painter) {
+//                // states2.transform = rectangle2.getTransformMatrix();
+//                // painter.drawQuads(rectangle2.vertices, states2);
+//                painter.drawShape(rectangle2, states2);
+//            });
         }
 
         // ImGUI Stuff
@@ -195,6 +202,7 @@ public:
         }
 
         if (event.type == Fluffy::Event::KeyPressed) {
+            FLUFFY_LOG_INFO("A = {}, Q = {}, key code : {}", Keyboard::Key::A, Keyboard::Key::Q, event.key.code);
             switch (event.key.code) {
                 case Keyboard::Key::W:
                     testCamera.move({ 0, -10 });
@@ -243,7 +251,7 @@ public:
     }
 
 private:
-    Camera         testCamera;
+    OrthographicCamera         testCamera;
     Ref<Texture2D> tile;
     Ref<Texture2D> texture;
     Transformable  squareTransform;
@@ -253,6 +261,7 @@ private:
     RectangleShape rectangle1;
     RectangleShape rectangle2;
     Tilemap        tilemap;
+    Sprite         alpacaSprite;
 
     bool settingsOpened = true;
 };

@@ -3,6 +3,7 @@
 #include <fluffy/graphics/camera.hpp>
 #include <fluffy/graphics/color.hpp>
 #include <fluffy/graphics/render_states.hpp>
+#include <fluffy/graphics/sprite.hpp>
 #include <fluffy/graphics/vertex.hpp>
 #include <fluffy/graphics/vertex_buffers.hpp>
 
@@ -47,9 +48,9 @@ public:
     void draw(const Ref<VertexArray>& vertexArray, std::uint32_t indexCount /*, Ref<Material> material*/);                        // Assumes that the primitive type is always TRIANGLES
     void draw(const VertexVector& vertices, const IndexBuffer& indices /*, Ref<Material> material*/, const RenderStates& states); // Assumes that the primitive type is always TRIANGLES
     void drawQuad(const VertexVector& vertices /*, Ref<Material> material*/, const RenderStates& states);
-    // void drawSprite(...); // @todo
-    void drawLine(const std::vector<Vector2f>& points, const Color& color, float thickness /*, Ref<Material> material*/);
-    void drawRectangle();
+    void drawSprite(Sprite& sprite, const RenderStates& states);
+    // void drawLine(const std::vector<Vector2f>& points, const Color& color, float thickness /*, Ref<Material> material*/);
+    // void drawRectangle();
     // void drawCircle(...); // @todo
     void drawShape(Shape& shape, const RenderStates& states); // calls the Shape.draw() method. Shape is in charge of calling the Painter's base draw methods.
 

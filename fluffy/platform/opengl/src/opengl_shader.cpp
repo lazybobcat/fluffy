@@ -111,7 +111,7 @@ bool OpenglShader::compileShaderCode(std::uint32_t shaderId, const char* code, S
     glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
     if (!success) {
         glGetShaderInfoLog(shaderId, 512, nullptr, infoLog);
-        FLUFFY_LOG_ERROR("Failed to compile {} shader:\n{}", EnumNames::ShaderType[(int)type], code);
+        FLUFFY_LOG_ERROR("Failed to compile {} shader: {}\n{}", EnumNames::ShaderType[(int)type], infoLog, code);
 
         return false;
     };

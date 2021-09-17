@@ -44,10 +44,10 @@ void OpenGLTextureRenderTarget::initialize()
 
         GlCall(glGenFramebuffers(1, &mRendererId));
         GlCall(glBindFramebuffer(GL_FRAMEBUFFER, mRendererId));
-        GlCall(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, dynamic_cast<OpenglTexture2D&>(*mTexture).getRendererId(), 0));
+        GlCall(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, dynamic_cast<OpenglTexture2D&>(*mTexture).getRendererIdOpenGL(), 0));
 
         if (mDepthTexture) {
-            GlCall(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, dynamic_cast<OpenglTexture2D&>(*mDepthTexture).getRendererId(), 0));
+            GlCall(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, dynamic_cast<OpenglTexture2D&>(*mDepthTexture).getRendererIdOpenGL(), 0));
         }
 
         FLUFFY_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE, "Incomplete framebuffer");

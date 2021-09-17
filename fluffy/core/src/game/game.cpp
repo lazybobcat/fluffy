@@ -33,7 +33,7 @@ void Game::setStartingState(Unique<BaseLayer> state, const Ref<Context>& context
         mPainter = mContext->video->createPainter();
         mPainter->initialize(mContext->video);
         auto windowSize = mContext->video->getWindow()->getSize();
-        mCamera         = CreateUnique<Camera>(Vector2f{ 0.f, 0.f }, Vector2f{ windowSize.x, windowSize.y });
+        mCamera         = CreateUnique<OrthographicCamera>(Vector2f{ 0.f, 0.f }, Vector2f{ windowSize.x, windowSize.y });
     }
 
     if (!mStateStack) {
@@ -80,7 +80,6 @@ void Game::doRender(Time dt)
     if (windowSize != mPreviousWindowSize) {
         mScreenTarget = video->createScreenRenderTarget();
         mCamera->setSize(windowSize);
-        mCamera->setPosition(windowSize / 2);
         mCamera->setTargetSize(windowSize);
         mPreviousWindowSize = windowSize;
     }

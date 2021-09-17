@@ -1,6 +1,7 @@
 #pragma once
 
 #include "registry/plugin_registry.hpp"
+#include <fluffy/graphics/transformable.hpp>
 
 namespace Fluffy {
 

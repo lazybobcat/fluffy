@@ -55,7 +55,7 @@ inline void drawComponent(Entity entity, const String& title, const std::functio
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
     float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
     ImGui::PushFont(boldFont);
-    bool  open       = ImGui::TreeNodeEx((void*)typeid(T).hash_code(), flags, "%s", title.c_str());
+    bool open = ImGui::TreeNodeEx((void*)typeid(T).hash_code(), flags, "%s", title.c_str());
     ImGui::PopFont();
     ImGui::PopStyleVar();
     ImGui::SameLine(contentRegionAvailable.x - lineHeight * 0.5f);
@@ -140,6 +140,128 @@ inline void drawXYZ(const String& label, Vector3f& values, float reset = 0.f, fl
     ImGui::PopID();
 }
 
+inline void drawXY(const String& label, Vector2f& values, float reset = 0.f, float step = 1.f)
+{
+    ImGui::PushID(label.c_str());
+
+    ImGui::Columns(2);
+
+    ImGui::SetColumnWidth(0, 100.f);
+    ImGui::Text("%s", label.c_str());
+    ImGui::NextColumn();
+
+    ImGui::PushMultiItemsWidths(2, ImGui::CalcItemWidth());
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+    float  lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.f;
+    ImVec2 buttonSize = { lineHeight + 3.f, lineHeight };
+
+    ImGui::PushStyleColor(ImGuiCol_Button, DarkRedColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, RedColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, DarkRedColor);
+    if (ImGui::Button("X", buttonSize)) {
+        values.x = reset;
+    }
+    ImGui::PopStyleColor(3);
+    ImGui::SameLine();
+    ImGui::DragFloat("##X", &values.x, step, 0.f, 0.f, "%.1f");
+    ImGui::PopItemWidth();
+    ImGui::SameLine();
+
+    ImGui::PushStyleColor(ImGuiCol_Button, GreenColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, LightGreenColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, GreenColor);
+    if (ImGui::Button("Y", buttonSize)) {
+        values.y = reset;
+    }
+    ImGui::PopStyleColor(3);
+    ImGui::SameLine();
+    ImGui::DragFloat("##Y", &values.y, step, 0.f, 0.f, "%.1f");
+    ImGui::PopItemWidth();
+    ImGui::SameLine();
+
+    ImGui::PopStyleVar();
+    ImGui::Columns(1);
+
+    ImGui::PopID();
+}
+
+inline void drawUintRectangle(const String& label, UIntRect& values, std::uint32_t reset = 0, float step = 1)
+{
+    ImGui::PushID(label.c_str());
+
+    ImGui::Columns(2);
+
+    ImGui::SetColumnWidth(0, 100.f);
+    ImGui::Text("%s", label.c_str());
+    ImGui::NextColumn();
+
+    //
+
+    ImGui::PushMultiItemsWidths(2, ImGui::CalcItemWidth());
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+    float  lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.f;
+    ImVec2 buttonSize = { 45.f, lineHeight };
+
+    ImGui::PushStyleColor(ImGuiCol_Button, DarkRedColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, RedColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, DarkRedColor);
+    if (ImGui::Button("Left", buttonSize)) {
+        values.left = reset;
+    }
+    ImGui::PopStyleColor(3);
+    ImGui::SameLine();
+    ImGui::DragScalar("##X", ImGuiDataType_U32, &values.left, step, 0);
+    ImGui::PopItemWidth();
+    ImGui::SameLine();
+
+    ImGui::PushStyleColor(ImGuiCol_Button, GreenColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, LightGreenColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, GreenColor);
+    if (ImGui::Button("Top", buttonSize)) {
+        values.top = reset;
+    }
+    ImGui::PopStyleColor(3);
+    ImGui::SameLine();
+    ImGui::DragScalar("##Y", ImGuiDataType_U32, &values.top, step, 0);
+    ImGui::PopItemWidth();
+    ImGui::PopStyleVar();
+
+    //
+
+    ImGui::PushMultiItemsWidths(2, ImGui::CalcItemWidth());
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+
+    ImGui::PushStyleColor(ImGuiCol_Button, BlueColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, LightBlueColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, BlueColor);
+    if (ImGui::Button("Width", buttonSize)) {
+        values.width = reset;
+    }
+    ImGui::PopStyleColor(3);
+    ImGui::SameLine();
+    ImGui::DragScalar("##Width", ImGuiDataType_U32, &values.width, step, 0);
+    ImGui::PopItemWidth();
+    ImGui::SameLine();
+
+    ImGui::PushStyleColor(ImGuiCol_Button, BlueColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, LightBlueColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, BlueColor);
+    if (ImGui::Button("Height", buttonSize)) {
+        values.height = reset;
+    }
+    ImGui::PopStyleColor(3);
+    ImGui::SameLine();
+    ImGui::DragScalar("##Height", ImGuiDataType_U32, &values.height, step, 0);
+    ImGui::PopItemWidth();
+
+    //
+
+    ImGui::PopStyleVar();
+    ImGui::Columns(1);
+
+    ImGui::PopID();
+}
+
 inline bool drawColorPicker(const String& label, Vector4f& values)
 {
     bool modified = false;
@@ -153,6 +275,30 @@ inline bool drawColorPicker(const String& label, Vector4f& values)
 
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
     if (ImGui::ColorEdit4(label.c_str(), glm::value_ptr(values), ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_NoInputs)) {
+        modified = true;
+    }
+    ImGui::PopStyleVar();
+
+    ImGui::Columns(1);
+
+    ImGui::PopID();
+
+    return modified;
+}
+
+inline bool drawCheckbox(const String& label, bool& visible)
+{
+    bool modified = false;
+    ImGui::PushID(label.c_str());
+
+    ImGui::Columns(2);
+
+    ImGui::SetColumnWidth(0, 100.f);
+    ImGui::Text("%s", label.c_str());
+    ImGui::NextColumn();
+
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+    if (ImGui::Checkbox("##Visible", &visible)) {
         modified = true;
     }
     ImGui::PopStyleVar();

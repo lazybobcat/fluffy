@@ -1,5 +1,7 @@
 #pragma once
 
+#include <fluffy/graphics/render_states.hpp>
+
 namespace Fluffy {
 
 class Painter;

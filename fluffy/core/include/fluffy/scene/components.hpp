@@ -1,7 +1,9 @@
 #pragma once
 
 #include <entt/entt.hpp>
+#include <fluffy/graphics/camera.hpp>
 #include <fluffy/graphics/rectangle_shape.hpp>
+#include <fluffy/graphics/sprite.hpp>
 #include <fluffy/graphics/transformable.hpp>
 
 namespace Fluffy {
@@ -38,15 +40,51 @@ struct TransformComponent : public Transformable
 struct SpriteComponent
 {
     SpriteComponent()
-      : rectangle({ 10.f, 10.f })
+      : sprite()
     {}
 
-    RectangleShape rectangle;
+    Sprite sprite;
 
 #if FLUFFY_DEBUG
     const String toString() const
     {
         return "'SpriteComponent' {}";
+    }
+#endif
+};
+
+struct CameraComponent
+{
+    CameraComponent() {
+        recreateCamera();
+    }
+
+    ~CameraComponent() {
+        delete camera;
+    }
+
+    void changeCamera(Camera::CameraType t) {
+        type = t;
+        recreateCamera();
+    }
+
+    void recreateCamera() {
+        delete camera;
+        if (Camera::CameraType::Perspective == type) {
+            camera = new PerspectiveCamera(45.f, 1920.f / 1080.f, 0.1f, 1000000.f);
+        } else {
+            camera = new OrthographicCamera({0, 0}, {1920.f, 1080.f});
+        }
+    }
+
+    Camera* camera = nullptr;
+    Camera::CameraType type = Camera::CameraType::Perspective;
+    bool fixedAspectRatio = false;
+
+#if FLUFFY_DEBUG
+    const String toString() const
+    {
+        return fmt::format("'CameraComponent' {{type: {}, fixedAspectRatio:{}}}", type, fixedAspectRatio);
     }
 #endif
 };

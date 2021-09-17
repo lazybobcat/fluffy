@@ -1,6 +1,5 @@
 #pragma once
 
-#include "render_states.hpp"
 #include <fluffy/graphics/color.hpp>
 #include <fluffy/graphics/drawable.hpp>
 #include <fluffy/graphics/transformable.hpp>
@@ -56,7 +55,7 @@ protected:
 private:
     friend class Painter;
 
-    virtual void draw(Painter& painter, RenderStates states) const override;
+    void draw(Painter& painter, RenderStates states) const override;
 
     void updateFillColors();
     void updateOutlineColors();

@@ -52,31 +52,7 @@ FloatRect Shape::getGlobalBounds() const
     auto transform = getTransformMatrix();
     auto bounds    = getLocalBounds();
 
-    // Transform the bounding rectangle 4 corners
-    const Vector4f points[] = {
-        transform * Vector4f(bounds.left, bounds.top, 1.f, 1.f),                               // top-left corner
-        transform * Vector4f(bounds.left, bounds.top + bounds.height, 1.f, 1.f),               // bottom-left corner
-        transform * Vector4f(bounds.left + bounds.width, bounds.top, 1.f, 1.f),                // top-right corner
-        transform * Vector4f(bounds.left + bounds.width, bounds.top + bounds.height, 1.f, 1.f) // bottom-right corner
-    };
-
-    // Compute the transformed bounding rectangle
-    float left   = points[0].x;
-    float top    = points[0].y;
-    float right  = points[0].x;
-    float bottom = points[0].y;
-    for (int i = 1; i < 4; ++i) {
-        if (points[i].x < left)
-            left = points[i].x;
-        else if (points[i].x > right)
-            right = points[i].x;
-        if (points[i].y < top)
-            top = points[i].y;
-        else if (points[i].y > bottom)
-            bottom = points[i].y;
-    }
-
-    return FloatRect(left, top, right - left, bottom - top);
+    return transformRect(transform, bounds);
 }
 
 void Shape::update()

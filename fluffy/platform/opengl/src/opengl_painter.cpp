@@ -28,6 +28,7 @@ void OpenGLPainter::doInitialize()
 
     GlCall(glEnable(GL_BLEND));
     GlCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+    GlCall(glBlendEquation(GL_FUNC_ADD));
 }
 
 void OpenGLPainter::doTerminate()

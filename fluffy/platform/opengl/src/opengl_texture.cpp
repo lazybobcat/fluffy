@@ -273,7 +273,17 @@ void OpenglTexture2D::updateRepeatability()
     }
 }
 
-std::uint32_t OpenglTexture2D::getRendererId() const
+std::uint64_t OpenglTexture2D::getRendererId() const
+{
+    return static_cast<std::uint64_t>(mTextureId);
+}
+
+GLuint OpenglTexture2D::getRendererIdOpenGL() const
 {
     return mTextureId;
+}
+
+bool OpenglTexture2D::isRepeated() const
+{
+    return mRepeat != RepeatType::None;
 }

@@ -1,9 +1,5 @@
 #include "glfw_window.hpp"
 #include "glfw_functions.hpp"
-#include "opengl.hpp"
-#include <fluffy/assert.hpp>
-#include <fluffy/definitions.hpp>
-#include <fluffy/graphics/window.hpp>
 #include <fluffy/pch.hpp>
 #include <fluffy/profiling/profiler.hpp>
 
@@ -12,6 +8,58 @@ using namespace Fluffy;
 void error_callback(int error, const char* description)
 {
     FLUFFY_LOG_ERROR("GLFW error ({}): {}", error, description);
+}
+
+const std::map<std::string, Keyboard::Key> keyMap = {
+    { "a", Keyboard::Key::A },
+    { "b", Keyboard::Key::B },
+    { "c", Keyboard::Key::C },
+    { "d", Keyboard::Key::D },
+    { "e", Keyboard::Key::E },
+    { "f", Keyboard::Key::F },
+    { "g", Keyboard::Key::G },
+    { "h", Keyboard::Key::H },
+    { "i", Keyboard::Key::I },
+    { "j", Keyboard::Key::J },
+    { "k", Keyboard::Key::K },
+    { "l", Keyboard::Key::L },
+    { "m", Keyboard::Key::M },
+    { "n", Keyboard::Key::N },
+    { "o", Keyboard::Key::O },
+    { "p", Keyboard::Key::P },
+    { "q", Keyboard::Key::Q },
+    { "r", Keyboard::Key::R },
+    { "s", Keyboard::Key::S },
+    { "t", Keyboard::Key::T },
+    { "u", Keyboard::Key::U },
+    { "v", Keyboard::Key::V },
+    { "w", Keyboard::Key::W },
+    { "x", Keyboard::Key::X },
+    { "y", Keyboard::Key::Y },
+    { "z", Keyboard::Key::Z },
+    { "0", Keyboard::Key::Num0 },
+    { "1", Keyboard::Key::Num1 },
+    { "2", Keyboard::Key::Num2 },
+    { "3", Keyboard::Key::Num3 },
+    { "4", Keyboard::Key::Num4 },
+    { "5", Keyboard::Key::Num5 },
+    { "6", Keyboard::Key::Num6 },
+    { "7", Keyboard::Key::Num7 },
+    { "8", Keyboard::Key::Num8 },
+    { "9", Keyboard::Key::Num9 },
+};
+
+Keyboard::Key toKeyboardKey(int key, int scancode)
+{
+    if (key >= 48 && key <= 90) {
+        std::string alpha = glfwGetKeyName(key, 0);
+        if (keyMap.find(alpha) != keyMap.end()) {
+            return keyMap.find(alpha)->second;
+        }
+        FLUFFY_LOG_ERROR("Keyboard key {} ({}) not found.", key, alpha);
+    }
+
+    return static_cast<Keyboard::Key>(key);
 }
 
 GlfwWindow::GlfwWindow(Window::Definition definition)
@@ -43,7 +91,7 @@ GlfwWindow::GlfwWindow(Window::Definition definition)
         } break;
         case WindowType::Maximized: {
             doMaximize = true;
-            auto size = getMonitorSize();
+            auto size  = getMonitorSize();
             FLUFFY_LOG_INFO("Maximized: Raw size is {}x{}", size.x, size.y);
             mDefinition.width  = size.x;
             mDefinition.height = size.y;
@@ -77,7 +125,7 @@ GlfwWindow::~GlfwWindow()
 
 Vector2u GlfwWindow::getMonitorSize() const
 {
-    int posX, posY, width, height;
+    int          posX, posY, width, height;
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
     glfwGetMonitorWorkarea(monitor, &posX, &posY, &width, &height);
 
@@ -109,12 +157,14 @@ void GlfwWindow::initializeGLFWEvents()
 
     glfwSetKeyCallback(mWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
         auto* glfwWindow = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
-        //std::cout << "Key code is " << key << " (" << (char)key << ") / scancode is " << scancode << " (" << (char)scancode << ")" << std::endl;
+//        std::cout << "Key code is " << key << " (" << (char)key << ") / scancode is " << scancode << " (" << (char)scancode << ")" << " / key name is " << glfwGetKeyName(key, 0) << std::endl;
+
+        Keyboard::Key layoutKey = toKeyboardKey(key, scancode);
 
         switch (action) {
             case GLFW_PRESS:
                 glfwWindow->pushEvent(Event::createKeyPressedEvent(
-                  static_cast<Keyboard::Key>(key),
+                  layoutKey,
                   false,
                   mods & GLFW_MOD_CONTROL,
                   mods & GLFW_MOD_ALT,
@@ -122,11 +172,11 @@ void GlfwWindow::initializeGLFWEvents()
                 break;
 
             case GLFW_REPEAT:
-                glfwWindow->pushEvent(Event::createKeyPressedEvent(static_cast<Keyboard::Key>(key), true));
+                glfwWindow->pushEvent(Event::createKeyPressedEvent(layoutKey, true));
                 break;
 
             case GLFW_RELEASE:
-                glfwWindow->pushEvent(Event::createKeyReleasedEvent(static_cast<Keyboard::Key>(key)));
+                glfwWindow->pushEvent(Event::createKeyReleasedEvent(layoutKey));
                 break;
 
             default:
