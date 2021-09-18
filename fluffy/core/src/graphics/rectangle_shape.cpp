@@ -21,7 +21,7 @@ Vector2f RectangleShape::getSize() const
 
 Vector3f RectangleShape::getVertexPosition(std::size_t index)
 {
-    auto scale = getScale();
+    auto scale  = getScale();
     auto origin = getOrigin();
 
     switch (index) {

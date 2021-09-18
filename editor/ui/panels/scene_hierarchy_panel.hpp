@@ -19,6 +19,7 @@ class SceneHierarchyPanel : public ImGuiPanel
 public:
     Signal<Entity> OnEntitySelected;
     Signal<>       OnEntityUnselected;
+    Signal<Entity> OnOpenAddComponentDialog;
 
 public:
     explicit SceneHierarchyPanel(const SceneHierarchyPanelDefinition& properties);

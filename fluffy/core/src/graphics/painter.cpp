@@ -21,10 +21,10 @@ void Painter::initialize(VideoModule* video)
     mRenderingData.quadVertexArray  = VertexArray::create();
     mRenderingData.quadVertexBuffer = VertexBuffer::create(mRenderingData.maxVertices * sizeof(Vertex));
     mRenderingData.quadVertexBuffer->setLayout({
-      { ShaderDataType::Vector3f, "aPos" },
-      { ShaderDataType::Vector2f, "aTexCoord" },
-      { ShaderDataType::Vector4f, "aColor" },
-      { ShaderDataType::Float, "aTexSlot" },
+      { ShaderDataType::Vector3f, "a_vertexPosition" },
+      { ShaderDataType::Vector2f, "a_textureCoord" },
+      { ShaderDataType::Vector4f, "a_color" },
+      { ShaderDataType::Float, "a_textureSlot" },
     });
     mRenderingData.quadVertexArray->addVertexBuffer(mRenderingData.quadVertexBuffer);
 
@@ -86,7 +86,7 @@ void Painter::bind(RenderContext& context)
     mActiveCamera->updateProjection();
     setViewport(mActiveCamera->getViewport(), *mActiveRenderTarget);
     mRenderingData.shader->enable();
-    mRenderingData.shader->bindUniform("u_ViewProjection", mActiveCamera->getViewProjection());
+    mRenderingData.shader->bindUniform("u_viewProjection", mActiveCamera->getViewProjectionMatrix());
 }
 
 void Painter::unbind(RenderContext& context)
@@ -211,6 +211,11 @@ void Painter::drawQuad(const VertexVector& vertices, const RenderStates& states)
 
     mRenderingData.quadIndexCount += 6;
     mRenderingData.quadVerticesCount += (std::uint32_t)vertices.getVerticesCount();
+}
+
+void Painter::drawSprite(Sprite& sprite, const RenderStates& states)
+{
+    sprite.draw(*this, states);
 }
 
 void Painter::drawShape(Shape& shape, const RenderStates& states)

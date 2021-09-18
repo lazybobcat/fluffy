@@ -17,8 +17,20 @@ void Toolbar::customRender(RenderContext&)
 
     if (ImGui::BeginMainMenuBar()) {
         if (ImGui::BeginMenu("File")) {
+            if (ImGui::MenuItem(ICON_FA_FILE_MEDICAL "  New scene", "Ctrl+N")) {
+                OnNewScene.emit();
+            }
+            if (ImGui::MenuItem(ICON_FA_FOLDER_OPEN "  Open...", "Ctrl+O")) {
+                OnOpen.emit();
+            }
+            if (ImGui::MenuItem(ICON_FA_SAVE "  Save", "Ctrl+S")) {
+                OnSave.emit();
+            }
+            if (ImGui::MenuItem(ICON_FA_SAVE "  Save as...", "Ctrl+Shift+S")) {
+                OnSaveAs.emit();
+            }
             ImGui::Separator();
-            if (ImGui::MenuItem(ICON_FA_TIMES "  Exit")) {
+            if (ImGui::MenuItem(ICON_FA_TIMES "  Exit", "Ctrl+Q")) {
                 OnExit.emit();
             }
             ImGui::EndMenu();

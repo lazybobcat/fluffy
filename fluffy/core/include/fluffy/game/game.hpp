@@ -54,9 +54,9 @@ private:
     Unique<LayerStack> mStateStack;
     Ref<Context>       mContext = nullptr;
 
-    Unique<Painter>      mPainter;
-    Unique<Camera>       mCamera;
-    Unique<RenderTarget> mScreenTarget;
-    Vector2i             mPreviousWindowSize = { -1, -1 };
+    Unique<Painter>            mPainter;
+    Unique<OrthographicCamera> mCamera;
+    Unique<RenderTarget>       mScreenTarget;
+    Vector2i                   mPreviousWindowSize = { -1, -1 };
 };
 }

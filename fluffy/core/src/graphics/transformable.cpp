@@ -2,6 +2,37 @@
 
 using namespace Fluffy;
 
+FloatRect transformRect(const glm::mat4& transform, const FloatRect& bounds)
+{
+    // Transform the bounding rectangle 4 corners
+    const Vector4f points[] = {
+        transform * Vector4f(bounds.left, bounds.top, 1.f, 1.f),                               // top-left corner
+        transform * Vector4f(bounds.left, bounds.top + bounds.height, 1.f, 1.f),               // bottom-left corner
+        transform * Vector4f(bounds.left + bounds.width, bounds.top, 1.f, 1.f),                // top-right corner
+        transform * Vector4f(bounds.left + bounds.width, bounds.top + bounds.height, 1.f, 1.f) // bottom-right corner
+    };
+
+    // Compute the transformed bounding rectangle
+    float left   = points[0].x;
+    float top    = points[0].y;
+    float right  = points[0].x;
+    float bottom = points[0].y;
+    for (int i = 1; i < 4; ++i) {
+        if (points[i].x < left)
+            left = points[i].x;
+        else if (points[i].x > right)
+            right = points[i].x;
+        if (points[i].y < top)
+            top = points[i].y;
+        else if (points[i].y > bottom)
+            bottom = points[i].y;
+    }
+
+    return FloatRect(left, top, right - left, bottom - top);
+}
+
+/**********************************************************************************************************************/
+
 Transformable::Transformable()
   : mOrigin({ 0.f, 0.f, 0.f })
   , mPosition({ 0.f, 0.f, 0.f })
@@ -108,14 +139,35 @@ Vector3f Transformable::getEulerAngles() const
 {
     return mEulerAngles;
 }
+
+void Transformable::setTransformMatrix(const glm::mat4& transform)
+{
+    mPosition = transform[3];
+
+    for (int i = 0; i < 3; i++) {
+        mScale[i] = glm::length(glm::vec3(transform[i]));
+    }
+
+    const glm::mat3 rotMtx(
+      glm::vec3(transform[0]) / mScale[0],
+      glm::vec3(transform[1]) / mScale[1],
+      glm::vec3(transform[2]) / mScale[2]);
+    auto rotation = glm::conjugate(glm::quat_cast(rotMtx));
+    mEulerAngles  = glm::eulerAngles(rotation) * 3.14159f / 180.f;
+
+    FLUFFY_LOG_INFO("angles = {}", mEulerAngles);
+
+    mNeedToUpdate = true;
+}
+
 const glm::mat4& Transformable::getTransformMatrix() const
 {
     if (mNeedToUpdate) {
         mTransform = glm::translate(glm::mat4(1.f), mPosition) *
                      glm::rotate(glm::mat4(1.f), glm::radians(mEulerAngles.x), { 1, 0, 0 }) *
-                     glm::rotate(glm::mat4(1.f), glm::radians(mEulerAngles.y), { 0, 1, 0 }) *
+                     glm::rotate(glm::mat4(1.f), glm::radians(mEulerAngles.y), { 0, -1, 0 }) *
                      glm::rotate(glm::mat4(1.f), glm::radians(mEulerAngles.z), { 0, 0, 1 }) *
-                     glm::translate(glm::mat4(1.f), -mOrigin) *
+                     glm::translate(glm::mat4(1.f), -mOrigin * mScale) *
                      glm::scale(glm::mat4(1.f), mScale);
 
         mNeedToUpdate        = false;

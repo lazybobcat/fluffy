@@ -34,6 +34,7 @@ set(SOURCE_FILES
         include/fluffy/graphics/drawable.hpp
         include/fluffy/graphics/shape.hpp src/graphics/shape.cpp
         include/fluffy/graphics/rectangle_shape.hpp src/graphics/rectangle_shape.cpp
+        include/fluffy/graphics/sprite.hpp src/graphics/sprite.cpp
         include/fluffy/input/mouse.hpp
         include/fluffy/input/keyboard.hpp
         include/fluffy/input/input.hpp src/input/input.cpp

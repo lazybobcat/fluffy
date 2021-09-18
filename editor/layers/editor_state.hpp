@@ -1,5 +1,6 @@
 #pragma once
 
+#include "scene/editor_scene.hpp"
 #include "ui/panels/about_window.hpp"
 #include "ui/panels/add_component_window.hpp"
 #include "ui/panels/inspector_panel.hpp"
@@ -15,7 +16,6 @@
 #include <fluffy/input/input.hpp>
 #include <fluffy/layer/layer.hpp>
 #include <fluffy/scene/components.hpp>
-#include <fluffy/scene/scene.hpp>
 #include <fluffy/text/string.hpp>
 #include <imgui.h>
 
@@ -29,25 +29,30 @@ public:
     void fixUpdate(Time dt) override;
     void slowUpdate();
     void render(RenderContext& context) override;
-    void renderViewport(Painter& painter);
     void onEvent(Event& event) override;
 
 private:
     void openAddComponentWindow(Entity entity);
+    void newScene();
+    void openScene();
+    void saveScene();
+    void saveSceneAs();
+    void exit();
 
 private:
     Time slowUpdateTimer = Time::Zero;
 
     OpenedWindowTracker openedWindows;
     ImGuiContainer      container;
-    Ref<Scene>          scene = nullptr;
+    Ref<EditorScene>    scene = nullptr;
 
     // Viewport panel
     Ref<ViewportWindow> viewportWindow;
-    Ref<Slot>           onRenderSlot;
+    Ref<Slot>           onViewportResizeSlot;
 
     // Scene hierarchy panel
     Ref<SceneHierarchyPanel> sceneWindow;
+    Ref<Slot>                onComponentAddSlot;
 
     // Inspector window
     Ref<InspectorPanel> inspectorWindow;

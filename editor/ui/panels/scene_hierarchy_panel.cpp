@@ -47,7 +47,7 @@ void SceneHierarchyPanel::drawEntityNode(Entity entity)
     bool entityDeleted = false;
     if (ImGui::BeginPopupContextItem()) {
         if (ImGui::MenuItem(ICON_FA_CUBES "  Add component")) {
-            // @todo open a window listing all components in components registry
+            OnOpenAddComponentDialog.emit(entity);
         }
         if (ImGui::MenuItem(ICON_FA_TRASH "  Remove entity")) {
             entityDeleted = true;

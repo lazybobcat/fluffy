@@ -42,5 +42,7 @@ public:
     virtual void setRepeat(RepeatType type) = 0;
     virtual void setSmooth(bool smooth)     = 0;
     virtual void generateMipmaps()          = 0;
+
+    virtual bool isRepeated() const = 0;
 };
 }
