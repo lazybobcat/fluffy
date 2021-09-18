@@ -36,6 +36,7 @@ public:
     };
 
 public:
+    Signal<> OnPlay;
     Signal<> OnFocusGained;
     Signal<> OnFocusLost;
     Signal<Vector2f> OnViewportResized;
@@ -48,6 +49,8 @@ public:
 
     void update(Time dt) override;
     void onEvent(Event& event) override;
+
+    void play();
 
     void onEntitySelected(Entity entity);
     void onEntityUnselected();

@@ -1,5 +1,4 @@
 #include "editor_scene.hpp"
-#include <fluffy/scene/components.hpp>
 
 using namespace Fluffy;
 

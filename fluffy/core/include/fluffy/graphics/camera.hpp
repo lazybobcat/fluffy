@@ -71,9 +71,10 @@ public:
     const glm::mat4& getViewProjectionMatrix() const override;
     CameraType       getType() const override;
 
-    [[nodiscard]] Vector3f   getPosition() const;
-    [[nodiscard]] Vector2f   getSize() const;
-    [[nodiscard]] float      getZoom() const;
+    Vector3f getPosition() const;
+    Vector2f getSize() const;
+    float    getRotation() const;
+    float    getZoom() const;
 
 protected:
     friend class Painter;
@@ -96,7 +97,7 @@ public:
     PerspectiveCamera();
     PerspectiveCamera(float fov, float aspectRatio, float near, float far);
 
-    void         setTargetSize(const Vector2f& size) override;
+    void setTargetSize(const Vector2f& size) override;
 
     const glm::mat4& getViewProjectionMatrix() const override;
     CameraType       getType() const override;
@@ -106,15 +107,31 @@ public:
     Vector3f  getUpwardDirection() const;
     Vector3f  getRightDirection() const;
 
-    void setDistance(float distance);
+    void  setDistance(float distance);
     float getDistance() const { return mDistance; }
 
-    void setLookAt(const Vector3f& point);
+    void            setLookAt(const Vector3f& point);
     const Vector3f& getLookAt() const { return mFocalPoint; }
 
-    const Vector3f& getPosition() const { return mPosition; }
+    void  setPitch(float pitch);
     float getPitch() const { return mPitch; }
+
+    void  setYaw(float yaw);
     float getYaw() const { return mYaw; }
+
+    void  setFov(float fov);
+    float getFov() const { return mFov; }
+
+    void  setAspectRatio(float ar);
+    float getAspectRatio() const { return mAspectRatio; }
+
+    void  setNear(float near);
+    float getNear() const { return mNear; }
+
+    void  setFar(float far);
+    float getFar() const { return mFar; }
+
+    const Vector3f& getPosition() const { return mPosition; }
 
 protected:
     void updateProjection() override;
@@ -127,7 +144,7 @@ protected:
     float mAspectRatio = 16.f / 9.f;
     float mNear        = 0.1f;
     float mFar         = 1000000.f;
-    float mDistance    = 2000.f;
+    float mDistance    = 1000.f;
     float mPitch       = 0.f;
     float mYaw         = 0.f;
 

@@ -101,7 +101,7 @@ void FluffyPlugin::initialize(PluginRegistry* registry)
     {
         ComponentData data;
         data.name            = "Camera";
-        data.icon            = Texture2D::create("assets/textures/components/fluffy_components.png", { 32, 0, 32, 32 });
+        data.icon            = Texture2D::create("assets/textures/components/fluffy_components.png", { 96, 0, 32, 32 });
         data.addComponentFct = [](Entity entity) {
             if (!entity.has<CameraComponent>()) {
                 entity.add<CameraComponent>();
@@ -109,7 +109,81 @@ void FluffyPlugin::initialize(PluginRegistry* registry)
         };
         data.drawComponentFct = [](Entity entity) {
             Layout::drawComponent<CameraComponent>(entity, "Camera", [](Entity entity) {
+                auto&       Ccamera        = entity.get<CameraComponent>();
+                const char* currentTypeStr = EnumNames::CameraType[(int)Ccamera.type];
 
+                if (ImGui::BeginCombo("Type", currentTypeStr)) {
+                    for (int i = 0; i < EnumNames::CameraType.size(); ++i) {
+                        auto type       = EnumNames::CameraType.at(i);
+                        bool isSelected = currentTypeStr == type;
+                        if (ImGui::Selectable(type, isSelected)) {
+                            currentTypeStr = type;
+                            Ccamera.changeCamera((Camera::CameraType)i);
+                        }
+
+                        if (isSelected)
+                            ImGui::SetItemDefaultFocus();
+                    }
+
+                    ImGui::EndCombo();
+                }
+
+                if (Camera::CameraType::Orthographic == Ccamera.type) {
+                    auto camera = dynamic_cast<OrthographicCamera*>(Ccamera.camera);
+
+                    // Size
+                    Vector2f size = camera->getSize();
+                    Layout::drawXY("Size", size, 0.f, 2.f);
+                    camera->setSize(size);
+
+                    // Position
+                    Vector2f pos = { camera->getPosition().x, camera->getPosition().y };
+                    Layout::drawXY("Position", pos, 0.f, 1.f);
+                    camera->setPosition(pos);
+
+                    // Rotation
+                    float rot = camera->getRotation();
+                    Layout::drawFloat("Rotation", rot, 0.f, 1.f);
+                    camera->setRotation(rot);
+
+                    // Zoom
+                    float zoom = camera->getZoom();
+                    Layout::drawFloat("Zoom", zoom, 1.f, 0.1f);
+                    camera->setZoom(zoom);
+                } else if (Camera::CameraType::Perspective == Ccamera.type) {
+                    auto camera = dynamic_cast<PerspectiveCamera*>(Ccamera.camera);
+
+                    // Frustum
+                    float fov = camera->getFov();
+                    float ar  = camera->getAspectRatio();
+                    Layout::draw2Floats("Frustum", "FOV", "A/R", fov, ar, 1.f, 0.2f);
+                    camera->setFov(fov);
+                    camera->setAspectRatio(ar);
+
+                    // Clipping
+                    float near = camera->getNear();
+                    float far  = camera->getFar();
+                    Layout::draw2Floats("Clipping", "Near", "Far", near, far, 1.f, 1.f);
+                    camera->setNear(near);
+                    camera->setFar(far);
+
+                    // Look at
+                    auto lookat = camera->getLookAt();
+                    Layout::drawXYZ("Look at", lookat);
+                    camera->setLookAt(lookat);
+
+                    // Distance
+                    float distance = camera->getDistance();
+                    Layout::drawFloat("Distance", distance, 1000.f, 10.f);
+                    camera->setDistance(distance);
+
+                    // Orientation
+                    float pitch = camera->getPitch();
+                    float yaw   = camera->getYaw();
+                    Layout::draw2Floats("Orientation", "Pitch", "Yaw", pitch, yaw, 1.f, 0.2f);
+                    camera->setPitch(pitch);
+                    camera->setYaw(yaw);
+                }
             });
         };
         components.addComponentData(data);

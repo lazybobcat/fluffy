@@ -80,10 +80,7 @@ void OrthographicCamera::updateProjection()
         if (mZoom != 1.f) {
             mProjection = glm::scale(mProjection, { mZoom, mZoom, mZoom });
         }
-        if (mRotation != 0.f) {
-            mProjection = glm::rotate(mProjection, glm::radians(mRotation), { 0.f, 0.f, 1.f });
-        }
-        mProjection     = glm::translate(mProjection, -mPosition);
+
         mViewProjection = mProjection * glm::inverse(mTransform);
 
         mRecomputeProjection = false;
@@ -158,6 +155,11 @@ Vector3f OrthographicCamera::getPosition() const
 Vector2f OrthographicCamera::getSize() const
 {
     return mSize;
+}
+
+float OrthographicCamera::getRotation() const
+{
+    return mRotation;
 }
 
 float OrthographicCamera::getZoom() const
@@ -262,4 +264,40 @@ void PerspectiveCamera::setLookAt(const Vector3f& point)
 {
     mFocalPoint = point;
     updateView();
+}
+
+void PerspectiveCamera::setPitch(float pitch)
+{
+    mPitch = pitch;
+    updateView();
+}
+
+void PerspectiveCamera::setYaw(float yaw)
+{
+    mYaw = yaw;
+    updateView();
+}
+
+void PerspectiveCamera::setFov(float fov)
+{
+    mFov = fov;
+    updateProjection();
+}
+
+void PerspectiveCamera::setAspectRatio(float ar)
+{
+    mAspectRatio = ar;
+    updateProjection();
+}
+
+void PerspectiveCamera::setNear(float near)
+{
+    mNear = near;
+    updateProjection();
+}
+
+void PerspectiveCamera::setFar(float far)
+{
+    mFar = far;
+    updateProjection();
 }

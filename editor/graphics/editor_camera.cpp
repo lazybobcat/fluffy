@@ -6,11 +6,13 @@ using namespace Fluffy;
 EditorCamera::EditorCamera()
   : PerspectiveCamera()
 {
+    setDistance(1500.f);
 }
 
 EditorCamera::EditorCamera(float fov, float aspectRatio, float near, float far)
   : PerspectiveCamera(fov, aspectRatio, near, far)
 {
+    setDistance(1500.f);
 }
 
 void EditorCamera::resetRotation()

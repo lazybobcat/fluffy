@@ -185,6 +185,85 @@ inline void drawXY(const String& label, Vector2f& values, float reset = 0.f, flo
     ImGui::PopID();
 }
 
+inline void drawFloat(const String& label, float& value, float reset = 0.f, float step = 1.f)
+{
+    ImGui::PushID(label.c_str());
+
+    ImGui::Columns(2);
+
+    ImGui::SetColumnWidth(0, 100.f);
+    ImGui::Text("%s", label.c_str());
+    ImGui::NextColumn();
+
+    ImGui::PushMultiItemsWidths(2, ImGui::CalcItemWidth());
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+    float  lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.f;
+    ImVec2 buttonSize = { lineHeight + 3.f, lineHeight };
+
+    ImGui::PushStyleColor(ImGuiCol_Button, BlueColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, LightBlueColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, BlueColor);
+    if (ImGui::Button(label.c_str(), buttonSize)) {
+        value = reset;
+    }
+    ImGui::PopStyleColor(3);
+    ImGui::SameLine();
+    ImGui::DragFloat("##float", &value, step, 0.f, 0.f, "%.1f");
+    ImGui::PopItemWidth();
+    ImGui::PopItemWidth();
+    ImGui::SameLine();
+
+    ImGui::PopStyleVar();
+    ImGui::Columns(1);
+
+    ImGui::PopID();
+}
+
+inline void draw2Floats(const String& label, const String& sublabel1, const String& sublabel2, float& value1, float& value2, float reset = 0.f, float step = 1.f)
+{
+    ImGui::PushID(label.c_str());
+
+    ImGui::Columns(2);
+
+    ImGui::SetColumnWidth(0, 100.f);
+    ImGui::Text("%s", label.c_str());
+    ImGui::NextColumn();
+
+    ImGui::PushMultiItemsWidths(2, ImGui::CalcItemWidth());
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+    float  lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.f;
+    ImVec2 buttonSize = { lineHeight + 3.f, lineHeight };
+
+    ImGui::PushStyleColor(ImGuiCol_Button, DarkRedColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, RedColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, DarkRedColor);
+    if (ImGui::Button(sublabel1.c_str(), buttonSize)) {
+        value1 = reset;
+    }
+    ImGui::PopStyleColor(3);
+    ImGui::SameLine();
+    ImGui::DragFloat("##Val1", &value1, step, 0.f, 0.f, "%.1f");
+    ImGui::PopItemWidth();
+    ImGui::SameLine();
+
+    ImGui::PushStyleColor(ImGuiCol_Button, GreenColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, LightGreenColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, GreenColor);
+    if (ImGui::Button(sublabel2.c_str(), buttonSize)) {
+        value2 = reset;
+    }
+    ImGui::PopStyleColor(3);
+    ImGui::SameLine();
+    ImGui::DragFloat("##Val2", &value2, step, 0.f, 0.f, "%.1f");
+    ImGui::PopItemWidth();
+    ImGui::SameLine();
+
+    ImGui::PopStyleVar();
+    ImGui::Columns(1);
+
+    ImGui::PopID();
+}
+
 inline void drawUintRectangle(const String& label, UIntRect& values, std::uint32_t reset = 0, float step = 1)
 {
     ImGui::PushID(label.c_str());

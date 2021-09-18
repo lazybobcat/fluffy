@@ -49,15 +49,26 @@ void ViewportWindow::onEvent(Event& event)
         }
     }
 
-    if (mViewportFocused) {
+    if (mViewportFocused && !isPlaying()) {
         mCamera.onEvent(event);
     }
 }
 
 void ViewportWindow::update(Time dt)
 {
-    if (mViewportFocused) {
+    if (mViewportFocused && !isPlaying()) {
         mCamera.onUpdate(dt);
+    }
+}
+
+void ViewportWindow::play()
+{
+    if (mSceneState == SceneState::Edit) {
+        mSceneState = SceneState::Play;
+        OnPlay.emit();
+        OnViewportResized.emit(mViewportSize);
+    } else {
+        mSceneState = SceneState::Edit;
     }
 }
 
@@ -188,12 +199,7 @@ void ViewportWindow::UI_Toolbar()
     {
         auto icon = mSceneState == SceneState::Edit ? mPlayIcon : mStopIcon;
         if (ImGui::ImageButton((void*)dynamic_cast<OpenglTexture2D&>(*icon).getRendererId(), ImVec2(size, size), { 0, 0 }, { 1, 1 }, 0)) {
-            if (mSceneState == SceneState::Edit) {
-                mSceneState = SceneState::Play;
-                OnViewportResized.emit(mViewportSize);
-            } else {
-                mSceneState = SceneState::Edit;
-            }
+            play();
         }
     }
 
