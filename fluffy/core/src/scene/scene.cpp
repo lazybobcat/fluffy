@@ -35,7 +35,7 @@ void Scene::render(RenderContext& context)
     CameraComponent* camera = getActiveCamera();
 
     if (camera) {
-        context.with(*camera->camera).bind([&] (Painter& painter) {
+        context.with(*camera->camera).bind([&](Painter& painter) {
             painter.clear(Color::fromInt8(43, 43, 43, 255));
             // draw scene
             auto view = getEntityRegistry()->view<TransformComponent, SpriteComponent>();
@@ -46,7 +46,7 @@ void Scene::render(RenderContext& context)
             }
         });
     } else {
-        context.bind([&] (Painter& painter) {
+        context.bind([&](Painter& painter) {
             painter.clear(Color::fromInt8(43, 43, 43, 255));
         });
     }
@@ -74,6 +74,6 @@ void Scene::onTargetResize(const Vector2u& size)
     CameraComponent* camera = getActiveCamera();
 
     if (camera && !camera->fixedAspectRatio) {
-        camera->camera->setTargetSize({size.x * 1.f, size.y * 1.f});
+        camera->camera->setTargetSize({ size.x * 1.f, size.y * 1.f });
     }
 }

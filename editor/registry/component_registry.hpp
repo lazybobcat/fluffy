@@ -23,15 +23,15 @@ struct ComponentData
 class ComponentRegistry
 {
 public:
-    using Iterator = std::vector<ComponentData>::iterator;
+    using Iterator      = std::vector<ComponentData>::iterator;
     using ConstIterator = std::vector<ComponentData>::const_iterator;
 
 public:
     void addComponentData(const ComponentData& data);
 
-    Iterator begin() { return mData.begin(); }
+    Iterator      begin() { return mData.begin(); }
     ConstIterator begin() const { return mData.begin(); }
-    Iterator end() { return mData.end(); }
+    Iterator      end() { return mData.end(); }
     ConstIterator end() const { return mData.end(); }
 
 private:

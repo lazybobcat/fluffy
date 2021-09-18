@@ -1,9 +1,9 @@
 #pragma once
 
+#include "registry/component_registry.hpp"
 #include <fluffy/definitions.hpp>
 #include <fluffy/imgui/imgui_panel.hpp>
 #include <fluffy/scene/entity.hpp>
-#include "registry/component_registry.hpp"
 
 namespace Fluffy {
 
@@ -34,7 +34,7 @@ protected:
     void drawComponents();
 
 private:
-    Entity mSelectedEntity = Entity::INVALID;
+    Entity             mSelectedEntity = Entity::INVALID;
     ComponentRegistry& mComponents;
 };
 }

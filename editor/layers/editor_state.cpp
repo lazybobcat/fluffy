@@ -66,7 +66,7 @@ void EditorState::initialize()
         definition.openControl = &openedWindows.sceneHierarchyWindowOpened;
         definition.scene       = scene;
         sceneWindow            = CreateRef<SceneHierarchyPanel>(definition);
-        onComponentAddSlot = sceneWindow->OnOpenAddComponentDialog.connect([this] (Entity entity) { openAddComponentWindow(entity); });
+        onComponentAddSlot     = sceneWindow->OnOpenAddComponentDialog.connect([this](Entity entity) { openAddComponentWindow(entity); });
         container.pack(sceneWindow);
     }
 
@@ -89,8 +89,8 @@ void EditorState::initialize()
         viewportWindow->EntitySelectedSlot   = sceneWindow->OnEntitySelected.connect(std::bind(&ViewportWindow::onEntitySelected, viewportWindow.get(), std::placeholders::_1));
         viewportWindow->EntityUnselectedSlot = sceneWindow->OnEntityUnselected.connect(std::bind(&ViewportWindow::onEntityUnselected, viewportWindow.get()));
         viewportWindow->EntityUnselectedSlot = sceneWindow->OnEntityUnselected.connect(std::bind(&ViewportWindow::onEntityUnselected, viewportWindow.get()));
-        onViewportResizeSlot = viewportWindow->OnViewportResized.connect([&] (Vector2f size) {
-            scene->onTargetResize({size.x, size.y});
+        onViewportResizeSlot                 = viewportWindow->OnViewportResized.connect([&](Vector2f size) {
+            scene->onTargetResize({ size.x, size.y });
         });
         container.pack(viewportWindow);
     }
@@ -153,7 +153,7 @@ void EditorState::onEvent(Event& event)
                 if (event.key.control && !event.key.shift)
                     saveScene();
                 else if (event.key.control && event.key.shift)
-                  saveSceneAs();
+                    saveSceneAs();
             } break;
 
             case Keyboard::Key::Q: {
@@ -161,7 +161,8 @@ void EditorState::onEvent(Event& event)
                     exit();
             } break;
 
-            default:break;
+            default:
+                break;
         }
     }
 

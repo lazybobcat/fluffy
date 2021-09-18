@@ -152,7 +152,7 @@ void ViewportWindow::UI_Toolbar()
     ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2(0, 0));
     ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(0, 32));
     ImGui::Begin("##toolbar", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
-    auto window = ImGui::GetCurrentWindow();
+    auto window           = ImGui::GetCurrentWindow();
     window->DC.LayoutType = ImGuiLayoutType_Horizontal;
 
     constexpr float size = iconSize;

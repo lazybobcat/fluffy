@@ -55,31 +55,35 @@ struct SpriteComponent
 
 struct CameraComponent
 {
-    CameraComponent() {
+    CameraComponent()
+    {
         recreateCamera();
     }
 
-    ~CameraComponent() {
+    ~CameraComponent()
+    {
         delete camera;
     }
 
-    void changeCamera(Camera::CameraType t) {
+    void changeCamera(Camera::CameraType t)
+    {
         type = t;
         recreateCamera();
     }
 
-    void recreateCamera() {
+    void recreateCamera()
+    {
         delete camera;
         if (Camera::CameraType::Perspective == type) {
             camera = new PerspectiveCamera(45.f, 1920.f / 1080.f, 0.1f, 1000000.f);
         } else {
-            camera = new OrthographicCamera({0, 0}, {1920.f, 1080.f});
+            camera = new OrthographicCamera({ 0, 0 }, { 1920.f, 1080.f });
         }
     }
 
-    Camera* camera = nullptr;
-    Camera::CameraType type = Camera::CameraType::Perspective;
-    bool fixedAspectRatio = false;
+    Camera*            camera           = nullptr;
+    Camera::CameraType type             = Camera::CameraType::Perspective;
+    bool               fixedAspectRatio = false;
 
 #if FLUFFY_DEBUG
     const String toString() const

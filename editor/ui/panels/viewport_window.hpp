@@ -36,9 +36,9 @@ public:
     };
 
 public:
-    Signal<> OnPlay;
-    Signal<> OnFocusGained;
-    Signal<> OnFocusLost;
+    Signal<>         OnPlay;
+    Signal<>         OnFocusGained;
+    Signal<>         OnFocusLost;
     Signal<Vector2f> OnViewportResized;
 
     Ref<Slot> EntitySelectedSlot;
@@ -83,8 +83,8 @@ private:
     Entity                      mSelectedEntity  = Entity::INVALID;
 
     // Tools
-    ViewportTool   mTool        = ViewportTool::Selection;
-    ViewportGuizmo mGuizmo      = ViewportGuizmo::Translate;
+    ViewportTool   mTool   = ViewportTool::Selection;
+    ViewportGuizmo mGuizmo = ViewportGuizmo::Translate;
 
     // Icons
     Ref<Texture2D> mGuizmoTranslateIcon;

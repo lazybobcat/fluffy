@@ -144,7 +144,7 @@ void Transformable::setTransformMatrix(const glm::mat4& transform)
 {
     mPosition = transform[3];
 
-    for(int i = 0; i < 3; i++) {
+    for (int i = 0; i < 3; i++) {
         mScale[i] = glm::length(glm::vec3(transform[i]));
     }
 
@@ -153,7 +153,7 @@ void Transformable::setTransformMatrix(const glm::mat4& transform)
       glm::vec3(transform[1]) / mScale[1],
       glm::vec3(transform[2]) / mScale[2]);
     auto rotation = glm::conjugate(glm::quat_cast(rotMtx));
-    mEulerAngles = glm::eulerAngles(rotation) * 3.14159f / 180.f;
+    mEulerAngles  = glm::eulerAngles(rotation) * 3.14159f / 180.f;
 
     FLUFFY_LOG_INFO("angles = {}", mEulerAngles);
 
